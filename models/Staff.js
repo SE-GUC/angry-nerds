@@ -1,0 +1,5 @@
+class Staff{
+    constructor(){
+        
+    }
+}
