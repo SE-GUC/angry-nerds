@@ -4,6 +4,9 @@
         
         
         const CommentsSchema = new Schema({
+            Comments_ID: {
+                type: String,
+            },
             text: {
                 type: String,
                 // required: true
@@ -13,25 +16,25 @@
                 // required: true
             },
             Case: {
-                type: Number,
+                type: String,
                 // type: Schema.Types.ObjectId,
                 // ref: 'Case',
                 // required: true
             },
             Reviewer: {
-                type: Number,
+                type: String,
                 // type: Schema.Types.ObjectId, 
                 // ref: 'Staff',
                 // required: true
             },
             Lawyer: {
-                type: Number,
+                type: String ,
                 // type: Schema.Types.ObjectId, 
                 // ref: 'Staff',
                 // required: true
             },
             Investor: {
-                type: Number,
+                type: String,
                 // type: Schema.Types.ObjectId, 
                 // ref: 'Investor',
                 // required: true
