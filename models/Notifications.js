@@ -23,7 +23,5 @@ var notificationSchema = new mongoose.Schema({
 
 )
 
-// mongoose.model('notification',notificationSchema );   // we call notificationSchema when we want to inseet data
-                                                      // notification is the collection
 
- module.exports = Notification = mongoose.model('Notifications', notificationSchema)       //// TUT5
+ module.exports = Notification = mongoose.model('Notifications', notificationSchema)      
