@@ -1,7 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 
-const Investors = require('./routes/api/Investor')
+const Commentj = require('./routes/api/Comments')
 
 
 const app = express()
@@ -18,11 +18,10 @@ app.use(express.json())
 app.get('/', (req,res) => res.send(`<h1>GAFI WEBSITE!!!</h1>`))
 app.get('/Ramy', (req,res) => res.send(`<h1>Ramy test page</h1>`))
 
-app.use('/api/Investor', Investors)
+app.use('/api/Comments', Commentj)
 
 app.use((req,res) => res.status(404).send(`<h1>Can not find what you're looking for</h1>`))
 
 
 const port = process.env.PORT || 3000
 app.listen(port, () => console.log(`Server on ${port}`))
-
