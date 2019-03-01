@@ -10,10 +10,18 @@ router.get('/', async (req,res) => {   //get all board's directors
     res.json({data: directors})
 })
 
-router.get('/:id', async (req,res) => {  //get a specific director according to his id
-	const id = req.params.id
+
+//get a specific director according to his id
+router.get('/:id', async (req,res) => {
+    try{
+        const id = req.params.id
      const director = await Board.findById(id)
+     //if(!director) return res.status(404).send({error: 'The specified director does not exist'})
     res.json({data: director})
+    }
+    catch(error){
+        console.log(error)
+       }
 })
 
 

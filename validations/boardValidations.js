@@ -3,7 +3,7 @@ const Joi = require('joi')
 module.exports = {
     createValidation: request => {
         const createSchema = {
-            //companyID: Joi.string().min(3).max(500).required(),
+            companyID: Joi.string().min(3).max(500).required(),
             firstName: Joi.string().min(3).max(100).required(),
             middleName: Joi.string().min(3).max(100).required(),
             lastName: Joi.string().min(3).max(500).required(),
@@ -13,8 +13,8 @@ module.exports = {
             ssid: Joi.number().max(14).required(),
             idType: Joi.string().min(3).max(500).required(),
             investorType: Joi.string(),
-            address:Joi.string().required(),
-            position:string().required()
+            address: Joi.string().required(),
+            position:Joi.string().required()
         }
 
         return Joi.validate(request, createSchema)
@@ -22,7 +22,7 @@ module.exports = {
 
     updateValidation: request => {
         const updateSchema = {
-           //companyID: Joi.string().min(3).max(500).required(),
+           companyID: Joi.string().min(3).max(500).required(),
            firstName: Joi.string().min(3).max(100).required(),
            middleName: Joi.string().min(3).max(100).required(),
            lastName: Joi.string().min(3).max(500).required(),
@@ -33,7 +33,7 @@ module.exports = {
            idType: Joi.string().min(3).max(500).required(),
            investorType: Joi.string(),
            address:Joi.string().required(),
-           position:string().required()
+           position:Joi.string().required()
         }
 
         return Joi.validate(request, updateSchema)
