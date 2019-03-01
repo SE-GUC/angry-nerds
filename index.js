@@ -3,6 +3,8 @@ const mongoose = require('mongoose')
 
 // Require Router Handlers
 const Company = require('./routes/api/Companies')
+const Investors = require('./routes/api/Investor')
+
 //const books = require('./routes/api/books')
 //const profiles = require('./routes/api/profiles')
 //const comments = require('./routes/api/comments')
@@ -29,6 +31,7 @@ app.get('/test', (req,res) => res.send(`<h1>Deployed on Heroku</h1>`))
 
 // Direct to Route Handlers
 app.use('/api/Companies', Company)
+app.use('/api/Investor', Investors)
 //app.use('/api/books', books)
 //app.use('/api/profiles', profiles)
 //app.use('/api/comments', comments)
