@@ -4,10 +4,10 @@
         
         
         const CommentsSchema = new Schema({
-            Comments_ID: {
-                type: String,
-                required: true
-            },
+            // Comments_ID: {
+            //     type: String
+            //     // required: true
+            // },
             text: {
                 type: String,
                 required: true

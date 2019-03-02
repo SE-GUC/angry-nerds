@@ -3,7 +3,7 @@ const Joi = require('joi')
 module.exports = {
     createValidation: request => {
         const createSchema = {
-            Comments_ID: Joi.required(),
+            // Comments_ID: Joi.required(),
             text: Joi.required(),
             date: Joi.required(),
             Case: Joi.required(),
@@ -17,7 +17,8 @@ module.exports = {
 
     updateValidation: request => {
         const updateSchema = {
-            Comments_ID: Joi.required(),
+            // Comments_ID: Joi.required(),
+            
             text: Joi.required(),
             date: Joi.required(),
             Case: Joi.required(),
