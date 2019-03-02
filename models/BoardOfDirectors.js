@@ -4,7 +4,8 @@ const Schema = mongoose.Schema
 // Create the schema
 const BoardSchema = new Schema({
     companyID: {
-        type: String,
+        type: Schema.Types.ObjectId,
+        ref:"Companies",
         required: true
     },
     firstName: {

@@ -3,6 +3,7 @@ const Joi = require('joi')
 module.exports = {
     createValidation: request => {
         const createSchema = {
+            
             companyID: Joi.string().min(3).max(500).required(),
             firstName: Joi.string().min(3).max(100).required(),
             middleName: Joi.string().min(3).max(100).required(),
@@ -16,6 +17,12 @@ module.exports = {
             address: Joi.string().required(),
             position:Joi.string().required()
         }
+        //if(this.position=="manager"){console.log("hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh")}
+        //console.log('hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh')
+        //console.log(this.position)
+        //console.log(Object[position])
+
+       
 
         return Joi.validate(request, createSchema)
     },
