@@ -21,29 +21,26 @@ const CaseSchema = new Schema({
         required: true
     },
     reviewerID: {
-    //	type: Schema.Types.objectId, ref: "Staff",
-    type:String,
+        type: Schema.Types.ObjectId,
+        ref: "Staff",
         required: true
     },
     lawyerID: {
-        //type: Schema.Types.objectId,
-        type:String,
-       // ref: "Staff",                   
+        type: Schema.Types.ObjectId,
+        ref: "Staff",                   
         required: true
     },
     investorID: {
-    	//type: Schema.Types.objectId,
-        //ref: "Investor",
-        type:String,
+    	type: Schema.Types.ObjectId,
+        ref: "Staff",
         required: true
     },
-    formID: {
-    	//type: Schema.Types.objectId,
-     //   ref: "Forms",
-     type:String,
-        required: true
-    }
+   // formID: {
+    //	type: Schema.Types.objectId,
+      //  ref: "Forms",
+        //required: true
+    //}
 
 })
 
-module.exports = Case = mongoose.model('Cases', CaseSchema)
+module.exports = Cases = mongoose.model('Cases', CaseSchema)
