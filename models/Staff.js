@@ -55,7 +55,7 @@ const StaffSchema = new Schema({
 
     fax:{
         type: Number,
-        required: false
+        required: true
     },
 
     telephone_number:{
