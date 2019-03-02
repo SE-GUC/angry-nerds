@@ -21,25 +21,25 @@ const CaseSchema = new Schema({
         required: true
     },
     reviewerID: {
-        type: Schema.Types.ObjectId,
-        ref: "Staff",
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Staff',
         required: true
     },
     lawyerID: {
-        type: Schema.Types.ObjectId,
-        ref: "Staff",                   
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Staff',                   
         required: true
     },
     investorID: {
-    	type: Schema.Types.ObjectId,
-        ref: "Staff",
+    	type: mongoose.Schema.Types.ObjectId,
+        ref: 'Staff',
         required: true
     },
-   // formID: {
-    //	type: Schema.Types.objectId,
-      //  ref: "Forms",
-        //required: true
-    //}
+    formID: {
+    	type: mongoose.Schema.Types.ObjectId,
+        ref: 'Forms',
+        required: true
+    }
 
 })
 
