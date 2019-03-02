@@ -6,38 +6,39 @@
         const CommentsSchema = new Schema({
             Comments_ID: {
                 type: String,
+                required: true
             },
             text: {
                 type: String,
-                // required: true
+                required: true
             },
             date: {
                 type: String,
-                // required: true
+                required: true
             },
             Case: {
-                type: String,
-                // type: Schema.Types.ObjectId,
-                // ref: 'Case',
-                // required: true
+                // type: String,
+                type: Schema.Types.ObjectId,
+                ref: 'Cases',
+                required: true
             },
             Reviewer: {
-                type: String,
-                // type: Schema.Types.ObjectId, 
-                // ref: 'Staff',
-                // required: true
+                // type: String,
+                type: Schema.Types.ObjectId, 
+                ref: 'Staff',
+                required: true
             },
             Lawyer: {
-                type: String ,
-                // type: Schema.Types.ObjectId, 
-                // ref: 'Staff',
-                // required: true
+                // type: String ,
+                type: Schema.Types.ObjectId, 
+                ref: 'Staff',
+                required: true
             },
             Investor: {
-                type: String,
-                // type: Schema.Types.ObjectId, 
-                // ref: 'Investor',
-                // required: true
+                // type: String,
+                type: Schema.Types.ObjectId, 
+                ref: 'Investor',
+                required: true
             }
 
 

@@ -3,7 +3,7 @@ const router = express.Router()
 const mongoose = require('mongoose')
 
 const Commentj = require('../../models/Comments')
-// const validator = require('../../validations/CommentsValidations')
+const validator = require('../../Validations/CommentsValidations')
 
 //Read
 router.get('/', async (req,res) => {
@@ -27,8 +27,8 @@ catch(error) {
 // Create a comment
 router.post('/', async (req,res) => {
    try {
-    // const isValidated = validator.createValidation(req.body)
-    // if (isValidated.error) return res.status(400).send({ error: isValidated.error.details[0].message })
+    const isValidated = validator.createValidation(req.body)
+    if (isValidated.error) return res.status(400).send({ error: isValidated.error.details[0].message })
     const newComment = await Commentj.create(req.body)
     res.json({msg:'Comment was created successfully', data: newComment})
    }
@@ -44,8 +44,8 @@ router.put('/:id', async (req,res) => {
      const id = req.params.id
      const Commenth = await Commentj.findById(id)
      if(!Commenth) return res.status(404).send({error: 'Comment does not exist'})
-    //  const isValidated = validator.updateValidation(req.body)
-    //  if (isValidated.error) return res.status(400).send({ error: isValidated.error.details[0].message })
+     const isValidated = validator.updateValidation(req.body)
+     if (isValidated.error) return res.status(400).send({ error: isValidated.error.details[0].message })
      const updatedComment = await Commentj.updateOne(req.body)
      res.json({msg: 'Comment updated successfully' , data: updatedComment})
      
