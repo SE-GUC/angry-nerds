@@ -3,8 +3,10 @@ const router = express.Router()
 const mongoose = require('mongoose')
 
 const Investor = require('../../models/Investor')  
+const validator = require('../../validations/InvestorValidations')
 
 router.get('/', async (req, res)=>{
+    
     const Investors = await Investor.find()
     res.json({data: Investors})
 })
@@ -22,8 +24,10 @@ router.get('/:id', async (req, res)=>{
 
 router.post('/', async (req,res) => {
     try {
-     const newInvestor = await Investor.create(req.body)
-     res.json({msg:'Investor was created successfully', data: newInvestor})
+        const isValidated = validator.createValidation(req.body)
+        if (isValidated.error) return res.status(400).send({ error: isValidated.error.details[0].message })   
+        const newInvestor = await Investor.create(req.body)
+        res.json({msg:'Investor was created successfully', data: newInvestor})
     }
     catch(error) {
         // We will be handling the error later
@@ -37,6 +41,8 @@ router.post('/', async (req,res) => {
      console.log(id)
      const Invstr = await Investor.findById(id)
      if(!Invstr) return res.status(404).send({error: 'Companies does not exist'})
+     const isValidated = validator.updateValidation(req.body)
+     if (isValidated.error) return res.status(400).send({ error: isValidated.error.details[0].message })
      const updatedInvstr = await Investor.findByIdAndUpdate(id,req.body)
      res.json({msg: 'Investor updated successfully', data: updatedInvstr} )
     }
