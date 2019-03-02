@@ -3,9 +3,8 @@ const mongoose = require ('mongoose')
 
 var notificationSchema = new mongoose.Schema({
     reciver: {
-        type: String
-     // type: mongoose.Schema.Types.ObjectId,
-     // ref: 'Staff'
+        
+      type: mongoose.Schema.Types.ObjectId, ref: 'Staff'
         
     },
     text: {
