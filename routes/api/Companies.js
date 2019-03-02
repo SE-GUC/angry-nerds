@@ -3,7 +3,7 @@ const router = express.Router()
 const mongoose = require('mongoose')
 
 const Company = require('../../models/Companies')
-//const validator = require('../../validations/CompaniesValidations')
+const validator = require('../../validations/CompaniesValidation')
 
 router.get('/', async (req,res) => {
     const Companies = await Company.find()
@@ -36,8 +36,8 @@ router.get('/:id', async (req,res) => {
 // Create a Companies
 router.post('/', async (req,res) => {
    try {
-    //const isValidated = validator.createValidation(req.body)
-    //if (isValidated.error) return res.status(400).send({ error: isValidated.error.details[0].message })
+    const isValidated = validator.createValidation(req.body)
+    if (isValidated.error) return res.status(400).send({ error: isValidated.error.details[0].message })
     const newCompany = await Company.create(req.body)
     res.json({msg:'Companies was created successfully', data: newCompany})
    }
@@ -54,8 +54,8 @@ router.put('/:id', async (req,res) => {
      console.log(id)
      const Companies = await Company.findById(id)
      if(!Companies) return res.status(404).send({error: 'Companies does not exist'})
-     //const isValidated = validator.updateValidation(req.body)
-     //if (isValidated.error) return res.status(400).send({ error: isValidated.error.details[0].message })
+     const isValidated = validator.updateValidation(req.body)
+     if (isValidated.error) return res.status(400).send({ error: isValidated.error.details[0].message })
      const updatedCompany = await Company.findByIdAndUpdate(id,req.body)
      res.json({msg: 'Companies updated successfully', data: updatedCompany} )
     }
