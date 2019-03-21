@@ -4,6 +4,7 @@ const mongoose = require('mongoose')
 
 const Case = require('../../models/Cases')
 const validator = require('../../Validations/caseValidations')
+const f=require('../../routes/api/f')
 
 router.get('/', async (req,res) => {
     const Cases = await Case.find()
@@ -12,7 +13,7 @@ router.get('/', async (req,res) => {
 
 router.get('/:id', async (req,res) => {
 	const id = req.params.id
-     const Cases = await Case.findById(id)
+    const Cases = await Case.findById(id)
     res.json({data: Cases})
 })
 
@@ -64,5 +65,12 @@ router.put('/:id', async (req,res) => {
  })
 
  
+
+
+module.exports.calc_fees = (id) => {
+   
+    
+}
+//console.log(f.calc_fees()); 
 
 module.exports = router

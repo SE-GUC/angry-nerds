@@ -15,6 +15,10 @@ const directors = require('./routes/api/BoardOfDirectors')
 const Commentj = require('./routes/api/Comments')
 
 
+//f
+const f=require('./routes/api/f')
+
+
 const app = express()
 
 // DB Config
@@ -52,3 +56,6 @@ app.use((req,res) => res.status(404).send(`<h1>Can not find what you're looking 
 
 const port = process.env.PORT || 3000
 app.listen(port, () => console.log(`Server on ${port}`))
+
+
+f.calc_fees("5c78020ee16d4a182424d153");
