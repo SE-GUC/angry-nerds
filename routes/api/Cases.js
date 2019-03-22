@@ -120,6 +120,40 @@ router.post('/FillForm/:id', async (req,res) => {
 })
 
 
+router.put('/updateForm/:idu/:idf', async (req,res) => {
+    try {
+     const idu = req.params.idu
+     const idf = req.params.idf
+     const form = await Case.findById(idf)
+     const investor=await Investor.findById(idu)
+     if(!form) return res.status(404).send({error: 'The Form does not exist'})
+     if(!investor) {
+         const lawyer= await Staff.findById(idu)
+         if(!lawyer) return res.status(404).send({error: 'you r not allowed to update the form, u r neither a lawyer nor an investor' })
+
+         if(lawyer.Type==='Lawyer'){
+            var updatedCase = await Case.findByIdAndUpdate(idf, req.body)
+          }
+          else{return res.status(404).send({error: 'you r not allowed to update form, u r neither a lawyer nor an investor' })}
+
+         }
+         else{            
+            var updatedCase = await Case.findByIdAndUpdate(idf, req.body)
+         }
+
+        res.json({msg: 'Form updated successfully', data: updatedCase} )
+    }
+    catch(error) {
+        // We will be handling the error later
+        console.log(error)
+    }  
+ })
+
+
+
+
+
+
 
 
 
