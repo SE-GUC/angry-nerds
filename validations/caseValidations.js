@@ -57,7 +57,7 @@ module.exports = {
             hq_address: Joi.string().min(3).max(100),
             hq_city: Joi.string().min(3).max(100),
             main_center_phone: Joi.number(),
-            main_center_fax: Joi.string(),
+            main_center_fax: Joi.number(),
             currency: Joi.string().min(3).max(100),
             equality_capital: Joi.number().maxlength(12),
             managers: Joi.array()
