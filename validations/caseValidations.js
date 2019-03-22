@@ -3,14 +3,14 @@ const Joi = require('joi')
 module.exports = {
     createValidation: request => {
         const createSchema = {
-            caseStatus: Joi.string().min(3).max(500).required(),
+            caseStatus: Joi.string().min(3).max(500),
             
-            caseOpenSince: Joi.date().required(),
-            caseClosedDate: Joi.date().required(),
+            caseOpenSince: Joi.date(),
+            caseClosedDate: Joi.date(),
 
-            reviewerID: Joi.required(),
+          /*  reviewerID: Joi.required(),
             lawyerID: Joi.required(),
-            investorID: Joi.required(),
+            investorID: Joi.required(),*/
             
             //forms
             form_type:Joi.string().min(3),
@@ -37,14 +37,14 @@ module.exports = {
 
     updateValidation: request => {
         const updateSchema = {
-            caseStatus: Joi.string().min(3).max(500).required(),
+            caseStatus: Joi.string().min(3).max(500),
             
-            caseOpenSince: Joi.date().required(),
-            caseClosedDate: Joi.date().required(),
+            caseOpenSince: Joi.date(),
+            caseClosedDate: Joi.date(),
 
-            reviewerID: Joi.required(),
+           /* reviewerID: Joi.required(),
             lawyerID: Joi.required(),
-            investorID: Joi.required(),
+            investorID: Joi.required(),*/
             
             //forms
             form_type:Joi.string().min(3),
