@@ -93,7 +93,6 @@ router.put('/:id', async (req,res) => {
     }  
  })
 
-<<<<<<< HEAD
  router.get('/CmpViewing/:id', async (req, res)=>{
 
     try{
@@ -124,7 +123,6 @@ router.put('/:id', async (req,res) => {
            console.log(error)
        }
 })
-=======
 
 
 
@@ -192,9 +190,10 @@ try {
     //}
 }
 catch(error) {
-    // We will be handling the error later
+    // We will be handling the error later kkkkkk
     console.log(error)
 }  
+
 
 })
 
@@ -203,6 +202,5 @@ catch(error) {
 
 
  
->>>>>>> 6e5b7e6596842683707b4bfeba6bf425af523a21
 
 module.exports = router
