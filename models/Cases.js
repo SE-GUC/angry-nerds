@@ -6,7 +6,7 @@ const CaseSchema = new Schema({
     
     caseStatus: {
         type: String,
-        //required: true
+
     },
     
     caseOpenSince: {
@@ -87,7 +87,7 @@ const CaseSchema = new Schema({
     equality_capital: {
         type: Number,
         required: false,
-        min: 50000
+       
     },
     
     managers: {
@@ -115,7 +115,7 @@ const CaseSchema = new Schema({
                 },
                 person_id_number: {
                     type: Number,
-                    required: false
+                    required: false,
                 },
                 birth_date: {
                     type: Date,
@@ -181,4 +181,5 @@ const CaseSchema = new Schema({
 
 })
 
-module.exports = Case = mongoose.model('Cases', CaseSchema)
+module.exports = Cases = mongoose.model('Cases', CaseSchema)
+

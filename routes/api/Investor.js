@@ -1,8 +1,14 @@
 const express = require('express');
 const router = express.Router()
 const mongoose = require('mongoose')
+const hbs = require('hbs')
+const stripe = require('stripe')('sk_test_Tc2FlJG0ovXrM6Zt7zuK1O6f002jC3hcT0')
 const validator = require('../../validations/InvestorValidations')
 const Investor = require('../../models/Investor')  
+
+
+
+
 
 router.get('/', async (req, res)=>{
     const Investors = await Investor.find()
@@ -33,22 +39,25 @@ router.post('/', async (req,res) => {
     }  
  })
 
-//  router.post('/register', async (req,res) => {
+  router.post('/register', async (req,res) => {
     
-//     const email = req.body.params.email
-//     const age = req.body.params.age
-//     const user = await User.findOne({email})
-//     if(user) return res.status(400).json({error: 'Email already exists'})
-//     if(age<21) return res.status(400).json({error: 'you must be 21 years old'})
 
+    console.log(req.body)
+    const email = req.body.email
+    const user = await Investor.findOne({email})
+    if(user) 
+        return res.status(400).json({error: 'Email already exists'})
+    
 
-//     const isValidated = validator.createValidation(req.body)
-//     if(isValidated.error)
-//     const newInvestor = await Investor.create(req.body)
-//     res.json({msg:'Investor was created successfully', data: newInvestor})
-//     .catch(err => res.json('You could not be registered, try again'))
+    // const isValidated = validator.createValidation(req.body)
+    // if(isValidated.error)
+    //     return res.status(400).send({ error: isValidated.error.details[0].message })
 
-// })
+    const newInvestor = await Investor.create(req.body)
+    res.json({msg:'Investor was created successfully', data: newInvestor})
+    .catch(err => res.json('You could not be registered, try again'))
+
+ })
 
  router.put('/:id', async (req,res) => {
     try {
@@ -56,7 +65,7 @@ router.post('/', async (req,res) => {
      console.log(id)
      
      const Invstr = await Investor.findById(id)
-     if(!Invstr) return res.status(404).send({error: 'Companies does not exist'})
+     if(!Invstr) return res.status(404).send({error: 'investor does not exist'})
      const isValidated = validator.createValidation(req.body)
     if (isValidated.error) return res.status(400).send({ error: isValidated.error.details[0].message })
      const updatedInvstr = await Investor.findByIdAndUpdate(id,req.body)
@@ -79,5 +88,24 @@ router.post('/', async (req,res) => {
         console.log(error)
     }  
  })
+
+ router.get('/InvViewing/:id', async (req, res)=>{
+    const idf = "5c77c2b0c5983856f492f33e"
+     const Invs = await Investor.findById(idf)
+     const stf = await Staff.findById(idf)
+    if ( stf || Invs)
+    var proj = {"_id": 0 ,"password": 0}
+    else
+    var proj = {"_id":0, "firstName": 1,  "MiddleName" : 1,  "LastName":1,  "Nationality": 1 ,"Address": 1 ,"birthdate" :1  ,"telephone_number": 1 ,"gender":1};
+    
+   try{
+       const id = req.params.id
+        const Invest = await Investor.findById(id,proj)
+        res.json({data: Invest})
+   } 
+   catch(error){
+    console.log(error)
+   }
+})
 
  module.exports = router 
