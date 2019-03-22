@@ -1,12 +1,12 @@
 const express = require('express')
 const router = express.Router()
 const mongoose = require('mongoose')
-
+const projection =  { _id: 0,  managers:1}
 const Case = require('../../models/Cases')
 const validator = require('../../Validations/caseValidations')
 
 router.get('/', async (req,res) => {
-    const Cases = await Case.find()
+   const Cases = await Case.find()
     res.json({data: Cases})
 })
 
@@ -15,6 +15,30 @@ router.get('/:id', async (req,res) => {
      const Cases = await Case.findById(id)
     res.json({data: Cases})
 })
+
+router.get('/ViewBoardOfDirectorsEng/:english_name', async (req,res) => {
+    const english_na = req.params.english_name;
+    var query = { english_name: english_na };
+    const Cases = await Case.find(query,projection);
+    if(Cases === null){
+      res.json({msg:'Can not find company'})
+    }
+    else{
+        res.json({data: Cases})
+    }
+})
+
+router.get('/ViewBoardOfDirectorsID/:id', async (req,res) => {
+    const id = req.params.id;
+    const Cases = await Case.findById(id,projection);
+    if(Cases === null){
+      res.json({msg:'Can not find company'})
+    }
+    else{
+        res.json({data: Cases})
+    }
+})
+
 
 
 

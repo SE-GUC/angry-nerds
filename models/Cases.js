@@ -134,3 +134,5 @@ const CaseSchema = new Schema({
 
 })
 
+module.exports = Investor = mongoose.model('Cases', CaseSchema)
+
