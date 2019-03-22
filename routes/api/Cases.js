@@ -5,6 +5,8 @@ const mongoose = require('mongoose')
 const Case = require('../../models/Cases')
 const validator = require('../../Validations/caseValidations')
 
+
+// show case
 router.get('/', async (req,res) => {
     const Cases = await Case.find()
     res.json({data: Cases})
@@ -33,6 +35,7 @@ router.post('/', async (req,res) => {
    }  
 })
 
+
 // Update a case
 router.put('/:id', async (req,res) => {
     try {
@@ -51,6 +54,9 @@ router.put('/:id', async (req,res) => {
     }  
  })
 
+
+
+ // delete a case
  router.delete('/:id', async (req,res) => {
     try {
      const id = req.params.id
@@ -62,6 +68,83 @@ router.put('/:id', async (req,res) => {
         console.log(error)
     }  
  })
+
+
+
+
+ //Assign Lawyer
+ router.put('/AssignLawyer/:id/:id1', async(req,res) =>{    
+    //check if I am admin
+    try { 
+        
+      //  var admin= await Staff.findById("5c94da8a60697b45f0949cd9")
+       // if(admin.Type ==="Admin"){
+        const id = req.params.id
+        const id1= req.params.id1
+        console.log(id)
+        const Cases = await Case.findById(id)
+        const staff= await Staff.findById(id1)
+       // if(Cases.lawyerID != null )
+       // res.json({msg: 'Case already assigned to a lawyer'})
+        //else{
+            if( staff.Type === "Lawyer"){
+                const updatedCase= await Case.updateOne({_id:id},{$set: {lawyerID:id1}});
+
+                 res.json({msg: 'Case updated successfully', data: updatedCase} )
+            }
+            else
+            res.json({msg: 'Please select a valid lawyer'})
+        
+        //}
+  //  }
+   //  else
+          //  res.json({msg:"Only Admins can perform this action"})
+}
+ 
+         
+catch(error) {
+        // We will be handling the error later
+        console.log(error)
+    }  
+})
+
+
+
+
+//Assign Reviewer
+
+router.put('/AssignReviewer/:id/:id1', async(req,res)=>{
+//check if I am admin
+try {
+    const id = req.params.id
+    const id1= req.params.id1
+    console.log(id)
+    const Cases = await Case.findById(id)
+    const staff= await Staff.findById(id1)
+    console.log(staff)
+   // if(Cases.reviewerID >= null )
+    //res.json({msg: 'Case already assigned to a reviewer'})
+   // else{
+        if( staff.Type === "Reviewer"){
+            const updatedCase= await Case.updateOne({_id:id},{$set: {reviewerID:id1}});
+
+             res.json({msg: 'Case updated successfully', data: updatedCase} )
+        }
+        else
+        res.json({msg: 'Please select a valid reviewer'})
+    
+    //}
+}
+catch(error) {
+    // We will be handling the error later
+    console.log(error)
+}  
+
+})
+
+
+
+
 
  
 

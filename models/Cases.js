@@ -84,7 +84,7 @@ const CaseSchema = new Schema({
     equality_capital: {
         type: Number,
         required: false,
-        min: 50000
+       
     },
     
     managers: {
@@ -112,7 +112,7 @@ const CaseSchema = new Schema({
                 },
                 person_id_number: {
                     type: Number,
-                    required: false
+                    required: false,
                 },
                 birth_date: {
                     type: Date,
@@ -134,3 +134,4 @@ const CaseSchema = new Schema({
 
 })
 
+module.exports = Cases = mongoose.model('Cases', CaseSchema)
