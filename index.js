@@ -37,7 +37,7 @@ app.get('/Ramy', (req,res) => res.send('<h1>Ramy test page</h1>'))
 
 app.use('/api/Staff', Staffi)
 app.use('/api/Cases', Cases)
-app.use('/api/investor', investor)
+app.use('/api/Investor', investor)
 app.use('/api/Notifications', Notification)
 app.use('/api/Questions', questions)
 app.use('/api/Comments',Commentj)
