@@ -33,6 +33,23 @@ router.post('/', async (req,res) => {
     }  
  })
 
+//  router.post('/register', async (req,res) => {
+    
+//     const email = req.body.params.email
+//     const age = req.body.params.age
+//     const user = await User.findOne({email})
+//     if(user) return res.status(400).json({error: 'Email already exists'})
+//     if(age<21) return res.status(400).json({error: 'you must be 21 years old'})
+
+
+//     const isValidated = validator.createValidation(req.body)
+//     if(isValidated.error)
+//     const newInvestor = await Investor.create(req.body)
+//     res.json({msg:'Investor was created successfully', data: newInvestor})
+//     .catch(err => res.json('You could not be registered, try again'))
+
+// })
+
  router.put('/:id', async (req,res) => {
     try {
      const id = req.params.id

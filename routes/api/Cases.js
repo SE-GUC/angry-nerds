@@ -3,11 +3,16 @@ const router = express.Router()
 const mongoose = require('mongoose')
 
 const Case = require('../../models/Cases')
-const validator = require('../../Validations/caseValidations')
+// const validator = require('../../Validations/caseValidations')
 
 router.get('/', async (req,res) => {
+    try{
     const Cases = await Case.find()
     res.json({data: Cases})
+    }
+    catch(error){
+        console.log(error)
+    }
 })
 
 router.get('/:id', async (req,res) => {
@@ -22,8 +27,8 @@ router.get('/:id', async (req,res) => {
 // Create a case
 router.post('/', async (req,res) => {
    try {
-    const isValidated = validator.createValidation(req.body)
-    if (isValidated.error) return res.status(400).send({ error: isValidated.error.details[0].message })
+    // const isValidated = validator.createValidation(req.body)
+    // if (isValidated.error) return res.status(400).send({ error: isValidated.error.details[0].message })
     const newCase = await Case.create(req.body)
     res.json({msg:'Case was created successfully', data: newCase})
    }
@@ -40,8 +45,8 @@ router.put('/:id', async (req,res) => {
      console.log(id)
      const Cases = await Case.findById(id)
      if(!Cases) return res.status(404).send({error: 'Cases does not exist'})
-     const isValidated = validator.updateValidation(req.body)
-     if (isValidated.error) return res.status(400).send({ error: isValidated.error.details[0].message })
+    //  const isValidated = validator.updateValidation(req.body)
+    //  if (isValidated.error) return res.status(400).send({ error: isValidated.error.details[0].message })
      const updatedCase = await Case.findByIdAndUpdate(id, req.body)
      res.json({msg: 'Case updated successfully', data: updatedCase} )
     }
