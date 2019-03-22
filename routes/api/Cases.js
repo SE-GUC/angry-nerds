@@ -3,7 +3,7 @@ const router = express.Router()
 const mongoose = require('mongoose')
 
 const Case = require('../../models/Cases')
-const validator = require('../../Validations/caseValidations')
+const validator = require('../../Validations/caseValidations.js')
 
 router.get('/', async (req,res) => {
     const Cases = await Case.find()
