@@ -87,6 +87,35 @@ router.put('/:id', async (req,res) => {
     }  
  })
 
- 
+ router.get('/CmpViewing/:id', async (req, res)=>{
+
+    try{
+        const id = req.params.id
+        var Case = await Cases.findById(id)
+   if(Case.caseStatus === "published"){
+
+       const idf = "5c77c2b0c5973856f492f33e"
+       const Invs = await Investor.findById(idf)
+       const stf = await Staff.findById(idf)
+       if (stf){ 
+           var proj1 = {"reviewerID": 0 , "lawyerID": 0, "InvestorID":0}
+
+       }else if (Invs) {            
+           var proj1 = {"reviewerID": 0 , "lawyerID": 0, "InvestorID":0, "equality_capital":0 , "currency":0 }
+       } else {
+       var proj1 = {"_id":0, "arabic_name": 1,  "english_name" : 1,  "government":1,  "city": 1 ,"hq_address": 1 ,"hq_city" :1  ,"hq_state": 1 ,"main_center_phone":1, "main_center_fax":1 };
+       }
+       Case = await Cases.findById(id,proj1)
+       res.json({data: Case})
+       } 
+       else{
+           res.json({msg:'Case was not published'})
+
+       }
+   }
+       catch(error){
+           console.log(error)
+       }
+})
 
 module.exports = router
