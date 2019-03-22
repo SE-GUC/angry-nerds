@@ -20,7 +20,7 @@ const db = await require('./config/keys').mongoURI
 
 // Connect to mongo
 mongoose
-    .connect(db)
+    .connect("mongodb+srv://ramyGabra:Nike-1234@angrynerds-ymdpc.mongodb.net/test?retryWrites=true")
     .then(() => console.log('Connected to MongoDB'))
     .catch(err => console.log(err))
 
