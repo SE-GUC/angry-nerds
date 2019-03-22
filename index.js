@@ -16,7 +16,7 @@ const Commentj = require('./routes/api/Comments')
 const app = express()
 
 // DB Config
-const db = await require('./config/keys').mongoURI
+const db = require('./config/keys').mongoURI
 
 // Connect to mongo
 mongoose
