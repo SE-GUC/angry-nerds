@@ -1,8 +1,14 @@
 const express = require('express');
 const router = express.Router()
 const mongoose = require('mongoose')
+const hbs = require('hbs')
+const stripe = require('stripe')('sk_test_Tc2FlJG0ovXrM6Zt7zuK1O6f002jC3hcT0')
 const validator = require('../../validations/InvestorValidations')
 const Investor = require('../../models/Investor')  
+
+
+
+
 
 router.get('/', async (req, res)=>{
     const Investors = await Investor.find()
