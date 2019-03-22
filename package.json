@@ -4,7 +4,12 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+<<<<<<< HEAD
     "start": "index.js"
+=======
+    "start": "node index.js",
+    "dev": "nodemon index"
+>>>>>>> 8a9571239cd5bef00add221b34e7a188cc4adb82
   },
   "keywords": [],
   "author": "",
@@ -13,6 +18,9 @@
   "dependencies": {
     "express": "^4.16.4",
     "joi": "^14.3.1",
-    "mongoose": "^5.4.15"
+    "mongoose": "^5.4.15",
+    "stripe": "^6.28.0"
   }
 }
+
+
