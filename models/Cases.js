@@ -18,6 +18,14 @@ const CaseSchema = new Schema({
         type: Date,
        // required: true
     },
+    lawyerFinishDate:{
+        type: Date,
+
+    },
+    reviewerFinishDate:{
+        type: Date,
+
+    },
     reviewerID: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Staff',

@@ -108,4 +108,60 @@ router.post('/', async (req,res) => {
    }
 })
 
+router.changePassword =  function(id,password){
+
+    var clientServerOptions = {
+
+        uri: 'http://localhost:3000/api/Investor/' +id,
+        body: "{\"password\":" +password+ "}",
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }
+
+    request(clientServerOptions,  function (error, response) {
+               
+        console.log(error,response)
+    });
+}
+
+
+
+router.viewMyNotifications =  function(id){
+
+    var clientServerOptions = {
+
+        uri: 'http://localhost:3000/api/Notifications',
+        body: "",
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }
+
+    request(clientServerOptions,  function (error, response) {
+               
+        var data = JSON.parse(response.body).data
+
+        var text = "{ \"data\": ["
+        console.log(data.length)
+        for(let i=0;i<data.length-1;i++){
+            if(data[i].receiverInvestor === id){
+                text += (JSON.stringify(data[i]) + ",")
+            }
+        }
+        if(data.length>0){
+            if(data[data.length-1].receiverInvestor === id){
+                text += (JSON.stringify(data[data.length-1]))
+            }
+        }
+        text += "] }"
+        var obj = JSON.parse(text);
+        console.log(obj)
+
+        return obj;
+    });
+}   
+
  module.exports = router 
