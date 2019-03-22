@@ -4,12 +4,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-<<<<<<< HEAD
-    "start": "index.js"
-=======
     "start": "node index.js",
     "dev": "nodemon index"
->>>>>>> 8a9571239cd5bef00add221b34e7a188cc4adb82
+
   },
   "keywords": [],
   "author": "",
