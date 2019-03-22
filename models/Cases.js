@@ -134,3 +134,4 @@ const CaseSchema = new Schema({
 
 })
 
+module.exports = Cases = mongoose.model('Cases', CaseSchema)

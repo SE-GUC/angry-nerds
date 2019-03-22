@@ -5,6 +5,8 @@ const mongoose = require('mongoose')
 const Commentj = require('../../models/Comments')
 const validator = require('../../Validations/CommentsValidations')
 
+
+
 //Read
 router.get('/', async (req,res) => {
     const Comments = await Commentj.find()
@@ -23,6 +25,49 @@ catch(error) {
     console.log(error)
 }  
 })
+
+
+router.get('/view/:idf/:idu', async (req,res) => {
+    try {
+    const idf = req.params.idf
+    const idu = req.params.idu
+    
+    const Comment = await Commentj.find({"Case":idf})
+    const investor=await Investor.findById(idu)
+     if(!Comment) return res.status(404).send({error: 'The comment does not exist'})
+     if(!investor) {
+         const lawyer= await Staff.findById(idu)
+         if(!lawyer) return res.status(404).send({error: 'you r not allowed to view comments on a form, u r neither a lawyer nor an investor' })
+
+         if(lawyer.Type==='Lawyer'){
+            return res.json({data: Comment})
+        }
+          else{return res.status(404).send({error: 'you r not allowed to view comments on a form, u r neither a lawyer nor an investor' })}
+
+         }
+         else{            
+            return res.json({data: Comment})
+         }
+
+    
+}
+catch(error) {
+    // We will be handling the error later
+    console.log(error)
+}  
+})
+
+
+
+
+
+
+
+
+
+
+
+
 
 // Create a comment
 router.post('/', async (req,res) => {
