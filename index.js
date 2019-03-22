@@ -4,14 +4,12 @@ const mongoose = require('mongoose')
 // Require Router Handlers
 
 
-const Company = require('./routes/api/Companies')
-const Forms = require('./routes/api/Forms')
+
 const investor = require('./routes/api/investor')
 const Staffi = require('./routes/api/Staff')
 const Cases = require('./routes/api/Cases')
 const Notification = require('./routes/api/Notifications')
 const questions = require('./routes/api/Questions')
-const directors = require('./routes/api/BoardOfDirectors')
 const Commentj = require('./routes/api/Comments')
 
 
@@ -38,13 +36,10 @@ app.get('/Ramy', (req,res) => res.send('<h1>Ramy test page</h1>'))
 // Direct to Route Handlers
 
 app.use('/api/Staff', Staffi)
-app.use('/api/Forms', Forms)
 app.use('/api/Cases', Cases)
 app.use('/api/investor', investor)
 app.use('/api/Notifications', Notification)
 app.use('/api/Questions', questions)
-app.use('/api/Companies', Company)
-app.use('/api/BoardOfDirectors',directors)
 app.use('/api/Comments',Commentj)
 
 
