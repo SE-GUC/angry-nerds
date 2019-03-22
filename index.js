@@ -16,11 +16,11 @@ const Commentj = require('./routes/api/Comments')
 const app = express()
 
 // DB Config
-const db = require('./config/keys').mongoURI
+const db = await require('./config/keys').mongoURI
 
 // Connect to mongo
 mongoose
-    .connect("mongodb+srv://ramyGabra:Nike-1234@angrynerds-ymdpc.mongodb.net/test?retryWrites=true")
+    .connect(db)
     .then(() => console.log('Connected to MongoDB'))
     .catch(err => console.log(err))
 
