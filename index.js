@@ -1,5 +1,7 @@
 const express = require('express')
 const mongoose = require('mongoose')
+const hbs = require('hbs')
+const fs = require('fs')
 
 // Require Router Handlers
 
@@ -13,7 +15,9 @@ const questions = require('./routes/api/Questions')
 const Commentj = require('./routes/api/Comments')
 
 
+
 const app = express()
+app.set('view engine', 'hbs')
 
 // DB Config
 const db = require('./config/keys').mongoURI
@@ -29,12 +33,47 @@ app.use(express.json())
 app.use(express.urlencoded({extended: false}))
 
 
+
+
+app.post('/charge',(req,res)=>{
+    console.log('test')
+    var token = req.body.stripeToken
+    console.log(token)
+    var chargeAmount = 30000
+    var charge = stripe.charges.create({
+        amount: chargeAmount,
+        currency: "usd",
+        source: token
+    },function (err,charge){
+        if(err & err.type === "StripeCardError")
+            console.log('your card is declined') 
+    })
+})
+
+
 // Entry point
 app.get('/', (req,res) => res.send(`<h1>Hello World!</h1>`))
 app.get('/Ramy', (req,res) => res.send('<h1>Ramy test page</h1>'))
+app.get('/payFees',(req,res)=>{
+    //res.writeHead(200, {'Content-Type': 'text/html'});
+    fs.readFile('./views/payfees.html',null,function(error,data){
+        console.log('my data is ',data)
+        if(error){
+            res.writeHead(404)
+            return
+        }
+        else{
+            res.write(data)
+            console.log('your data is ',data)
+            return
+
+        }
+            
+
+    })
+})
 
 // Direct to Route Handlers
-
 app.use('/api/Staff', Staffi)
 app.use('/api/Cases', Cases)
 app.use('/api/investor', investor)
