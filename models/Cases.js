@@ -86,6 +86,10 @@ const CaseSchema = new Schema({
         required: false,
         min: 50000
     },
+    fees: {
+        type: Number,
+        required: false
+    },
     
     managers: {
         type: [
@@ -131,6 +135,6 @@ const CaseSchema = new Schema({
         required: false
     }
 
-
 })
 
+module.exports = Investor = mongoose.model('Cases', CaseSchema)

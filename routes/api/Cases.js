@@ -4,7 +4,9 @@ const mongoose = require('mongoose')
 
 const Case = require('../../models/Cases')
 const validator = require('../../Validations/caseValidations')
-const f=require('../../routes/api/f')
+const fun=require('./Cases_func')
+
+
 
 router.get('/', async (req,res) => {
     const Cases = await Case.find()
@@ -65,12 +67,4 @@ router.put('/:id', async (req,res) => {
  })
 
  
-
-
-module.exports.calc_fees = (id) => {
-   
-    
-}
-//console.log(f.calc_fees()); 
-
 module.exports = router

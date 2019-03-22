@@ -12,11 +12,11 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "array": "^0.4.3",
     "express": "^4.16.4",
     "joi": "^14.3.1",
+    "listing": "0.0.1",
     "mongoose": "^5.4.15",
     "stripe": "^6.28.0"
   }
 }
-
-
