@@ -40,7 +40,7 @@ router.post('/', async (req,res) => {
      console.log(id)
      
      const Invstr = await Investor.findById(id)
-     if(!Invstr) return res.status(404).send({error: 'Companies does not exist'})
+     if(!Invstr) return res.status(404).send({error: 'investor does not exist'})
      const isValidated = validator.createValidation(req.body)
     if (isValidated.error) return res.status(400).send({ error: isValidated.error.details[0].message })
      const updatedInvstr = await Investor.findByIdAndUpdate(id,req.body)
