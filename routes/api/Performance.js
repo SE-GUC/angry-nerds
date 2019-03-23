@@ -112,7 +112,7 @@ module.exports.minsSpentLawyer = function(id){
     var res
     var clientServerOptions = {
 
-        uri: 'http://localhost:3000/api/Cases',
+        uri: global.heroku + '/api/Cases',
         body: "",
         method: 'GET',
         headers: {
@@ -164,7 +164,7 @@ module.exports.minsSpentReviewer = async function(id){
     var res
     var clientServerOptions = {
 
-        uri: 'http://localhost:3000/api/Cases',
+        uri: global.heroku + '/api/Cases',
         body: "",
         method: 'GET',
         headers: {

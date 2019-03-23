@@ -112,7 +112,7 @@ router.changePassword =  function(id,password){
 
     var clientServerOptions = {
 
-        uri: 'http://localhost:3000/api/Investor/' +id,
+        uri: global.heroku + '/api/Investor/' +id,
         body: "{\"password\":" +password+ "}",
         method: 'PUT',
         headers: {
@@ -132,7 +132,7 @@ router.viewMyNotifications =  function(id){
 
     var clientServerOptions = {
 
-        uri: 'http://localhost:3000/api/Notifications',
+        uri: global.heroku + '/api/Notifications',
         body: "",
         method: 'GET',
         headers: {
@@ -178,7 +178,7 @@ router.viewMyPublishedCompanies =  function(id){
 
     var clientServerOptions = {
 
-        uri: 'http://localhost:3000/api/Cases',
+        uri: global.heroku + '/api/Cases',
         body: "",
         method: 'GET',
         headers: {
@@ -223,7 +223,7 @@ router.viewMyPendingCompanies =  function(id){
 
     var clientServerOptions = {
 
-        uri: 'http://localhost:3000/api/Cases',
+        uri: global.heroku + '/api/Cases',
         body: "",
         method: 'GET',
         headers: {
@@ -232,7 +232,8 @@ router.viewMyPendingCompanies =  function(id){
     }
 
     request(clientServerOptions,  function (error, response) {
-               
+         
+        console.log(error,response)
         var data = JSON.parse(response.body).data
 
         var text = "{ \"data\": ["
