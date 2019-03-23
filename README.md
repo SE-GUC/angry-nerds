@@ -33,7 +33,7 @@ node index.js
 ```
 
 ## Deployed Website
-Or, you can simply visit our deployed [website](angrynerds1.herokuapp.com) with heroku.
+Or, you can simply visit our deployed [website](https://www.angrynerds1.herokuapp.com) with heroku.
 
 ## License
 [MIT](https://choosealicense.com/licenses/mit/)
