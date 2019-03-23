@@ -25,19 +25,19 @@ const mongoose = require('mongoose')
                 // type: String,
                 type: Schema.Types.ObjectId, 
                 ref: 'Staff',
-                required: true
+               // required: true
             },
             Lawyer: {
                 // type: String ,
                 type: Schema.Types.ObjectId, 
                 ref: 'Staff',
-                required: true
+               // required: true
             },
             Investor: {
                 // type: String,
                 type: Schema.Types.ObjectId, 
                 ref: 'Investor',
-                required: true
+                //required: true
             }
 
 
