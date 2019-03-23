@@ -7,17 +7,17 @@ const CaseSchema = new Schema({
     
     caseStatus: {
         type: String,
-        required: true
+      //  required: true
     },
     
     caseOpenSince: {
         type: Date,
-        required: true
+       // required: true
     },
 
     caseClosedDate:{
         type: Date,
-        required: true
+       // required: true
     },
     reviewerID: {
         type: mongoose.Schema.Types.ObjectId,
@@ -30,7 +30,7 @@ const CaseSchema = new Schema({
     investorID: {
     	type: mongoose.Schema.Types.ObjectId,
         ref: 'Investor',
-        required: true
+      //  required: true
     },
 
     form_type :{
