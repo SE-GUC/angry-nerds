@@ -7,9 +7,9 @@ module.exports = {
             text: Joi.required(),
             date: Joi.required(),
             Case: Joi.required(),
-            Reviewer: Joi.required(),
+           /* Reviewer: Joi.required(),
             Lawyer: Joi.required(),
-            Investor: Joi.required()
+            Investor: Joi.required()*/
         }
 
         return Joi.validate(request, createSchema)
@@ -22,9 +22,9 @@ module.exports = {
             text: Joi.required(),
             date: Joi.required(),
             Case: Joi.required(),
-            Reviewer: Joi.required(),
+          /*  Reviewer: Joi.required(),
             Lawyer: Joi.required(),
-            Investor: Joi.required()
+            Investor: Joi.required()*/
            
         }
 
