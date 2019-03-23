@@ -6,7 +6,7 @@ const CaseSchema = new Schema({
     
     caseStatus: {
         type: String,
-      //  required: true
+
     },
     
     caseOpenSince: {
@@ -18,18 +18,29 @@ const CaseSchema = new Schema({
         type: Date,
        // required: true
     },
+    lawyerFinishDate:{
+        type: Date,
+
+    },
+    reviewerFinishDate:{
+        type: Date,
+
+    },
     reviewerID: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Staff',
+        required: false
     },
     lawyerID: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Staff',                   
+        ref: 'Staff',    
+        required: false
+               
     },
     investorID: {
     	type: mongoose.Schema.Types.ObjectId,
         ref: 'Investor',
-      //  required: true
+        required: false
     },
 
     form_type :{
@@ -46,7 +57,7 @@ const CaseSchema = new Schema({
     },
     arabic_name: {
         type: String,
-        required: true
+       // required: true
     },
     english_name: {
         type: String, 
@@ -85,6 +96,10 @@ const CaseSchema = new Schema({
         type: Number,
         required: false,
        
+    },
+    fees: {
+        type: Number,
+        required: false
     },
     
     managers: {
@@ -129,10 +144,56 @@ const CaseSchema = new Schema({
             }
         ],
         required: false
-    }
+    } ,
 
+    comment: {
+        type : [
+            {
+
+                text: {
+                    type: String,
+                    required: true
+                },
+                date: {
+                    type: String,
+                    required: true
+                },
+                Case: {
+                    // type: String,
+                    type: Schema.Types.ObjectId,
+                    ref: 'Cases',
+                    required: true
+                },
+                Reviewer: {
+                    // type: String,
+                    type: Schema.Types.ObjectId, 
+                    ref: 'Staff',
+                    required: true
+                },
+                Lawyer: {
+                    // type: String ,
+                    type: Schema.Types.ObjectId, 
+                    ref: 'Staff',
+                    required: true
+                },
+                Investor: {
+                    // type: String,
+                    type: Schema.Types.ObjectId, 
+                    ref: 'Investor',
+                    required: true
+
+
+            }
+        }
+        ],
+        required: false
+
+
+    } 
 
 })
 
+
 module.exports = Cases = mongoose.model('Cases', CaseSchema)
+
 

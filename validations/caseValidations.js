@@ -25,15 +25,15 @@ module.exports = {
             main_center_phone: Joi.number(),
             main_center_fax: Joi.number(),
             currency: Joi.string().min(3).max(100),
-            equality_capital: Joi.number().maxlength(12),
+            equality_capital: Joi.number(),
             managers: Joi.array()
 
 
 
-        }
+         }
 
-        return Joi.validate(request, createSchema)
-    },
+         return Joi.validate(request, createSchema)
+     },
 
     updateValidation: request => {
         const updateSchema = {
@@ -59,7 +59,7 @@ module.exports = {
             main_center_phone: Joi.number(),
             main_center_fax: Joi.number(),
             currency: Joi.string().min(3).max(100),
-            equality_capital: Joi.number().maxlength(12),
+            equality_capital: Joi.number(),
             managers: Joi.array()
             
         }
