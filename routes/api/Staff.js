@@ -30,7 +30,7 @@ router.showForLawyer =  function(id){
 
     var clientServerOptions = {
 
-        uri: 'http://localhost:3000/api/Cases',
+        uri: global.heroku + '/api/Cases',
         body: "",
         method: 'GET',
         headers: {
@@ -66,7 +66,7 @@ router.showForReviewer =  function(id){
 
     var clientServerOptions = {
 
-        uri: 'http://localhost:3000/api/Cases',
+        uri: global.heroku + '/api/Cases',
         body: "",
         method: 'GET',
         headers: {
@@ -105,7 +105,7 @@ router.caseDisAproveedAtLawyer =  function(id){                                 
     // var dec = "null"
 
     var clientServerOptions = {   /// assume en caseStatus was lawyer
-        uri: 'http://localhost:3000/api/Cases/' + id,
+        uri: global.heroku + '/api/Cases/' + id,
         body: "{\"caseStatus\": \"null\"}",
         method: 'PUT',
         headers: {
@@ -126,7 +126,7 @@ router.caseAproveedAtLawyer =  function(id){
     
     
         var clientServerOptions = {   /// assume en caseStatus was lawyer
-            uri: 'http://localhost:3000/api/Cases/' + id,
+            uri: global.heroku + '/api/Cases/' + id,
             body: "{\"caseStatus\": \"reviewer\"}",
             method: 'PUT',
             headers: {
@@ -146,7 +146,7 @@ router.caseAproveedAtLawyer =  function(id){
         
         
             var clientServerOptions = {   /// assume en caseStatus was reviewer
-                uri: 'http://localhost:3000/api/Cases/' + id,
+                uri: global.heroku + '/api/Cases/' + id,
                 body: "{\"caseStatus\": \"lawyer\"}",
                 method: 'PUT',
                 headers: {
@@ -165,7 +165,7 @@ router.caseAproveedAtLawyer =  function(id){
             
             
                 var clientServerOptions = {   /// assume en caseStatus was reviewer
-                    uri: 'http://localhost:3000/api/Cases/' + id,
+                    uri: global.heroku + '/api/Cases/' + id,
                     body: "{\"caseStatus\": \"pending\"}",
                     method: 'PUT',
                     headers: {
@@ -192,7 +192,7 @@ router.caseAproveedAtLawyer =  function(id){
     //get ALL CASES 
     var clientServerOptions1 = {
 
-        uri: 'http://localhost:3000/api/Cases/' + caseID,
+        uri: global.heroku + '/api/Cases/' + caseID,
         body: "",
         method: 'GET',
         headers: {
@@ -215,7 +215,7 @@ router.caseAproveedAtLawyer =  function(id){
 
         var clientServerOptions2 = {
 
-            uri: 'http://localhost:3000/api/Cases/' + caseID,
+            uri: global.heroku + '/api/Cases/' + caseID,
             body: JSON.stringify(com),
             method: 'PUT',
             headers: {
@@ -304,7 +304,7 @@ router.changePassword =  function(id,password){
 
     var clientServerOptions = {
 
-        uri: 'http://localhost:3000/api/Staff/' +id,
+        uri: global.heroku + '/api/Staff/' +id,
         body: "{\"password\":" +password+ "}",
         method: 'PUT',
         headers: {
@@ -322,7 +322,7 @@ router.viewMyNotifications =  function(id){
 
     var clientServerOptions = {
 
-        uri: 'http://localhost:3000/api/Notifications',
+        uri: gloabl.heroku + '/api/Notifications',
         body: "",
         method: 'GET',
         headers: {

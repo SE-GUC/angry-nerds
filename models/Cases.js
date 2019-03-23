@@ -6,7 +6,7 @@ const CaseSchema = new Schema({
     
     caseStatus: {
         type: String,
-        
+
     },
     
     caseOpenSince: {
@@ -193,5 +193,7 @@ const CaseSchema = new Schema({
 
 })
 
+
 module.exports = Cases = mongoose.model('Cases', CaseSchema)
+
 

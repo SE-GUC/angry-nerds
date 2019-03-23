@@ -1,4 +1,4 @@
-// const Joi = require('joi')
+const Joi = require('joi')
 
 module.exports = {
     createValidation: request => {
@@ -25,7 +25,7 @@ module.exports = {
             main_center_phone: Joi.number(),
             main_center_fax: Joi.number(),
             currency: Joi.string().min(3).max(100),
-            equality_capital: Joi.number().maxlength(12),
+            equality_capital: Joi.number(),
             managers: Joi.array()
 
 
@@ -59,7 +59,7 @@ module.exports = {
             main_center_phone: Joi.number(),
             main_center_fax: Joi.number(),
             currency: Joi.string().min(3).max(100),
-            equality_capital: Joi.number().maxlength(12),
+            equality_capital: Joi.number(),
             managers: Joi.array()
             
         }

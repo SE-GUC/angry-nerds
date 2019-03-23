@@ -2,7 +2,6 @@ const express = require('express');
 const router = express.Router()
 const mongoose = require('mongoose')
 const hbs = require('hbs')
-const stripe = require('stripe')('sk_test_Tc2FlJG0ovXrM6Zt7zuK1O6f002jC3hcT0')
 const validator = require('../../validations/InvestorValidations')
 const Investor = require('../../models/Investor')  
 const request = require('request')
@@ -35,6 +34,7 @@ router.post('/', async (req,res) => {
     }
     catch(error) {
         // We will be handling the error later
+        
         console.log(error)
     }  
  })
@@ -112,7 +112,7 @@ router.changePassword =  function(id,password){
 
     var clientServerOptions = {
 
-        uri: 'http://localhost:3000/api/Investor/' +id,
+        uri: global.heroku + '/api/Investor/' +id,
         body: "{\"password\":" +password+ "}",
         method: 'PUT',
         headers: {
@@ -132,7 +132,7 @@ router.viewMyNotifications =  function(id){
 
     var clientServerOptions = {
 
-        uri: 'http://localhost:3000/api/Notifications',
+        uri: global.heroku + '/api/Notifications',
         body: "",
         method: 'GET',
         headers: {
@@ -178,7 +178,7 @@ router.viewMyPublishedCompanies =  function(id){
 
     var clientServerOptions = {
 
-        uri: 'http://localhost:3000/api/Cases',
+        uri: global.heroku + '/api/Cases',
         body: "",
         method: 'GET',
         headers: {
@@ -223,7 +223,7 @@ router.viewMyPendingCompanies =  function(id){
 
     var clientServerOptions = {
 
-        uri: 'http://localhost:3000/api/Cases',
+        uri: global.heroku + '/api/Cases',
         body: "",
         method: 'GET',
         headers: {
@@ -232,7 +232,8 @@ router.viewMyPendingCompanies =  function(id){
     }
 
     request(clientServerOptions,  function (error, response) {
-               
+         
+        console.log(error,response)
         var data = JSON.parse(response.body).data
 
         var text = "{ \"data\": ["

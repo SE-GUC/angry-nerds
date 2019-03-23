@@ -15,7 +15,7 @@ module.exports.numberOfCasesInRangeDaysForLawyer = function(id,startDate,endDate
 
     var clientServerOptions = {
 
-        uri: 'http://localhost:3000/api/Cases',
+        uri: global.heroku + '/api/Cases',
         body: "",
         method: 'GET',
         headers: {
@@ -63,7 +63,7 @@ module.exports.numberOfCasesInRangeDaysForReviewer = function(id,startDate,endDa
 
     var clientServerOptions = {
 
-        uri: 'http://localhost:3000/api/Cases',
+        uri: global.heroku + '/api/Cases',
         body: "",
         method: 'GET',
         headers: {
@@ -106,4 +106,109 @@ module.exports.numberOfCasesInRangeDaysForReviewer = function(id,startDate,endDa
     
 
 };
+
+module.exports.minsSpentLawyer = function(id){
+
+    var res
+    var clientServerOptions = {
+
+        uri: global.heroku + '/api/Cases',
+        body: "",
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }
+
+    request(clientServerOptions,  function (error, response) {
+        
+        var mins = []
+        var data = JSON.parse(response.body).data
+
+        for(let i=0;i<data.length-1;i++){
+            if(data[i].lawyerID === id && typeof data[i].lawyerFinishDate != 'undefined'
+                                       && typeof data[i].caseOpenSince    != 'undefined') {
+
+                var d1 = new Date(data[i].lawyerFinishDate)
+                var d2 = new Date(data[i].caseOpenSince)
+                mins.push(d1.getTime() - d2.getTime())
+               // console.log(d1.getTime() - d2.getTime())         
+               // console.log(Math.abs(d1.getTime() - d2.getTime()) )        
+
+            }
+        }
+        
+        var sumMins = 0
+        for(let i = 0;i<mins.length;i++){
+            sumMins = sumMins + mins[i]
+            //console.log(sumMins)
+        }
+
+        var result = 0
+        if(mins.length>0){
+            //console.log(sumMins)
+            //console.log(mins.length)
+            result = sumMins/( mins.length * 1000 * 60)
+        }
+  
+        console.log(result)
+        res = result
+        return;
+    })
+    
+    //return new Promise(res)
+} 
+
+module.exports.minsSpentReviewer = async function(id){
+
+    var res
+    var clientServerOptions = {
+
+        uri: global.heroku + '/api/Cases',
+        body: "",
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }
+
+    request(clientServerOptions,  function (error, response) {
+        
+        var mins = []
+        var data = JSON.parse(response.body).data
+
+        for(let i=0;i<data.length-1;i++){
+            if(data[i].reviewerID === id && typeof data[i].reviewerFinishDate != 'undefined'
+                                       && typeof data[i].caseOpenSince    != 'undefined') {
+
+                var d1 = new Date(data[i].reviewerFinishDate)
+                var d2 = new Date(data[i].caseOpenSince)
+                mins.push(d1.getTime() - d2.getTime())
+               // console.log(d1.getTime() - d2.getTime())         
+               // console.log(Math.abs(d1.getTime() - d2.getTime()) )        
+
+            }
+        }
+        
+        var sumMins = 0
+        for(let i = 0;i<mins.length;i++){
+            sumMins = sumMins + mins[i]
+            //console.log(sumMins)
+        }
+
+        var result = 0
+        if(mins.length>0){
+            //console.log(sumMins)
+            //console.log(mins.length)
+            result = sumMins/( mins.length * 1000 * 60)
+        }
+  
+        //console.log(result)
+        res = result
+        return;
+    })
+
+    return res;
+} 
+
 
