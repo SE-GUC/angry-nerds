@@ -19,6 +19,7 @@ global.debt72 = 6
 
 // show case
 router.get('/', async (req,res) => {
+
     try{
         const Cases = await Case.find()
         res.json({data: Cases})
@@ -26,8 +27,38 @@ router.get('/', async (req,res) => {
     catch(error){
         res.json({msg: 'There are no cases'})
     }
-})
 
+})
+router.get('/CompViewing', async (req ,res)=>{
+                    
+    try{
+         var Case = await Cases.find({caseStatus:"published"},projx)
+                             
+         for (var i = 0; i < Case.length; i++) { 
+                       
+             const idf = "5c94eb58f29b9c3e28a80d05"
+             const Invs = await Investor.findById(idf)
+             const stf = await Staff.findById(idf)
+             if (stf){ 
+             var projx = {"_id":0, "reviewerID": 0 , "lawyerID": 0, "investorID":0}
+                                             
+             }else if (Invs) {            
+             var projx = {"_id":0, "reviewerID": 0 , "lawyerID": 0, "investorID":0, "equality_capital":0 , "currency":0 }
+             } else {
+             var projx = {"_id":0, "arabic_name": 1,  "english_name" : 1,  "government":1,  "city": 1 ,"hq_address": 1 ,"hq_city" :1  ,"hq_state": 1 ,"main_center_phone":1, "main_center_fax":1 };
+             }
+
+             Case = await Cases.find({caseStatus:"published"},projx)
+             res.json({data: Case})
+             }
+             } 
+                                     
+             
+             catch(error){
+             console.log(error)
+  }
+ })
+ 
 router.get('/:id', async (req,res) => {
     const id = req.params.id
     try{
@@ -324,8 +355,10 @@ router.put('/:id', async (req, res) => {
 })
 
 
+
 //Assign Lawyer
 router.put('/AssignLawyer/:id/:id1', async (req, res) => {
+
     //check if I am admin
     try { 
         var x="5c9553126e4cb565a02e1089"
