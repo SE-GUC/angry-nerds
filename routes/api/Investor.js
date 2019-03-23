@@ -84,4 +84,23 @@ router.post('/', async (req,res) => {
     }  
  })
 
+ router.get('/InvViewing/:id', async (req, res)=>{
+    const idf = "5c77c2b0c5983856f492f33e"
+     const Invs = await Investor.findById(idf)
+     const stf = await Staff.findById(idf)
+    if ( stf || Invs)
+    var proj = {"_id": 0 ,"password": 0}
+    else
+    var proj = {"_id":0, "firstName": 1,  "MiddleName" : 1,  "LastName":1,  "Nationality": 1 ,"Address": 1 ,"birthdate" :1  ,"telephone_number": 1 ,"gender":1};
+    
+   try{
+       const id = req.params.id
+        const Invest = await Investor.findById(id,proj)
+        res.json({data: Invest})
+   } 
+   catch(error){
+    console.log(error)
+   }
+})
+
  module.exports = router 
