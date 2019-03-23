@@ -6,22 +6,19 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node index.js",
     "dev": "nodemon index"
-
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "description": "",
   "dependencies": {
-<<<<<<< HEAD
     "array": "^0.4.3",
-=======
     "body-parser": "^1.18.3",
->>>>>>> refs/remotes/origin/Dev
     "express": "^4.16.4",
+    "hbs": "^4.0.3",
     "joi": "^14.3.1",
-    "listing": "0.0.1",
     "mongoose": "^5.4.15",
+    "request": "^2.88.0",
     "stripe": "^6.28.0"
   }
 }

@@ -5,7 +5,7 @@ const hbs = require('hbs')
 const stripe = require('stripe')('sk_test_Tc2FlJG0ovXrM6Zt7zuK1O6f002jC3hcT0')
 const validator = require('../../validations/InvestorValidations')
 const Investor = require('../../models/Investor')  
-
+const request = require('request')
 
 
 
@@ -66,7 +66,7 @@ router.post('/', async (req,res) => {
      
      const Invstr = await Investor.findById(id)
      if(!Invstr) return res.status(404).send({error: 'investor does not exist'})
-     const isValidated = validator.createValidation(req.body)
+     const isValidated = validator.updateValidation(req.body)
     if (isValidated.error) return res.status(400).send({ error: isValidated.error.details[0].message })
      const updatedInvstr = await Investor.findByIdAndUpdate(id,req.body)
      res.json({msg: 'Investor updated successfully', data: updatedInvstr} )
@@ -160,6 +160,97 @@ router.viewMyNotifications =  function(id){
         var obj = JSON.parse(text);
         console.log(obj)
 
+        return obj;
+    });
+}   
+
+
+router.viewMyPublishedCompanies =  function(id){
+
+    var clientServerOptions = {
+
+        uri: 'http://localhost:3000/api/Cases',
+        body: "",
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }
+
+    request(clientServerOptions,  function (error, response) {
+               
+        var data = JSON.parse(response.body).data
+
+        var text = "{ \"data\": ["
+        var flag = false
+        console.log(data.length)
+        for(let i=0;i<data.length-1;i++){
+            if(data[i].caseStatus === "published" && data[i].investorID === id){
+                text += (JSON.stringify(data[i]) + ",")
+                flag = true
+            }
+        }
+        if(data.length>0){
+            if(data[data.length-1].caseStatus === "published" && data[data.length-1].investorID === id){
+                text += (JSON.stringify(data[data.length-1]))
+                text += "] }"
+            }
+            else{
+                console.log("Im here");
+                if(flag){
+                    text = text.substring(0,text.length-1)
+                }    
+                text += "] } "
+            }
+        }
+        var obj = JSON.parse(text);
+        console.log(obj)
+
+        return obj;
+    });
+}   
+
+router.viewMyPendingCompanies =  function(id){
+
+    var clientServerOptions = {
+
+        uri: 'http://localhost:3000/api/Cases',
+        body: "",
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }
+
+    request(clientServerOptions,  function (error, response) {
+               
+        var data = JSON.parse(response.body).data
+
+        var text = "{ \"data\": ["
+        var flag = false
+        console.log(data.length)
+        for(let i=0;i<data.length-1;i++){
+            if(data[i].caseStatus != "published" && data[i].investorID === id){
+                text += (JSON.stringify(data[i]) + ",")
+                flag = true
+            }
+        }
+        if(data.length>0){
+            if(data[data.length-1].caseStatus != "published" && data[data.length-1].investorID === id){
+                text += (JSON.stringify(data[data.length-1]))
+                text += "] }"
+            }
+            else{
+                console.log("Im here");
+                if(flag){
+                    text = text.substring(0,text.length-1)
+                }    
+                text += "] } "
+            }
+        }
+        //console.log(text);
+        var obj = JSON.parse(text);
+        console.log(obj)
         return obj;
     });
 }   

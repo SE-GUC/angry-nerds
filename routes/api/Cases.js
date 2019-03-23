@@ -3,12 +3,8 @@ const router = express.Router()
 const mongoose = require('mongoose')
 const projection =  { _id: 0,  managers:1}
 const Case = require('../../models/Cases')
-<<<<<<< HEAD
-const validator = require('../../Validations/caseValidations')
 const fun=require('./Cases_func')
-=======
 const validator = require('../../validations/caseValidations')
->>>>>>> refs/remotes/origin/Dev
 
 
 
