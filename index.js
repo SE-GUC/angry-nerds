@@ -76,5 +76,3 @@ const port = process.env.PORT || 3000
 app.listen(port, () => console.log(`Server on ${port}`))
 
 
-
-investor.viewMyPublishedCompanies("5c77c2b0c5973856f492f33e")
