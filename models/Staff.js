@@ -71,7 +71,10 @@ const StaffSchema = new Schema({
         type: Number,
         required: true
     },
-
+    number_of_cases:{
+        type: Number,
+        required: true
+    },
     total_time_on_cases:{
         type: Number,
         required: true
