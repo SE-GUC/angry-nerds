@@ -33,22 +33,7 @@ router.post('/', async (req,res) => {
     }  
  })
 
- router.post('/register', async (req,res) => {
-    
-    const email = req.body.params.email
-    const age = req.body.params.age
-    const user = await User.findOne({email})
-    if(user) return res.status(400).json({error: 'Email already exists'})
-    if(age<21) return res.status(400).json({error: 'you must be 21 years old'})
-
-
-    const isValidated = validator.createValidation(req.body)
-    if(isValidated.error)
-    const newInvestor = await Investor.create(req.body)
-    res.json({msg:'Investor was created successfully', data: newInvestor})
-    .catch(err => res.json('You could not be registered, try again'))
-
-})
+ 
 
  router.put('/:id', async (req,res) => {
     try {
@@ -78,6 +63,27 @@ router.post('/', async (req,res) => {
         // We will be handling the error later
         console.log(error)
     }  
+ })
+
+ 
+router.get('/viewFees/:id', async (req, res)=>{
+    try{
+        const id = req.params.id
+        const Cases = await Case.findById(id)
+        const userid = "xhjaxj"; // hard coded for session id 
+        if (userid === Cases.body.investorID){
+          // calling calc_fees
+       }
+       else if (userid === Cases.body.lawyerID){
+          //calling calc_fees
+       } 
+       else {
+          res.json({msg: 'you are not allowed to view the fees'})
+       }
+    }
+    catch(error){
+        res.json({msg: 'failed to access files needed'})
+    }
  })
 
  module.exports = router 

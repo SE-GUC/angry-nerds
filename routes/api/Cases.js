@@ -62,6 +62,21 @@ router.put('/:id', async (req,res) => {
         console.log(error)
     }  
  })
+ router.get('/companies', async (req,res) => {
+     try{
+     const Cases = await Case.find()
+     
+     if (Cases.body.caseStatus==='published'){
+        res.json({data: Cases})
+     }
+     else {
+        res.json({msg: 'The company you requested does not exist'})
+     }}
+     catch {
+        res.json({msg: 'cannot find what youre looking for'})
+     }
+    
+})
 
  
 
