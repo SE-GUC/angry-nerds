@@ -6,7 +6,7 @@ const CaseSchema = new Schema({
     
     caseStatus: {
         type: String,
-
+        
     },
     
     caseOpenSince: {

@@ -8,6 +8,13 @@ const validator = require('../../validations/caseValidations')
 
 
 
+global.revenues159 = 51
+global.revenues72 = 100
+global.debt159 = 5
+global.debt72 = 6
+
+
+
 // show case
 router.get('/', async (req,res) => {
     try{
@@ -59,6 +66,7 @@ router.post('/', async (req,res) => {
     // if (isValidated.error) return res.status(400).send({ error: isValidated.error.details[0].message })
     const newCase = await Case.create(req.body)
     res.json({msg:'Case was created successfully', data: newCase})
+    console.log(newCase._id)
    }
    catch(error) {
        // We will be handling the error later
@@ -271,7 +279,119 @@ catch(error) {
 })
 
 
+// Fady M updates
+router.put('/calc_fees/:id', async(req,res)=>{
+    try {
+        const id = req.params.id
+        const Cases = await Case.findById(id);
+    
+    
+        var type = Cases.regulated_law;
+        if (type==="Law 159"){
+            var x =   Cases.equality_capital
+            var gafi = .001*x;
+            var notary = .0025*x;
+            if (gafi<100){
+                gafi=100;
+            }
+            if (gafi>1000){
+                gafi=1000;
+            }
+            if (notary<10){
+                notary=10;
+            }
+            if (notary>1000){
+                notary=1000;
+            }
+            var fee=global.revenues159 +global.debt159 +gafi + notary;
+            const updatedCase = await Case.findByIdAndUpdate(id, {"fees":fee})
+            res.json({msg: 'Fees calculated', data: "Fees : " + fee} )
+        }
+        else if (type==="Law 72"){
+            var fee = global.revenues72 +global.debt72 
+            const updatedCase = await Case.findByIdAndUpdate(id, {"fees":fee})
+            console.log("GOT")
+            res.json({msg: 'Fees calculated', data: "Fees : " + fee} )
+        }
+        else {
+            res.json({msg: 'not correct law', data: updatedCase} )
+        }
+    }
+    
+    catch(error) {
+        console.log(error)
+    }  
 
+    })
+
+
+    router.get('/track_case/:id', async(req,res)=>{
+        try {
+            const id = req.params.id
+            const Cases = await Case.findById(id);
+            var x = Cases.caseStatus
+            res.json({msg: 'Your case is at', data: x} )
+        }
+        
+        catch(error) {
+            console.log(error)
+        }  
+    
+        })
+
+        router.put('/admin_assign_lawyer/:caseId/:lawyerId', async(req,res)=>{
+            try {
+                const caseId = req.params.caseId
+                const lawyerId = req.params.lawyerId
+                fun.admin_assign_lawyer(caseId,lawyerId)
+                res.json({msg: 'A case is assigned successfully'} )
+            }
+            
+            catch(error) {
+                console.log(error)
+            }  
+        
+            })
+    
+            router.put('/admin_assign_reviewer/:caseId/:reviewerId', async(req,res)=>{
+                try {
+                    const caseId = req.params.caseId
+                    const reviewerId = req.params.reviewerId
+                    fun.admin_assign_lawyer(caseId,reviewerId)
+                    res.json({msg: 'A case is assigned successfully'} )
+                }
+                
+                catch(error) {
+                    console.log(error)
+                }  
+            
+                })
+                router.put('/system_assign_lawyer/:caseId', async(req,res)=>{
+                    try {
+                        const caseId = req.params.caseId
+                        fun.system_assign_lawyer(caseId)
+                        res.json({msg: 'A case is assigned successfully'} )
+                    }
+                    
+                    catch(error) {
+                        console.log(error)
+                    }  
+                
+                    })
+            
+                    router.put('/system_assign_reviewer/:caseId', async(req,res)=>{
+                        try {
+                            const caseId = req.params.caseId
+                            fun.admin_assign_lawyer(caseId)
+                            res.json({msg: 'A case is assigned successfully'} )
+                        }
+                        
+                        catch(error) {
+                            console.log(error)
+                        }  
+                    
+                        })
+    
 
 
  
