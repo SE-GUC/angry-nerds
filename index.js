@@ -58,4 +58,4 @@ app.listen(port, () => console.log(`Server on ${port}`))
 // Staffi.caseAproveedAtLawyer("5c93e4ae5b66b31668f0e28c")
 
 //Staffi.staffComment("5c94f427dc1af752f81f698a","{\"text\": \"a5er test wenaby\"}","5c93c8fb1692ea457895901c")        //  function(id,text,Case,){
-investor.viewMyPendingCompanies("5c7aee579c27c860c43d54b9")
+//investor.viewMyPendingCompanies("5c7aee579c27c860c43d54b9")
