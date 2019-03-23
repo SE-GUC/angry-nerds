@@ -77,4 +77,4 @@ app.listen(port, () => console.log(`Server on ${port}`))
 
 
 
-investor.viewMyPublishedCompanies("5c7aee579c27c860c43d54b9")
+investor.viewMyPublishedCompanies("5c77c2b0c5973856f492f33e")
