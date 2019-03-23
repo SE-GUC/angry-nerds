@@ -37,17 +37,17 @@ app.use(express.urlencoded({extended: false}))
 // Entry point
 app.get('/', (req,res) => res.send(`<h1>Hello World!</h1>`))
 app.get('/Ramy', (req,res) => res.send('<h1>Ramy test page</h1>'))
+
 app.get('/payment',(req,res)=>{
     //res.writeHead(200, {'Content-Type': 'text/html'});
     fs.readFile('./views/payment.html',null,function(error,data){
-        console.log('my data is ',data)
         if(error){
             res.writeHead(404)
             return
         }
         else{
+
             res.write(data)
-            console.log('your data is ',data)
             return
 
         }
