@@ -3,7 +3,7 @@ const router = express.Router()
 const mongoose = require('mongoose')
 
 const Commentj = require('../../models/Comments')
-const validator = require('../../Validations/CommentsValidations')
+const validator = require('../../validations/CommentsValidations')
 const Cases = require('../../models/Cases')
 
 
