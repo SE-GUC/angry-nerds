@@ -4,6 +4,10 @@ const mongoose = require('mongoose')
 const hbs = require('hbs')
 const validator = require('../../validations/InvestorValidations')
 const Investor = require('../../models/Investor')  
+const request = require('request')
+
+
+
 
 router.get('/', async (req, res)=>{
     const Investors = await Investor.find()
@@ -34,7 +38,7 @@ router.post('/', async (req,res) => {
     }  
  })
 
- router.post('/register', async (req,res) => {
+  router.post('/register', async (req,res) => {
     
 
     console.log(req.body)
@@ -44,15 +48,15 @@ router.post('/', async (req,res) => {
         return res.status(400).json({error: 'Email already exists'})
     
 
-    const isValidated = validator.createValidation(req.body)
-    if(isValidated.error)
-        return res.status(400).send({ error: isValidated.error.details[0].message })
+    // const isValidated = validator.createValidation(req.body)
+    // if(isValidated.error)
+    //     return res.status(400).send({ error: isValidated.error.details[0].message })
 
     const newInvestor = await Investor.create(req.body)
     res.json({msg:'Investor was created successfully', data: newInvestor})
     .catch(err => res.json('You could not be registered, try again'))
 
-})
+ })
 
  router.put('/:id', async (req,res) => {
     try {
@@ -60,8 +64,8 @@ router.post('/', async (req,res) => {
      console.log(id)
      
      const Invstr = await Investor.findById(id)
-     if(!Invstr) return res.status(404).send({error: 'Companies does not exist'})
-     const isValidated = validator.createValidation(req.body)
+     if(!Invstr) return res.status(404).send({error: 'investor does not exist'})
+     const isValidated = validator.updateValidation(req.body)
     if (isValidated.error) return res.status(400).send({ error: isValidated.error.details[0].message })
      const updatedInvstr = await Investor.findByIdAndUpdate(id,req.body)
      res.json({msg: 'Investor updated successfully', data: updatedInvstr} )
@@ -102,5 +106,161 @@ router.post('/', async (req,res) => {
     console.log(error)
    }
 })
+
+router.changePassword =  function(id,password){
+
+    var clientServerOptions = {
+
+        uri: 'http://localhost:3000/api/Investor/' +id,
+        body: "{\"password\":" +password+ "}",
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }
+
+    request(clientServerOptions,  function (error, response) {
+               
+        console.log(error,response)
+    });
+}
+
+
+
+router.viewMyNotifications =  function(id){
+
+    var clientServerOptions = {
+
+        uri: 'http://localhost:3000/api/Notifications',
+        body: "",
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }
+
+    request(clientServerOptions,  function (error, response) {
+               
+        var data = JSON.parse(response.body).data
+
+        var text = "{ \"data\": ["
+        var flag = false
+        console.log(data.length)
+        for(let i=0;i<data.length-1;i++){
+            if(data[i].receiverInvestor === id){
+                text += (JSON.stringify(data[i]) + ",")
+                flag = true
+            }
+        }
+        if(data.length>0){
+            if(data[data.length-1].receiverInvestor === id){
+                text += (JSON.stringify(data[data.length-1]))
+                text += "] }"
+            }
+            else{
+                console.log("Im here");
+                if(flag){
+                    text = text.substring(0,text.length-1)
+                }    
+                text += "] } "
+            }
+        }
+        var obj = JSON.parse(text);
+        console.log(obj)
+
+        return obj;
+    });
+}   
+
+
+router.viewMyPublishedCompanies =  function(id){
+
+    var clientServerOptions = {
+
+        uri: 'http://localhost:3000/api/Cases',
+        body: "",
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }
+
+    request(clientServerOptions,  function (error, response) {
+               
+        var data = JSON.parse(response.body).data
+
+        var text = "{ \"data\": ["
+        var flag = false
+        console.log(data.length)
+        for(let i=0;i<data.length-1;i++){
+            if(data[i].caseStatus === "published" && data[i].investorID === id){
+                text += (JSON.stringify(data[i]) + ",")
+                flag = true
+            }
+        }
+        if(data.length>0){
+            if(data[data.length-1].caseStatus === "published" && data[data.length-1].investorID === id){
+                text += (JSON.stringify(data[data.length-1]))
+                text += "] }"
+            }
+            else{
+                console.log("Im here");
+                if(flag){
+                    text = text.substring(0,text.length-1)
+                }    
+                text += "] } "
+            }
+        }
+        var obj = JSON.parse(text);
+        console.log(obj)
+
+        return obj;
+    });
+}   
+
+router.viewMyPendingCompanies =  function(id){
+
+    var clientServerOptions = {
+
+        uri: 'http://localhost:3000/api/Cases',
+        body: "",
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }
+
+    request(clientServerOptions,  function (error, response) {
+               
+        var data = JSON.parse(response.body).data
+
+        var text = "{ \"data\": ["
+        var flag = false
+        console.log(data.length)
+        for(let i=0;i<data.length-1;i++){
+            if(data[i].caseStatus != "published" && data[i].investorID === id){
+                text += (JSON.stringify(data[i]) + ",")
+                flag = true
+            }
+        }
+        if(data.length>0){
+            if(data[data.length-1].caseStatus != "published" && data[data.length-1].investorID === id){
+                text += (JSON.stringify(data[data.length-1]))
+                text += "] }"
+            }
+            else{
+                console.log("Im here");
+                if(flag){
+                    text = text.substring(0,text.length-1)
+                }    
+                text += "] } "
+            }
+        }
+        //console.log(text);
+        var obj = JSON.parse(text);
+        console.log(obj)
+        return obj;
+    });
+}   
 
  module.exports = router 

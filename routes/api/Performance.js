@@ -1,0 +1,109 @@
+/*************************************/
+/* Calculating Performance for Staff */
+/*************************************/
+const Staff = require('../../models/Staff')
+const request = require('request')
+
+//1-average cases done per week/month
+//2-number of completed cases
+//3-array of cases done per day/month
+//4-number of mins spent per case
+//5-leaderboard of all staff acording to number of copleted cases/month or all-time
+//6-
+
+module.exports.numberOfCasesInRangeDaysForLawyer = function(id,startDate,endDate) {
+
+    var clientServerOptions = {
+
+        uri: 'http://localhost:3000/api/Cases',
+        body: "",
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }
+
+    request(clientServerOptions,  function (error, response) {
+        
+        var data = JSON.parse(response.body).data
+        
+        var casesDateArray = [];
+        var resultArr = [];
+
+        for(let i=0;i<data.length-1;i++){
+            if(data[i].lawyerID === id && data[i].caseStatus != "null" && data[i].caseStatus != "lawyer"){
+                casesDateArray.push(data[i].lawyerFinishDate)
+            }
+        }
+        
+        let date = startDate
+        while(date <= endDate){
+            let x = 0;
+            for(let i = 0;i < casesDateArray.length;i++){
+                if(typeof casesDateArray[i] != 'undefined'){
+                    let d1 = new Date(casesDateArray[i])
+                    if(d1.getTime() === date.getTime()){
+                        x = x + 1 
+                    }
+                }    
+            } 
+            resultArr.push(x)
+            date.setDate(date.getDate() + 1)
+        }
+        
+
+        console.log(resultArr)
+        return resultArr;
+    });
+    
+
+};
+
+module.exports.numberOfCasesInRangeDaysForReviewer = function(id,startDate,endDate) {
+
+    var clientServerOptions = {
+
+        uri: 'http://localhost:3000/api/Cases',
+        body: "",
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }
+
+    request(clientServerOptions,  function (error, response) {
+        
+        var data = JSON.parse(response.body).data
+        
+        var casesDateArray = [];
+        var resultArr = [];
+
+        for(let i=0;i<data.length-1;i++){
+            if(data[i].reviewerID === id && data[i].caseStatus != "lawyer" && data[i].caseStatus != "reviewer"){
+                casesDateArray.push(data[i].reviewerFinishDate)
+            }
+        }
+        
+        let date = startDate
+        while(date <= endDate){
+            let x = 0;
+            for(let i = 0;i < casesDateArray.length;i++){
+                if(typeof casesDateArray[i] != 'undefined'){
+                    let d1 = new Date(casesDateArray[i])
+                    if(d1.getTime() === date.getTime()){
+                        x = x + 1 
+                    }
+                }    
+            } 
+            resultArr.push(x)
+            date.setDate(date.getDate() + 1)
+        }
+        
+
+        console.log(resultArr)
+        return resultArr;
+    });
+    
+
+};
+

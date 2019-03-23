@@ -14,9 +14,9 @@ module.exports = {
 
     updateValidation: request => {
         const updateSchema = {
-            email: Joi.required(),
+            //email: Joi.required(),
             password: Joi.required(),
-            SSID: Joi.required()
+            //SSID: Joi.required()
         }
 
         return Joi.validate(request, updateSchema)
