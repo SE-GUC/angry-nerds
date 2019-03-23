@@ -1,5 +1,7 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
+//const uniqueValidator= require ('mongoose-unique-validator')
+
 
 InvestorSchema = new Schema({
 
@@ -29,7 +31,8 @@ InvestorSchema = new Schema({
     },
     SSID: {
         type: Number,
-        //required: true
+        //required: true,
+        //unique:true
     },
     Nationality:{
         type: String,
@@ -56,5 +59,5 @@ InvestorSchema = new Schema({
     }
 })
 
-
+//CaseSchema.plugin(uniqueValidator)
 module.exports = Investor = mongoose.model('Investors', InvestorSchema)

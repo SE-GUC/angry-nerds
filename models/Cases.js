@@ -1,5 +1,6 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
+const uniqueValidator= require ('mongoose-unique-validator')
 
 // Create the schema
 const CaseSchema = new Schema({
@@ -46,11 +47,13 @@ const CaseSchema = new Schema({
     },
     arabic_name: {
         type: String,
-        required: true
+        required: true,
+        unique:true
     },
     english_name: {
         type: String, 
-        required: false
+        required: false,
+        unique:true
     },
     government: {
         type: String, 
@@ -134,5 +137,6 @@ const CaseSchema = new Schema({
 
 })
 
+CaseSchema.plugin(uniqueValidator)
 module.exports = Cases = mongoose.model('Cases', CaseSchema)
 
