@@ -335,18 +335,27 @@ router.viewMyNotifications =  function(id){
         var data = JSON.parse(response.body).data
 
         var text = "{ \"data\": ["
+        var flag = false
         console.log(data.length)
         for(let i=0;i<data.length-1;i++){
             if(data[i].receiverStaff === id){
                 text += (JSON.stringify(data[i]) + ",")
+                flag = true
             }
         }
         if(data.length>0){
             if(data[data.length-1].receiverStaff === id){
                 text += (JSON.stringify(data[data.length-1]))
+                text += "] }"
+            }
+            else{
+                console.log("Im here");
+                if(flag){
+                    text = text.substring(0,text.length-1)
+                }    
+                text += "] } "
             }
         }
-        text += "] }"
         var obj = JSON.parse(text);
         console.log(obj)
 
