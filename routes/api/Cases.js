@@ -23,7 +23,8 @@ router.post('/charge',async (req,res)=>{
     const CaseID = '5c93c8fb1692ea457895901c' //get this from frontend 
 
     const myCase = await Case.findById(CaseID) 
-    if( myCase.investorID === invID){
+    console.log(myCase.investorID)
+    if( myCase.investorID == invID){
         stripe.tokens.create({
             card: {
                 "number": req.body.name,
