@@ -2,7 +2,6 @@ const express = require('express')
 const mongoose = require('mongoose')
 const hbs = require('hbs')
 const fs = require('fs')
-const stripe = require('stripe')('sk_test_Tc2FlJG0ovXrM6Zt7zuK1O6f002jC3hcT0')
 
 
 // Require Router Handlers

@@ -5,10 +5,6 @@ const hbs = require('hbs')
 const validator = require('../../validations/InvestorValidations')
 const Investor = require('../../models/Investor')  
 
-
-
-
-
 router.get('/', async (req, res)=>{
     const Investors = await Investor.find()
     res.json({data: Investors})

@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const mongoose = require('mongoose')
-
+const stripe = require('stripe')('sk_test_Tc2FlJG0ovXrM6Zt7zuK1O6f002jC3hcT0')
 const Case = require('../../models/Cases')
 const validator = require('../../Validations/caseValidations')
 
@@ -17,7 +17,7 @@ router.get('/:id', async (req,res) => {
 })
 
 
-app.post('/charge/:id',async (req,res)=>{
+router.post('/charge',async (req,res)=>{
     const id = req.params.id
     // const case = await Cases.findById(id, _id: 0,fees:1)
     console.log(req.body)
