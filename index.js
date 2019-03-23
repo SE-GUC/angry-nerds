@@ -59,5 +59,13 @@ app.listen(port, () => console.log(`Server on ${port}`))
 
 //Staffi.staffComment("5c94f427dc1af752f81f698a","{\"text\": \"a5er test wenaby\"}","5c93c8fb1692ea457895901c")        //  function(id,text,Case,){
 //investor.viewMyPendingCompanies("5c7aee579c27c860c43d54b9")
-//var mins = await Perform.minsSpentLawyer("5c94f427dc1af752f81f698a")
-//console.log(mins)
+// start = async function(){
+//     var mins = await Perform.minsSpentLawyer("5c94f427dc1af752f81f698a")
+//     return mins
+    
+// }
+
+// var x = start().then(console.log())
+// //var x = Perform.minsSpentLawyer("5c94f427dc1af752f81f698a")
+
+// console.log(x)
