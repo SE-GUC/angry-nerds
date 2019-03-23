@@ -4,6 +4,8 @@ const mongoose = require('mongoose')
 
 const Commentj = require('../../models/Comments')
 const validator = require('../../Validations/CommentsValidations')
+const Cases = require('../../models/Cases')
+
 
 //Read
 router.get('/', async (req,res) => {
@@ -23,6 +25,68 @@ catch(error) {
     console.log(error)
 }  
 })
+
+
+router.get('/view/:idf/:idu', async (req,res) => {
+    try {
+    const idf = req.params.idf
+    const idu = req.params.idu
+   //const projection = {comment:1}
+    
+    const Case = await Cases.findById(idf)//,projection)
+    const investor=await Investor.findById(idu)
+     if(!Case) return res.status(404).send({error: 'The comment does not exist'})
+     if(!investor) {
+        const staff= await Staff.findById(idu)
+        if(!staff){ 
+            return res.status(404).send({error: 'you r not allowed to view comments on a form, u r neither a lawyer nor an investor' })
+        }
+        else{
+            if(staff.Type === 'Lawyer' && Case.lawyerID === idu){
+                return res.json({data: Case.comment})
+            }else{
+                if(staff.Type === 'Reviewer' && Case.reviewerID === idu){
+                    return res.json({data: Case.comment})
+                }
+                else{
+                    if(staff.Type === 'Admin'){
+                        return res.json({data: Case.comment})
+                    }
+                    else{
+                        return res.status(404).send({error: 'you r not allowed to view comments on a form, u r neither a lawyer nor an investor' }) 
+                    }
+                }
+            }
+        } 
+    }
+    else{
+        if(Case.investorID === idu){            
+            return res.json({data: Case.comment})
+        }
+        else{
+            return res.status(404).send({error: 'you r not allowed to view comments on a form, u r neither a lawyer nor an investor' }) 
+        }    
+    }
+
+    
+}
+catch(error) {
+    // We will be handling the error later
+    console.log(error)
+}  
+})
+
+
+
+
+
+
+
+
+
+
+
+
 
 // Create a comment
 router.post('/', async (req,res) => {

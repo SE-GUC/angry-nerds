@@ -3,14 +3,14 @@ const Joi = require('joi')
 module.exports = {
     createValidation: request => {
         const createSchema = {
-            caseStatus: Joi.string().min(3).max(500).required(),
+            caseStatus: Joi.string().min(3).max(500),
             
-            caseOpenSince: Joi.date().required(),
-            caseClosedDate: Joi.date().required(),
+            caseOpenSince: Joi.date(),
+            caseClosedDate: Joi.date(),
 
-            reviewerID: Joi.required(),
+          /*  reviewerID: Joi.required(),
             lawyerID: Joi.required(),
-            investorID: Joi.required(),
+            investorID: Joi.required(),*/
             
             //forms
             form_type:Joi.string().min(3),
@@ -23,28 +23,28 @@ module.exports = {
             hq_address: Joi.string().min(3).max(100),
             hq_city: Joi.string().min(3).max(100),
             main_center_phone: Joi.number(),
-            main_center_fax: Joi.string(),
+            main_center_fax: Joi.number(),
             currency: Joi.string().min(3).max(100),
-            equality_capital: Joi.number().min(50000),
+            equality_capital: Joi.number(),
             managers: Joi.array()
 
 
 
-        }
+         }
 
-        return Joi.validate(request, createSchema)
-    },
+         return Joi.validate(request, createSchema)
+     },
 
     updateValidation: request => {
         const updateSchema = {
-            caseStatus: Joi.string().min(3).max(500).required(),
+            caseStatus: Joi.string().min(3).max(500),
             
-            caseOpenSince: Joi.date().required(),
-            caseClosedDate: Joi.date().required(),
+            caseOpenSince: Joi.date(),
+            caseClosedDate: Joi.date(),
 
-            reviewerID: Joi.required(),
+           /* reviewerID: Joi.required(),
             lawyerID: Joi.required(),
-            investorID: Joi.required(),
+            investorID: Joi.required(),*/
             
             //forms
             form_type:Joi.string().min(3),
@@ -57,10 +57,11 @@ module.exports = {
             hq_address: Joi.string().min(3).max(100),
             hq_city: Joi.string().min(3).max(100),
             main_center_phone: Joi.number(),
-            main_center_fax: Joi.string(),
+            main_center_fax: Joi.number(),
             currency: Joi.string().min(3).max(100),
-            equality_capital: Joi.number().min(50000),
+            equality_capital: Joi.number(),
             managers: Joi.array()
+            
         }
 
         return Joi.validate(request, updateSchema)
