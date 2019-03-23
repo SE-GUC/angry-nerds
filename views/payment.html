@@ -1,0 +1,36 @@
+<html>
+<head>
+  payment
+</head>
+<body>
+    <h2 class="page-header textcolor">Information Required for completion of payment process</h2>
+    <form action="/charge" method="POST">
+      <div class="textcolor">
+        <h4>Card Number</h4>
+        <input required type="text"  name="name" class="inputFields" placeholder="Card Number">
+      </div>
+      <div class="textcolor">
+        <h4>Expiry Month</h4>
+        <input required type="number" name="month" class="inputFields" placeholder="Expiry Month">
+      </div>
+      <div class="textcolor">
+        <h4>Expiry Year</h4>
+        <input required type="number" name="year" class="inputFields" placeholder="Expiry Year">
+      </div>
+      <div class="textcolor">
+        <h4>CVC</h4>
+        <input required type="number" name="cvc" class="inputFields" placeholder="CVC">
+      </div>
+      
+      <input type="submit" id="join-btn" value="Submit">
+    </form>
+
+
+</body>
+
+
+
+
+
+
+</html>
