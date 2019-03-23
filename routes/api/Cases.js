@@ -1,7 +1,11 @@
 const express = require('express')
 const router = express.Router()
 const mongoose = require('mongoose')
+<<<<<<< HEAD
 const projection =  { _id: 0,  managers:1}
+=======
+const stripe = require('stripe')('sk_test_Tc2FlJG0ovXrM6Zt7zuK1O6f002jC3hcT0')
+>>>>>>> Investor
 const Case = require('../../models/Cases')
 const fun=require('./Cases_func')
 const validator = require('../../validations/caseValidations')
@@ -56,6 +60,50 @@ router.get('/ViewBoardOfDirectorsID/:id', async (req,res) => {
 })
 
 
+
+router.post('/charge',async (req,res)=>{
+    const id = req.params.id
+    const invID = '5c77c2b0c5973856f492f33e' //get this from login token
+    const CaseID = '5c93c8fb1692ea457895901c' //get this from frontend 
+
+    const myCase = await Case.findById(CaseID) 
+    console.log(myCase.investorID)
+    if( myCase.investorID == invID){
+        stripe.tokens.create({
+            card: {
+                "number": req.body.name,
+                "exp_month": req.body.month,
+                "exp_year": req.body.year,
+                "cvc": req.body.cvc
+            }
+        }, function (err, token){
+            if(err) console.log(err)
+            else{
+                    console.log(token)
+                    var chargeAmount = 30000
+                    var charge = stripe.charges.create({
+                    amount: chargeAmount,
+                    currency: "usd",
+                    source: token.id 
+                },function (err){
+                    if(err)
+                        console.log('your card is declined') 
+                    else
+                        console.log('payment successful')
+                })
+    
+            }
+    
+        
+    })
+
+    }
+    else console.log('you cannot pay fees for a form that is not yours')
+    
+    
+
+    console.log(req.body)
+    ;})
 
 
 
