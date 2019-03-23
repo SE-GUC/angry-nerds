@@ -16,6 +16,7 @@ module.exports = {
             password: Joi.string().regex(/^[a-zA-Z0-9]{3,30}$/),
             telephone_number:Joi.number().required(),
             total_number_of_cases:Joi.number().required(),
+            number_of_cases:Joi.number().required(),
             completed_number_of_cases:Joi.number().required(),
             total_time_on_cases:Joi.number().required(),
             email: Joi.string().email({ minDomainAtoms: 2 })
