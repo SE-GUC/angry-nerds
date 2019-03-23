@@ -8,6 +8,13 @@ const validator = require('../../validations/caseValidations')
 
 
 
+global.revenues159 = 51
+global.revenues72 = 100
+global.debt159 = 5
+global.debt72 = 6
+
+
+
 // show case
 router.get('/', async (req,res) => {
     try{
@@ -55,15 +62,9 @@ router.get('/ViewBoardOfDirectorsID/:id', async (req,res) => {
 // Create a case
 router.post('/', async (req,res) => {
    try {
-<<<<<<< HEAD
-    // const isValidated = validator.createValidation(req.body)
-    // if (isValidated.error) return res.status(400).send({ error: isValidated.error.details[0].message })
-    const newCase = await Case.create(req.body)
-    res.json({msg:'Case was created successfully', data: newCase})
-=======
      
-    const isValidated = validator.createValidation(req.body)
-    if (isValidated.error) return res.status(400).send({ error: isValidated.error.details[0].message })
+ //   const isValidated = validator.createValidation(req.body)
+  //  if (isValidated.error) return res.status(400).send({ error: isValidated.error.details[0].message })
 
     var i= await CheckForms(req.body)
     console.log(i)
@@ -75,7 +76,7 @@ router.post('/', async (req,res) => {
         res.json({msg:'Case was created successfully', data: newCase})
     }
     
->>>>>>> Case
+   
    }
    catch(error) {
        // We will be handling the error later
@@ -192,20 +193,14 @@ router.put('/:id', async (req,res) => {
      console.log(id)
      const Cases = await Case.findById(id)
      if(!Cases) return res.status(404).send({error: 'Cases does not exist'})
-<<<<<<< HEAD
-    //  const isValidated = validator.updateValidation(req.body)
-    //  if (isValidated.error) return res.status(400).send({ error: isValidated.error.details[0].message })
-     const updatedCase = await Case.findByIdAndUpdate(id, req.body)
-=======
-     const isValidated = validator.updateValidation(req.body)
-     if (isValidated.error) return res.status(400).send({ error: isValidated.error.details[0].message })
+  //   const isValidated = validator.updateValidation(req.body)
+   //  if (isValidated.error) return res.status(400).send({ error: isValidated.error.details[0].message })
      var i= CheckForms(req.body)
      if(i === -1){
         res.json({msg: 'Could not create case'})
      }
      else{
           const updatedCase = await Case.findByIdAndUpdate(id, req.body)
->>>>>>> Case
      res.json({msg: 'Case updated successfully', data: updatedCase} )
      }
     
@@ -341,12 +336,129 @@ catch(error) {
 
 })
 
+
+    
+// Fady M updates
+router.put('/calc_fees/:id', async(req,res)=>{
+    try {
+        const id = req.params.id
+        const Cases = await Case.findById(id);
+    
+    
+        var type = Cases.regulated_law;
+        if (type==="Law 159"){
+            var x =   Cases.equality_capital
+            var gafi = .001*x;
+            var notary = .0025*x;
+            if (gafi<100){
+                gafi=100;
+            }
+            if (gafi>1000){
+                gafi=1000;
+            }
+            if (notary<10){
+                notary=10;
+            }
+            if (notary>1000){
+                notary=1000;
+            }
+            var fee=global.revenues159 +global.debt159 +gafi + notary;
+            const updatedCase = await Case.findByIdAndUpdate(id, {"fees":fee})
+            res.json({msg: 'Fees calculated', data: "Fees : " + fee} )
+        }
+        else if (type==="Law 72"){
+            var fee = global.revenues72 +global.debt72 
+            const updatedCase = await Case.findByIdAndUpdate(id, {"fees":fee})
+            console.log("GOT")
+            res.json({msg: 'Fees calculated', data: "Fees : " + fee} )
+        }
+        else {
+            res.json({msg: 'not correct law', data: updatedCase} )
+        }
+    }
+    
+    catch(error) {
+        console.log(error)
+    }  
+
+    })
+
+
+    router.get('/track_case/:id', async(req,res)=>{
+        try {
+            const id = req.params.id
+            const Cases = await Case.findById(id);
+            var x = Cases.caseStatus
+            res.json({msg: 'Your case is at', data: x} )
+        }
+        
+        catch(error) {
+            console.log(error)
+        }  
+    
+        })
+
+        router.put('/admin_assign_lawyer/:caseId/:lawyerId', async(req,res)=>{
+            try {
+                const caseId = req.params.caseId
+                const lawyerId = req.params.lawyerId
+                fun.admin_assign_lawyer(caseId,lawyerId)
+                res.json({msg: 'A case is assigned successfully'} )
+            }
+            
+            catch(error) {
+                console.log(error)
+            }  
+        
+            })
+    
+            router.put('/admin_assign_reviewer/:caseId/:reviewerId', async(req,res)=>{
+                try {
+                    const caseId = req.params.caseId
+                    const reviewerId = req.params.reviewerId
+                    fun.admin_assign_lawyer(caseId,reviewerId)
+                    res.json({msg: 'A case is assigned successfully'} )
+                }
+                
+                catch(error) {
+                    console.log(error)
+                }  
+            
+                })
+                router.put('/system_assign_lawyer/:caseId', async(req,res)=>{
+                    try {
+                        const caseId = req.params.caseId
+                        fun.system_assign_lawyer(caseId)
+                        res.json({msg: 'A case is assigned successfully'} )
+                    }
+                    
+                    catch(error) {
+                        console.log(error)
+                    }  
+                
+                    })
+            
+                    router.put('/system_assign_reviewer/:caseId', async(req,res)=>{
+                        try {
+                            const caseId = req.params.caseId
+                            fun.admin_assign_lawyer(caseId)
+                            res.json({msg: 'A case is assigned successfully'} )
+                        }
+                        
+                        catch(error) {
+                            console.log(error)
+                        }  
+                    
+                        })
+    
+
 // //Function for checking the rules of the form
 CheckForms = async function(data){
     var query= {_id:data.investorID, form_type: "SSC"}
     
     
     const AllCases = await Case.find(query)
+    const inv= await Investor.findById(data.investorID)
     
     //console.log(AllCases)
 
@@ -355,8 +467,8 @@ CheckForms = async function(data){
         console.log('SSC must have a minimum capital of 50000')
         return -1
         }
-
-        if (data.investorID.Nationality != 'Egyptian'){
+        
+        if (inv.Nationality != 'Egyptian'){
         var i
         var a2 = false
 
@@ -373,26 +485,26 @@ CheckForms = async function(data){
         
         var y
         for(y=0; y < AllCases.length; y++){
-            
-        }
-        if ( AllCases ) {
+             if ( AllCases ) {
           console.log('1 Investor can only have 1 SSC company')
           return -1
      }
-    
-
-
-
+        }
+       
     }
 
     else {
-        if (data.investorID.Nationality != 'Egyptian'){
+        
+       // console.log(inv)
+        if (inv.Nationality != 'Egyptian'){
+            //console.log(data.investorID)
             if(data.equality_capital <100000){
                 console.log('Capital must be greater than 100000')
                 return -1
             }
     
         if(data.managers.length>0){
+            //console.log(data.managers.length)
             console.log('SPC Companies should not have any managers')
             return -1
         }

@@ -18,11 +18,8 @@
     "hbs": "^4.0.3",
     "joi": "^14.3.1",
     "mongoose": "^5.4.15",
-<<<<<<< HEAD
     "request": "^2.88.0",
-=======
     "mongoose-unique-validator": "^2.0.2",
->>>>>>> Case
     "stripe": "^6.28.0"
   }
 }
