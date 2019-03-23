@@ -17,6 +17,38 @@ router.get('/:id', async (req,res) => {
 })
 
 
+app.post('/charge/:id',async (req,res)=>{
+    const id = req.params.id
+    // const case = await Cases.findById(id, _id: 0,fees:1)
+    console.log(req.body)
+    stripe.tokens.create({
+        card: {
+            "number": req.body.name,
+            "exp_month": req.body.month,
+            "exp_year": req.body.year,
+            "cvc": req.body.cvc
+        }
+    }, function (err, token){
+        if(err) console.log(err)
+        else{
+                console.log(token)
+                var chargeAmount = 30000
+                var charge = stripe.charges.create({
+                amount: chargeAmount,
+                currency: "usd",
+                source: token.id 
+            },function (err){
+                if(err)
+                    console.log('your card is declined') 
+                else
+                    console.log('payment successful')
+            })
+
+        }
+
+    
+});})
+
 
 
 // Create a case
