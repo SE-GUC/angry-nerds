@@ -6,87 +6,94 @@ const CaseSchema = new Schema({
     
     caseStatus: {
         type: String,
-
     },
-    
+    //enum:
+    /*
+        investor: Only when the lawyer rejected and returned the form o the investor
+        lawyer-investor: At the lawyer coming from the investor
+        lawyer-reviewer At the lawyer coming from the reviewer
+        reviewer
+        pending: Reviewer approved, waiting payment
+        published
+     */
     caseOpenSince: {
         type: Date,
-       // required: true
     },
-
+    //set when creating the form
     caseClosedDate:{
         type: Date,
-       // required: true
     },
-    lawyerFinishDate:{
+    //set when paying the fees
+    lawyerStartDate:{
         type: Date,
-
     },
-    reviewerFinishDate:{
+    //set whenever the case is returned to the lawyer
+    reviewerStartDate:{
         type: Date,
-
     },
+    //set whenever the case is returned to the reviewer
+
+    lawyerTotalTime:{
+        type: Number,  //in mins
+    },
+    //Updated when the case leaves lawyer (approve or reject)
+    reviewerStartDate:{
+        type: Number, //in mins
+    },
+    //Updated when the case leaves reviewer (approve or reject)
     reviewerID: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Staff',
-        required: false
+        ref: 'Reviewer',
     },
     lawyerID: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Staff',    
-        required: false
-               
+        ref: 'Lawyer',                   
     },
     investorID: {
     	type: mongoose.Schema.Types.ObjectId,
         ref: 'Investor',
-        required: false
     },
-
     form_type :{
         type: String,
-        required:false
     },
+    //enum:
+    /*
+        SSC
+        SPC
+    */ 
     regulated_law: {
         type: String,
-        required: false
     },
+    //enum:
+    /*
+        159
+        72
+     */
     legal_form: {
         type: String,
         required: false
     },
+    //?????
     arabic_name: {
         type: String,
-       // required: true
     },
     english_name: {
         type: String, 
-        required: false
     },
-    government: {
+    governorate: {
         type: String, 
-        required: false
     },
     city: {
         type: String, 
-        required: false
     },
-    hq_address: {
-        type: String
-    },
-    hq_city: {
-        type: String
-    },
-    hq_state: {
+    address: {
         type: String
     },
     main_center_phone: {
         type: Number, 
-        required: false
     },
     main_center_fax: {
         type: Number,
-        required: false
     },
     currency: {
         type: String,
@@ -94,13 +101,11 @@ const CaseSchema = new Schema({
     },
     equality_capital: {
         type: Number,
-        required: false,
-       
     },
     fees: {
         type: Number,
-        required: false
     },
+    //ask fady
     
     managers: {
         type: [
