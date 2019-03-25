@@ -38,11 +38,6 @@ const LawyerSchema = new Schema({
         required: true
     },
 
-    Type:{
-        type: String,
-        required: true
-    },
-
     birthdate:{
         type: Date,
         required: true
