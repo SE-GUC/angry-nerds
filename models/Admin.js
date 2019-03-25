@@ -63,24 +63,6 @@ const AdminSchema = new Schema({
         type: Number,
         required: true
     },
-    
-    total_number_of_cases: {
-        type: Number,
-        required: true
-    },
-    completed_number_of_cases:{
-        type: Number,
-        required: true
-    },
-    number_of_cases:{
-        type: Number,
-        required: true
-    },
-    total_time_on_cases:{
-        type: Number,
-        required: true
-    },
-
     ssid: {
         type: Number,
         required: true
