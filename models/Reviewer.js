@@ -48,7 +48,6 @@ const ReviewerSchema = new Schema({
         required: true
     },
 
-
     fax:{
         type: Number,
         required: true
@@ -100,9 +99,6 @@ const ReviewerSchema = new Schema({
 
         }]
     }
-        
-    
-
 
 })
 
