@@ -7,7 +7,7 @@ global.debt72 = 6
 
 
 const Case = require('../../models/Cases')
-const Staff = require('../../models/Staff')
+const Staff = require('../../models/Admin')
 const fun = require('./Cases_func')
 const cases = require('./Cases')
 const staffs = require('./Staff')

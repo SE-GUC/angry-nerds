@@ -1,8 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const mongoose = require('mongoose')
-
-const Staff = require('../../models/Staff')
+const Staff = require('../../models/Admin')
 const Case = require('../../models/Cases')
 const staff_functions = require('./Staff.js')
 // const validator = require('../../validations/staffValidations')
