@@ -19,6 +19,7 @@ InvestorSchema = new Schema({
     },
     email: {
         type: String,
+        lowercase:true,
         //required: true
     },
     password: {

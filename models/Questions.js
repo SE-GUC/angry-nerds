@@ -10,9 +10,9 @@ const QuestionsSchema = new Schema( {
        // type:Number,
        // require: false
     },
-
-    responderID: {
-        type: Schema.Types.ObjectId, ref: 'Staff',
+    
+    AdminID: {
+        type: Schema.Types.ObjectId, ref: 'Admin',
         //type:Number,
         require: true 
     },

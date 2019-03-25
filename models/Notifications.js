@@ -8,10 +8,16 @@ var notificationSchema = new mongoose.Schema({
       ref: 'Investor'
         
     },
-    receiverStaff: {
+    receiverLawyer: {
         
         type: mongoose.Schema.Types.ObjectId, 
-        ref: 'Staff'
+        ref: 'Lawyer'
+          
+    },
+    receiverReviewer: {
+        
+        type: mongoose.Schema.Types.ObjectId, 
+        ref: 'Reviewer'
           
     },
     senderInvestor: {
@@ -20,10 +26,16 @@ var notificationSchema = new mongoose.Schema({
         ref: 'Investor'
           
     },
-    senderStaff: {
+    senderLawyer: {
         
         type: mongoose.Schema.Types.ObjectId, 
-        ref: 'Staff'
+        ref: 'Lawyer'
+          
+    },
+    senderReviewer: {
+        
+        type: mongoose.Schema.Types.ObjectId, 
+        ref: 'Reviewer'
           
     },
     text: {

@@ -172,13 +172,13 @@ const CaseSchema = new Schema({
                 Reviewer: {
                     // type: String,
                     type: Schema.Types.ObjectId, 
-                    ref: 'Staff',
+                    ref: 'Reviewer',
                     required: true
                 },
                 Lawyer: {
                     // type: String ,
                     type: Schema.Types.ObjectId, 
-                    ref: 'Staff',
+                    ref: 'Lawyer',
                     required: true
                 },
                 Investor: {

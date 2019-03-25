@@ -19,7 +19,8 @@ const ReviewerSchema = new Schema({
 
     email: {
         type: String,
-        required: true
+        required: true,
+        lowercase: true
     },
 
     password: {
@@ -85,8 +86,8 @@ const ReviewerSchema = new Schema({
         required: true
     },
 
-    ratings: 
-        [{
+    ratings: {
+        type : [{
             investorID: {
                 type: mongoose.Schema.Types.ObjectId,
                 ref: 'Investor',
@@ -95,10 +96,16 @@ const ReviewerSchema = new Schema({
                 type: mongoose.Schema.Types.ObjectId,
                 ref: 'Cases',
             },
-            rating: Number,
-            Comment: String
+            rating: {
+                type: Number
+            },
+            Comment:{
+                type: String
+            } 
 
         }]
+    }
+        
     
 
 
