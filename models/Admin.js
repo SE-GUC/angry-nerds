@@ -63,6 +63,10 @@ const AdminSchema = new Schema({
         type: Number,
         required: true
     },
+<<<<<<< HEAD
+=======
+    
+>>>>>>> Dev
     ssid: {
         type: Number,
         required: true
