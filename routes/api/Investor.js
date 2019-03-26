@@ -48,11 +48,6 @@ router.post('/register', async (req, res) => {
     if (user)
         return res.status(400).json({ error: 'Email already exists' })
 
-
-    // const isValidated = validator.createValidation(req.body)
-    // if(isValidated.error)
-    //     return res.status(400).send({ error: isValidated.error.details[0].message })
-
     const newInvestor = await Investor.create(req.body)
     res.json({ msg: 'Investor was created successfully', data: newInvestor })
         .catch(err => res.json('You could not be registered, try again'))
