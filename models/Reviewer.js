@@ -78,26 +78,6 @@ const ReviewerSchema = new Schema({
     ssid: {
         type: Number,
         required: true
-    },
-
-    ratings: {
-        type : [{
-            investorID: {
-                type: mongoose.Schema.Types.ObjectId,
-                ref: 'Investor',
-            },
-            CaseID: {
-                type: mongoose.Schema.Types.ObjectId,
-                ref: 'Cases',
-            },
-            rating: {
-                type: Number
-            },
-            Comment:{
-                type: String
-            } 
-
-        }]
     }
 
 })
