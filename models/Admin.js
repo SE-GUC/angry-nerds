@@ -63,7 +63,6 @@ const AdminSchema = new Schema({
         type: Number,
         required: true
     },
-    
     ssid: {
         type: Number,
         required: true

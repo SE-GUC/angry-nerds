@@ -47,12 +47,20 @@ router.post('/register', async (req, res) => {
     const user = await Investor.findOne({ email })
     if (user)
         return res.status(400).json({ error: 'Email already exists' })
+<<<<<<< HEAD
 
     const newInvestor = await Investor.create(req.body)
     res.json({ msg: 'Investor was created successfully', data: newInvestor })
+=======
+    else{
+        const newInvestor = await Investor.create(req.body)
+        res.json({ msg: 'Investor was created successfully', data: newInvestor })
+>>>>>>> Dev
         .catch(err => res.json('You could not be registered, try again'))
-
-})
+    }
+    
+    
+})  
 
 router.put('/:id', async (req, res) => {
     try {

@@ -16,6 +16,7 @@ const questions = require('./routes/api/Questions')
 const Commentj = require('./routes/api/Comments')
 const fun = require('./routes/api/Cases_func')
 const Perform = require('./routes/api/Performance')
+const Admin = require('./routes/api/Admin')
 
 
 global.heroku = "https://angrynerds1.herokuapp.com"
@@ -68,6 +69,7 @@ app.use('/api/Investor', investor)
 app.use('/api/Notifications', Notification)
 app.use('/api/Questions', questions)
 app.use('/api/Comments',Commentj)
+app.use('/api/Admin',Admin)
 
 
 app.use((req,res) => res.status(404).send(`<h1>Can not find what you're looking for</h1>`))
