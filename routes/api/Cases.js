@@ -118,7 +118,7 @@ router.post('/charge', async (req, res) => {
                 'cvc': req.body.cvc
             }
         }, function (err, token) {
-            if (err) console.log(err)
+            if (err) return res.json({message: 'card declinded'})
             else {
                 console.log(token)
                 var chargeAmount = 30000
@@ -126,11 +126,16 @@ router.post('/charge', async (req, res) => {
                     amount: chargeAmount,
                     currency: 'usd',
                     source: token.id
-                }, function (err) {
-                    if (err)
-                        console.log('your card is declined')
-                    else
-                        console.log('payment successful')
+                }, async function (err) {
+                    console.log(err)
+                    if (err){
+                        return res.json({message:'your card is declined, try again!'})
+                    }                    
+                    else{
+                        const casecreated = await Case.findByIdAndUpdate(CaseID, { 'caseStatus': 'published' })
+                        return res.json({message: 'your payment has been made; you will receive an invoice via your mail'})
+                    }
+                        
                 })
 
             }
@@ -139,7 +144,8 @@ router.post('/charge', async (req, res) => {
         })
 
     }
-    else console.log('you cannot pay fees for a form that is not yours')
+    else 
+        return res.json({message: 'you cannot pay for company that is not yours '})
 
 
 
