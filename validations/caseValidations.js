@@ -1,4 +1,4 @@
-// const Joi = require('joi')
+const Joi = require('joi')
 
 module.exports = {
     createValidation: request => {
@@ -26,6 +26,7 @@ module.exports = {
             hq_city: Joi.string().min(3).max(100),
             main_center_phone: Joi.number(),
             main_center_fax: Joi.number(),
+<<<<<<< HEAD
             currency: Joi.string().min(3).max(24),
             equality_capital: Joi.number().maxlength(12),
             managers: Joi.array().name.string().min(3).max(58),
@@ -37,6 +38,11 @@ module.exports = {
             managers: Joi.array().birth_date.Joi.date().min('1-1-1990').iso().required(),
             managers: Joi.array().address.string(),
             managers: Joi.array().position.string(),
+=======
+            currency: Joi.string().min(3).max(100),
+            equality_capital: Joi.number(),
+            managers: Joi.array()
+>>>>>>> dacd51936c7b6c8fcd7e45613ff3c15da1f8347d
 
             comment:  joi.aray().date.date().iso(),
             comment:  joi.aray().Case.number(),
@@ -75,6 +81,7 @@ module.exports = {
             hq_city: Joi.string().min(3).max(100),
             main_center_phone: Joi.number(),
             main_center_fax: Joi.number(),
+<<<<<<< HEAD
             currency: Joi.string().min(3).max(24),
             equality_capital: Joi.number().maxlength(12),
             managers: Joi.array().name.string().min(3).max(58),
@@ -95,6 +102,11 @@ module.exports = {
 
 
 
+=======
+            currency: Joi.string().min(3).max(100),
+            equality_capital: Joi.number(),
+            managers: Joi.array()
+>>>>>>> dacd51936c7b6c8fcd7e45613ff3c15da1f8347d
             
         }
 
