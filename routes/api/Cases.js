@@ -382,7 +382,7 @@ try {
     console.log(id)
     const Cases = await Case.findById(id)
     const rev = await Reviewer.findById(id1)
-    console.log(staff)
+  //  console.log(staff)
    // if(Cases.reviewerID >= null )
     //res.json({msg: 'Case already assigned to a reviewer'})
    // else{
@@ -511,8 +511,7 @@ router.put('/system_assign_lawyer/:caseId', async (req, res) => {
 
 })
 CheckForms = async function (data) {
-    var query = { _id: data.investorID, form_type: 'SSC' }
-    
+    var query = { $and: [ { _id: data.investorID }, { form_type: 'SSC' } ] }
     
     const AllCases = await Case.find(query)
     const inv = await Investor.findById(data.investorID)
@@ -538,14 +537,12 @@ CheckForms = async function (data) {
             console.log('SSC must have at least 1 egyptian manager')
             return -1;
         }
-    }       
-
-            var y
-        for (y = 0; y < AllCases.length; y++) {
+    }      
+      
             if (AllCases) {
           console.log('1 Investor can only have 1 SSC company')
           return -1;
-     }
+    
         }
        
     }
