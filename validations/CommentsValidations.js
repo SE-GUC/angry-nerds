@@ -1,33 +1,36 @@
-const Joi = require('joi')
+// const Joi = require('joi')
 
-module.exports = {
-    createValidation: request => {
-        const createSchema = {
-            // Comments_ID: Joi.required(),
-            text: Joi.required(),
-            date: Joi.required(),
-            Case: Joi.required(),
-            Reviewer: Joi.required(),
-            Lawyer: Joi.required(),
-            Investor: Joi.required()
-        }
+   /// MOVED TO CASE CALIDATIONS
 
-        return Joi.validate(request, createSchema)
-    },
+// module.exports = {
+    
+//     createValidation: request => {
+//         const createSchema = {
+//             // Comments_ID: Joi.required(),
+//             text: Joi.required(),
+//             date: Joi.required(),
+//             Case: Joi.required(),
+//             Reviewer: Joi.required(),
+//             Lawyer: Joi.required(),
+//             Investor: Joi.required()
+//         }
 
-    updateValidation: request => {
-        const updateSchema = {
-            // Comments_ID: Joi.required(),
+//         return Joi.validate(request, createSchema)
+//     },
+
+//     updateValidation: request => {
+//         const updateSchema = {
+//             // Comments_ID: Joi.required(),
             
-            text: Joi.required(),
-            date: Joi.required(),
-            Case: Joi.required(),
-            Reviewer: Joi.required(),
-            Lawyer: Joi.required(),
-            Investor: Joi.required()
+//             text: Joi.required(),
+//             date: Joi.required(),
+//             Case: Joi.required(),
+//             Reviewer: Joi.required(),
+//             Lawyer: Joi.required(),
+//             Investor: Joi.required()
            
-        }
+//         }
 
-        return Joi.validate(request, updateSchema)
-    }
-}
+//         return Joi.validate(request, updateSchema)
+//     }
+// }
