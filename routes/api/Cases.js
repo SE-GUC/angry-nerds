@@ -4,6 +4,8 @@ const mongoose = require('mongoose')
 const projection = { _id: 0, managers: 1 }
 const stripe = require('stripe')('sk_test_Tc2FlJG0ovXrM6Zt7zuK1O6f002jC3hcT0')
 const Case = require('../../models/Cases')
+const Lawyer = require('../../models/Lawyer')
+const Reviewer = require('../../models/Reviewer')
 const fun = require('./Cases_func')
 const validator = require('../../validations/caseValidations')
 
@@ -332,18 +334,17 @@ router.put('/AssignLawyer/:id/:id1', async (req, res) => {
     try { 
         var x = '5c9553126e4cb565a02e1089'
         const admin= await Admin.findById(x)
-        const admin = await Staff.findById(x)
         console.log(admin)
-        if (admin.Type === 'Admin') {
+        if (admin) {
         const id = req.params.id
         const id1 = req.params.id1
         console.log(id)
         const Cases = await Case.findById(id)
-        const staff = await Staff.findById(id1)
+        const lawyer = await Lawyer.findById(id1)
        // if(Cases.lawyerID != null )
        // res.json({msg: 'Case already assigned to a lawyer'})
         //else{
-            if (staff.Type === 'Lawyer') {
+            if (lawyer) {
                 const updatedCase = await Case.updateOne({ _id: id }, { $set: { lawyerID: id1 } })
 
                 res.json({ msg: 'Case updated successfully', data: updatedCase })
@@ -380,12 +381,12 @@ try {
     const id1 = req.params.id1
     console.log(id)
     const Cases = await Case.findById(id)
-    const staff = await Staff.findById(id1)
+    const rev = await Reviewer.findById(id1)
     console.log(staff)
    // if(Cases.reviewerID >= null )
     //res.json({msg: 'Case already assigned to a reviewer'})
    // else{
-    if (staff.Type === 'Reviewer') {
+    if (rev) {
         const updatedCase = await Case.updateOne({ _id: id }, { $set: { reviewerID: id1 } })
 
         res.json({ msg: 'Case updated successfully', data: updatedCase })
