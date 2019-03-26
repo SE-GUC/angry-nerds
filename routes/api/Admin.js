@@ -63,32 +63,30 @@ router.delete('/:id', async (req, res) => {
     }
 });
 
-router.put('/AdminEditCompany/:id', async (req,res)=> {
+// router.put('/AdminEditCompany/:id', async (req,res)=> {
 
-    const AdminID = '1234'
-    const id = req.params.id
+//     const AdminID = '1234'
+//     const id = req.params.id
 
-    const admin = await Admins.findById(AdminID)
-    const currentCase = await Case.findById(id)
+//     const admin = await Admins.findById(AdminID)
+//     const currentCase = await Case.findById(id)
 
-    if(!currentCase){
-        return res.json({
-            message: 'the company you are trying to edit does not exist'
-        })
-    }   
-    
-    if(admin){
-        const updated = await Admins.findByIdAndUpdate(id, req.body)
-        return res.json({
-            message: 'you have updated the case successfully', data: updated 
-        })
-    }
-    else{
-        res.json({message: 'you are not authorized for this action'})
-    }
+//     if(!currentCase){
+//         return res.json({
+//             message: 'the company you are trying to edit does not exist'
+//         })
+//     }   
 
-
-})
+//     if(admin){
+//         const updated = await Admins.findByIdAndUpdate(id, req.body)
+//         return res.json({
+//             message: 'you have updated the case successfully', data: updated 
+//         })
+//     }
+//     else{
+//         res.json({message: 'you are not authorized for this action'})
+//     }
+// })
 
 
 module.exports = router
