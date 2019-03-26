@@ -1,9 +1,9 @@
 const express = require('express')
 const router = express.Router()
 const mongoose = require('mongoose')
-
-const Commentj = require('../../models/Comments')
-const validator = require('../../validations/CommentsValidations')
+//updated schema no comments table... 
+//const Commentj = require('../../models/Comments')
+//const validator = require('../../validations/CommentsValidations')
 const Cases = require('../../models/Cases')
 
 //Read

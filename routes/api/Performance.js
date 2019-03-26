@@ -1,7 +1,7 @@
 /*************************************/
 /* Calculating Performance for Staff */
 /*************************************/
-const Staff = require('../../models/Staff')
+const Staff = require('../../models/Admin')
 const request = require('request')
 
 //1-average cases done per week/month
