@@ -75,7 +75,7 @@ router.put('/AdminEditCompany/:id', async (req,res)=> {
         return res.json({
             message: 'the company you are trying to edit does not exist'
         })
-    }
+    }   
     
     if(admin){
         const updated = await Admins.findByIdAndUpdate(id, req.body)
