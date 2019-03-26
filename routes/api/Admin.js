@@ -61,6 +61,4 @@ router.delete('/:id', async (req, res) => {
         console.log(error)
     }
 });
-
-
 module.exports = router
