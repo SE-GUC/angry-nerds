@@ -41,11 +41,6 @@ router.post('/', async (req, res) => {
 
 router.post('/register', async (req, res) => {
 
-<<<<<<< HEAD
-  router.post('/register', async (req,res) => {      
-    
-=======
->>>>>>> dacd51936c7b6c8fcd7e45613ff3c15da1f8347d
 
     console.log(req.body)
     const email = req.body.email

@@ -63,6 +63,7 @@ app.get('/payment',(req,res)=>{
     })
 })
 
+
 // Direct to Route Handlers
 app.use('/api/Staff', Staffi)
 app.use('/api/Cases', Cases)
