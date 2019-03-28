@@ -105,7 +105,7 @@ investorFillForm:async(req,res)=>{
 
 
         if (!investor)
-             return res.status(404).send({ error: 'you r not allowed to fill this form' });
+             return res.status(404).send({ error: 'You are not allowed to fill this form' });
     
         const newForm = await Case.create(req.body)
         const casecreated = await Case.findByIdAndUpdate(newForm.id, {  'caseStatus': 'lawyer-investor',
@@ -124,6 +124,8 @@ investorFillForm:async(req,res)=>{
 
 
 }
+
+
 
 
 
