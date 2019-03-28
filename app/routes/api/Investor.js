@@ -6,12 +6,9 @@ const hbs = require('hbs')
 const validator = require('../../../validations/InvestorValidations')
 const Investor = require('../../models/Investor')
 const request = require('request')
-<<<<<<< HEAD:routes/api/Investor.js
 const randomstring = require('randomstring')
 const mailer =require ('../../misc/mailer')
 const config = require('../../config/mailer')
-=======
->>>>>>> e9267579eaf076dc947d5d5ba3de973c73c50507:app/routes/api/Investor.js
 
 
 router.get('/', async (req, res) => {
