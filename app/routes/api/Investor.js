@@ -7,8 +7,8 @@ const validator = require('../../../validations/InvestorValidations')
 const Investor = require('../../models/Investor')
 const request = require('request')
 const randomstring = require('randomstring')
-const mailer =require ('../../misc/mailer')
-const config = require('../../config/mailer')
+const mailer =require ('../../../misc/mailer')
+const config = require('../../../config/mailer')
 
 
 router.get('/', async (req, res) => {
