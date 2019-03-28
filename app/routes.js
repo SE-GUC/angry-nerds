@@ -20,9 +20,10 @@ router.post('/InvestorFillForm',InvestorController.investorFillForm)
 
 
 //-------------------------------Admin Routes------------------------------------------------------------
-router.delete('/AdminDeleteInvestor/:id',async (req, res)=>{
-    AdminController.AdminDeleteInvestor(req.params.id)
-})
+router.delete('/AdminDeleteInvestor/:id',AdminController.AdminDeleteInvestor)
+router.post('/AdminRegisterLawyer',AdminController.AdminRegisterLawyer)
+router.post('AdminRegisterReviewer',AdminController.AdminRegisterReviewer)
+
 
 
 
