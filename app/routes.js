@@ -54,5 +54,6 @@ router.post('/lawyerFillForm',LawyerController.lawyerFillForm)
 
 
 //-------------------------------User Routes---------------------------------------------------------
+router.get('/UnregisteredViewQuestions',UserController.UnregisteredViewQuestions)
 
 module.exports = router
