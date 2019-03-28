@@ -16,8 +16,6 @@ const Perform = require('./app/routes/api/Performance')
 const Admin = require('./app/routes/api/Admin')
 
 const routes = require('./app/routes.js')
-const AdminController = require('./app/Controllers/AdminController')
-AdminController.SendEmail("your case status has been changed", "case status change", "malakossama1999@gmail.com")
 
 global.heroku = "https://angrynerds1.herokuapp.com"
 
