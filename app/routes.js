@@ -19,6 +19,8 @@ router.post('/InvestorPayFees',InvestorController.InvestorPayFees)
 
 //-------------------------------Admin Routes------------------------------------------------------------
 router.delete('/AdminDeleteInvestor/:id',AdminController.AdminDeleteInvestor)
+router.post('/AdminRegisterLawyer',AdminController.AdminRegisterLawyer)
+
 
 
 

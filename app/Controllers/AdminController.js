@@ -2,7 +2,10 @@ const express = require('express');
 const router = express.Router()
 const mongoose = require('mongoose')
 const Admins = require('./../models/Admin')
+const Lawyer = require('./../models/Lawyer')
+const Reviewer = require('./../models/Reviewer')
 const validator = require('../../validations/AdminValidations')
+
 var InvestorController = require('./InvestorController')
 
 let AdminController = {
@@ -29,7 +32,32 @@ AdminDeleteInvestor:async (req,res) =>{
     }
 },
 
+AdminRegisterLawyer: async (req,res) =>{
+    const email = req.body.email
+    const Lawyers = await Lawyer.findOne({ email })
+    if (user)
+        return res.status(400).json({ error: 'Email already exists' })
+    else{
+        const newLawyer = await Lawyer.create(req.body)
+        res.json({ msg: 'Lawyer was created successfully', data: newLawyer })
+        .catch(err => res.json('There was an error ,Try again later'))
+    }
+    
+},
 
+
+AdminRegisterReviewer: async (req,res) =>{
+    const email = req.body.email
+    const Reviewers = await Reviewer.findOne({ email })
+    if (user)
+        return res.status(400).json({ error: 'Email already exists' })
+    else{
+        const newReviewer = await Reviewer.create(req.body)
+        res.json({ msg: 'Reviewer was created successfully', data: newReviewer })
+        .catch(err => res.json('There was an error ,Try again later'))
+    }
+    
+},
 
 
 }
