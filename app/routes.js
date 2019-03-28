@@ -18,7 +18,9 @@ router.post('/InvestorPayFees',InvestorController.InvestorPayFees)
 
 
 //-------------------------------Admin Routes------------------------------------------------------------
-
+router.delete('/AdminDeleteInvestor/:id',async (req, res)=>{
+    AdminController.AdminDeleteInvestor(req.params.id)
+})
 
 
 

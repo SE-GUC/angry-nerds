@@ -68,6 +68,30 @@ let InvestorController = {
         console.log(req.body)
 
     },
+    /* delete cases with investor_id and the case is not published yet*/
+
+
+ deleteInvestor:async (id) =>
+{
+    try {
+      //  const id = req.params.id
+        const deletedInvestor = await Investor.findByIdAndRemove(id)
+        const query = { investorID: id }
+        const deletedCases = await Case.find(query)
+        for (let i = 0; i < deletedCases.length; i += 1) {
+            if (deletedCases[i].caseStatus !== 'published') {
+                await Case.findByIdAndRemove(deletedCases[i]._id) 
+                // delete cases controller to be called
+             }
+         } 
+        res.json({ msg: 'Investor was deleted successfully' })
+    }
+    catch (error) {
+        return res.status(404).send({ error: 'Can not perform this action' })
+    }
+
+}
+
 
 
 }

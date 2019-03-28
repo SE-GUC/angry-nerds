@@ -267,7 +267,8 @@ router.viewMyPendingCompanies = function (id) {
 module.exports = router 
 
 
-/* delete cases with investor_id and the case is not published yet*/
+/* This function deletes cases after deleting investor and the case status is not published
+    takes Investor*/
 
 
 deleteCases = async function(InvId)
