@@ -7,8 +7,10 @@ const validator = require('../../validations/AdminValidations')
 let AdminController = {
 //write your methods here: check investorController for example
     
-    /* this is a method that takes nothing as an input and calculates time
-    taken for a case to be finished from a to z*/
+    /* Malak
+    this is a method that takes nothing as an input and calculates time
+    taken for a case to be finished from a to z
+    */
 
     AdminViewTimeToFinishCase = async function (Data) {
         const id = req.params.id

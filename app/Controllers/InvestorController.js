@@ -9,7 +9,7 @@ const mongoose = require('mongoose')
 
 let InvestorController = {
 
-    /* Malak
+    /* 
     this is a function that takes a request body that contains credit card info
     it creates a token of this info and then it creates a charge
     when the payment is successfully complete the case status is changed to published
