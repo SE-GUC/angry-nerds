@@ -84,10 +84,8 @@ let InvestorController = {
                 // delete cases controller to be called
              }
          } 
-        res.json({ msg: 'Investor was deleted successfully' })
     }
     catch (error) {
-        res.json({ msg: 'Can not perform this action' })
     }
 
 }

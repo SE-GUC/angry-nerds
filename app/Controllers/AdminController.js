@@ -9,15 +9,20 @@ let AdminController = {
 //write your methods here: check investorController for example
 
 AdminDeleteInvestor:async (req,res) =>{
-    const id = req.params.id
-    const AdminId = '5c9bb0dc5185793518ea84fb' //login token
+    try{
 
-    const Admin = await Admins.findById(AdminId)
+        const id = req.params.id
+        const AdminId = '5c9bb0dc5185793518ea84fb' //login token
 
-    if(!Admin)
-        return res.json({msg: 'Only Admins have access'})
-    InvestorController.deleteInvestor(id)
-    
+        const Admin = await Admins.findById(AdminId)
+
+        if(!Admin)
+            return res.json({msg: 'Only Admins have access'})
+        InvestorController.deleteInvestor(id)
+    }
+    catch(error){
+        res.json({ msg: 'Can not perform this action' })
+    }
 },
 
 
