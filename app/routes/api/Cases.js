@@ -101,65 +101,6 @@ router.get('/:id', async (req, res) => {
 })
 
 
-
-<<<<<<< HEAD:app/routes/api/Cases.js
-=======
-router.post('/charge', async (req, res) => {
-    const id = req.params.id
-    const invID = '5c77c2b0c5973856f492f33e' //get this from login token
-    const CaseID = '5c93c8fb1692ea457895901c' //get this from frontend 
-
-    const myCase = await Case.findById(CaseID)
-    console.log(myCase.investorID)
-    if (myCase.investorID == invID) {
-        stripe.tokens.create({
-            card: {
-                'number': req.body.name,
-                'exp_month': req.body.month,
-                'exp_year': req.body.year,
-                'cvc': req.body.cvc
-            }
-        }, function (err, token) {
-            if (err) return res.json({message: 'card declinded'})
-            else {
-                console.log(token)
-                var chargeAmount = 30000
-                var charge = stripe.charges.create({
-                    amount: chargeAmount,
-                    currency: 'usd',
-                    source: token.id
-                }, async function (err) {
-                    console.log(err)
-                    if (err){
-                        return res.json({message:'your card is declined, try again!'})
-                    }                    
-                    else{
-                        const casecreated = await Case.findByIdAndUpdate(CaseID, { 'caseStatus': 'published' })
-                        return res.json({message: 'your payment has been made; you will receive an invoice via your mail'})
-                    }
-                        
-                })
-
-            }
-
-
-        })
-
-    }
-    else 
-        return res.json({message: 'you cannot pay for company that is not yours '})
-
-
-
-    console.log(req.body)
-        
-})
-
-
-
->>>>>>> Dev:routes/api/Cases.js
-
-
 // Create a case
 router.post('/', async (req, res) => {
    try {
