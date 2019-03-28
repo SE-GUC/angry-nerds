@@ -75,7 +75,7 @@ let InvestorController = {
     be able to view the fees without having to create a company
     i also think this is front end work
     */
-    InvestorViewFees = async function (req, res) {
+    InvestorViewFees: async function (req, res) {
         const id = req.params.id
         const Cases = await Case.findById(id, projection)
         if (Cases === null) {

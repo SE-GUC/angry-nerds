@@ -16,7 +16,7 @@ let AdminController = {
     taken for a case to be finished from a to z
     */
 
-    AdminViewTimeToFinishCase = async function (Data) {
+    AdminViewTimeToFinishCase: async function (Data) {
         const id = req.params.id
         const Cases = await Case.findById(id)
         var d1 = new Date(Cases.caseOpenSince)
@@ -45,7 +45,7 @@ let AdminController = {
     we will set the global variable with) it check if the user is an admin 
     if yes, change the variable if not error message
     */
-   AdminChangePricingStrategy = async function (req, res, variable, newValue){
+   AdminChangePricingStrategy: async function (req, res, variable, newValue){
     const id = req.params.id
     const admin = await admin.findById(id)
     if (!admin){
@@ -75,7 +75,7 @@ let AdminController = {
 this function takes Text, subject< recipient and send an email
 */
 
-SendEmail = async function (Text, Subject, Reciepient){
+SendEmail: async function (Text, Subject, Reciepient){
     
     process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
     // async..await is not allowed in global scope, must use a wrapper
