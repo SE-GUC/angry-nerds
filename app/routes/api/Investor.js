@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router()
 const mongoose = require('mongoose')
 const hbs = require('hbs')
-const validator = require('../../validations/InvestorValidations')
+const validator = require('../../../validations/InvestorValidations')
 const Investor = require('../../models/Investor')
 const request = require('request')
 
