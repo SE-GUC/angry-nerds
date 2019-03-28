@@ -5,8 +5,6 @@ const express = require('express')
 const router = express.Router()
 const mongoose = require('mongoose')
 
-
-
 let InvestorController = {
 
     /* 
@@ -21,9 +19,9 @@ let InvestorController = {
 
         const myCase = await Case.findById(CaseID)
 
-        if(!myCase)
-            res.json({msg: 'this case does not exist'})
-            
+        if (!myCase)
+            res.json({ msg: 'this case does not exist' })
+
         console.log(myCase)
         if (myCase.investorID == invID) {
             stripe.tokens.create({
@@ -63,8 +61,6 @@ let InvestorController = {
         else
             return res.json({ message: 'you cannot pay for company that is not yours ' })
 
-
-
         console.log(req.body)
 
     },
@@ -87,7 +83,54 @@ let InvestorController = {
     },
 
 
-}
+    /* delete cases with investor_id and the case is not published yet*/
 
+    deleteInvestor: async (id) => {
+        try {
+            //  const id = req.params.id
+            mongoose.set('useFindAndModify', false)
+            const deletedInvestor = await Investor.findByIdAndRemove(id)
+            const query = { investorID: id }
+            const deletedCases = await Case.find(query)
+            for (let i = 0; i < deletedCases.length; i += 1) {
+                if (deletedCases[i].caseStatus !== 'published') {
+                    await Case.findByIdAndRemove(deletedCases[i]._id)
+                    // delete cases controller to be called
+                }
+            }
+            return
+        }
+        catch (error) {
+        }
+
+    },
+
+    investorFillForm: async (req, res) => {
+
+        try {
+            const id = '5c77e91b3fd76231ecbf04ee'
+            const investor = await Investor.findById(id)
+
+
+            if (!investor)
+                return res.status(404).send({ error: 'You are not allowed to fill this form' });
+
+            const newForm = await Case.create(req.body)
+            const casecreated = await Case.findByIdAndUpdate(newForm.id, {
+                'caseStatus': 'lawyer-investor',
+                'caseOpenSince': new Date(),
+                'lawyerStartDate': new Date(),
+                'investorID': investor
+            })
+            res.json({ msg: 'The form was created successfully' })
+
+        }
+        catch (error) {
+            console.log(error)
+            return res.status(404).send({ error: 'Form cant be created' })
+        }
+    }
+
+}
 
 module.exports = InvestorController;
