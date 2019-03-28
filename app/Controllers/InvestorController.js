@@ -9,7 +9,7 @@ const mongoose = require('mongoose')
 
 let InvestorController = {
 
-    /*
+    /* 
     this is a function that takes a request body that contains credit card info
     it creates a token of this info and then it creates a charge
     when the payment is successfully complete the case status is changed to published
@@ -67,6 +67,23 @@ let InvestorController = {
 
         console.log(req.body)
 
+    },
+
+    /* Malak
+    this is a function that takes as an input company id and returns its fees
+    it is still under construction because its unlogical since we want anyone be
+    be able to view the fees without having to create a company
+    i also think this is front end work
+    */
+    InvestorViewFees: async function (req, res) {
+        const id = req.params.id
+        const Cases = await Case.findById(id, projection)
+        if (Cases === null) {
+            res.json({ msg: 'Can not find company' })
+        }
+        else {
+            res.json({ data: Cases.Fees })
+        }
     },
 
 
