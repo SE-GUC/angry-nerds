@@ -90,10 +90,42 @@ deleteInvestor:async (id) =>
     catch (error) {
     }
 
+},
+
+
+investorFillForm:async(req,res)=>{
+
+    try{ 
+        const id = '5c77e91b3fd76231ecbf04ee'
+        const investor = await Investor.findById(id)
+        console.log(id)
+        console.log(investor)
+        console.log('kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk')
+        console.log(Investor)
+
+
+        if (!investor)
+             return res.status(404).send({ error: 'you r not allowed to fill this form' });
+    
+        const newForm = await Case.create(req.body)
+        const casecreated = await Case.findByIdAndUpdate(newForm.id, {  'caseStatus': 'lawyer-investor',
+                                                                        'caseOpenSince': new Date(),
+                                                                        'lawyerStartDate':new Date(),
+                                                                        'investorID':investor })
+        res.json({ msg: 'The form was created successfully' })
+
+    }
+    catch (error) {
+        console.log('hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh')
+        console.log(error)
+        return res.status(404).send({ error: 'Form cant be created' })
+    }
 
 
 
 }
+
+
 
 
 
