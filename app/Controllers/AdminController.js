@@ -33,6 +33,10 @@ AdminDeleteInvestor:async (req,res) =>{
 },
 
 AdminRegisterLawyer: async (req,res) =>{
+    const AdminId = '5c9bb0dc5185793518ea84fb' //login token
+    const Admin = await Admins.findById(AdminId)
+    if(!Admin)
+        return res.json({msg: 'Only Admins have access'}) 
     const email = req.body.email
     const Lawyers = await Lawyer.findOne({ email })
     if (user)
@@ -45,6 +49,10 @@ AdminRegisterLawyer: async (req,res) =>{
     
 },
 AdminRegisterReviewer: async (req,res) =>{
+    const AdminId = '5c9bb0dc5185793518ea84fb' //login token
+    const Admin = await Admins.findById(AdminId)
+    if(!Admin)
+        return res.json({msg: 'Only Admins have access'}) 
     const email = req.body.email
     const Reviewers = await Reviewer.findOne({ email })
     if (user)
