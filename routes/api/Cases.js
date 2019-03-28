@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 const express = require('express')
 const router = express.Router()
 const mongoose = require('mongoose')
@@ -276,7 +275,6 @@ catch(error) {
 
 
  
-=======
 const express = require('express')
 const router = express.Router()
 const mongoose = require('mongoose')
@@ -938,10 +936,5 @@ router.get('/CmpViewing/:id', async (req, res) => {
            console.log(error)
        }
 })
-<<<<<<< HEAD
 
->>>>>>> dacd51936c7b6c8fcd7e45613ff3c15da1f8347d
-=======
- 
->>>>>>> cc2f495bd910cf9ab941b163bf5fb857b07236f5
 module.exports = router

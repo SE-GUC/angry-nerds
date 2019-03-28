@@ -27,6 +27,11 @@ global.heroku = "https://angrynerds1.herokuapp.com"
 const app = express()
 app.set('view engine', 'hbs')
 
+//setup view engine
+app.set('view engine','ejs')    // 3abal man use react
+
+
+
 // DB Config
 const db = require('./config/keys').mongoURI
 
@@ -39,6 +44,12 @@ mongoose
 // Init middleware
 app.use(express.json())
 app.use(express.urlencoded({extended: false}))
+
+// // error handeling middleware
+
+// app.use(function(err,req,res,next){
+
+// })
 
 
 // Entry point

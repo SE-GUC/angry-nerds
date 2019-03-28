@@ -2,7 +2,7 @@ const express = require('express')
 const router = express.Router()
 const mongoose = require('mongoose')
 const Staff = require('../../models/Admin')
-const Case = require('../../models/Cases')
+const Case = require('../../models/Cases')   
 const staff_functions = require('./Staff.js')
 // const validator = require('../../validations/staffValidations')
 
@@ -19,6 +19,17 @@ router.get('/:id', async (req, res) => {
     res.json({ data: staffi })
 })
 // make a functioin to call the get method in casses
+
+
+///// create a case    ///// test it 
+
+router.post('createCase', function(req,res,next){    // if this fails "Case.create" 
+    Case.create(req.body).then(function(Cases){
+        res.send(Cases)
+    }).catch(next);
+
+
+})
 
 
 var request = require('request');
@@ -100,84 +111,129 @@ router.showForReviewer = function (id) {
 ////////////As a Staff I should be able to approve and reject cases assigned to me////////////
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-router.caseDisAproveedAtLawyer = function (id) {                                   
+// router.caseDisAproveedAtLawyer = function (id) {                                   
 
-    // var dec = 'null'
+//     // var dec = 'null'
 
-    var clientServerOptions = {   /// assume en caseStatus was lawyer
-        uri: global.heroku + '/api/Cases/' + id,
-        body: '{\'caseStatus\': \'null\'}',
-        method: 'PUT',
-        headers: {
-            'Content-Type': 'application/json'
-        }
-    }
-    request(clientServerOptions, function (error, response) {
-
-
-        console.log(error, response)
-    })
-
-        ;
-}
-
-router.caseAproveedAtLawyer = function (id) {
-    // var dec = 'reviewer';
+//     var clientServerOptions = {   /// assume en caseStatus was lawyer
+//         uri: global.heroku + '/api/Cases/' + id,
+//         body: '{\'caseStatus\': \'null\'}',
+//         method: 'PUT',
+//         headers: {
+//             'Content-Type': 'application/json'
+//         }
+//     }
+//     request(clientServerOptions, function (error, response) {
 
 
-    var clientServerOptions = {   /// assume en caseStatus was lawyer
-        uri: global.heroku + '/api/Cases/' + id,
-        body: '{\'caseStatus\': \'reviewer\'}',
-        method: 'PUT',
-        headers: {
-            'Content-Type': 'application/json'
-        }
+//         console.log(error, response)
+//     })
 
-    }
-    request(clientServerOptions, function (error, response) {
-        console.log(error, response)
-    })
+//         ;
+// }
+///////
+router.put('/caseDisAproveedAtLawyer/:idStaff:idCase', function (res,req){     //id is id of reviewer
+    // var CASE = new Case(req.body);
+    // const staff= await Staff.findById(id)
+    const lawyer= Lawyer.findById(idStaff)
+    if (lawyer) {  /// test if this if function is valid
+        Case.updateOne({_id:req.params.idCase}, {$set: {caseStatus:"null"}}) // updates case with _id matching Case and sets caseStatus to null  
+        res.send(Cases)
+    };
+})        
+//////
 
-        ;
-}
-
-router.caseDisAprovesAtReviewr = function (id) {
-    // var dec = 'lawyer'
-
-
-    var clientServerOptions = {   /// assume en caseStatus was reviewer
-        uri: global.heroku + '/api/Cases/' + id,
-        body: '{\'caseStatus\': \'lawyer\'}',
-        method: 'PUT',
-        headers: {
-            'Content-Type': 'application/json'
-        }
-    }
-    request(clientServerOptions, function (error, response) {
-
-    })
-
-        ;
-}
-
-router.caseAprovesAtReviewr = function (id) {
-    // var dec = 'pending'
+// router.caseAproveedAtLawyer = function (id) {
+//     // var dec = 'reviewer';
 
 
-    var clientServerOptions = {   /// assume en caseStatus was reviewer
-        uri: global.heroku + '/api/Cases/' + id,
-        body: '{\'caseStatus\': \'pending\'}',
-        method: 'PUT',
-        headers: {
-            'Content-Type': 'application/json'
-        }
-    }
-    request(clientServerOptions, function (error, response) {
+//     var clientServerOptions = {   /// assume en caseStatus was lawyer
+//         uri: global.heroku + '/api/Cases/' + id,
+//         body: '{\'caseStatus\': \'reviewer\'}',
+//         method: 'PUT',
+//         headers: {
+//             'Content-Type': 'application/json'
+//         }
 
-    })
+//     }
+//     request(clientServerOptions, function (error, response) {
+//         console.log(error, response)
+//     })
 
-        ;
-}
+//         ;
+// }
+
+/////
+router.put('/caseAproveedAtLawyer/:idStaff:idCase', function (res,req){     //id is id of reviewer
+    // var CASE = new Case(req.body);
+    // const staff= await Staff.findById(id)
+    const lawyer= Lawyer.findById(idStaff)
+    if (lawyer) {  /// test if this if function is valid
+        Case.updateOne({_id:req.params.idCase}, {$set: {caseStatus:"reviewer"}}) // updates case with _id matching Case and sets caseStatus to null  
+        res.send(Cases)
+    };
+})       
+/////
+
+// router.caseDisAprovesAtReviewr = function (id) {
+//     // var dec = 'lawyer'
+
+
+//     var clientServerOptions = {   /// assume en caseStatus was reviewer
+//         uri: global.heroku + '/api/Cases/' + id,
+//         body: '{\'caseStatus\': \'lawyer\'}',
+//         method: 'PUT',
+//         headers: {
+//             'Content-Type': 'application/json'
+//         }
+//     }
+//     request(clientServerOptions, function (error, response) {
+
+//     })
+
+//         ;
+// }
+
+/////
+router.put('/caseDisAprovesAtReviewr/:idStaff:idCase', function (res,req){     //id is id of reviewer
+    // var CASE = new Case(req.body);
+    // const staff= await Staff.findById(id)
+    const reviewer= Reviewer.findById(idStaff)
+    if (reviewer) {  /// test if this if function is valid
+        Case.updateOne({_id:req.params.idCase}, {$set: {caseStatus:"lawyer"}}) // updates case with _id matching Case and sets caseStatus to null  
+        res.send(Cases)
+    };
+})        
+/////
+
+// router.caseAprovesAtReviewr = function (id) {
+//     // var dec = 'pending'
+
+
+//     var clientServerOptions = {   /// assume en caseStatus was reviewer
+//         uri: global.heroku + '/api/Cases/' + id,
+//         body: '{\'caseStatus\': \'pending\'}',
+//         method: 'PUT',
+//         headers: {
+//             'Content-Type': 'application/json'
+//         }
+//     }
+//     request(clientServerOptions, function (error, response) {
+
+//     })
+
+//         ;
+// }
+
+router.put('/caseAprovesAtReviewr/:idStaff:idCase', function (res,req){     //id is id of reviewer
+    // var CASE = new Case(req.body);
+    // const staff= await Staff.findById(id)
+    const reviewer= Reviewer.findById(idStaff)
+    if (reviewer) {  /// test if this if function is valid
+        Case.updateOne({_id:req.params.idCase}, {$set: {caseStatus:"pending"}}) // updates case with _id matching Case and sets caseStatus to null  
+        res.send(Cases)
+    };
+})  
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////// As a Staff I should be able to view and comment on cases assigned to me/////////////////
@@ -367,3 +423,7 @@ router.viewMyNotifications = function (id) {
 
 
 module.exports = router
+
+
+
+
