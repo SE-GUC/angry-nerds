@@ -24,11 +24,11 @@ const CaseSchema = new Schema({
         type: Date,
     },
     //set when paying the fees
-    lawyerStartDate:{
+    lawyerStartTime:{
         type: Date,
     },
     //set whenever the case is returned to the lawyer
-    reviewerStartDate:{
+    reviewerStartTime:{
         type: Date,
     },
     //set whenever the case is returned to the reviewer
@@ -37,7 +37,7 @@ const CaseSchema = new Schema({
         type: Number,  //in mins
     },
     //Updated when the case leaves lawyer (approve or reject)
-    reviewerStartDate:{
+    reviewerTotalTime:{
         type: Number, //in mins
     },
     //Updated when the case leaves reviewer (approve or reject)
@@ -197,7 +197,6 @@ const CaseSchema = new Schema({
     } 
 
 })
-
 
 module.exports = Cases = mongoose.model('Cases', CaseSchema)
 

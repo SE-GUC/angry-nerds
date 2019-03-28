@@ -5,23 +5,20 @@ const fs = require('fs')
 
 
 // Require Router Handlers
+const investor = require('./app/routes/api/Investor')
+const Staffi = require('./app/routes/api/Staff')
+const Cases = require('./app/routes/api/Cases')
+const Notification = require('./app/routes/api/Notifications')
+const questions = require('./app/routes/api/Questions')
+const Commentj = require('./app/routes/api/Comments')
+const fun = require('./app/routes/api/Cases_func')
+const Perform = require('./app/routes/api/Performance')
+const Admin = require('./app/routes/api/Admin')
 
-
-
-const investor = require('./routes/api/Investor')
-const Staffi = require('./routes/api/Staff')
-const Cases = require('./routes/api/Cases')
-const Notification = require('./routes/api/Notifications')
-const questions = require('./routes/api/Questions')
-const Commentj = require('./routes/api/Comments')
-const fun = require('./routes/api/Cases_func')
-const Perform = require('./routes/api/Performance')
-const Admin = require('./routes/api/Admin')
+const routes = require('./app/routes.js')
 
 
 global.heroku = "https://angrynerds1.herokuapp.com"
-
-
 
 const app = express()
 app.set('view engine', 'hbs')
@@ -70,6 +67,7 @@ app.use('/api/Notifications', Notification)
 app.use('/api/Questions', questions)
 app.use('/api/Comments',Commentj)
 app.use('/api/Admin',Admin)
+app.use('/routes', routes)
 
 
 app.use((req,res) => res.status(404).send(`<h1>Can not find what you're looking for</h1>`))
