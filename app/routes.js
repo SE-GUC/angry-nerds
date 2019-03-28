@@ -12,7 +12,8 @@ var router = express.Router();
 //this endpoint allows the investor to pay fees for a pending company
 router.post('/InvestorPayFees', InvestorController.InvestorPayFees)
 
-
+//this endpoint allows investor to view his company fees
+router.get('/InvestorViewFees', InvestorController.InvestorViewFees)
 
 
 
