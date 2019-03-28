@@ -51,5 +51,6 @@ router.post('AdminRegisterReviewer',AdminController.AdminRegisterReviewer)
 
 
 //-------------------------------User Routes---------------------------------------------------------
+router.get('/UnregisteredViewQuestions',UserController.UnregisteredViewQuestions)
 
 module.exports = router
