@@ -5,8 +5,6 @@ const express = require('express')
 const router = express.Router()
 const mongoose = require('mongoose')
 
-
-
 let InvestorController = {
 
     /*
@@ -63,13 +61,10 @@ let InvestorController = {
         else
             return res.json({ message: 'you cannot pay for company that is not yours ' })
 
-
-
         console.log(req.body)
 
     },
     /* delete cases with investor_id and the case is not published yet*/
-
 
 deleteInvestor:async (id) =>
 {
@@ -92,16 +87,11 @@ deleteInvestor:async (id) =>
 
 },
 
-
 investorFillForm:async(req,res)=>{
 
     try{ 
         const id = '5c77e91b3fd76231ecbf04ee'
         const investor = await Investor.findById(id)
-        console.log(id)
-        console.log(investor)
-        console.log('kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk')
-        console.log(Investor)
 
 
         if (!investor)
@@ -116,22 +106,11 @@ investorFillForm:async(req,res)=>{
 
     }
     catch (error) {
-        console.log('hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh')
         console.log(error)
         return res.status(404).send({ error: 'Form cant be created' })
     }
-
-
-
 }
 
-
-
-
-
-
-
 }
-
 
 module.exports = InvestorController;
