@@ -53,7 +53,6 @@ router.get('/CompViewing', async (req, res) => {
         }
     }
 
-
     catch (error) {
         console.log(error)
     }
@@ -533,43 +532,7 @@ router.put('/system_assign_reviewer/:caseId', async (req, res) => {
 })
 
 
-//view fees
-router.get('/ViewFees/:id', async (req, res) => {
-    const id = req.params.id
-    const Cases = await Case.findById(id, projection)
-    if (Cases === null) {
-        res.json({ msg: 'Can not find company' })
-    }
-    else {
-        res.json({ data: Cases.Fees })
-    }
-})
 
-// keep track of time taken to finish a case
-
-module.exports.ViewTime = async function (Data) {
-    const id = req.params.id
-    const Cases = await Case.findById(id)
-    var d1 = new Date(Cases.caseOpenSince)
-    if (!Cases) {
-        res.json({ msg: 'Cannot find case' })
-    }
-    else {
-        console.log(Cases.caseClosedDate)
-        if (Cases.caseClosedDate != null) {
-            var d2 = new Date(Cases.caseClosedDate)
-            var timeDiff = Math.abs(d2.getTime() - d1.getTime())
-            var daysBetween = Math.ceil(timeDiff / (1000 * 3600 * 24))
-            console.log(timeDiff)
-            console.log(daysBetween)
-            res.json({ data: daysBetween })
-        }
-        else {
-            res.json({ msg: 'Case not finished' })
-        }
-
-    }
-}
 router.get('/CmpViewing/:id', async (req, res) => {
 
     try {
