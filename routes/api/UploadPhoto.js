@@ -15,7 +15,7 @@ const app = express();
 // Middleware
 app.use(bodyParser.json());
 app.use(methodOverride('_method'));
-app.set('view engine', 'ejs');
+app.set('view engine', 'ejs');          // change with react later
 
 // // Mongo URI
 // const mongoURI = 'mongodb+srv://ramyGabra:Nike-1234@angrynerds-ymdpc.mongodb.net/test?retryWrites=true';
@@ -150,9 +150,9 @@ app.delete('/files/:id', (req, res) => {
   });
 });
 
-const port = 5000;
+// const port = 5000;
 
-app.listen(port, () => console.log(`Server started on port ${port}`));
+// app.listen(port, () => console.log(`Server started on port ${port}`));
 
 
 module.exports = router  /////////////// check

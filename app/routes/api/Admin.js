@@ -1,9 +1,8 @@
 const express = require('express')
 const router = express.Router()
 const mongoose = require('mongoose')
-const Admins = require('../../models/Admin')
-const Case = require('../../models/Cases')
-const validator = require('../../validations/AdminValidations')
+const Admins = require('../../models/Admin');
+const validator = require('../../../validations/AdminValidations')
 
 router.get('/', async (req, res) => {
     const Admin = await Admins.find()
