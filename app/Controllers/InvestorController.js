@@ -87,7 +87,7 @@ let InvestorController = {
         res.json({ msg: 'Investor was deleted successfully' })
     }
     catch (error) {
-        return res.status(404).send({ error: 'Can not perform this action' })
+        res.json({ msg: 'Can not perform this action' })
     }
 
 }
