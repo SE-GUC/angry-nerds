@@ -18,8 +18,7 @@ router.post('/InvestorPayFees', InvestorController.InvestorPayFees)
 
 
 //-------------------------------Admin Routes------------------------------------------------------------
-
-
+router.put('/AdminEditCompany/:id', AdminController.AdminEditCompany)
 
 
 

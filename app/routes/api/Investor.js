@@ -40,7 +40,6 @@ router.post('/', async (req, res) => {
 
 router.post('/register', async (req, res) => {
 
-
     console.log(req.body)
     const email = req.body.email
     const user = await Investor.findOne({ email })
@@ -50,9 +49,7 @@ router.post('/register', async (req, res) => {
         const newInvestor = await Investor.create(req.body)
         res.json({ msg: 'Investor was created successfully', data: newInvestor })
         .catch(err => res.json('You could not be registered, try again'))
-    }
-    
-    
+    }  
 })  
 
 router.put('/:id', async (req, res) => {
