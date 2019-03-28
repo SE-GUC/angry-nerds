@@ -44,8 +44,6 @@ AdminRegisterLawyer: async (req,res) =>{
     }
     
 },
-
-
 AdminRegisterReviewer: async (req,res) =>{
     const email = req.body.email
     const Reviewers = await Reviewer.findOne({ email })
