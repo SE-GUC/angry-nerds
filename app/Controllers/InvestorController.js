@@ -71,10 +71,11 @@ let InvestorController = {
     /* delete cases with investor_id and the case is not published yet*/
 
 
- deleteInvestor:async (id) =>
+deleteInvestor:async (id) =>
 {
     try {
       //  const id = req.params.id
+        mongoose.set('useFindAndModify', false)
         const deletedInvestor = await Investor.findByIdAndRemove(id)
         const query = { investorID: id }
         const deletedCases = await Case.find(query)
@@ -84,9 +85,13 @@ let InvestorController = {
                 // delete cases controller to be called
              }
          } 
+         return
     }
     catch (error) {
     }
+
+
+
 
 }
 

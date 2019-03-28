@@ -10,7 +10,7 @@ let AdminController = {
 
 AdminDeleteInvestor:async (req,res) =>{
     try{
-
+        mongoose.set('useFindAndModify', false)
         const id = req.params.id
         const AdminId = '5c9bb0dc5185793518ea84fb' //login token
 
@@ -18,7 +18,11 @@ AdminDeleteInvestor:async (req,res) =>{
 
         if(!Admin)
             return res.json({msg: 'Only Admins have access'})
-        InvestorController.deleteInvestor(id)
+        else{
+            await InvestorController.deleteInvestor(id)
+            return res.json({msg: 'Investor deleted successfully'})
+        }
+        
     }
     catch(error){
         res.json({ msg: 'Can not perform this action' })
