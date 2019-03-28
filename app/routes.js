@@ -10,7 +10,12 @@ var router = express.Router();
 //--------------------------------Investor Routes----------------------------------------------------------
 
 //this endpoint allows the investor to pay fees for a pending company
-router.post('/InvestorPayFees', InvestorController.InvestorPayFees)
+
+router.post('/InvestorPayFees',InvestorController.InvestorPayFees)
+router.post('/InvestorFillForm',InvestorController.investorFillForm)
+
+
+
 
 
 
@@ -18,6 +23,9 @@ router.post('/InvestorPayFees', InvestorController.InvestorPayFees)
 
 
 //-------------------------------Admin Routes------------------------------------------------------------
+router.delete('/AdminDeleteInvestor/:id',AdminController.AdminDeleteInvestor)
+router.post('/AdminRegisterLawyer',AdminController.AdminRegisterLawyer)
+router.post('AdminRegisterReviewer',AdminController.AdminRegisterReviewer)
 
 
 
@@ -27,6 +35,7 @@ router.post('/InvestorPayFees', InvestorController.InvestorPayFees)
 
 
 //------------------------------------Lawyer Routes----------------------------------------------------
+router.post('/lawyerFillForm',LawyerController.lawyerFillForm)
 
 
 
@@ -48,5 +57,6 @@ router.post('/InvestorPayFees', InvestorController.InvestorPayFees)
 
 
 //-------------------------------User Routes---------------------------------------------------------
+router.get('/UnregisteredViewQuestions',UserController.UnregisteredViewQuestions)
 
 module.exports = router
