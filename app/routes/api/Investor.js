@@ -6,6 +6,12 @@ const hbs = require('hbs')
 const validator = require('../../../validations/InvestorValidations')
 const Investor = require('../../models/Investor')
 const request = require('request')
+<<<<<<< HEAD:routes/api/Investor.js
+const randomstring = require('randomstring')
+const mailer =require ('../../misc/mailer')
+const config = require('../../config/mailer')
+=======
+>>>>>>> e9267579eaf076dc947d5d5ba3de973c73c50507:app/routes/api/Investor.js
 
 
 router.get('/', async (req, res) => {
@@ -39,8 +45,8 @@ router.post('/', async (req, res) => {
 })
 
 router.post('/register', async (req, res) => {
-
-
+ 
+    //const result = Joi.validate(req.body, InvestorSchema)
     console.log(req.body)
     const email = req.body.email
     const user = await Investor.findOne({ email })
@@ -49,11 +55,50 @@ router.post('/register', async (req, res) => {
     else{
         const newInvestor = await Investor.create(req.body)
         res.json({ msg: 'Investor was created successfully', data: newInvestor })
-        .catch(err => res.json('You could not be registered, try again'))
+        //.catch(err => res.json('You could not be registered, try again'))
     }
+
+    //compose an email
+    const html = 'Hi there, <br/> Thank you for registering <br/><br/> Please verify your email by clicking on the following page:<a href= "http://localhost:3000/Investor/verify">http://localhost:3000/Investor/verify</a> </br></br> '
+
+    //send the email
+    console.log('before')
+    await mailer.sendEmail(config.user, req.body.email, 'Please verify your email', html)
+    console.log('after')
+    //Generate secret token
+    //const secretToken = randomstring.generate()
+    //result.value.secretToken = secretToken
     
+
+    //flag the account as inactive
+    //result.value.active = false
     
 })  
+
+
+router.route('/verify')
+.post(async (req,res,next) => {
+    try{
+        const secretToken = req.body.secretToken
+
+//find the account matching the secret Token 
+const inv = await Investor.findOne({ "secretToken": secretToken})
+if(!inv) {
+    req.flash('error', 'No Investor Found')
+    res.redirect('Investor/verify')
+    return
+}
+Investor.active = true
+Investor.secretToken = ''
+await Investor.save()
+
+req.flash('success', 'Thank you now you may login.')
+//re.redirect('/Investor/login')
+
+    } catch(error){
+        next(error)
+    }
+})
 
 router.put('/:id', async (req, res) => {
     try {
