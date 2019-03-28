@@ -1,12 +1,11 @@
 const express = require('express');
 const router = express.Router()
 const mongoose = require('mongoose')
+const Case = require('../../models/Cases')
 const hbs = require('hbs')
-const validator = require('../../validations/InvestorValidations')
+const validator = require('../../../validations/InvestorValidations')
 const Investor = require('../../models/Investor')
 const request = require('request')
-
-
 
 
 router.get('/', async (req, res) => {
@@ -47,17 +46,14 @@ router.post('/register', async (req, res) => {
     const user = await Investor.findOne({ email })
     if (user)
         return res.status(400).json({ error: 'Email already exists' })
-
-
-    // const isValidated = validator.createValidation(req.body)
-    // if(isValidated.error)
-    //     return res.status(400).send({ error: isValidated.error.details[0].message })
-
-    const newInvestor = await Investor.create(req.body)
-    res.json({ msg: 'Investor was created successfully', data: newInvestor })
+    else{
+        const newInvestor = await Investor.create(req.body)
+        res.json({ msg: 'Investor was created successfully', data: newInvestor })
         .catch(err => res.json('You could not be registered, try again'))
-
-})
+    }
+    
+    
+})  
 
 router.put('/:id', async (req, res) => {
     try {
@@ -77,11 +73,14 @@ router.put('/:id', async (req, res) => {
     }
 })
 
+
+
 router.delete('/:id', async (req, res) => {
     try {
         const id = req.params.id
         const deletedInvestor = await Investor.findByIdAndRemove(id)
-        res.json({ msg: 'Investor was deleted successfully', data: deletedInvestor })
+        var x=  await deleteCases(id)
+        res.json({ msg: 'Investor was deleted successfully' })
     }
     catch (error) {
         // We will be handling the error later
@@ -266,3 +265,19 @@ router.viewMyPendingCompanies = function (id) {
 }
 
 module.exports = router 
+
+
+/* delete cases with investor_id and the case is not published yet*/
+
+
+deleteCases = async function(InvId)
+{
+    const query = { investorID: InvId }
+    const deletedCases = await Case.find(query)
+    for (let i = 0; i < deletedCases.length; i += 1) {
+        if (deletedCases[i].caseStatus !== 'published') {
+            await Case.findByIdAndRemove(deletedCases[i]._id) 
+            
+        }
+  } 
+}

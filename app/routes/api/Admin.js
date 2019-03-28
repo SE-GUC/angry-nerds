@@ -1,8 +1,8 @@
-const express = require('express');
+const express = require('express')
 const router = express.Router()
 const mongoose = require('mongoose')
 const Admins = require('../../models/Admin');
-const validator = require('../../validations/AdminValidations')
+const validator = require('../../../validations/AdminValidations')
 
 router.get('/', async (req, res) => {
     const Admin = await Admins.find()
@@ -61,4 +61,31 @@ router.delete('/:id', async (req, res) => {
         console.log(error)
     }
 });
+
+// router.put('/AdminEditCompany/:id', async (req,res)=> {
+
+//     const AdminID = '1234'
+//     const id = req.params.id
+
+//     const admin = await Admins.findById(AdminID)
+//     const currentCase = await Case.findById(id)
+
+//     if(!currentCase){
+//         return res.json({
+//             message: 'the company you are trying to edit does not exist'
+//         })
+//     }   
+
+//     if(admin){
+//         const updated = await Admins.findByIdAndUpdate(id, req.body)
+//         return res.json({
+//             message: 'you have updated the case successfully', data: updated 
+//         })
+//     }
+//     else{
+//         res.json({message: 'you are not authorized for this action'})
+//     }
+// })
+
+
 module.exports = router

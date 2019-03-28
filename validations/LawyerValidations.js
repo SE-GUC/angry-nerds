@@ -1,25 +1,23 @@
 const Joi = require('joi')
 
+
 module.exports = {
     createValidation: request => {
         const createSchema = {
             FName: Joi.string().min(3).max(100).required(),
             MName: Joi.string().min(3).max(100).required(),
             LName: Joi.string().min(3).max(100).required(),
-            ssid: Joi.number().min(0).max(3000).required(),
-            Nationality:Joi.string().required(),
+            ssid: Joi.number().integer(),
             gender:Joi.string().min(4).max(6),
             birthdate: Joi.number().integer().min(1900).max(2013),
             Type:Joi.required(),
             Address:Joi.string().required(),
-            fax:Joi.number().required(),
-            password: Joi.string().regex(/^[a-zA-Z0-9]{3,30}$/),
+            fax:Joi.number(),
             telephone_number:Joi.number().required(),
-            total_number_of_cases:Joi.number().required(),
-            number_of_cases:Joi.number().required(),
-            completed_number_of_cases:Joi.number().required(),
-            total_time_on_cases:Joi.number().required(),
-            email: Joi.string().email({ minDomainAtoms: 2 })
+            email: Joi.string().email({ minDomainAtoms: 2 }),
+            password: Joi.string().regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/),
+            gender:Joi.required().string(),
+            Nationality:Joi.string().required(),
 
         }
 
@@ -38,11 +36,8 @@ module.exports = {
             Type:Joi.required(),
             Address:Joi.string().required(),
             fax:Joi.number().required(),
-            password: Joi.string().regex(/^[a-zA-Z0-9]{3,30}$/),
+            password: Joi.string().regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/),
             telephone_number:Joi.number().required(),
-            total_number_of_cases:Joi.number().required(),
-            completed_number_of_cases:Joi.number().required(),
-            total_time_on_cases:Joi.number().required(),
             email: Joi.string().email({ minDomainAtoms: 2 })
 
         }
