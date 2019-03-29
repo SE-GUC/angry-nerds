@@ -268,6 +268,26 @@ let AdminController = {
 
     },
 
+    adminViewComment:async(req,res)=>{
+    try{
+        const formid='5c9cfd1d05f1d42e68b75fb7'
+        const adminid = '5c77e91b3fd76231ecbf04ee'
+        const admin = await Admins.findById(adminid)
+        const form = await Case.findById(formid)
+        if (!form)
+          return res.status(404).send({ error: 'The form does not exist' });
+        if (!admin)
+          return res.status(404).send({ error: 'You are not allowed to view this comment'});
+        return res.json({ data: form.comment });
+    }
+    catch(error){
+        return res.status(404).send({ error: 'Comment cant be viewed' })
+    
+    }
+    
+    
+    }
+
 
 
 

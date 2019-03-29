@@ -31,6 +31,8 @@ router.put('/AdminEditCompany/:id', AdminController.AdminEditCompany)
 router.delete('/AdminDeleteInvestor/:id',AdminController.AdminDeleteInvestor)
 router.post('/AdminRegisterLawyer',AdminController.AdminRegisterLawyer)
 router.post('AdminRegisterReviewer',AdminController.AdminRegisterReviewer)
+router.get('/AdminViewComment',AdminController.adminViewComment)
+
 
 
 
