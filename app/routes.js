@@ -44,6 +44,8 @@ router.delete('/AdminDeleteAdmin/:id',AdminController.AdminDeleteAdmin)
 
 router.put('/AdminChangePassword/:id',AdminController.adminChangePassword)
 router.get('AdminViewLawyersLeaderBoard',AdminController.adminViewLawyersLeaderBoard)
+router.get('AdminViewReviewersLeaderBoard',AdminController.adminViewReviewersLeaderBoard)
+
 
 
 

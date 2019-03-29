@@ -336,7 +336,31 @@ let AdminController = {
             return res.status(404).send({ error: 'LeaderBoard cant be viewed' })
 
         }
-    }
+    },
+
+    adminViewReviewersLeaderBoard: async(req,res)=>{
+        try{
+            const adminid = '5c9e48bb3f08ad4ea807ea10'
+            const admin = await Admin.findById(adminid)
+            if (!admin)
+                return res.status(404).send({ error: 'You are not allowed to view the Leaderboard' });
+            const leaderboard= await Reviewer.find().sort({completed_number_of_cases: 1});
+            
+            return res.json({ data: leaderboard});
+
+
+
+        }
+        catch(error){
+            console.log(error)
+            return res.status(404).send({ error: 'LeaderBoard cant be viewed' })
+
+        }
+    },
+
+    
+
+
 
 }
 
