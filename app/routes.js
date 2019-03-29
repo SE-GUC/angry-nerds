@@ -75,6 +75,8 @@ router.get('/LawyerMyNotifications/:id',LawyerController.lawyerMyNotifications)
 
 router.put('/ReviewerChangePassword/:id',ReviewerController.reviewerChangePassword)
 router.get('/ReviewerMyNotifications/:id',ReviewerController.reviewerMyNotifications)
+router.get('/ReviewerViewLawyersLeaderBoard',ReviewerController.reviewerViewLawyersLeaderBoard)
+
 
 
 
