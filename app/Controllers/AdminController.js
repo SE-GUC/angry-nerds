@@ -96,7 +96,7 @@ let AdminController = {
         else {
             const newReviewer = await Reviewer.create(req.body)
             res.json({ msg: 'Reviewer was created successfully', data: newReviewer })
-                .catch(err => res.json('There was an error ,Try again later'))
+            //  .catch(err => res.json('There was an error ,Try again later'))
         }
 
     },
@@ -136,39 +136,39 @@ let AdminController = {
                 message: 'the company you are trying to edit does not exist'
             })
         }
-        
-},
 
-AdminRegisterLawyer: async (req,res) =>{
-    const AdminId = '5c9bb0dc5185793518ea84fb' //login token
-    const Admin = await Admins.findById(AdminId)
-    if(!Admin)
-        return res.json({msg: 'Only Admins have access'}) 
-    const email = req.body.email
-    const Lawyers = await Lawyer.findOne({ email })
-    if (Lawyers)
-        return res.status(400).json({ error: 'Email already exists' })
-    else{
-        const newLawyer = await Lawyer.create(req.body)
-        res.json({ msg: 'Lawyer was created successfully', data: newLawyer })
-        .catch(err => res.json('There was an error ,Try again later'))
-    }
-    
-},
-AdminRegisterReviewer: async (req,res) =>{
-    const AdminId = '5c9bb0dc5185793518ea84fb' //login token
-    const Admin = await Admins.findById(AdminId)
-    if(!Admin)
-        return res.json({msg: 'Only Admins have access'}) 
-    const email = req.body.email
-    const Reviewers = await Reviewer.findOne({ email })
-    if (Reviewers)
-        return res.status(400).json({ error: 'Email already exists' })
-    else{
-        const newReviewer = await Reviewer.create(req.body)
-        res.json({ msg: 'Reviewer was created successfully', data: newReviewer })
-        .catch(err => res.json('There was an error ,Try again later'))
-    }
+    },
+
+    AdminRegisterLawyer: async (req, res) => {
+        const AdminId = '5c9bb0dc5185793518ea84fb' //login token
+        const Admin = await Admins.findById(AdminId)
+        if (!Admin)
+            return res.json({ msg: 'Only Admins have access' })
+        const email = req.body.email
+        const Lawyers = await Lawyer.findOne({ email })
+        if (Lawyers)
+            return res.status(400).json({ error: 'Email already exists' })
+        else {
+            const newLawyer = await Lawyer.create(req.body)
+            res.json({ msg: 'Lawyer was created successfully', data: newLawyer })
+            //    .catch(err => res.json('There was an error ,Try again later'))
+        }
+
+    },
+    AdminRegisterReviewer: async (req, res) => {
+        const AdminId = '5c9bb0dc5185793518ea84fb' //login token
+        const Admin = await Admins.findById(AdminId)
+        if (!Admin)
+            return res.json({ msg: 'Only Admins have access' })
+        const email = req.body.email
+        const Reviewers = await Reviewer.findOne({ email })
+        if (Reviewers)
+            return res.status(400).json({ error: 'Email already exists' })
+        else {
+            const newReviewer = await Reviewer.create(req.body)
+            res.json({ msg: 'Reviewer was created successfully', data: newReviewer })
+            //.catch(err => res.json('There was an error ,Try again later'))
+        }
 
     },
 
@@ -248,6 +248,24 @@ AdminRegisterReviewer: async (req,res) =>{
         }
 
         main().catch(console.error);
+    },
+    AdminRegisterAdmin: async (req, res) => {
+        const AdminId = '5c9bb0dc5185793518ea84fb' //login token
+        const Admin = await Admins.findById(AdminId)
+        if ((!Admin) || (ADmin && Admin.Type !== 'Super'))
+            return res.json({ msg: 'Only super admins have access' })
+        const email = req.body.email
+        const checkAdmin = await Reviewer.findOne({ email })
+        if (checkAdmin)
+            return res.status(400).json({ error: 'Email already exists' })
+        else {
+            if (req.body.Type !== 'Admin')
+                return res.json({ msg: 'Type should be only Admin' })
+            const newAdmin = await Reviewer.create(req.body)
+            res.json({ msg: 'Admin was created successfully', data: newAdmin })
+            //   .catch(err => res.json('There was an error ,Try again later'))
+        }
+
     },
 
 
