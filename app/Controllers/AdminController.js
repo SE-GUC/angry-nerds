@@ -78,7 +78,7 @@ let AdminController = {
             return res.status(400).json({ error: 'Email already exists' })
         else {
             const newReviewer = await Reviewer.create(req.body)
-            res.json({ msg: 'Reviewer was created successfully', data: newReviewer })
+            return res.json({ msg: 'Reviewer was created successfully', data: newReviewer })
             //  .catch(err => res.json('There was an error ,Try again later'))
         }
 
@@ -133,7 +133,7 @@ let AdminController = {
             return res.status(400).json({ error: 'Email already exists' })
         else {
             const newLawyer = await Lawyer.create(req.body)
-            res.json({ msg: 'Lawyer was created successfully', data: newLawyer })
+            return res.json({ msg: 'Lawyer was created successfully', data: newLawyer })
             //    .catch(err => res.json('There was an error ,Try again later'))
         }
 
@@ -252,70 +252,70 @@ let AdminController = {
             res.json({ msg: 'Can not perform this action' })
         }
     },
-    
 
-    adminViewComment:async(req,res)=>{
-    try{
-        const formid='5c9cfd1d05f1d42e68b75fb7'
-        const adminid = '5c77e91b3fd76231ecbf04ee'
-        const admin = await Admins.findById(adminid)
-        const form = await Case.findById(formid)
-        if (!form)
-          return res.status(404).send({ error: 'The form does not exist' });
-        if (!admin)
-          return res.status(404).send({ error: 'You are not allowed to view this comment'});
-        return res.json({ data: form.comment });
-    }
-    catch(error){
-        return res.status(404).send({ error: 'Comment cant be viewed' })
-    
-    }
-    
-    
+
+    adminViewComment: async (req, res) => {
+        try {
+            const formid = '5c9cfd1d05f1d42e68b75fb7'
+            const adminid = '5c77e91b3fd76231ecbf04ee'
+            const admin = await Admins.findById(adminid)
+            const form = await Case.findById(formid)
+            if (!form)
+                return res.status(404).send({ error: 'The form does not exist' });
+            if (!admin)
+                return res.status(404).send({ error: 'You are not allowed to view this comment' });
+            return res.json({ data: form.comment });
+        }
+        catch (error) {
+            return res.status(404).send({ error: 'Comment cant be viewed' })
+
+        }
+
+
     },
 
 
 
-        /*
-        PUT request to change password of the admin
-        PARAMS:{ adminID: String }
-        BODY:{   oldPassword: String,
-                 newPassword: String }
-        * Checks if the admin is in the database,
-        then checks if the oldPassword matches the one in the database.
-        Then changes the password in the database.     
-        RETURNS 404 NOT FOUND: if the ID is not in the database.
-                403 FORBIDDEN: if the old password does not match the password in the database.
-                200 OK: if the password is updated.
-                400 BAD REQUEST: if an exception is thrown.   
+    /*
+    PUT request to change password of the admin
+    PARAMS:{ adminID: String }
+    BODY:{   oldPassword: String,
+             newPassword: String }
+    * Checks if the admin is in the database,
+    then checks if the oldPassword matches the one in the database.
+    Then changes the password in the database.     
+    RETURNS 404 NOT FOUND: if the ID is not in the database.
+            403 FORBIDDEN: if the old password does not match the password in the database.
+            200 OK: if the password is updated.
+            400 BAD REQUEST: if an exception is thrown.   
 
-        */
-   adminChangePassword: async function(req,res) {
-    try{
-    const id = req.params.id
-    const oldPassword = req.body.oldPassword
-    const newPassword = req.body.newPassword
-    let admin = await Admins.findById(id)
-    if(!admin){
-        return res.status(404).json({error: 'Cannot find an admin account with this ID'})
-    }
-    else{
-        if(oldPassword != admin.password){
-            return res.status(403).json({error: 'The passwords do not match'})
+    */
+    adminChangePassword: async function (req, res) {
+        try {
+            const id = req.params.id
+            const oldPassword = req.body.oldPassword
+            const newPassword = req.body.newPassword
+            let admin = await Admins.findById(id)
+            if (!admin) {
+                return res.status(404).json({ error: 'Cannot find an admin account with this ID' })
+            }
+            else {
+                if (oldPassword != admin.password) {
+                    return res.status(403).json({ error: 'The passwords do not match' })
+                }
+                else {
+                    const updatedAdmin = await Admins.findByIdAndUpdate(id, {
+                        'password': newPassword,
+                    })
+                    admin = await Admin.findById(id)
+                    return res.status(200).json({ msg: 'The password was updated', data: admin })
+                }
+            }
         }
-        else{
-            const updatedAdmin = await Admins.findByIdAndUpdate(id, {
-                'password': newPassword,
-            })
-            admin = await Admin.findById(id)
-            return res.status(200).json({ msg: 'The password was updated' , data: admin})
+        catch (error) {
+            console.log(error)
+            return res.status(400).json({ error: 'Error processing query.' })
         }
-    }
-    }
-    catch(error){
-        console.log(error)
-        return res.status(400).json({ error:'Error processing query.'})
-    }   
     }
 
 }

@@ -34,7 +34,7 @@ router.get('/generatePdf/:id',InvestorController.generatePdf)
 
 //-------------------------------Admin Routes------------------------------------------------------------
 router.post('/AdminRegisterLawyer',AdminController.AdminRegisterLawyer)
-router.post('AdminRegisterReviewer',AdminController.AdminRegisterReviewer)
+router.post('/AdminRegisterReviewer',AdminController.AdminRegisterReviewer)
 router.get('/AdminViewComment',AdminController.adminViewComment)
 
 router.post('/AdminRegisterAdmin',AdminController.AdminRegisterAdmin)
