@@ -1,9 +1,13 @@
 const validator = require('../../validations/caseValidations')
 const stripe = require('stripe')('sk_test_Tc2FlJG0ovXrM6Zt7zuK1O6f002jC3hcT0')
 const Case = require('./../models/Cases')
+const Investor = require('./../models/Investor')
+const Notification = require('./../models/Notifications')
 const express = require('express')
 const router = express.Router()
 const mongoose = require('mongoose')
+const pdfMakePrinter = require('pdfmake/src/printer')
+
 
 let InvestorController = {
 
@@ -182,7 +186,210 @@ catch(error){
 }
 
 
-}
+
+    },
+
+    /*
+        PUT request to change password of the investor
+        PARAMS:{ investorID: String }
+        BODY:{   oldPassword: String,
+                 newPassword: String }
+        * Checks if the investor is in the database,
+        then checks if the oldPassword matches the one in the database.
+        Then changes the password in the database.   
+        RETURNS 404 NOT FOUND: if the ID is not in the database.
+                403 FORBIDDEN: if the old password does not match the password in the database.
+                200 OK: if the password is updated.  
+                400 BAD REQUEST: if an exception is thrown.   
+    */
+    investorChangePassword: async function(req,res) {
+        try{
+        const id = req.params.id
+        const oldPassword = req.body.oldPassword
+        const newPassword = req.body.newPassword
+        let investor = await Investor.findById(id)
+        if(!investor){
+            return res.status(404).json({error: 'Cannot find an investor account with this ID'})
+        }
+        else{
+            if(oldPassword != investor.password){
+                return res.status(403).json({error: 'The passwords do not match'})
+            }
+            else{
+                const updatedInvestor = await Investor.findByIdAndUpdate(id, {
+                    'password': newPassword
+                })
+                investor = await Investor.findById(id)
+                return res.status(200).json({ msg: 'The password was updated' , data: investor})
+            }
+        }
+    }
+    catch(error){
+        console.log(error)
+        return res.status(400).json({ error:'Error processing query.'})
+
+    }
+    },
+
+    /*
+        GET request to view the notifications of the investor.
+        PARAMS:{ investorID: String }
+        * Checks if the investor is in the database,
+        then checks gets thier notifications.   
+        RETURNS 404 NOT FOUND: if the ID is not in the database.
+                200 OK: if it pereforms the query.
+                400 BAD REQUEST: if an exception is thrown.   
+    */
+    investorMyNotifications: async function(req,res) {
+        try{
+        const id = req.params.id
+        let investor = await Investor.findById(id)
+        if(!investor){
+            return res.status(404).json({error: 'Cannot find an investor account with this ID'})
+        }
+        else{
+            let notifications = await Notification.find({'receiverInvestor':id})
+            return res.status(200).json({ data: notifications})
+        }
+        
+        }
+        catch(error){
+            console.log(error)
+            return res.status(400).json({ error:'Error processing query.'})
+        }
+
+    },
+
+    /*
+        GET request to view the published companies of the investor.
+        PARAMS:{ investorID: String }
+        * Checks if the investor is in the database,
+        then checks gets thier published cases.   
+        RETURNS 404 NOT FOUND: if the ID is not in the database.
+                200 OK: if it pereforms the query.
+                400 BAD REQUEST: if an exception is thrown.   
+    */
+    viewMyPublishedCompanies: async function(req,res) {
+        try{
+            const id = req.params.id
+            let investor = await Investor.findById(id)
+            if(!investor){
+                return res.status(404).json({error: 'Cannot find an investor account with this ID'})
+            }
+            else{
+                let cases = await Case.find({'caseStatus':'published','investorID':id})
+                return res.status(200).json({ data: cases})
+            }
+            
+            }
+            catch(error){
+                console.log(error)
+                return res.status(400).json({ error:'Error processing query.'})
+            }
+    },
+
+     /*
+        GET request to view the published companies of the investor.
+        PARAMS:{ investorID: String }
+        * Checks if the investor is in the database,
+        then checks if the caseStatus != 'published'.   
+        RETURNS 404 NOT FOUND: if the ID is not in the database.
+                200 OK: if it pereforms the query.
+                400 BAD REQUEST: if an exception is thrown.   
+    */
+    viewMyPendingCompanies: async function(req,res) {
+        try{
+            const id = req.params.id
+            let investor = await Investor.findById(id)
+            if(!investor){
+                return res.status(404).json({error: 'Cannot find an investor account with this ID'})
+            }
+            else{
+                let cases = await Case.find({'caseStatus':{ $ne: 'published'},'investorID':id})
+                return res.status(200).json({ data: cases})
+            }
+            
+            }
+            catch(error){
+                console.log(error)
+                return res.status(400).json({ error:'Error processing query.'})
+            }
+    },
+
+
+    /*
+        GET method to generate a pdf contract based on the case object.
+        PARAMS:{ caseID: String }
+        * Checks if the case is in the database,
+        then constructs the docDefinition constant based on the data in the c object (case),
+        then it uses the "pfdmake" library to constryct a pdf file,
+        then it converts it to a base64 string and send it to the client.
+        RETURNS 404 NOT FOUND: if the ID is not in the database.
+                200 OK: if it pereforms the pdf construction.
+                400 BAD REQUEST: if an exception is thrown.  
+    */
+    generatePdf: async function(req,res) {
+        try {
+
+        const id = req.params.id
+        const c = await Case.findById(id)
+
+        if(!c){
+            return res.status(404).json({error: 'Cannot find an case with this ID'})
+        }
+        else{
+              
+            const docDefinition = {
+                content: [
+                    c.form_type,
+                    c.regulated_law,
+                    //c.arabic_name,
+                    c.english_name,
+                    c.city,
+                    c.address,
+                    c.main_center_phone,
+                    c.main_center_fax,
+                    c.currency,
+                    c.equality_capital,
+                    c.fees,
+                    c.caseOpenSince,
+                    c.caseStatus,
+                    c.lawyerStartDate
+                ],
+
+                defaultStyle: {
+                    fontSize: 15,
+                  //  bold: true
+                }
+
+            }
+
+            const fontDescriptors = { Roboto: {normal: new Buffer(require('pdfmake/build/vfs_fonts.js').pdfMake.vfs['Roboto-Regular.ttf'], 'base64') }}
+            const printer = new pdfMakePrinter(fontDescriptors)
+            const doc = printer.createPdfKitDocument(docDefinition)
+          
+            let chunks = []
+      
+            doc.on('data', (chunk) => {
+                chunks.push(chunk)
+            });
+        
+           doc.on('end', () => {
+                const result = Buffer.concat(chunks)
+                return res.status(200).json({data: 'data:application/pdf;base64,' + result.toString('base64')})
+            });
+          
+            doc.end()
+        } 
+
+
+        } 
+        catch(error) {
+            console.log(error)
+            return res.status(400).json({ error:'Error processing query.'})
+        }
+    }
+
 
 }
 
