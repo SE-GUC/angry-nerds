@@ -21,6 +21,12 @@ router.post('/InvestorFillForm',InvestorController.investorFillForm)
 router.get('/InvestorViewFees', InvestorController.InvestorViewFees)
 
 
+router.put('/InvestorChangePassword/:id',InvestorController.investorChangePassword)
+router.get('/InvestorMyNotifications/:id',InvestorController.investorMyNotifications)
+router.get('/ViewPublishedCompanies/:id',InvestorController.viewMyPublishedCompanies)
+router.get('/ViewPendingCompanies/:id',InvestorController.viewMyPendingCompanies)
+router.get('/generatePdf/:id',InvestorController.generatePdf)
+
 
 
 //-------------------------------Admin Routes------------------------------------------------------------
@@ -29,7 +35,7 @@ router.delete('/AdminDeleteInvestor/:id',AdminController.AdminDeleteInvestor)
 router.post('/AdminRegisterLawyer',AdminController.AdminRegisterLawyer)
 router.post('AdminRegisterReviewer',AdminController.AdminRegisterReviewer)
 
-
+router.put('/AdminChangePassword/:id',AdminController.adminChangePassword)
 
 
 
@@ -39,6 +45,8 @@ router.post('AdminRegisterReviewer',AdminController.AdminRegisterReviewer)
 //------------------------------------Lawyer Routes----------------------------------------------------
 router.post('/lawyerFillForm',LawyerController.lawyerFillForm)
 
+router.put('/LawyerChangePassword/:id',LawyerController.lawyerChangePassword)
+router.get('/LawyerMyNotifications/:id',LawyerController.lawyerMyNotifications)
 
 
 
@@ -50,6 +58,8 @@ router.post('/lawyerFillForm',LawyerController.lawyerFillForm)
 //----------------------------------------------Reviewer Routes-----------------------------------------
 
 
+router.put('/ReviewerChangePassword/:id',ReviewerController.reviewerChangePassword)
+router.get('/ReviewerMyNotifications/:id',ReviewerController.reviewerMyNotifications)
 
 
 
