@@ -109,7 +109,6 @@ investorFillForm:async(req,res)=>{
         console.log(error)
         return res.status(404).send({ error: 'Form cant be created' })
     }
-<<<<<<< HEAD
 
 
 
@@ -134,8 +133,6 @@ investorUpdateForm:async(id)=>{
 
 
     }
-=======
->>>>>>> 62ebcfc556e3ea860e15724b35f15ab85e67cc98
 }
 
 }
