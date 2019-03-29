@@ -19,7 +19,7 @@ const AdminController= require('./app/Controllers/AdminController')
 //AdminController.AdminChangePricingStrategy("revenues159", 10)
 //console.log(Cases_func.revenue159)
 
-AdminController.SystemCalcFees('5c94df923c95ff18c8866d54')
+//AdminController.SystemCalcFees('5c94df923c95ff18c8866d54')
 global.heroku = "https://angrynerds1.herokuapp.com"
 
 const app = express()
