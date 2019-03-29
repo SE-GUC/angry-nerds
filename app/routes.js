@@ -43,6 +43,7 @@ router.delete('/AdminDeleteInvestor/:id',AdminController.AdminDeleteInvestor)
 router.delete('/AdminDeleteAdmin/:id',AdminController.AdminDeleteAdmin)
 
 router.put('/AdminChangePassword/:id',AdminController.adminChangePassword)
+router.get('AdminViewLawyersLeaderBoard',AdminController.adminViewLawyersLeaderBoard)
 
 
 
