@@ -58,6 +58,7 @@ router.get('/LawyerViewComment',LawyerController.lawyerViewComment)
 
 
 
+
 router.put('/LawyerChangePassword/:id',LawyerController.lawyerChangePassword)
 router.get('/LawyerMyNotifications/:id',LawyerController.lawyerMyNotifications)
 
@@ -83,5 +84,6 @@ router.get('/ReviewerMyNotifications/:id',ReviewerController.reviewerMyNotificat
 
 //-------------------------------User Routes---------------------------------------------------------
 router.get('/UnregisteredViewQuestions',UserController.UnregisteredViewQuestions)
+router.get('/UnregisteredViewLawyers',UserController.viewLawyers)
 
 module.exports = router

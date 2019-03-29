@@ -82,6 +82,23 @@ let LawyerController = {
 
     },
 
+    
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
     /*
     PUT request to change password of the lawyer
     PARAMS:{ lawyerID: String }
