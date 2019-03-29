@@ -6,9 +6,6 @@ const express = require('express')
 const router = express.Router()
 const mongoose = require('mongoose')
 
-
-
-
 let LawyerController = {
 //write methods here: check InvestorController for example
 lawyerFillForm:async(req,res)=>{
@@ -16,12 +13,7 @@ lawyerFillForm:async(req,res)=>{
     try{ 
         const id = '5c77e91b3fd76231ecbf04ee'
         const lawyer = await Lawyer.findById(id)
-        /*console.log(id)
-        console.log(lawyer)
-        console.log('kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk')
-        console.log(Lawyer)*/
-
-
+        
         if (!lawyer)
              return res.status(404).send({ error: 'You are not allowed to fill this form' });
     
@@ -34,22 +26,12 @@ lawyerFillForm:async(req,res)=>{
 
     }
     catch (error) {
-        console.log('hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh')
+
         console.log(error)
         return res.status(404).send({ error: 'Form cant be created' })
     }
 
-
-
 }
-
-
-
-
-
-
-
-
 
 }
 
