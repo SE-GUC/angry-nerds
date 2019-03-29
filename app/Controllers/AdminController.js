@@ -5,6 +5,7 @@ const Admins = require('./../models/Admin')
 const Case = require('./../models/Cases')
 const Lawyer = require('./../models/Lawyer')
 const Reviewer = require('./../models/Reviewer')
+const Laws = require('./../models/Laws')
 const validator = require('../../validations/AdminValidations')
 "use strict";
 const nodemailer = require("nodemailer");
@@ -218,48 +219,116 @@ let AdminController = {
         main().catch(console.error);
     },
 
-        /*
-        PUT request to change password of the admin
-        PARAMS:{ adminID: String }
-        BODY:{   oldPassword: String,
-                 newPassword: String }
-        * Checks if the admin is in the database,
-        then checks if the oldPassword matches the one in the database.
-        Then changes the password in the database.     
-        RETURNS 404 NOT FOUND: if the ID is not in the database.
-                403 FORBIDDEN: if the old password does not match the password in the database.
-                200 OK: if the password is updated.
-                400 BAD REQUEST: if an exception is thrown.   
+    /*
+    PUT request to change password of the admin
+    PARAMS:{ adminID: String }
+    BODY:{   oldPassword: String,
+             newPassword: String }
+    * Checks if the admin is in the database,
+    then checks if the oldPassword matches the one in the database.
+    Then changes the password in the database.     
+    RETURNS 404 NOT FOUND: if the ID is not in the database.
+            403 FORBIDDEN: if the old password does not match the password in the database.
+            200 OK: if the password is updated.
+            400 BAD REQUEST: if an exception is thrown.   
 
-        */
-   adminChangePassword: async function(req,res) {
-    try{
-    const id = req.params.id
-    const oldPassword = req.body.oldPassword
-    const newPassword = req.body.newPassword
-    let admin = await Admins.findById(id)
-    if(!admin){
-        return res.status(404).json({error: 'Cannot find an admin account with this ID'})
-    }
-    else{
-        if(oldPassword != admin.password){
-            return res.status(403).json({error: 'The passwords do not match'})
+    */
+    adminChangePassword: async function (req, res) {
+        try {
+            const id = req.params.id
+            const oldPassword = req.body.oldPassword
+            const newPassword = req.body.newPassword
+            let admin = await Admins.findById(id)
+            if (!admin) {
+                return res.status(404).json({ error: 'Cannot find an admin account with this ID' })
+            }
+            else {
+                if (oldPassword != admin.password) {
+                    return res.status(403).json({ error: 'The passwords do not match' })
+                }
+                else {
+                    const updatedAdmin = await Admins.findByIdAndUpdate(id, {
+                        'password': newPassword,
+                    })
+                    admin = await Admin.findById(id)
+                    return res.status(200).json({ msg: 'The password was updated', data: admin })
+                }
+            }
         }
-        else{
-            const updatedAdmin = await Admins.findByIdAndUpdate(id, {
-                'password': newPassword,
-            })
-            admin = await Admin.findById(id)
-            return res.status(200).json({ msg: 'The password was updated' , data: admin})
+        catch (error) {
+            console.log(error)
+            return res.status(400).json({ error: 'Error processing query.' })
         }
-    }
-    }
-    catch(error){
-        console.log(error)
-        return res.status(400).json({ error:'Error processing query.'})
-    }   
-    }
+    },
 
+    SystemCalcFees: async function (req, res) {
+        var fees = 0
+        const id = req.params.id
+        const newCase = await Case.findById(id)
+        const regLaw = await newCase.regulated_law
+        const capital = await newCase.capital
+        const LawArray = await Laws.find(regLaw)
+        for (var i = 0; i < LawArray.length; i++) {
+            var newVal = capital * LawCalc
+            if (newVal < LawArray[i].min) {
+                fees = fees + LawArray[i].min
+            }
+            else if (newVal > LawArray[i].max) {
+                fees = fees + LawArray[i].max
+            }
+            else {
+                fees = capital * LawArray[i].LawCalc
+            }
+            fees = fees + LawArray[i].LawValue
+        }
+        console.log(fees)
+    },
+
+    AdminCreateNewLaw: async function () {
+        try {
+            // const isValidated = validator.createValidation(req.body)
+            // if (isValidated.error) return res.status(400).send({ error: isValidated.error.details[0].message })
+            const AdminId = '5c9bb0dc5185793518ea84fb' //login token
+            const Admin = await Admins.findById(AdminId)
+            if ((!Admin) || (Admin && Admin.Type !== 'Super')) {
+                return res.json({ msg: 'Only super admins have access' })
+            }
+            else {
+                const newLaw = await Laws.create(req.body)
+                res.json({ msg: 'Law was created successfully', data: newLaw })
+            }
+        }
+        catch (error) {
+            // We will be handling the error later
+            console.log(error)
+        }
+    },
+
+    
+
+    AdminChangePricingStrategy: async function(req, res) {
+        try {
+            const AdminId = '5c9bb0dc5185793518ea84fb' //login token
+            const Admin = await Admins.findById(AdminId)
+            if ((!Admin) || (Admin && Admin.Type !== 'Super')) {
+                return res.json({ msg: 'Only super admins have access' })
+            }
+            else {
+            const id = req.params.id
+            const Notifications = await Notification.findById(id)
+            if (!Notifications) return res.status(404).send({ error: 'Notifications does not exist' });
+            //  const isValidated = validator.updateValidation(req.body)
+            //  if (isValidated.error) return res.status(400).send({ error: isValidated.error.details[0].message })
+            const updatedNotification = await Notification.updateOne(req.body)
+            res.json({ msg: 'Notifications updated successfully', data: updatedNotification })
+            }
+        }
+        catch (error) {
+            // We will be handling the error later
+            console.log(error)
+        }
+    }
 }
+
 
 module.exports = AdminController

@@ -36,6 +36,8 @@ router.post('/AdminRegisterLawyer',AdminController.AdminRegisterLawyer)
 router.post('AdminRegisterReviewer',AdminController.AdminRegisterReviewer)
 
 router.put('/AdminChangePassword/:id',AdminController.adminChangePassword)
+router.post('/AdminChangePricingStrategy/id', AdminController.AdminChangePricingStrategy)
+router.put('/AdminCreateNewLaw', AdminController.AdminCreateNewLaw)
 
 
 

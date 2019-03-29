@@ -9,10 +9,6 @@ const request = require('request')
 const randomstring = require('randomstring')
 const mailer =require ('../../../misc/mailer')
 const config = require('../../../config/mailer')
-<<<<<<< HEAD
-
-=======
->>>>>>> 9aa2568e6ba63b73176c321a27f5f32097a1f265
 
 router.get('/', async (req, res) => {
     const Investors = await Investor.find()
