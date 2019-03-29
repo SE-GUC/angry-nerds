@@ -133,6 +133,37 @@ investorUpdateForm:async(id)=>{
 
 
     }
+},
+
+
+investorViewComment:async(req,res)=>{
+try{
+    const formid='5c9cfd1d05f1d42e68b75fb7'
+    const investorid = '5c77e91b3fd76231ecbf04ee'
+    const investor = await Investor.findById(investorid)
+    const form = await Case.findById(formid)
+    /*console.log(form)
+    console.log(formid)
+    console.log(form.investorID)
+    console.log(investorid)*/
+    if (!form)
+      return res.status(404).send({ error: 'The form does not exist' });
+    if (!investor)
+      return res.status(404).send({ error: 'You are not allowed to view this comment, You are not an investor' });
+    if (form.investorID.toString() === investorid.toString()){ 
+      //  console.log('hhhhhhhhhhhhhhhhhhhhhhh')
+        return res.json({ data: form.comment });}
+    else{
+        return res.status(404).send({ error: 'You are not allowed to view this comment, You are not the investor of this company' });
+    }
+}
+catch(error){
+    console.log(error)
+    return res.status(404).send({ error: 'Comment cant be viewed' })
+
+}
+
+
 }
 
 }
