@@ -31,6 +31,27 @@ lawyerFillForm:async(req,res)=>{
         return res.status(404).send({ error: 'Form cant be created' })
     }
 
+},
+
+
+lawyerUpdateForm:async(id)=>{
+    try{
+        const lawyerid = '5c77e91b3fd76231ecbf04ee'
+        const lawyer = await Investor.findById(lawyerid)
+        const form = await Case.findById(id)
+        if (!lawyer)
+             return res.status(404).send({ error: 'You are not allowed to update this form' });
+        if (!form)
+             return res.status(404).send({ error: 'The form you are trying to update does not exist' });
+        var updatedForm = await Case.findByIdAndUpdate(id, req.body)
+        res.json({ msg: 'Form updated successfully', data: updatedForm })
+
+    }
+    catch(error){
+        return res.status(404).send({ error: 'Form cant be updated' })
+
+
+    }
 }
 
 }

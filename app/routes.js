@@ -37,6 +37,8 @@ router.post('AdminRegisterReviewer',AdminController.AdminRegisterReviewer)
 
 //------------------------------------Lawyer Routes----------------------------------------------------
 router.post('/LawyerFillForm',LawyerController.lawyerFillForm)
+router.put('/LawyerUpdateForm/:id',LawyerController.lawyerUpdateForm)
+
 
 
 
