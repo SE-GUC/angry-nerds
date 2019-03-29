@@ -36,8 +36,8 @@ router.post('/AdminRegisterLawyer',AdminController.AdminRegisterLawyer)
 router.post('AdminRegisterReviewer',AdminController.AdminRegisterReviewer)
 
 router.put('/AdminChangePassword/:id',AdminController.adminChangePassword)
-router.post('/AdminChangePricingStrategy/id', AdminController.AdminChangePricingStrategy)
-router.put('/AdminCreateNewLaw', AdminController.AdminCreateNewLaw)
+router.put('/AdminChangePricingStrategy/:id', AdminController.AdminChangePricingStrategy)
+router.post('/AdminCreateNewLaw', AdminController.AdminCreateNewLaw)
 
 
 
@@ -72,5 +72,7 @@ router.get('/ReviewerMyNotifications/:id',ReviewerController.reviewerMyNotificat
 
 //-------------------------------User Routes---------------------------------------------------------
 router.get('/UnregisteredViewQuestions',UserController.UnregisteredViewQuestions)
+router.get('/UserViewLaws', UserController.UserViewLaws)
+
 
 module.exports = router

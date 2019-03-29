@@ -13,19 +13,19 @@ const LawSchema = new Schema({
     },
 
     LawValue: {
-        type: number,
+        type: Number,
     },
 
     LawCalc: {
-        type: number
+        type: Number
     },
 
     min: {
-        type: number,
+        type: Number,
     },
 
     max : {
-        type: number,
+        type: Number,
     },
 
     description: {

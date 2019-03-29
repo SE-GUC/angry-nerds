@@ -141,37 +141,7 @@ let AdminController = {
 
     },
 
-    /* Malak
-    This is a function that takes as an input a request, a variable (which will
-    be the global variable we want to change) and a newValue (the new value
-    we will set the global variable with) it check if the user is an admin 
-    if yes, change the variable if not error message
-    */
-    AdminChangePricingStrategy: async function (req, res, variable, newValue) {
-        const id = req.params.id
-        const admin = await admin.findById(id)
-        if (!admin) {
-            res.json({ msg: 'you are not authorised to do this action' })
-        }
-        else {
-            if (variable === revenues159) {
-                revenues159 = newValue
-                res.json({ msg: 'Pricing strategy changed succesfully!' })
-            }
-            if (variable === revenues72) {
-                revenues72 = newValue
-                res.json({ msg: 'Pricing strategy changed succesfully!' })
-            }
-            if (variable === debt159) {
-                debt159 = newValue
-                res.json({ msg: 'Pricing strategy changed succesfully!' })
-            }
-            if (variable === debt72) {
-                debt72 = newValue
-                res.json({ msg: 'Pricing strategy changed succesfully!' })
-            }
-        }
-    },
+   
 
     /* Malak
     this function takes Text, subject< recipient and send an email
@@ -261,36 +231,41 @@ let AdminController = {
         }
     },
 
-    SystemCalcFees: async function (req, res) {
+    SystemCalcFees: async function (id) {
         var fees = 0
-        const id = req.params.id
         const newCase = await Case.findById(id)
         const regLaw = await newCase.regulated_law
-        const capital = await newCase.capital
-        const LawArray = await Laws.find(regLaw)
+        const capital = await newCase.equality_capital
+        const LawArray = await Laws.find({LawNumber: regLaw.toString()})
+        console.log(LawArray)
         for (var i = 0; i < LawArray.length; i++) {
-            var newVal = capital * LawCalc
+            var newVal = capital * LawArray[i].LawCalc
+            console.log("newVal is" +newVal)
             if (newVal < LawArray[i].min) {
                 fees = fees + LawArray[i].min
+                console.log("newVal<min"+fees)
             }
             else if (newVal > LawArray[i].max) {
                 fees = fees + LawArray[i].max
+                console.log("newVal>max"+fees)
             }
             else {
-                fees = capital * LawArray[i].LawCalc
+                fees = fees + newVal
+                console.log("newVal in range"+fees)
             }
             fees = fees + LawArray[i].LawValue
+            console.log("plues el damgha" + fees)
         }
         console.log(fees)
     },
 
-    AdminCreateNewLaw: async function () {
+    AdminCreateNewLaw: async function (req, res) {
         try {
             // const isValidated = validator.createValidation(req.body)
             // if (isValidated.error) return res.status(400).send({ error: isValidated.error.details[0].message })
             const AdminId = '5c9bb0dc5185793518ea84fb' //login token
             const Admin = await Admins.findById(AdminId)
-            if ((!Admin) || (Admin && Admin.Type !== 'Super')) {
+            if ((!Admin)|| (Admin && Admin.Type !== 'Super')) {
                 return res.json({ msg: 'Only super admins have access' })
             }
             else {
@@ -315,12 +290,12 @@ let AdminController = {
             }
             else {
             const id = req.params.id
-            const Notifications = await Notification.findById(id)
-            if (!Notifications) return res.status(404).send({ error: 'Notifications does not exist' });
+            const Law = await Laws.findById(id)
+            if (!Law) return res.status(404).send({ error: 'Law does not exist' });
             //  const isValidated = validator.updateValidation(req.body)
             //  if (isValidated.error) return res.status(400).send({ error: isValidated.error.details[0].message })
-            const updatedNotification = await Notification.updateOne(req.body)
-            res.json({ msg: 'Notifications updated successfully', data: updatedNotification })
+            const updatedLaw = await Law.updateOne(req.body)
+            res.json({ msg: 'Laws updated successfully', data: updatedLaw })
             }
         }
         catch (error) {
