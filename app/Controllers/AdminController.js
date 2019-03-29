@@ -306,7 +306,7 @@ let AdminController = {
     }
     
     
-    }
+    },
 
 
 
