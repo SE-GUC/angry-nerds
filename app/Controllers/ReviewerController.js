@@ -55,14 +55,14 @@ caseDisAproveedAtReviewer: async function (req, res) {
 
 
 
-   } 
+   } ,
 
+   //    reviewerComment: async function (req, res) {    
+       
+    
+   
 
-
-
-
-
-
+//    }   ,
 
 
 }

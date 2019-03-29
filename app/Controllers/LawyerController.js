@@ -56,6 +56,22 @@ caseDisAproveedAtLawyer: async function (req, res) {
 
    }   ,
 
+//    lawyerComment: async function (req, res) {
+       
+//     var commentArray = []
+//     var data = JSON.parse(req.body).data
+
+//     commentArray = data.comment
+//     console.log(commentArray)
+//     commentArray.push(JSON.parse(text))
+//     // console.log(JSON.stringify('{'+commentArray+'}'))
+
+//     var com = { comment: commentArray }  
+//     // com.put('comment',commentArray.toString)
+
+
+//    }   ,
+
    
 
    

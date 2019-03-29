@@ -5,7 +5,7 @@ const crypto = require('crypto'); /// to generate file names
 const mongoose = require('mongoose');
 const multer = require('multer'); // 
 const GridFsStorage = require('multer-gridfs-storage');  // used to create crud 
-const Grid = require('gridfs-stream'); 
+const Grid = require('gridfs-stream');    /// badal crud 3ala schema
 const methodOverride = require('method-override'); // 
 const router = express.Router()
 
@@ -24,13 +24,21 @@ app.set('view engine', 'ejs');          // change with react later
 // const conn = mongoose.createConnection(mongoURI);
 
 // Init gfs
-let gfs;  
+let gfs;     ////  variable for grid fs stream
 
 conn.once('open', () => {
   // Init stream
-  gfs = Grid(conn.db, mongoose.mongo);
-  gfs.collection('uploads');
+  gfs = Grid(conn.db, mongoose.mongo);   /// when database coonection is open we need to fet gfs tp gtid
+  gfs.collection('uploads');   // picturs will be in uploads
 });
+
+
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////uploading/////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
 // Create storage engine
 const storage = new GridFsStorage({
@@ -51,37 +59,23 @@ const storage = new GridFsStorage({
     });
   }
 });
-const upload = multer({ storage });
 
-// @route GET /
-// @desc Loads form
-app.get('/', (req, res) => {
-  gfs.files.find().toArray((err, files) => {
-    // Check if files
-    if (!files || files.length === 0) {
-      res.render('index', { files: false });
-    } else {
-      files.map(file => {
-        if (
-          file.contentType === 'image/jpeg' ||
-          file.contentType === 'image/png'
-        ) {
-          file.isImage = true;
-        } else {
-          file.isImage = false;
-        }
-      });
-      res.render('index', { files: files });
-    }
-  });
-});
+const upload = multer({ storage });    // uploading to database
+
+
 
 // @route POST /upload
 // @desc  Uploads file to DB                                             // need to edit this to post the profile of user schema
-app.post('/upload/:pic', upload.single('pic'), (req, res) => {    //26:32
+app.post('/upload/', upload.single('file'), (req, res) => {    //26:32
   // res.json({ file: req.file });
   res.redirect('/');                            // redirects to home page , change it to whatever 
 });
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
 
 // @route GET /files
 // @desc  Display all files in JSON                  // displays all Uploded pics
@@ -137,6 +131,16 @@ app.get('/image/:filename', (req, res) => {
     }
   });
 });
+
+
+
+
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////DELETE/////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
 // @route DELETE /files/:id
 // @desc  Delete file
