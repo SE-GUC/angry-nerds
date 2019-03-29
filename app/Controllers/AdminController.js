@@ -218,6 +218,47 @@ let AdminController = {
         main().catch(console.error);
     },
 
+        /*
+        PUT request to change password of the admin
+        PARAMS:{ adminID: String }
+        BODY:{   oldPassword: String,
+                 newPassword: String }
+        * Checks if the admin is in the database,
+        then checks if the oldPassword matches the one in the database.
+        Then changes the password in the database.     
+        RETURNS 404 NOT FOUND: if the ID is not in the database.
+                403 FORBIDDEN: if the old password does not match the password in the database.
+                200 OK: if the password is updated.
+                400 BAD REQUEST: if an exception is thrown.   
+
+        */
+   adminChangePassword: async function(req,res) {
+    try{
+    const id = req.params.id
+    const oldPassword = req.body.oldPassword
+    const newPassword = req.body.newPassword
+    let admin = await Admins.findById(id)
+    if(!admin){
+        return res.status(404).json({error: 'Cannot find an admin account with this ID'})
+    }
+    else{
+        if(oldPassword != admin.password){
+            return res.status(403).json({error: 'The passwords do not match'})
+        }
+        else{
+            const updatedAdmin = await Admins.findByIdAndUpdate(id, {
+                'password': newPassword,
+            })
+            admin = await Admin.findById(id)
+            return res.status(200).json({ msg: 'The password was updated' , data: admin})
+        }
+    }
+    }
+    catch(error){
+        console.log(error)
+        return res.status(400).json({ error:'Error processing query.'})
+    }   
+    }
 
 }
 
