@@ -57,6 +57,9 @@ router.post('/LawyerFillForm',LawyerController.lawyerFillForm)
 router.put('/LawyerUpdateForm/:id',LawyerController.lawyerUpdateForm)
 router.get('/LawyerViewComment',LawyerController.lawyerViewComment)
 router.get('/LawyerViewLawyersLeaderBoard',LawyerController.lawyerViewLawyersLeaderBoard)
+router.get('/LawyerViewReviewersLeaderBoard',LawyerController.lawyerViewReviewersLeaderBoard)
+
+
 
 
 
