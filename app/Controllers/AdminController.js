@@ -316,14 +316,7 @@ let AdminController = {
             console.log(error)
             return res.status(400).json({ error: 'Error processing query.' })
         }
-    }
-<<<<<<< HEAD
-=======
-    }
-    catch(error){
-        console.log(error)
-        return res.status(400).json({ error:'Error processing query.'})
-    }   
+   
     },
 
     adminViewLawyersLeaderBoard: async(req,res)=>{
@@ -369,7 +362,6 @@ let AdminController = {
     
 
 
->>>>>>> 0df1f77c00627f01339fe7624e1a16b4cee9b6fe
 
 }
 
