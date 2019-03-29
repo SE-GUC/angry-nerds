@@ -5,8 +5,6 @@ const express = require('express')
 const router = express.Router()
 const mongoose = require('mongoose')
 
-
-
 let InvestorController = {
 
     /*
@@ -63,13 +61,10 @@ let InvestorController = {
         else
             return res.json({ message: 'you cannot pay for company that is not yours ' })
 
-
-
         console.log(req.body)
 
     },
     /* delete cases with investor_id and the case is not published yet*/
-
 
 deleteInvestor:async (id) =>
 {
@@ -92,20 +87,15 @@ deleteInvestor:async (id) =>
 
 },
 
-
 investorFillForm:async(req,res)=>{
 
     try{ 
         const id = '5c77e91b3fd76231ecbf04ee'
         const investor = await Investor.findById(id)
-        console.log(id)
-        console.log(investor)
-        console.log('kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk')
-        console.log(Investor)
 
 
         if (!investor)
-             return res.status(404).send({ error: 'you r not allowed to fill this form' });
+             return res.status(404).send({ error: 'You are not allowed to fill this form' });
     
         const newForm = await Case.create(req.body)
         const casecreated = await Case.findByIdAndUpdate(newForm.id, {  'caseStatus': 'lawyer-investor',
@@ -116,20 +106,35 @@ investorFillForm:async(req,res)=>{
 
     }
     catch (error) {
-        console.log('hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh')
         console.log(error)
         return res.status(404).send({ error: 'Form cant be created' })
     }
 
 
 
+},
+
+
+investorUpdateForm:async(id)=>{
+    try{
+        const investorid = '5c77e91b3fd76231ecbf04ee'
+        const investor = await Investor.findById(investorid)
+        const form = await Case.findById(id)
+        if (!investor)
+             return res.status(404).send({ error: 'You are not allowed to update this form' });
+        if (!form)
+             return res.status(404).send({ error: 'The form you are trying to update does not exist' });
+        var updatedForm = await Case.findByIdAndUpdate(id, req.body)
+        res.json({ msg: 'Form updated successfully', data: updatedForm })
+
+    }
+    catch(error){
+        return res.status(404).send({ error: 'Form cant be updated' })
+
+
+    }
 }
 
-
-
-
-
 }
-
 
 module.exports = InvestorController;
