@@ -25,6 +25,7 @@ router.put('/InvestorChangePassword/:id',InvestorController.investorChangePasswo
 router.get('/InvestorMyNotifications/:id',InvestorController.investorMyNotifications)
 router.get('/ViewPublishedCompanies/:id',InvestorController.viewMyPublishedCompanies)
 router.get('/ViewPendingCompanies/:id',InvestorController.viewMyPendingCompanies)
+router.get('/generatePdf/:id',InvestorController.generatePdf)
 
 
 

@@ -6,6 +6,8 @@ const Notification = require('./../models/Notifications')
 const express = require('express')
 const router = express.Router()
 const mongoose = require('mongoose')
+const pdfMakePrinter = require('pdfmake/src/printer')
+
 
 let InvestorController = {
 
@@ -258,7 +260,83 @@ let InvestorController = {
                 console.log(error)
                 return res.status(400).json({ error:'Error processing query.'})
             }
+    },
+
+
+    /*
+        GET method to generate a pdf contract based on the case object.
+        PARAMS:{ caseID: String }
+        * Checks if the case is in the database,
+        then constructs the docDefinition constant based on the data in the c object (case),
+        then it uses the "pfdmake" library to constryct a pdf file,
+        then it converts it to a base64 string and send it to the client.
+        RETURNS 404 NOT FOUND: if the ID is not in the database.
+                200 OK: if it pereforms the pdf construction.
+                400 BAD REQUEST: if an exception is thrown.  
+    */
+    generatePdf: async function(req,res) {
+        try {
+
+        const id = req.params.id
+        const c = await Case.findById(id)
+
+        if(!c){
+            return res.status(404).json({error: 'Cannot find an case with this ID'})
+        }
+        else{
+              
+            const docDefinition = {
+                content: [
+                    c.form_type,
+                    c.regulated_law,
+                    //c.arabic_name,
+                    c.english_name,
+                    c.city,
+                    c.address,
+                    c.main_center_phone,
+                    c.main_center_fax,
+                    c.currency,
+                    c.equality_capital,
+                    c.fees,
+                    c.caseOpenSince,
+                    c.caseStatus,
+                    c.lawyerStartDate
+                ],
+
+                defaultStyle: {
+                    fontSize: 15,
+                  //  bold: true
+                }
+
+            }
+
+            const fontDescriptors = { Roboto: {normal: new Buffer(require('pdfmake/build/vfs_fonts.js').pdfMake.vfs['Roboto-Regular.ttf'], 'base64') }}
+            const printer = new pdfMakePrinter(fontDescriptors)
+            const doc = printer.createPdfKitDocument(docDefinition)
+          
+            let chunks = []
+      
+            doc.on('data', (chunk) => {
+                chunks.push(chunk)
+            });
+        
+           doc.on('end', () => {
+                const result = Buffer.concat(chunks)
+                return res.status(200).json({data: 'data:application/pdf;base64,' + result.toString('base64')})
+            });
+          
+            doc.end()
+        } 
+
+
+        } 
+        catch(error) {
+            console.log(error)
+            return res.status(400).json({ error:'Error processing query.'})
+        }
     }
+
+
 }
 
 module.exports = InvestorController;
