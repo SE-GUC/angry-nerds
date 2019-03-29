@@ -39,7 +39,7 @@ AdminRegisterLawyer: async (req,res) =>{
         return res.json({msg: 'Only Admins have access'}) 
     const email = req.body.email
     const Lawyers = await Lawyer.findOne({ email })
-    if (user)
+    if (Lawyers)
         return res.status(400).json({ error: 'Email already exists' })
     else{
         const newLawyer = await Lawyer.create(req.body)
@@ -55,7 +55,7 @@ AdminRegisterReviewer: async (req,res) =>{
         return res.json({msg: 'Only Admins have access'}) 
     const email = req.body.email
     const Reviewers = await Reviewer.findOne({ email })
-    if (user)
+    if (Reviewers)
         return res.status(400).json({ error: 'Email already exists' })
     else{
         const newReviewer = await Reviewer.create(req.body)
@@ -64,6 +64,8 @@ AdminRegisterReviewer: async (req,res) =>{
     }
     
 },
+
+
 
 
 }
