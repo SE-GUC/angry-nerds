@@ -45,19 +45,22 @@ let AdminController = {
     we will set the global variable with) it check if the user is an admin 
     if yes, change the variable if not error message
     */
-   AdminChangePricingStrategy: async function (req, res, variable, newValue){
-    const id = req.params.id
-    const admin = await admin.findById(id)
+   AdminChangePricingStrategy: async function (variable, newValue){
+    const id = "5c9bb0dc5185793518ea84fb"
+    const admin = await Admin.findById(id)
+    console.log(revenues159)
     if (!admin){
+        console.log("admin not found")
         res.json({msg: 'you are not authorised to do this action'})
     }
     else{
-        if (variable === revenues159){
+        if (variable.toString() === "revenues159"){
             revenues159 = newValue
-            res.json ({msg: 'Pricing strategy changed succesfully!'})
+            console.log(revenues159)
         }
-        if (variable === revenues72){
+        if (variable === "revenues72"){
             revenues72 = newValue
+            console.log(revenues72)
             res.json ({msg: 'Pricing strategy changed succesfully!'})
         }
         if (variable === debt159){
@@ -69,6 +72,7 @@ let AdminController = {
             res.json ({msg: 'Pricing strategy changed succesfully!'})
         }
     }
+    console.log("im done")
 },
 
 /* Malak
