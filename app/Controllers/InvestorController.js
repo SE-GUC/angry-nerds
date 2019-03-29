@@ -7,7 +7,7 @@ const mongoose = require('mongoose')
 
 let InvestorController = {
 
-    /*
+    /* 
     this is a function that takes a request body that contains credit card info
     it creates a token of this info and then it creates a charge
     when the payment is successfully complete the case status is changed to published
@@ -19,9 +19,9 @@ let InvestorController = {
 
         const myCase = await Case.findById(CaseID)
 
-        if(!myCase)
-            res.json({msg: 'this case does not exist'})
-            
+        if (!myCase)
+            res.json({ msg: 'this case does not exist' })
+
         console.log(myCase)
         if (myCase.investorID == invID) {
             stripe.tokens.create({
@@ -64,53 +64,71 @@ let InvestorController = {
         console.log(req.body)
 
     },
+
+    /* Malak
+    this is a function that takes as an input company id and returns its fees
+    it is still under construction because its unlogical since we want anyone be
+    be able to view the fees without having to create a company
+    i also think this is front end work
+    */
+    InvestorViewFees: async function (req, res) {
+        const id = req.params.id
+        const Cases = await Case.findById(id, projection)
+        if (Cases === null) {
+            res.json({ msg: 'Can not find company' })
+        }
+        else {
+            res.json({ data: Cases.Fees })
+        }
+    },
+
+
     /* delete cases with investor_id and the case is not published yet*/
 
-deleteInvestor:async (id) =>
-{
-    try {
-      //  const id = req.params.id
-        mongoose.set('useFindAndModify', false)
-        const deletedInvestor = await Investor.findByIdAndRemove(id)
-        const query = { investorID: id }
-        const deletedCases = await Case.find(query)
-        for (let i = 0; i < deletedCases.length; i += 1) {
-            if (deletedCases[i].caseStatus !== 'published') {
-                await Case.findByIdAndRemove(deletedCases[i]._id) 
-                // delete cases controller to be called
-             }
-         } 
-         return
-    }
-    catch (error) {
-    }
+    deleteInvestor: async (id) => {
+        try {
+            //  const id = req.params.id
+            mongoose.set('useFindAndModify', false)
+            const deletedInvestor = await Investor.findByIdAndRemove(id)
+            const query = { investorID: id }
+            const deletedCases = await Case.find(query)
+            for (let i = 0; i < deletedCases.length; i += 1) {
+                if (deletedCases[i].caseStatus !== 'published') {
+                    await Case.findByIdAndRemove(deletedCases[i]._id)
+                    // delete cases controller to be called
+                }
+            }
+            return
+        }
+        catch (error) {
+        }
 
-},
+    },
 
-investorFillForm:async(req,res)=>{
+    investorFillForm: async (req, res) => {
 
-    try{ 
-        const id = '5c77e91b3fd76231ecbf04ee'
-        const investor = await Investor.findById(id)
-
-
-        if (!investor)
-             return res.status(404).send({ error: 'You are not allowed to fill this form' });
-    
-        const newForm = await Case.create(req.body)
-        const casecreated = await Case.findByIdAndUpdate(newForm.id, {  'caseStatus': 'lawyer-investor',
-                                                                        'caseOpenSince': new Date(),
-                                                                        'lawyerStartDate':new Date(),
-                                                                        'investorID':investor })
-        res.json({ msg: 'The form was created successfully' })
-
-    }
-    catch (error) {
-        console.log(error)
-        return res.status(404).send({ error: 'Form cant be created' })
-    }
+        try {
+            const id = '5c77e91b3fd76231ecbf04ee'
+            const investor = await Investor.findById(id)
 
 
+            if (!investor)
+                return res.status(404).send({ error: 'You are not allowed to fill this form' });
+
+            const newForm = await Case.create(req.body)
+            const casecreated = await Case.findByIdAndUpdate(newForm.id, {
+                'caseStatus': 'lawyer-investor',
+                'caseOpenSince': new Date(),
+                'lawyerStartDate': new Date(),
+                'investorID': investor
+            })
+            res.json({ msg: 'The form was created successfully' })
+
+        }
+        catch (error) {
+            console.log(error)
+            return res.status(404).send({ error: 'Form cant be created' })
+        }
 
 },
 

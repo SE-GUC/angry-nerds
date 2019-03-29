@@ -18,12 +18,14 @@ router.put('/InvestorUpdateForm/:id',InvestorController.investorUpdateForm)
 
 
 
-
+//this endpoint allows investor to view his company fees
+router.get('/InvestorViewFees', InvestorController.InvestorViewFees)
 
 
 
 
 //-------------------------------Admin Routes------------------------------------------------------------
+router.put('/AdminEditCompany/:id', AdminController.AdminEditCompany)
 router.delete('/AdminDeleteInvestor/:id',AdminController.AdminDeleteInvestor)
 router.post('/AdminRegisterLawyer',AdminController.AdminRegisterLawyer)
 router.post('AdminRegisterReviewer',AdminController.AdminRegisterReviewer)
