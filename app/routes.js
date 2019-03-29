@@ -14,6 +14,8 @@ var router = express.Router();
 router.post('/InvestorPayFees',InvestorController.InvestorPayFees)
 router.post('/InvestorFillForm',InvestorController.investorFillForm)
 router.put('/InvestorUpdateForm/:id',InvestorController.investorUpdateForm)
+router.get('/InvestorViewComment',InvestorController.investorViewComment)
+
 
 
 
@@ -42,6 +44,9 @@ router.delete('/AdminDeleteAdmin/:id',AdminController.AdminDeleteAdmin)
 //------------------------------------Lawyer Routes----------------------------------------------------
 router.post('/LawyerFillForm',LawyerController.lawyerFillForm)
 router.put('/LawyerUpdateForm/:id',LawyerController.lawyerUpdateForm)
+router.get('/LawyerViewComment',LawyerController.lawyerViewComment)
+
+
 
 
 
