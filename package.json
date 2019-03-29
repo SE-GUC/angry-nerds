@@ -22,10 +22,7 @@
     "mongoose": "^5.4.15",
     "mongoose-unique-validator": "^2.0.2",
     "nodemailer": "^6.0.0",
-<<<<<<< HEAD
-=======
     "pdfmake": "^0.1.54",
->>>>>>> 9aa2568e6ba63b73176c321a27f5f32097a1f265
     "randomstring": "^1.1.5",
     "request": "^2.88.0",
     "stripe": "^6.28.0"
