@@ -123,6 +123,27 @@ investorFillForm:async(req,res)=>{
 
 
 
+},
+
+
+investorUpdateForm:async(id)=>{
+    try{
+        const investorid = '5c77e91b3fd76231ecbf04ee'
+        const investor = await Investor.findById(investorid)
+        const form = await Case.findById(id)
+        if (!investor)
+             return res.status(404).send({ error: 'You are not allowed to update this form' });
+        if (!form)
+             return res.status(404).send({ error: 'The form you are trying to update does not exist' });
+        var updatedForm = await Case.findByIdAndUpdate(id, req.body)
+        res.json({ msg: 'Form updated successfully', data: updatedForm })
+
+    }
+    catch(error){
+        return res.status(404).send({ error: 'Form cant be updated' })
+
+
+    }
 }
 
 
