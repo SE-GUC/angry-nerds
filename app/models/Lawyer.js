@@ -59,10 +59,6 @@ const LawyerSchema = new Schema({
         required: true
     },
     
-    total_number_of_cases: {
-        type: Number,
-        required: true
-    },
     completed_number_of_cases:{
         type: Number,
         required: true

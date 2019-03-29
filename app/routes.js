@@ -43,6 +43,9 @@ router.delete('/AdminDeleteInvestor/:id',AdminController.AdminDeleteInvestor)
 router.delete('/AdminDeleteAdmin/:id',AdminController.AdminDeleteAdmin)
 
 router.put('/AdminChangePassword/:id',AdminController.adminChangePassword)
+router.get('AdminViewLawyersLeaderBoard',AdminController.adminViewLawyersLeaderBoard)
+router.get('AdminViewReviewersLeaderBoard',AdminController.adminViewReviewersLeaderBoard)
+
 
 
 
@@ -53,6 +56,11 @@ router.put('/AdminChangePassword/:id',AdminController.adminChangePassword)
 router.post('/LawyerFillForm',LawyerController.lawyerFillForm)
 router.put('/LawyerUpdateForm/:id',LawyerController.lawyerUpdateForm)
 router.get('/LawyerViewComment',LawyerController.lawyerViewComment)
+router.get('/LawyerViewLawyersLeaderBoard',LawyerController.lawyerViewLawyersLeaderBoard)
+router.get('/LawyerViewReviewersLeaderBoard',LawyerController.lawyerViewReviewersLeaderBoard)
+
+
+
 
 
 
@@ -73,6 +81,8 @@ router.get('/LawyerMyNotifications/:id',LawyerController.lawyerMyNotifications)
 
 router.put('/ReviewerChangePassword/:id',ReviewerController.reviewerChangePassword)
 router.get('/ReviewerMyNotifications/:id',ReviewerController.reviewerMyNotifications)
+router.get('/ReviewerViewLawyersLeaderBoard',ReviewerController.reviewerViewLawyersLeaderBoard)
+
 
 
 
@@ -83,5 +93,6 @@ router.get('/ReviewerMyNotifications/:id',ReviewerController.reviewerMyNotificat
 
 //-------------------------------User Routes---------------------------------------------------------
 router.get('/UnregisteredViewQuestions',UserController.UnregisteredViewQuestions)
+router.get('/UnregisteredViewLawyers',UserController.viewLawyers)
 
 module.exports = router
