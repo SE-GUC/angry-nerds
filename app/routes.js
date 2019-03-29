@@ -13,6 +13,9 @@ var router = express.Router();
 
 router.post('/InvestorPayFees',InvestorController.InvestorPayFees)
 router.post('/InvestorFillForm',InvestorController.investorFillForm)
+router.put('/InvestorUpdateForm/:id',InvestorController.investorUpdateForm)
+router.get('/InvestorViewComment',InvestorController.investorViewComment)
+
 
 
 
@@ -30,10 +33,14 @@ router.get('/generatePdf/:id',InvestorController.generatePdf)
 
 
 //-------------------------------Admin Routes------------------------------------------------------------
-router.put('/AdminEditCompany/:id', AdminController.AdminEditCompany)
-router.delete('/AdminDeleteInvestor/:id',AdminController.AdminDeleteInvestor)
 router.post('/AdminRegisterLawyer',AdminController.AdminRegisterLawyer)
 router.post('AdminRegisterReviewer',AdminController.AdminRegisterReviewer)
+router.get('/AdminViewComment',AdminController.adminViewComment)
+
+router.post('/AdminRegisterAdmin',AdminController.AdminRegisterAdmin)
+router.put('/AdminEditCompany/:id', AdminController.AdminEditCompany)
+router.delete('/AdminDeleteInvestor/:id',AdminController.AdminDeleteInvestor)
+router.delete('/AdminDeleteAdmin/:id',AdminController.AdminDeleteAdmin)
 
 router.put('/AdminChangePassword/:id',AdminController.adminChangePassword)
 
@@ -43,7 +50,13 @@ router.put('/AdminChangePassword/:id',AdminController.adminChangePassword)
 
 
 //------------------------------------Lawyer Routes----------------------------------------------------
-router.post('/lawyerFillForm',LawyerController.lawyerFillForm)
+router.post('/LawyerFillForm',LawyerController.lawyerFillForm)
+router.put('/LawyerUpdateForm/:id',LawyerController.lawyerUpdateForm)
+router.get('/LawyerViewComment',LawyerController.lawyerViewComment)
+
+
+
+
 
 router.put('/LawyerChangePassword/:id',LawyerController.lawyerChangePassword)
 router.get('/LawyerMyNotifications/:id',LawyerController.lawyerMyNotifications)
