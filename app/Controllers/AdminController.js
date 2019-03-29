@@ -252,7 +252,7 @@ let AdminController = {
     AdminRegisterAdmin: async (req, res) => {
         const AdminId = '5c9bb0dc5185793518ea84fb' //login token
         const Admin = await Admins.findById(AdminId)
-        if ((!Admin) || (ADmin && Admin.Type !== 'Super'))
+        if ((!Admin) || (Admin && Admin.Type !== 'Super'))
             return res.json({ msg: 'Only super admins have access' })
         const email = req.body.email
         const checkAdmin = await Reviewer.findOne({ email })
@@ -267,6 +267,26 @@ let AdminController = {
         }
 
     },
+    AdminDeleteAdmin: async (req, res) => {
+        try {
+            mongoose.set('useFindAndModify', false)
+            const id = req.params.id
+            const AdminId = '5c9bb0dc5185793518ea84fb' //login token
+            const Admin = await Admins.findById(AdminId)
+
+            if ((!Admin) || (Admin && Admin.Type !== 'Super'))
+                return res.json({ msg: 'Only super admin has access' })
+            else {
+                await Admins.findByIdAndRemove(id)
+                return res.json({ msg: 'Admin deleted successfully' })
+            }
+
+        }
+        catch (error) {
+            res.json({ msg: 'Can not perform this action' })
+        }
+    },
+    
 
 
 

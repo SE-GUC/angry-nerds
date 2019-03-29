@@ -25,10 +25,12 @@ router.get('/InvestorViewFees', InvestorController.InvestorViewFees)
 
 
 //-------------------------------Admin Routes------------------------------------------------------------
-router.put('/AdminEditCompany/:id', AdminController.AdminEditCompany)
-router.delete('/AdminDeleteInvestor/:id',AdminController.AdminDeleteInvestor)
 router.post('/AdminRegisterLawyer',AdminController.AdminRegisterLawyer)
 router.post('AdminRegisterReviewer',AdminController.AdminRegisterReviewer)
+router.post('/AdminRegisterAdmin',AdminController.AdminRegisterAdmin)
+router.put('/AdminEditCompany/:id', AdminController.AdminEditCompany)
+router.delete('/AdminDeleteInvestor/:id',AdminController.AdminDeleteInvestor)
+router.delete('/AdminDeleteAdmin/:id',AdminController.AdminDeleteAdmin)
 
 
 
