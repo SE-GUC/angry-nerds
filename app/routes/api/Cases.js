@@ -53,7 +53,6 @@ router.get('/CompViewing', async (req, res) => {
         }
     }
 
-
     catch (error) {
         console.log(error)
     }

@@ -9,7 +9,10 @@ const request = require('request')
 const randomstring = require('randomstring')
 const mailer =require ('../../../misc/mailer')
 const config = require('../../../config/mailer')
+<<<<<<< HEAD
 
+=======
+>>>>>>> 9aa2568e6ba63b73176c321a27f5f32097a1f265
 
 router.get('/', async (req, res) => {
     const Investors = await Investor.find()
@@ -42,8 +45,6 @@ router.post('/', async (req, res) => {
 })
 
 router.post('/register', async (req, res) => {
- 
-    //const result = Joi.validate(req.body, InvestorSchema)
     console.log(req.body)
     const email = req.body.email
     const user = await Investor.findOne({ email })
@@ -309,7 +310,8 @@ router.viewMyPendingCompanies = function (id) {
 module.exports = router 
 
 
-/* delete cases with investor_id and the case is not published yet*/
+/* This function deletes cases after deleting investor and the case status is not published
+    takes Investor*/
 
 
 deleteCases = async function(InvId)
