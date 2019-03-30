@@ -4,22 +4,14 @@ const Case = require('./../models/Cases')
 const express = require('express')
 const router = express.Router()
 const mongoose = require('mongoose')
-<<<<<<< HEAD
 const Lawyer = require('../models/Lawyer')
 
-=======
 const Reviewer = require('./../models/Reviewer')
->>>>>>> 6c9cf1eca2fddddd1f5055d3f9abdeac9c5a59c8
 
 
 
 let LawyerController = {
-<<<<<<< HEAD
 //write methods here: check InvestorController for example
-<<<<<<< HEAD
-lawyerFillForm:async(req,res)=>{
-=======
-    //write methods here: check InvestorController for example
     lawyerFillForm: async (req, res) => {
 
         try {
@@ -114,7 +106,6 @@ lawyerFillForm:async(req,res)=>{
 
         }
     },
->>>>>>> 6c9cf1eca2fddddd1f5055d3f9abdeac9c5a59c8
 
     
 
@@ -124,9 +115,6 @@ lawyerFillForm:async(req,res)=>{
 
 
 
-<<<<<<< HEAD
-}
-=======
 calc_fees : async function (req,res) {
     const CaseId = req.params.CaseId
     const LawyerId = req.params.LawyerId
@@ -135,11 +123,9 @@ calc_fees : async function (req,res) {
     if (Cases.caseStatus==='Lawyer' && Cases.lawyerID === LawyerId){
         const updateCase = await Case.findByIdAndUpdate(CaseId, { 'fees': fees })
     }
->>>>>>> master
-=======
->>>>>>> 6c9cf1eca2fddddd1f5055d3f9abdeac9c5a59c8
 
-}
+
+},
 
 
 

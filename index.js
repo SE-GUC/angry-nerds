@@ -14,13 +14,10 @@ const Commentj = require('./app/routes/api/Comments')
 const fun = require('./app/routes/api/Cases_func')
 const Perform = require('./app/routes/api/Performance')
 const Admin = require('./app/routes/api/Admin')
-<<<<<<< HEAD
 const AdminContoller = require('./app/Controllers/AdminController')
 
 AdminContoller.forgotpassword('fady.wasfalla@gmail.com')
 
-=======
->>>>>>> 6c9cf1eca2fddddd1f5055d3f9abdeac9c5a59c8
 const routes = require('./app/routes.js')
 
 

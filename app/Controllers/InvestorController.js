@@ -22,18 +22,11 @@ let InvestorController = {
         const CaseID = '5c94df653c95ff18c8866d52' //get this from frontend 
 
         const myCase = await Case.findById(CaseID)
-<<<<<<< HEAD
         const inv = await Case.findOne({ _id: myCase.investorID })
         const userEmail = inv.email
         if(!myCase)
             res.json({msg: 'this case does not exist'})
             
-=======
-
-        if (!myCase)
-            res.json({ msg: 'this case does not exist' })
-
->>>>>>> 6c9cf1eca2fddddd1f5055d3f9abdeac9c5a59c8
         console.log(myCase)
         if (myCase.investorID == invID) {
             stripe.tokens.create({
