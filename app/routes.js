@@ -29,6 +29,8 @@ router.delete('/AdminDeleteInvestor/:id',AdminController.AdminDeleteInvestor)
 router.post('/AdminRegisterLawyer',AdminController.AdminRegisterLawyer)
 router.post('AdminRegisterReviewer',AdminController.AdminRegisterReviewer)
 router.delete('/AdminDeleteLawyer/:id',AdminController.AdminDeleteLawyer)
+router.delete('/AdminDeleteReviewer/:id',AdminController.AdminDeleteReviewer)
+
 
 
 

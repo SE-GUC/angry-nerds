@@ -118,8 +118,6 @@ let AdminController = {
             res.json({ message: 'This id is not valid. please contact technical support' })
         })
 
-
-
         if (currentCase) {
             if (admin) {
                 const updated = await Case.findByIdAndUpdate(id, req.body)
@@ -223,26 +221,29 @@ let AdminController = {
         try {
             const Admin = await Admins.findById('5c9bb0dc5185793518ea84fb')
             const LawyerID = req.params.id
-
-            mongoose.set('useFindAndModify', false)
-            const deletedLawyer = await Lawyer.findByIdAndRemove(LawyerID)
-            if(!deletedLawyer){
-                res.json({message: 'there is not lawyer by this id to remove'})
-            }
-            else{
-                const query = { lawyerID: LawyerID }
-                const UpdateCases = await Case.find(query)
-                console.log(UpdateCases)
-                for (let i = 0; i < UpdateCases.length; i += 1) {
-                    console.log(UpdateCases[i]._id)
-                    AdminController.system_assign_lawyer(UpdateCases[i]._id)
-
+            if(Admin){
+                mongoose.set('useFindAndModify', false)
+                const deletedLawyer = await Lawyer.findByIdAndRemove(LawyerID)
+                if (!deletedLawyer) {
+                    res.json({ message: 'there is not lawyer by this id to remove' })
                 }
+                else {
+                    const query = { lawyerID: LawyerID }
+                    const UpdateCases = await Case.find(query)
+                    console.log(UpdateCases)
+                    for (let i = 0; i < UpdateCases.length; i += 1) {
+                        console.log(UpdateCases[i]._id)
+                        AdminController.system_assign_lawyer(UpdateCases[i]._id)
 
-                res.json({
-                    message: 'lawyer deleted successfuly'
-                })
+                    }
+
+                    res.json({
+                        message: 'lawyer deleted successfuly'
+                    })
+                }
             }
+            else res.json({message:'you are not authorized fir this action'})
+            
 
         }
         catch (error) {
@@ -251,6 +252,7 @@ let AdminController = {
 
     },
 
+    
     system_assign_lawyer: async function (caseId) {
         
         try{
@@ -277,18 +279,86 @@ let AdminController = {
 
         
     },
-
-
+    
     assign_lawyer: async function (caseId, lawyerId) {
         const updatedCase = await Case.findByIdAndUpdate(caseId, { 'lawyerID': lawyerId })
         const st = await Lawyer.findById(lawyerId)
         const updatedLawyer1 = await Lawyer.findByIdAndUpdate(lawyerId, { 'total_number_of_cases': st.total_number_of_cases + 1 })
         const updatedLawyer2 = await Lawyer.findByIdAndUpdate(lawyerId, { 'number_of_cases': st.number_of_cases + 1 })
-    }
+    },
+    
+    AdminDeleteReviewer: async function (req, res) {
+        
+        try {
+            const Admin = await Admins.findById('5c9bb0dc5185793518ea84fb')//get from login
+            const ReviewerID = req.params.id
+            if(Admin){
+                
+                mongoose.set('useFindAndModify', false)
+                const deletedReviewer = await Reviewer.findByIdAndRemove(ReviewerID)
+                if(!deletedReviewer){
+                    res.json({message: 'there is not Reviewer by this id to remove'})
+                }
+                else{
+                    const query = { reviewerID: ReviewerID }
+                    const UpdateCases = await Case.find(query)
+                    console.log(UpdateCases)
+                    for (let i = 0; i < UpdateCases.length; i += 1) {
+                        console.log(UpdateCases[i]._id)
+                        AdminController.system_assign_Reviewer(UpdateCases[i]._id)
+            
+                    }
+            
+                    res.json({
+                        message: 'Reviewer deleted successfuly'
+                    })
+                }
+            }
+    
+        }
+        catch (error) {
+            console.log(error)
+        }
+    
+    },
+
+    system_assign_Reviewer: async function (caseId) {
+        
+        try{
+            const Reviewers = await Reviewer.find()
+            var least = Reviewers[0].number_of_cases
+
+            for (let i = 1; i < Reviewers.length; i += 1) {
+                if (Reviewers[i].number_of_cases < least) {
+                    least = Reviewers[i].number_of_cases
+                }
+            }
+
+            for (let i = 0; i < Reviewers.length; i += 1) {
+                if (Reviewers[i].number_of_cases === least) {
+                    AdminController.assign_Reviewer(caseId, Reviewers[i]._id)
+                    break;
+                }
+            }
+        }
+        catch(error){
+            console.log(error)
+        }
+        
+
+        
+    },
+    
+    assign_Reviewer: async function (caseId, ReviewerId) {
+        const updatedCase = await Case.findByIdAndUpdate(caseId, { 'reviewerID': ReviewerId })
+        const st = await Reviewer.findById(ReviewerId)
+        const updatedReviewer1 = await Reviewer.findByIdAndUpdate(ReviewerId, { 'total_number_of_cases': st.total_number_of_cases + 1 })
+        const updatedReviewer2 = await Reviewer.findByIdAndUpdate(ReviewerId, { 'number_of_cases': st.number_of_cases + 1 })
+    },
     
 
-
-
+    
+    
 }
 
 module.exports = AdminController
