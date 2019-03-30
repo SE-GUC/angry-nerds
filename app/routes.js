@@ -65,6 +65,8 @@ router.get('/resetpass/:token',(req,res)=>{
 })
 =======
 router.put('/AdminChangePassword/:id',AdminController.adminChangePassword)
+router.put('/AdminChangePricingStrategy/:id', AdminController.AdminChangePricingStrategy)
+router.post('/AdminCreateNewLaw', AdminController.AdminCreateNewLaw)
 router.get('AdminViewLawyersLeaderBoard',AdminController.adminViewLawyersLeaderBoard)
 router.get('AdminViewReviewersLeaderBoard',AdminController.adminViewReviewersLeaderBoard)
 >>>>>>> 6c9cf1eca2fddddd1f5055d3f9abdeac9c5a59c8
@@ -116,6 +118,8 @@ router.get('/ReviewerViewLawyersLeaderBoard',ReviewerController.reviewerViewLawy
 
 //-------------------------------User Routes---------------------------------------------------------
 router.get('/UnregisteredViewQuestions',UserController.UnregisteredViewQuestions)
+router.get('/UserViewLaws', UserController.UserViewLaws)
+
 router.get('/UnregisteredViewLawyers',UserController.viewLawyers)
 
 module.exports = router

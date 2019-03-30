@@ -19,9 +19,14 @@ const AdminContoller = require('./app/Controllers/AdminController')
 AdminContoller.forgotpassword('fady.wasfalla@gmail.com')
 
 const routes = require('./app/routes.js')
+const AdminController= require('./app/Controllers/AdminController')
+//AdminController.AdminChangePricingStrategy("revenues159", 10)
+//console.log(Cases_func.revenue159)
 
-
+//AdminController.SystemCalcFees('5c94df923c95ff18c8866d54')
 global.heroku = "https://angrynerds1.herokuapp.com"
+
+AdminController.SendEmail('aho shaghal', 'shaghal aho', 'fadywasfalla@gmail.com')
 
 const app = express()
 app.set('view engine', 'hbs')

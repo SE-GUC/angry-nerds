@@ -17,6 +17,7 @@ var bcrypt = require('bcryptjs');
 const Case = require('./../models/Cases')
 const Lawyer = require('./../models/Lawyer')
 const Reviewer = require('./../models/Reviewer')
+const Laws = require('./../models/Laws')
 const Investor = require('./../models/Investor')
 const validator = require('../../validations/AdminValidations')
 "use strict";
@@ -191,7 +192,7 @@ let AdminController = {
     this function takes Text, subject< recipient and send an email
     */
 
-    SendEmail: async function (Text, Subject, Reciepient) {
+    SendEmail: async function (Text, Subject, Recipient) {
 
         process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
         // async..await is not allowed in global scope, must use a wrapper
@@ -498,12 +499,84 @@ let AdminController = {
                 }
             }
         });
+    },
+
+
+
+    SystemCalcFees: async function (id) {
+        var Fees = 0
+        const newCase = await Case.findById(id)
+        const regLaw = await newCase.regulated_law
+        const capital = await newCase.equality_capital
+        const LawArray = await Laws.find({LawNumber: regLaw.toString()})
+        console.log(LawArray)
+        for (var i = 0; i < LawArray.length; i++) {
+            var newVal = capital * LawArray[i].LawCalc
+            console.log("newVal is" +newVal)
+            if (newVal < LawArray[i].min) {
+                Fees = Fees + LawArray[i].min
+                console.log("newVal<min"+Fees)
+            }
+            else if (newVal > LawArray[i].max) {
+                Fees = Fees + LawArray[i].max
+                console.log("newVal>max"+Fees)
+            }
+            else {
+                Fees = Fees + newVal
+                console.log("newVal in range"+fees)
+            }
+            Fees = Fees + LawArray[i].LawValue
+            console.log("plues el damgha" + Fees)
+        }
+        console.log(Fees)
+        newCase.fees= Fees
+    },
+
+    AdminCreateNewLaw: async function (req, res) {
+        try {
+            // const isValidated = validator.createValidation(req.body)
+            // if (isValidated.error) return res.status(400).send({ error: isValidated.error.details[0].message })
+            const AdminId = '5c9bb0dc5185793518ea84fb' //login token
+            const Admin = await Admins.findById(AdminId)
+            if ((!Admin)|| (Admin && Admin.Type !== 'Super')) {
+                return res.json({ msg: 'Only super admins have access' })
+            }
+            else {
+                const newLaw = await Laws.create(req.body)
+                res.json({ msg: 'Law was created successfully', data: newLaw })
+            }
+        }
+        catch (error) {
+            // We will be handling the error later
+            console.log(error)
+        }
+    },
+
+    
+
+    AdminChangePricingStrategy: async function(req, res) {
+        try {
+            const AdminId = '5c9bb0dc5185793518ea84fb' //login token
+            const Admin = await Admins.findById(AdminId)
+            if ((!Admin) || (Admin && Admin.Type !== 'Super')) {
+                return res.json({ msg: 'Only super admins have access' })
+            }
+            else {
+            const id = req.params.id
+            const Law = await Laws.findById(id)
+            if (!Law) return res.status(404).send({ error: 'Law does not exist' });
+            //  const isValidated = validator.updateValidation(req.body)
+            //  if (isValidated.error) return res.status(400).send({ error: isValidated.error.details[0].message })
+            const updatedLaw = await Law.updateOne(req.body)
+            res.json({ msg: 'Laws updated successfully', data: updatedLaw })
+            }
+        }
+        catch (error) {
+            // We will be handling the error later
+            console.log(error)
+        }
     }
-
-
-
 }
-
 
 
 module.exports = AdminController
