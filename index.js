@@ -14,6 +14,9 @@ const Commentj = require('./app/routes/api/Comments')
 const fun = require('./app/routes/api/Cases_func')
 const Perform = require('./app/routes/api/Performance')
 const Admin = require('./app/routes/api/Admin')
+const AdminContoller = require('./app/Controllers/AdminController')
+
+AdminContoller.forgotpassword('fady.wasfalla@gmail.com')
 
 const routes = require('./app/routes.js')
 
@@ -54,10 +57,10 @@ app.get('/payment',(req,res)=>{
             return
 
         }
-            
-
     })
 })
+
+
 
 // Direct to Route Handlers
 app.use('/api/Staff', Staffi)

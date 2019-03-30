@@ -20,7 +20,8 @@ let InvestorController = {
         const CaseID = '5c94df653c95ff18c8866d52' //get this from frontend 
 
         const myCase = await Case.findById(CaseID)
-
+        const inv = await Case.findOne({ _id: myCase.investorID })
+        const userEmail = inv.email
         if(!myCase)
             res.json({msg: 'this case does not exist'})
             
@@ -49,6 +50,28 @@ let InvestorController = {
                         }
                         else {
                             const casecreated = await Case.findByIdAndUpdate(CaseID, { 'caseStatus': 'published' })
+                            let transporter = nodemailer.createTransport({
+                                service: 'gmail',
+                                auth: {
+                                    user: 'angry.nerds2019@gmail.com',
+                                    pass: 'Angry1234'
+                                }
+                 
+                            });
+                            let mailOptions = {
+                                from: '"Angry Nerds 👻" <angry.nerds2019@gmail.com>', // sender address
+                                to: userEmail, // list of receivers
+                                subject: 'Resetting Password', // Subject line
+                                text: 'reset Link expires in 24 hours', // plain text body
+                                html: '<h3>The code expires within an hour</h3> '
+                                // html body
+                            };
+                            transporter.sendMail(mailOptions, (error, info) => {
+                                if (error) {
+                                    return console.log(error);
+                                }
+                                res.json({ success: true, message: 'An email has been sent check your email' });
+                            });
                             return res.json({ message: 'your payment has been made; you will receive an invoice via your mail' })
                         }
 
