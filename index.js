@@ -17,6 +17,7 @@ const Admin = require('./app/routes/api/Admin')
 const routes = require('./app/routes.js')
 
 
+
 global.heroku = "https://angrynerds1.herokuapp.com"
 
 const app = express()
@@ -68,9 +69,9 @@ app.use('/api/Comments',Commentj)
 app.use('/api/Admin',Admin)
 app.use('/', routes)
 
-
 app.use((req,res) => res.status(404).send(`<h1>Can not find what you're looking for</h1>`))
+
+
 
 const port = process.env.PORT || 3000
 app.listen(port, () => console.log(`Server on ${port}`))
-//process.on('uncaughtException',.close(),app)

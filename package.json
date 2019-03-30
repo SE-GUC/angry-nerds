@@ -21,10 +21,7 @@
     "mongoose": "^5.4.15",
     "mongoose-unique-validator": "^2.0.2",
     "nodemailer": "^6.0.0",
-<<<<<<< HEAD
     "randomstring": "^1.1.5",
-=======
->>>>>>> 79d6cc1ab81cb6c3278819e406d3172bb2b86d81
     "request": "^2.88.0",
     "stripe": "^6.28.0"
   }

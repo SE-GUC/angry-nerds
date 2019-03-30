@@ -218,6 +218,76 @@ let AdminController = {
         main().catch(console.error);
     },
 
+    AdminDeleteLawyer: async function (req, res) {
+        
+        try {
+            const Admin = await Admins.findById('5c9bb0dc5185793518ea84fb')
+            const LawyerID = req.params.id
+
+            mongoose.set('useFindAndModify', false)
+            const deletedLawyer = await Lawyer.findByIdAndRemove(LawyerID)
+            if(!deletedLawyer){
+                res.json({message: 'there is not lawyer by this id to remove'})
+            }
+            else{
+                const query = { lawyerID: LawyerID }
+                const UpdateCases = await Case.find(query)
+                console.log(UpdateCases)
+                for (let i = 0; i < UpdateCases.length; i += 1) {
+                    console.log(UpdateCases[i]._id)
+                    AdminController.system_assign_lawyer(UpdateCases[i]._id)
+
+                }
+
+                res.json({
+                    message: 'lawyer deleted successfuly'
+                })
+            }
+
+        }
+        catch (error) {
+            console.log(error)
+        }
+
+    },
+
+    system_assign_lawyer: async function (caseId) {
+        
+        try{
+            const lawyer = await Lawyer.find()
+            var least = lawyer[0].number_of_cases
+
+            for (let i = 1; i < lawyer.length; i += 1) {
+                if (lawyer[i].number_of_cases < least) {
+                    least = lawyer[i].number_of_cases
+                }
+            }
+
+            for (let i = 0; i < lawyer.length; i += 1) {
+                if (lawyer[i].number_of_cases === least) {
+                    AdminController.assign_lawyer(caseId, lawyer[i]._id)
+                    break;
+                }
+            }
+        }
+        catch(error){
+            console.log(error)
+        }
+        
+
+        
+    },
+
+
+    assign_lawyer: async function (caseId, lawyerId) {
+        const updatedCase = await Case.findByIdAndUpdate(caseId, { 'lawyerID': lawyerId })
+        const st = await Lawyer.findById(lawyerId)
+        const updatedLawyer1 = await Lawyer.findByIdAndUpdate(lawyerId, { 'total_number_of_cases': st.total_number_of_cases + 1 })
+        const updatedLawyer2 = await Lawyer.findByIdAndUpdate(lawyerId, { 'number_of_cases': st.number_of_cases + 1 })
+    }
+    
+
+
 
 }
 
