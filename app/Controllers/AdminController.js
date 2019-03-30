@@ -147,7 +147,7 @@ let AdminController = {
     this function takes Text, subject< recipient and send an email
     */
 
-    SendEmail: async function (Text, Subject, Reciepient) {
+    SendEmail: async function (Text, Subject, Recipient) {
 
         process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
         // async..await is not allowed in global scope, must use a wrapper

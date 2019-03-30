@@ -22,6 +22,8 @@ const AdminController= require('./app/Controllers/AdminController')
 //AdminController.SystemCalcFees('5c94df923c95ff18c8866d54')
 global.heroku = "https://angrynerds1.herokuapp.com"
 
+AdminController.SendEmail('aho shaghal', 'shaghal aho', 'fadywasfalla@gmail.com')
+
 const app = express()
 app.set('view engine', 'hbs')
 
