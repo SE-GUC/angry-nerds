@@ -47,7 +47,8 @@ router.delete('/AdminDeleteAdmin/:id',AdminController.AdminDeleteAdmin)
 router.put('/AdminChangePassword/:id',AdminController.adminChangePassword)
 router.get('AdminViewLawyersLeaderBoard',AdminController.adminViewLawyersLeaderBoard)
 router.get('AdminViewReviewersLeaderBoard',AdminController.adminViewReviewersLeaderBoard)
-
+router.put('/AdminChangePricingStrategy/:id', AdminController.AdminChangePricingStrategy)
+router.post('/AdminCreateNewLaw', AdminController.AdminCreateNewLaw)
 
 
 
@@ -96,5 +97,7 @@ router.get('/ReviewerViewLawyersLeaderBoard',ReviewerController.reviewerViewLawy
 //-------------------------------User Routes---------------------------------------------------------
 router.get('/UnregisteredViewQuestions',UserController.UnregisteredViewQuestions)
 router.get('/UnregisteredViewLawyers',UserController.viewLawyers)
+//router.get('/UserViewLaws', UserController.UserViewLaws)
+
 
 module.exports = router
