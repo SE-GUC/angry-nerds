@@ -5,35 +5,40 @@ const Questions = require('./../models/Questions')
 const express = require('express')
 const router = express.Router()
 const mongoose = require('mongoose')
-const Laws= require('./../models/Laws')
+const Laws = require('./../models/Laws')
+const Lawyer = require('./../models/Lawyer')
+
 
 
 
 
 let UserController = {
-//write methods here: check InvestorController for example
+    //write methods here: check InvestorController for example
 
-UnregisteredViewQuestions: async (req,res) =>{
-    try {
-        const projection = { _id: 0, question: 1, answer: 1, time: 1 }
-        const ques = await Questions.find({}, projection)
-        res.json({ data: ques })
-    } catch (err) {
-        return next(err);
+    UnregisteredViewQuestions: async (req, res) => {
+        try {
+            const projection = { _id: 0, question: 1, answer: 1, time: 1 }
+            const ques = await Questions.find({}, projection)
+            res.json({ data: ques })
+        } catch (err) {
+            return next(err);
+        }
+    },
+
+    UserViewLaws: async function (req, res) {
+        const Law = await Laws.find()
+        res.json({ data: Law })
+        viewLawyers: async (req, res) => {
+            try {
+                // const projection = { _id: 1, password: 0 }
+                const lawyers = await Lawyer.find()
+                res.json({ data: lawyers })
+            } catch (err) {
+                return next(err);
+            }
+        }
+
     }
-},
-
-UserViewLaws: async function(req, res){
-    const Law = await Laws.find()
-    res.json({ data: Law })
-}
-
-
-
-
-
-
-
 }
 
 module.exports = UserController
