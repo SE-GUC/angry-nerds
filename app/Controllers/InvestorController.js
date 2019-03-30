@@ -58,12 +58,11 @@ let InvestorController = {
 
                 }
 
-
             })
 
         }
         else
-            return res.json({ message: 'you cannot pay for company that is not yours ' })
+            return res.json({ message: 'you cannot pay for a company that is not yours ' })
 
         console.log(req.body)
 

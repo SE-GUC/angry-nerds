@@ -6,9 +6,7 @@ const express = require('express')
 const router = express.Router()
 const mongoose = require('mongoose')
 const Lawyer = require('./../models/Lawyer')
-
-
-
+const Laws= require('./../models/Laws')
 
 
 let UserController = {
@@ -32,6 +30,10 @@ viewLawyers: async (req,res) =>{
     } catch (err) {
         return next(err);
     }
+},
+UserViewLaws: async function(req, res){
+    const Law = await Laws.find()
+    res.json({ data: Law })
 }
 
 
