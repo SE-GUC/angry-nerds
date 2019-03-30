@@ -9,8 +9,6 @@ const Lawyer = require('./../models/Lawyer')
 const Laws= require('./../models/Laws')
 
 
-
-
 let UserController = {
 //write methods here: check InvestorController for example
 
