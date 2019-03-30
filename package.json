@@ -16,14 +16,23 @@
     "bcrypt": "^3.0.5",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.18.3",
+    "dotenv": "^7.0.0",
     "express": "^4.16.4",
     "fs": "0.0.1-security",
     "hbs": "^4.0.3",
     "joi": "^14.3.1",
+<<<<<<< HEAD
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.4.20",
     "mongoose-unique-validator": "^2.0.2",
     "nodemailer": "^6.0.0",
+=======
+    "mongoose": "^5.4.15",
+    "mongoose-unique-validator": "^2.0.2",
+    "nodemailer": "^6.0.0",
+    "pdfmake": "^0.1.54",
+    "randomstring": "^1.1.5",
+>>>>>>> 6c9cf1eca2fddddd1f5055d3f9abdeac9c5a59c8
     "request": "^2.88.0",
     "stripe": "^6.28.0"
   }
