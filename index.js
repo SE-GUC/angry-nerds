@@ -15,8 +15,11 @@ const fun = require('./app/routes/api/Cases_func')
 const Perform = require('./app/routes/api/Performance')
 const Admin = require('./app/routes/api/Admin')
 const routes = require('./app/routes.js')
+const AdminController= require('./app/Controllers/AdminController')
+//AdminController.AdminChangePricingStrategy("revenues159", 10)
+//console.log(Cases_func.revenue159)
 
-
+//AdminController.SystemCalcFees('5c94df923c95ff18c8866d54')
 global.heroku = "https://angrynerds1.herokuapp.com"
 
 const app = express()

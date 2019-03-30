@@ -5,6 +5,7 @@ const Questions = require('./../models/Questions')
 const express = require('express')
 const router = express.Router()
 const mongoose = require('mongoose')
+const Laws= require('./../models/Laws')
 
 
 
@@ -20,6 +21,11 @@ UnregisteredViewQuestions: async (req,res) =>{
     } catch (err) {
         return next(err);
     }
+},
+
+UserViewLaws: async function(req, res){
+    const Law = await Laws.find()
+    res.json({ data: Law })
 }
 
 
