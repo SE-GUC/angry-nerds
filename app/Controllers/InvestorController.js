@@ -71,9 +71,6 @@ let InvestorController = {
 
     /* Malak
     this is a function that takes as an input company id and returns its fees
-    it is still under construction because its unlogical since we want anyone be
-    be able to view the fees without having to create a company
-    i also think this is front end work
     */
     InvestorViewFees: async function (req, res) {
         const id = req.params.id

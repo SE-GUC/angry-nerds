@@ -372,7 +372,7 @@ let AdminController = {
 
 
     SystemCalcFees: async function (id) {
-        var fees = 0
+        var Fees = 0
         const newCase = await Case.findById(id)
         const regLaw = await newCase.regulated_law
         const capital = await newCase.equality_capital
@@ -382,21 +382,22 @@ let AdminController = {
             var newVal = capital * LawArray[i].LawCalc
             console.log("newVal is" +newVal)
             if (newVal < LawArray[i].min) {
-                fees = fees + LawArray[i].min
-                console.log("newVal<min"+fees)
+                Fees = Fees + LawArray[i].min
+                console.log("newVal<min"+Fees)
             }
             else if (newVal > LawArray[i].max) {
-                fees = fees + LawArray[i].max
-                console.log("newVal>max"+fees)
+                Fees = Fees + LawArray[i].max
+                console.log("newVal>max"+Fees)
             }
             else {
-                fees = fees + newVal
+                Fees = Fees + newVal
                 console.log("newVal in range"+fees)
             }
-            fees = fees + LawArray[i].LawValue
-            console.log("plues el damgha" + fees)
+            Fees = Fees + LawArray[i].LawValue
+            console.log("plues el damgha" + Fees)
         }
-        console.log(fees)
+        console.log(Fees)
+        newCase.fees= Fees
     },
 
     AdminCreateNewLaw: async function (req, res) {
