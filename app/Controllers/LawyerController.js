@@ -5,6 +5,9 @@ const Lawyer = require('./../models/Lawyer')
 const express = require('express')
 const router = express.Router()
 const mongoose = require('mongoose')
+const Reviewer = require('./../models/Reviewer')
+
+
 
 let LawyerController = {
     //write methods here: check InvestorController for example
@@ -82,6 +85,44 @@ let LawyerController = {
 
     },
 
+    lawyerViewLawyersLeaderBoard: async(req,res)=>{
+        try{
+            const lawyerid = '5c9e48bb3f08ad4ea807ea10'
+            const lawyer = await Lawyer.findById(lawyerid)
+            if (!lawyer)
+                return res.status(404).send({ error: 'You are not allowed to view the Leaderboard' });
+            const leaderboard= await Lawyer.find().sort({completed_number_of_cases: 1});
+            console.log(Lawyer)
+            console.log(leaderboard)
+            return res.json({ data: leaderboard});
+
+
+
+        }
+        catch(error){
+            console.log(error)
+            return res.status(404).send({ error: 'LeaderBoard cant be viewed' })
+
+        }
+    },
+
+    
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
     /*
     PUT request to change password of the lawyer
     PARAMS:{ lawyerID: String }
@@ -152,7 +193,28 @@ let LawyerController = {
             return res.status(400).json({ error: 'Error processing query.' })
         }
 
+    },
+
+    lawyerViewReviewersLeaderBoard: async(req,res)=>{
+        try{
+            const lawyerid = '5c9e48bb3f08ad4ea807ea10'
+            const lawyer = await Lawyer.findById(lawyerid)
+            if (!lawyer)
+                return res.status(404).send({ error: 'You are not allowed to view the Leaderboard' });
+            const leaderboard= await Reviewer.find().sort({completed_number_of_cases: 1});
+            //console.log(leaderboard)
+            return res.json({ data: leaderboard});
+
+
+
+        }
+        catch(error){
+            //console.log(error)
+            return res.status(404).send({ error: 'LeaderBoard cant be viewed' })
+
+        }
     }
+
 
 
 
