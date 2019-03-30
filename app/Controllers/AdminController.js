@@ -5,6 +5,7 @@ const Admins = require('./../models/Admin')
 const Case = require('./../models/Cases')
 const Lawyer = require('./../models/Lawyer')
 const Reviewer = require('./../models/Reviewer')
+const Investor = require('./../models/Investor')
 const validator = require('../../validations/AdminValidations')
 "use strict";
 const nodemailer = require("nodemailer");
@@ -52,51 +53,39 @@ let AdminController = {
             mongoose.set('useFindAndModify', false)
             const id = req.params.id
             const AdminId = '5c9bb0dc5185793518ea84fb' //login token
-
+            const Investors = await Investor.findById(id)
             const Admin = await Admins.findById(AdminId)
 
             if (!Admin)
-                return res.json({ msg: 'Only Admins have access' })
+                return res.status(403).json({ error: 'Only Admins have access' })
             else {
-                await InvestorController.deleteInvestor(id)
-                return res.json({ msg: 'Investor deleted successfully' })
+                if (Investors) {
+                    await InvestorController.deleteInvestor(id)
+                    return res.status(200).json({ msg: 'Investor deleted successfully' })
+                }
+                else {
+                    return res.status(400).json({ error: 'Can not find Investor' })
+                }
             }
 
         }
         catch (error) {
-            res.json({ msg: 'Can not perform this action' })
+            return res.status(400).json({ error: 'Can not perform this action now' })
         }
-    },
-
-    AdminRegisterLawyer: async (req, res) => {
-        const AdminId = '5c9bb0dc5185793518ea84fb' //login token
-        const Admin = await Admins.findById(AdminId)
-        if (!Admin)
-            return res.json({ msg: 'Only Admins have access' })
-        const email = req.body.email
-        const Lawyers = await Lawyer.findOne({ email })
-        if (user)
-            return res.status(400).json({ error: 'Email already exists' })
-        else {
-            const newLawyer = await Lawyer.create(req.body)
-            res.json({ msg: 'Lawyer was created successfully', data: newLawyer })
-                .catch(err => res.json('There was an error ,Try again later'))
-        }
-
     },
     AdminRegisterReviewer: async (req, res) => {
         const AdminId = '5c9bb0dc5185793518ea84fb' //login token
         const Admin = await Admins.findById(AdminId)
         if (!Admin)
-            return res.json({ msg: 'Only Admins have access' })
+            return res.status(403).json({ error: 'Only Admins have access' })
         const email = req.body.email
         const Reviewers = await Reviewer.findOne({ email })
-        if (user)
+        if (Reviewers)
             return res.status(400).json({ error: 'Email already exists' })
         else {
             const newReviewer = await Reviewer.create(req.body)
-            res.json({ msg: 'Reviewer was created successfully', data: newReviewer })
-                .catch(err => res.json('There was an error ,Try again later'))
+            return res.status(200).json({ msg: 'Reviewer was created successfully', data: newReviewer })
+            //  .catch(err => res.json('There was an error ,Try again later'))
         }
 
     },
@@ -135,9 +124,24 @@ let AdminController = {
             })
         }
 
-
     },
 
+    AdminRegisterLawyer: async (req, res) => {
+        const AdminId = '5c9bb0dc5185793518ea84fb' //login token
+        const Admin = await Admins.findById(AdminId)
+        if (!Admin)
+            return res.status(403).json({ error: 'Only Admins have access' })
+        const email = req.body.email
+        const Lawyers = await Lawyer.findOne({ email })
+        if (Lawyers)
+            return res.status(400).json({ error: 'Email already exists' })
+        else {
+            const newLawyer = await Lawyer.create(req.body)
+            return res.status(200).json({ msg: 'Lawyer was created successfully', data: newLawyer })
+            //    .catch(err => res.json('There was an error ,Try again later'))
+        }
+
+    },
     /* Malak
     This is a function that takes as an input a request, a variable (which will
     be the global variable we want to change) and a newValue (the new value
@@ -215,6 +219,153 @@ let AdminController = {
 
         main().catch(console.error);
     },
+    AdminRegisterAdmin: async (req, res) => {
+        const AdminId = '5c9bb0dc5185793518ea84fb' //login token
+        const Admin = await Admins.findById(AdminId)
+        if ((!Admin) || (Admin && Admin.Type !== 'Super'))
+            return res.status(403).json({ error: 'Only syuper admins have access' })
+        const email = req.body.email
+        const checkAdmin = await Admins.findOne({ email })
+        if (checkAdmin)
+            return res.status(400).json({ error: 'Email already exists' })
+        else {
+            if (req.body.Type !== 'Admin')
+                return res.status(400).json({ error: 'Type should be only Admin' })
+            const newAdmin = await Admins.create(req.body)
+            return res.status(200).json({ msg: 'Admin was created successfully', data: newAdmin })
+            //   .catch(err => res.json('There was an error ,Try again later'))
+        }
+
+    },
+    AdminDeleteAdmin: async (req, res) => {
+        try {
+            mongoose.set('useFindAndModify', false)
+            const id = req.params.id
+            const AdminId = '5c9bb0dc5185793518ea84fb' //login token
+            const Admin = await Admins.findById(AdminId)
+
+            if ((!Admin) || (Admin && Admin.Type !== 'Super'))
+                return res.status(403).json({ error: 'Only Admins have access' })
+            else {
+                await Admins.findByIdAndRemove(id)
+                return res.status(200).json({ msg: 'Admin deleted successfully' })
+            }
+
+        }
+        catch (error) {
+            return res.status(400).json({ error: 'Can not perform this action now' })
+
+        }
+    },
+
+
+    adminViewComment: async (req, res) => {
+        try {
+            const formid = '5c9cfd1d05f1d42e68b75fb7'
+            const adminid = '5c77e91b3fd76231ecbf04ee'
+            const admin = await Admins.findById(adminid)
+            const form = await Case.findById(formid)
+            if (!form)
+                return res.status(404).send({ error: 'The form does not exist' });
+            if (!admin)
+                return res.status(404).send({ error: 'You are not allowed to view this comment' });
+            return res.json({ data: form.comment });
+        }
+        catch (error) {
+            return res.status(404).send({ error: 'Comment cant be viewed' })
+
+        }
+
+
+    },
+
+
+
+    /*
+    PUT request to change password of the admin
+    PARAMS:{ adminID: String }
+    BODY:{   oldPassword: String,
+             newPassword: String }
+    * Checks if the admin is in the database,
+    then checks if the oldPassword matches the one in the database.
+    Then changes the password in the database.     
+    RETURNS 404 NOT FOUND: if the ID is not in the database.
+            403 FORBIDDEN: if the old password does not match the password in the database.
+            200 OK: if the password is updated.
+            400 BAD REQUEST: if an exception is thrown.   
+
+    */
+    adminChangePassword: async function (req, res) {
+        try {
+            const id = req.params.id
+            const oldPassword = req.body.oldPassword
+            const newPassword = req.body.newPassword
+            let admin = await Admins.findById(id)
+            if (!admin) {
+                return res.status(404).json({ error: 'Cannot find an admin account with this ID' })
+            }
+            else {
+                if (oldPassword != admin.password) {
+                    return res.status(403).json({ error: 'The passwords do not match' })
+                }
+                else {
+                    const updatedAdmin = await Admins.findByIdAndUpdate(id, {
+                        'password': newPassword,
+                    })
+                    admin = await Admin.findById(id)
+                    return res.status(200).json({ msg: 'The password was updated', data: admin })
+                }
+            }
+        }
+        catch (error) {
+            console.log(error)
+            return res.status(400).json({ error: 'Error processing query.' })
+        }
+
+    },
+
+    adminViewLawyersLeaderBoard: async (req, res) => {
+        try {
+            const adminid = '5c9e48bb3f08ad4ea807ea10'
+            const admin = await Admin.findById(adminid)
+            if (!admin)
+                return res.status(404).send({ error: 'You are not allowed to view the Leaderboard' });
+            const leaderboard = await Lawyer.find().sort({ completed_number_of_cases: 1 });
+
+            return res.json({ data: leaderboard });
+
+
+
+        }
+        catch (error) {
+            console.log(error)
+            return res.status(404).send({ error: 'LeaderBoard cant be viewed' })
+
+        }
+    },
+
+    adminViewReviewersLeaderBoard: async (req, res) => {
+        try {
+            const adminid = '5c9e48bb3f08ad4ea807ea10'
+            const admin = await Admin.findById(adminid)
+            if (!admin)
+                return res.status(404).send({ error: 'You are not allowed to view the Leaderboard' });
+            const leaderboard = await Reviewer.find().sort({ completed_number_of_cases: 1 });
+
+            return res.json({ data: leaderboard });
+
+
+
+        }
+        catch (error) {
+            console.log(error)
+            return res.status(404).send({ error: 'LeaderBoard cant be viewed' })
+
+        }
+    },
+
+
+
 
     AdminDeleteLawyer: async function (req, res) {
         
