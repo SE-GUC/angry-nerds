@@ -15,6 +15,16 @@ const functions = {
           });
           return t.data.message
     },
-
+    MailResetPassword : async (token,password) => {
+      const t = await axios({
+          method: 'post',
+          url:'http://127.0.0.1:3000/resetpassword/'+token,
+          headers: {}, 
+          data: {
+            pass: password, // This is the body part
+          }
+        });
+        return t.data.message
+  },
 }
 module.exports = functions;
