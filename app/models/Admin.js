@@ -40,7 +40,8 @@ const AdminSchema = new Schema({
 
     Type:{
         type: String,
-        required: true
+        required: true,
+        default:'Admin'
     },
 
     birthdate:{

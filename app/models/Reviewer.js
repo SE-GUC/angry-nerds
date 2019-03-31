@@ -78,6 +78,10 @@ const ReviewerSchema = new Schema({
     ssid: {
         type: Number,
         required: true
+    } ,
+     //dany
+     photoID: {
+        type: String
     }
 
 })

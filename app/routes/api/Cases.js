@@ -330,7 +330,6 @@ router.get('/CompViewing', async (req, res) => {
         }
     }
 
-
     catch (error) {
         console.log(error)
     }
@@ -407,69 +406,9 @@ router.post('/', async (req, res) => {
 
 
 
-router.post('/FillForm/:id', async (req, res) => {
-    try {
-
-        const id = req.params.id
-        const investor = await Investor.findById(id)
-        if (!investor) {
-            const lawyer = await Staff.findById(id)
-            if (!lawyer) return res.status(404).send(
-                { error: 'you r not allowed to fill a form, u r neither a lawyer nor an investor' });
-
-            if (lawyer.Type === 'Lawyer') {
-                var temp = 'Lawyer'
-
-            }
-            else { return res.status(404).send({ error: 'you r not allowed to fill a form, u r neither a lawyer nor an investor' }); }
-
-        }
-        else { var temp = 'Investor' }
-
-            const newForm = await Case.create(req.body)
-            const casecreated = await Case.findByIdAndUpdate(newForm.id, { 'caseStatus': temp })
-            console.log(newForm)
-            console.log(casecreated)
-
-        res.json({ msg: 'Form was created successfully', data: newForm })
-       }
-       
-       catch (error) {
-           // We will be handling the error later
-           console.log(error)
-       }  
-
-})
 
 
-router.put('/updateForm/:idu/:idf', async (req, res) => {
-    try {
-     const idu = req.params.idu
-     const idf = req.params.idf
-     const form = await Case.findById(idf)
-     const investor = await Investor.findById(idu)
-        if (!form) return res.status(404).send({ error: 'The Form does not exist' });
-        if (!investor) {
-            const lawyer = await Staff.findById(idu)
-            if (!lawyer) return res.status(404).send({ error: 'you r not allowed to update the form, u r neither a lawyer nor an investor' });
 
-            if (lawyer.Type === 'Lawyer') {
-            var updatedCase = await Case.findByIdAndUpdate(idf, req.body)
-          }
-          else { return res.status(404).send({ error: 'you r not allowed to update form, u r neither a lawyer nor an investor' }); }
-
-         }
-         else {            
-            var updatedCase = await Case.findByIdAndUpdate(idf, req.body)
-         }
-
-         res.json({ msg: 'Form updated successfully', data: updatedCase })
-    }
-    catch (error) {
-        // We will be handling the error later
-        console.log(error)
-    }  
- })
 
 
 // Update a case
@@ -810,43 +749,7 @@ router.put('/system_assign_reviewer/:caseId', async (req, res) => {
 })
 
 
-//view fees
-router.get('/ViewFees/:id', async (req, res) => {
-    const id = req.params.id
-    const Cases = await Case.findById(id, projection)
-    if (Cases === null) {
-        res.json({ msg: 'Can not find company' })
-    }
-    else {
-        res.json({ data: Cases.Fees })
-    }
-})
 
-// keep track of time taken to finish a case
-
-module.exports.ViewTime = async function (Data) {
-    const id = req.params.id
-    const Cases = await Case.findById(id)
-    var d1 = new Date(Cases.caseOpenSince)
-    if (!Cases) {
-        res.json({ msg: 'Cannot find case' })
-    }
-    else {
-        console.log(Cases.caseClosedDate)
-        if (Cases.caseClosedDate != null) {
-            var d2 = new Date(Cases.caseClosedDate)
-            var timeDiff = Math.abs(d2.getTime() - d1.getTime())
-            var daysBetween = Math.ceil(timeDiff / (1000 * 3600 * 24))
-            console.log(timeDiff)
-            console.log(daysBetween)
-            res.json({ data: daysBetween })
-        }
-        else {
-            res.json({ msg: 'Case not finished' })
-        }
-
-    }
-}
 router.get('/CmpViewing/:id', async (req, res) => {
 
     try {

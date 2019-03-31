@@ -57,6 +57,17 @@ InvestorSchema = new Schema({
     },
     gender: {
         type: String
+    },
+    secretToken: {
+        type: String
+    },
+    active: {
+        type: Boolean
+    },
+
+    //dany
+    photoID: {
+        type: String
     }
 })
 
