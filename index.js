@@ -20,11 +20,15 @@ const Staffi = require('./app/routes/api/Staff')
 const Notification = require('./app/routes/api/Notifications')
 const questions = require('./app/routes/api/Questions')
 const Commentj = require('./app/routes/api/Comments')
-const fun = require('./app/routes/api/Cases_func')
+// const fun = require('./app/routes/api/Cases_func')
 const Perform = require('./app/routes/api/Performance')
 const Admin = require('./app/routes/api/Admin')
-// const routes = require('./app/routes.js')
+const routes = require('./app/routes.js')
 
+// const routes = require('./app/routes.js')
+// const AdminController= require('./app/Controllers/AdminController')
+//AdminController.AdminChangePricingStrategy("revenues159", 10)
+//console.log(Cases_func.revenue159)
 
 global.heroku = "https://angrynerds1.herokuapp.com"
 
@@ -232,11 +236,11 @@ app.use('/api/Notifications', Notification)
 app.use('/api/Questions', questions)
 app.use('/api/Comments',Commentj)
 app.use('/api/Admin',Admin)
-// app.use('/', routes)
-
+ app.use('/', routes)
 
 app.use((req,res) => res.status(404).send(`<h1>Can not find what you're looking for</h1>`))
 
+
+
 const port = process.env.PORT || 3000
 app.listen(port, () => console.log(`Server on ${port}`))
-//process.on('uncaughtException',.close(),app)

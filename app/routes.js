@@ -34,15 +34,21 @@ router.get('/generatePdf/:id',InvestorController.generatePdf)
 
 //-------------------------------Admin Routes------------------------------------------------------------
 router.post('/AdminRegisterLawyer',AdminController.AdminRegisterLawyer)
-router.post('AdminRegisterReviewer',AdminController.AdminRegisterReviewer)
+router.post('/AdminRegisterReviewer',AdminController.AdminRegisterReviewer)
 router.get('/AdminViewComment',AdminController.adminViewComment)
-
 router.post('/AdminRegisterAdmin',AdminController.AdminRegisterAdmin)
 router.put('/AdminEditCompany/:id', AdminController.AdminEditCompany)
 router.delete('/AdminDeleteInvestor/:id',AdminController.AdminDeleteInvestor)
+router.post('/AdminRegisterLawyer',AdminController.AdminRegisterLawyer)
+router.post('AdminRegisterReviewer',AdminController.AdminRegisterReviewer)
+router.delete('/AdminDeleteLawyer/:id',AdminController.AdminDeleteLawyer)
+router.delete('/AdminDeleteReviewer/:id',AdminController.AdminDeleteReviewer)
 router.delete('/AdminDeleteAdmin/:id',AdminController.AdminDeleteAdmin)
-
 router.put('/AdminChangePassword/:id',AdminController.adminChangePassword)
+router.get('AdminViewLawyersLeaderBoard',AdminController.adminViewLawyersLeaderBoard)
+router.get('AdminViewReviewersLeaderBoard',AdminController.adminViewReviewersLeaderBoard)
+router.put('/AdminChangePricingStrategy/:id', AdminController.AdminChangePricingStrategy)
+router.post('/AdminCreateNewLaw', AdminController.AdminCreateNewLaw)
 
 
 
@@ -53,6 +59,11 @@ router.put('/AdminChangePassword/:id',AdminController.adminChangePassword)
 router.post('/LawyerFillForm',LawyerController.lawyerFillForm)
 router.put('/LawyerUpdateForm/:id',LawyerController.lawyerUpdateForm)
 router.get('/LawyerViewComment',LawyerController.lawyerViewComment)
+router.get('/LawyerViewLawyersLeaderBoard',LawyerController.lawyerViewLawyersLeaderBoard)
+router.get('/LawyerViewReviewersLeaderBoard',LawyerController.lawyerViewReviewersLeaderBoard)
+
+
+
 
 
 
@@ -85,6 +96,8 @@ router.post('/reviewrWriteComment',ReviewerController.reviewrWriteComment)
 
 router.put('/ReviewerChangePassword/:id',ReviewerController.reviewerChangePassword)
 router.get('/ReviewerMyNotifications/:id',ReviewerController.reviewerMyNotifications)
+router.get('/ReviewerViewLawyersLeaderBoard',ReviewerController.reviewerViewLawyersLeaderBoard)
+
 
 
 
@@ -95,5 +108,8 @@ router.get('/ReviewerMyNotifications/:id',ReviewerController.reviewerMyNotificat
 
 //-------------------------------User Routes---------------------------------------------------------
 router.get('/UnregisteredViewQuestions',UserController.UnregisteredViewQuestions)
+router.get('/UnregisteredViewLawyers',UserController.viewLawyers)
+//router.get('/UserViewLaws', UserController.UserViewLaws)
+
 
 module.exports = router

@@ -10,8 +10,8 @@ const randomstring = require('randomstring')
 const mailer =require ('../../../misc/mailer')
 const config = require('../../../config/mailer')
 
-router.get('/', async (req, res) => {
-    const Investors = await Investor.find()
+router.get('/',  async (req, res) => {
+    const Investors = await  Investor.find()
     res.json({ data: Investors })
 })
 

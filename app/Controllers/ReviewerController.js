@@ -5,6 +5,8 @@ const Reviewer = require('./../models/Reviewer')
 const express = require('express')
 const router = express.Router()
 const mongoose = require('mongoose')
+const Lawyer = require('./../models/Lawyer')
+
 
 
 let ReviewerController = {
@@ -165,7 +167,7 @@ caseDisAproveedAtReviewer: async function (req, res) {     /// :idStaff/:idCase'
    reviewerMyNotifications: async function(req,res) {
     try{
     const id = req.params.id
-    let reviewer = await reviewer.findById(id)
+    let reviewer = await Reviewer.findById(id)
     if(!reviewer){
         return res.status(404).json({error: 'Cannot find an reviewer account with this ID'})
     }
@@ -180,6 +182,26 @@ caseDisAproveedAtReviewer: async function (req, res) {     /// :idStaff/:idCase'
         return res.status(400).json({ error:'Error processing query.'})
     }
 
+},
+reviewerViewLawyersLeaderBoard: async(req,res)=>{
+    try{
+        const reviewerid = '5c9e48bb3f08ad4ea807ea10'
+        const reviewer = await Reviewer.findById(reviewerid)
+        if (!reviewer)
+            return res.status(404).send({ error: 'You are not allowed to view the Leaderboard' });
+        const leaderboard= await Lawyer.find().sort({completed_number_of_cases: 1});
+       // console.log(Lawyer)
+        //console.log(leaderboard)
+        return res.json({ data: leaderboard});
+
+
+
+    }
+    catch(error){
+        //console.log(error)
+        return res.status(404).send({ error: 'LeaderBoard cant be viewed' })
+
+    }
 }
 
 

@@ -5,6 +5,9 @@ const Lawyer = require('./../models/Lawyer')
 const express = require('express')
 const router = express.Router()
 const mongoose = require('mongoose')
+const Reviewer = require('./../models/Reviewer')
+
+
 
 let LawyerController = {
     //write methods here: check InvestorController for example
@@ -80,6 +83,27 @@ let LawyerController = {
         }
 
 
+    },
+
+    lawyerViewLawyersLeaderBoard: async(req,res)=>{
+        try{
+            const lawyerid = '5c9e48bb3f08ad4ea807ea10'
+            const lawyer = await Lawyer.findById(lawyerid)
+            if (!lawyer)
+                return res.status(404).send({ error: 'You are not allowed to view the Leaderboard' });
+            const leaderboard= await Lawyer.find().sort({completed_number_of_cases: 1});
+            console.log(Lawyer)
+            console.log(leaderboard)
+            return res.json({ data: leaderboard});
+
+
+
+        }
+        catch(error){
+            console.log(error)
+            return res.status(404).send({ error: 'LeaderBoard cant be viewed' })
+
+        }
     },
 
     /*
@@ -169,7 +193,8 @@ caseDisAproveedAtLawyer: async function (req, res) {       /// :idStaff/:idCase'
 
      const comment = req.body.Comment
 
-     if (lawyer) {  /// test if this if function is valid
+if (CASE.caseStatus==lawyer){
+     if (lawyer._id==CASE.lawyerID) {  /// test if this if function is valid
          Case.updateOne({_id:req.params.idCase}, {$set: {caseStatus:"reviewer"}}) // updates case with _id matching Case and sets caseStatus to null  
          res.send(Cases)
                                                    
@@ -188,6 +213,7 @@ caseDisAproveedAtLawyer: async function (req, res) {       /// :idStaff/:idCase'
 
     return res.status(200).json({ msg: 'Case approved' , data: Case})       // in test check that caseStatus is reviewer      
      }
+    }
 
      else {
         return res.status(404).json({ error: 'error ' })
@@ -198,10 +224,9 @@ caseDisAproveedAtLawyer: async function (req, res) {       /// :idStaff/:idCase'
 
    lawyerWriteComment: async function (caseID,comment) {  //   Only  called in caseDisAproveedAtLawyer !! and takes caseID and comment as inputs
     const CASE = Case.findById(caseID)
-    // const comment = req.params.comment
 
     const writecomment = await Case.findByIdAndUpdate(caseID, { 'password': comment,})
-    return res.status(200).json({ msg: 'comment sent', data: writecomment })
+    return  'comment sent'
 
    }   ,
 
@@ -256,6 +281,26 @@ caseDisAproveedAtLawyer: async function (req, res) {       /// :idStaff/:idCase'
             return res.status(400).json({ error: 'Error processing query.' })
         }
 
+    },
+
+    lawyerViewReviewersLeaderBoard: async(req,res)=>{
+        try{
+            const lawyerid = '5c9e48bb3f08ad4ea807ea10'
+            const lawyer = await Lawyer.findById(lawyerid)
+            if (!lawyer)
+                return res.status(404).send({ error: 'You are not allowed to view the Leaderboard' });
+            const leaderboard= await Reviewer.find().sort({completed_number_of_cases: 1});
+            //console.log(leaderboard)
+            return res.json({ data: leaderboard});
+
+
+
+        }
+        catch(error){
+            //console.log(error)
+            return res.status(404).send({ error: 'LeaderBoard cant be viewed' })
+
+        }
     }
 
 }

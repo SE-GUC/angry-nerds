@@ -5,6 +5,8 @@ const Admins = require('./../models/Admin')
 const Case = require('./../models/Cases')
 const Lawyer = require('./../models/Lawyer')
 const Reviewer = require('./../models/Reviewer')
+const Investor = require('./../models/Investor')
+const Laws = require('./../models/Laws')
 const validator = require('../../validations/AdminValidations')
 "use strict";
 const nodemailer = require("nodemailer");
@@ -52,50 +54,38 @@ let AdminController = {
             mongoose.set('useFindAndModify', false)
             const id = req.params.id
             const AdminId = '5c9bb0dc5185793518ea84fb' //login token
-
+            const Investors = await Investor.findById(id)
             const Admin = await Admins.findById(AdminId)
 
             if (!Admin)
-                return res.json({ msg: 'Only Admins have access' })
+                return res.status(403).json({ error: 'Only Admins have access' })
             else {
-                await InvestorController.deleteInvestor(id)
-                return res.json({ msg: 'Investor deleted successfully' })
+                if (Investors) {
+                    await InvestorController.deleteInvestor(id)
+                    return res.status(200).json({ msg: 'Investor deleted successfully' })
+                }
+                else {
+                    return res.status(400).json({ error: 'Can not find Investor' })
+                }
             }
 
         }
         catch (error) {
-            res.json({ msg: 'Can not perform this action' })
+            return res.status(400).json({ error: 'Can not perform this action now' })
         }
-    },
-
-    AdminRegisterLawyer: async (req, res) => {
-        const AdminId = '5c9bb0dc5185793518ea84fb' //login token
-        const Admin = await Admins.findById(AdminId)
-        if (!Admin)
-            return res.json({ msg: 'Only Admins have access' })
-        const email = req.body.email
-        const Lawyers = await Lawyer.findOne({ email })
-        if (user)
-            return res.status(400).json({ error: 'Email already exists' })
-        else {
-            const newLawyer = await Lawyer.create(req.body)
-            res.json({ msg: 'Lawyer was created successfully', data: newLawyer })
-                .catch(err => res.json('There was an error ,Try again later'))
-        }
-
     },
     AdminRegisterReviewer: async (req, res) => {
         const AdminId = '5c9bb0dc5185793518ea84fb' //login token
         const Admin = await Admins.findById(AdminId)
         if (!Admin)
-            return res.json({ msg: 'Only Admins have access' })
+            return res.status(403).json({ error: 'Only Admins have access' })
         const email = req.body.email
         const Reviewers = await Reviewer.findOne({ email })
-        if (user)
+        if (Reviewers)
             return res.status(400).json({ error: 'Email already exists' })
         else {
             const newReviewer = await Reviewer.create(req.body)
-            res.json({ msg: 'Reviewer was created successfully', data: newReviewer })
+            return res.status(200).json({ msg: 'Reviewer was created successfully', data: newReviewer })
             //  .catch(err => res.json('There was an error ,Try again later'))
         }
 
@@ -117,8 +107,6 @@ let AdminController = {
         const currentCase = await Case.findById(id).catch((err) => {
             res.json({ message: 'This id is not valid. please contact technical support' })
         })
-
-
 
         if (currentCase) {
             if (admin) {
@@ -143,35 +131,18 @@ let AdminController = {
         const AdminId = '5c9bb0dc5185793518ea84fb' //login token
         const Admin = await Admins.findById(AdminId)
         if (!Admin)
-            return res.json({ msg: 'Only Admins have access' })
+            return res.status(403).json({ error: 'Only Admins have access' })
         const email = req.body.email
         const Lawyers = await Lawyer.findOne({ email })
         if (Lawyers)
             return res.status(400).json({ error: 'Email already exists' })
         else {
             const newLawyer = await Lawyer.create(req.body)
-            res.json({ msg: 'Lawyer was created successfully', data: newLawyer })
+            return res.status(200).json({ msg: 'Lawyer was created successfully', data: newLawyer })
             //    .catch(err => res.json('There was an error ,Try again later'))
         }
 
     },
-    AdminRegisterReviewer: async (req, res) => {
-        const AdminId = '5c9bb0dc5185793518ea84fb' //login token
-        const Admin = await Admins.findById(AdminId)
-        if (!Admin)
-            return res.json({ msg: 'Only Admins have access' })
-        const email = req.body.email
-        const Reviewers = await Reviewer.findOne({ email })
-        if (Reviewers)
-            return res.status(400).json({ error: 'Email already exists' })
-        else {
-            const newReviewer = await Reviewer.create(req.body)
-            res.json({ msg: 'Reviewer was created successfully', data: newReviewer })
-            //.catch(err => res.json('There was an error ,Try again later'))
-        }
-
-    },
-
     /* Malak
     This is a function that takes as an input a request, a variable (which will
     be the global variable we want to change) and a newValue (the new value
@@ -203,6 +174,7 @@ let AdminController = {
             }
         }
     },
+   
 
     /* Malak
     this function takes Text, subject< recipient and send an email
@@ -253,16 +225,16 @@ let AdminController = {
         const AdminId = '5c9bb0dc5185793518ea84fb' //login token
         const Admin = await Admins.findById(AdminId)
         if ((!Admin) || (Admin && Admin.Type !== 'Super'))
-            return res.json({ msg: 'Only super admins have access' })
+            return res.status(403).json({ error: 'Only syuper admins have access' })
         const email = req.body.email
-        const checkAdmin = await Reviewer.findOne({ email })
+        const checkAdmin = await Admins.findOne({ email })
         if (checkAdmin)
             return res.status(400).json({ error: 'Email already exists' })
         else {
             if (req.body.Type !== 'Admin')
-                return res.json({ msg: 'Type should be only Admin' })
-            const newAdmin = await Reviewer.create(req.body)
-            res.json({ msg: 'Admin was created successfully', data: newAdmin })
+                return res.status(400).json({ error: 'Type should be only Admin' })
+            const newAdmin = await Admins.create(req.body)
+            return res.status(200).json({ msg: 'Admin was created successfully', data: newAdmin })
             //   .catch(err => res.json('There was an error ,Try again later'))
         }
 
@@ -275,83 +247,316 @@ let AdminController = {
             const Admin = await Admins.findById(AdminId)
 
             if ((!Admin) || (Admin && Admin.Type !== 'Super'))
-                return res.json({ msg: 'Only super admin has access' })
+                return res.status(403).json({ error: 'Only Admins have access' })
             else {
                 await Admins.findByIdAndRemove(id)
-                return res.json({ msg: 'Admin deleted successfully' })
+                return res.status(200).json({ msg: 'Admin deleted successfully' })
             }
 
         }
         catch (error) {
-            res.json({ msg: 'Can not perform this action' })
+            return res.status(400).json({ error: 'Can not perform this action now' })
+
         }
     },
-    
 
-    adminViewComment:async(req,res)=>{
-    try{
-        const formid='5c9cfd1d05f1d42e68b75fb7'
-        const adminid = '5c77e91b3fd76231ecbf04ee'
-        const admin = await Admins.findById(adminid)
-        const form = await Case.findById(formid)
-        if (!form)
-          return res.status(404).send({ error: 'The form does not exist' });
-        if (!admin)
-          return res.status(404).send({ error: 'You are not allowed to view this comment'});
-        return res.json({ data: form.comment });
-    }
-    catch(error){
-        return res.status(404).send({ error: 'Comment cant be viewed' })
-    
-    }
-    
-    
+
+    adminViewComment: async (req, res) => {
+        try {
+            const formid = '5c9cfd1d05f1d42e68b75fb7'
+            const adminid = '5c77e91b3fd76231ecbf04ee'
+            const admin = await Admins.findById(adminid)
+            const form = await Case.findById(formid)
+            if (!form)
+                return res.status(404).send({ error: 'The form does not exist' });
+            if (!admin)
+                return res.status(404).send({ error: 'You are not allowed to view this comment' });
+            return res.json({ data: form.comment });
+        }
+        catch (error) {
+            return res.status(404).send({ error: 'Comment cant be viewed' })
+
+        }
+
+
     },
 
 
 
-        /*
-        PUT request to change password of the admin
-        PARAMS:{ adminID: String }
-        BODY:{   oldPassword: String,
-                 newPassword: String }
-        * Checks if the admin is in the database,
-        then checks if the oldPassword matches the one in the database.
-        Then changes the password in the database.     
-        RETURNS 404 NOT FOUND: if the ID is not in the database.
-                403 FORBIDDEN: if the old password does not match the password in the database.
-                200 OK: if the password is updated.
-                400 BAD REQUEST: if an exception is thrown.   
+    /*
+    PUT request to change password of the admin
+    PARAMS:{ adminID: String }
+    BODY:{   oldPassword: String,
+             newPassword: String }
+    * Checks if the admin is in the database,
+    then checks if the oldPassword matches the one in the database.
+    Then changes the password in the database.     
+    RETURNS 404 NOT FOUND: if the ID is not in the database.
+            403 FORBIDDEN: if the old password does not match the password in the database.
+            200 OK: if the password is updated.
+            400 BAD REQUEST: if an exception is thrown.   
 
-        */
-   adminChangePassword: async function(req,res) {
-    try{
-    const id = req.params.id
-    const oldPassword = req.body.oldPassword
-    const newPassword = req.body.newPassword
-    let admin = await Admins.findById(id)
-    if(!admin){
-        return res.status(404).json({error: 'Cannot find an admin account with this ID'})
-    }
-    else{
-        if(oldPassword != admin.password){
-            return res.status(403).json({error: 'The passwords do not match'})
+    */
+    adminChangePassword: async function (req, res) {
+        try {
+            const id = req.params.id
+            const oldPassword = req.body.oldPassword
+            const newPassword = req.body.newPassword
+            let admin = await Admins.findById(id)
+            if (!admin) {
+                return res.status(404).json({ error: 'Cannot find an admin account with this ID' })
+            }
+            else {
+                if (oldPassword != admin.password) {
+                    return res.status(403).json({ error: 'The passwords do not match' })
+                }
+                else {
+                    const updatedAdmin = await Admins.findByIdAndUpdate(id, {
+                        'password': newPassword,
+                    })
+                    admin = await Admin.findById(id)
+                    return res.status(200).json({ msg: 'The password was updated', data: admin })
+                }
+            }
         }
-        else{
-            const updatedAdmin = await Admins.findByIdAndUpdate(id, {
-                'password': newPassword,
-            })
-            admin = await Admin.findById(id)
-            return res.status(200).json({ msg: 'The password was updated' , data: admin})
+        catch (error) {
+            console.log(error)
+            return res.status(400).json({ error: 'Error processing query.' })
         }
-    }
-    }
-    catch(error){
-        console.log(error)
-        return res.status(400).json({ error:'Error processing query.'})
-    }   
-    }
 
+    },
+
+    adminViewLawyersLeaderBoard: async (req, res) => {
+        try {
+            const adminid = '5c9e48bb3f08ad4ea807ea10'
+            const admin = await Admin.findById(adminid)
+            if (!admin)
+                return res.status(404).send({ error: 'You are not allowed to view the Leaderboard' });
+            const leaderboard = await Lawyer.find().sort({ completed_number_of_cases: 1 });
+
+            return res.json({ data: leaderboard });
+
+
+
+        }
+        catch (error) {
+            console.log(error)
+            return res.status(404).send({ error: 'LeaderBoard cant be viewed' })
+
+        }
+    },
+
+    adminViewReviewersLeaderBoard: async (req, res) => {
+        try {
+            const adminid = '5c9e48bb3f08ad4ea807ea10'
+            const admin = await Admin.findById(adminid)
+            if (!admin)
+                return res.status(404).send({ error: 'You are not allowed to view the Leaderboard' });
+            const leaderboard = await Reviewer.find().sort({ completed_number_of_cases: 1 });
+
+            return res.json({ data: leaderboard });
+
+
+
+        }
+        catch (error) {
+            console.log(error)
+            return res.status(404).send({ error: 'LeaderBoard cant be viewed' })
+
+        }
+    },
+
+
+
+
+    AdminDeleteLawyer: async function (req, res) {
+        
+        try {
+            const Admin = await Admins.findById('5c9bb0dc5185793518ea84fb')
+            const LawyerID = req.params.id
+            if(Admin){
+                mongoose.set('useFindAndModify', false)
+                const deletedLawyer = await Lawyer.findByIdAndRemove(LawyerID)
+                if (!deletedLawyer) {
+                    res.json({ message: 'there is not lawyer by this id to remove' })
+                }
+                else {
+                    const query = { lawyerID: LawyerID }
+                    const UpdateCases = await Case.find(query)
+                    console.log(UpdateCases)
+                    for (let i = 0; i < UpdateCases.length; i += 1) {
+                        console.log(UpdateCases[i]._id)
+                        AdminController.system_assign_lawyer(UpdateCases[i]._id)
+
+                    }
+
+                    res.json({
+                        message: 'lawyer deleted successfuly'
+                    })
+                }
+            }
+            else res.json({message:'you are not authorized fir this action'})
+            
+
+        }
+        catch (error) {
+            console.log(error)
+        }
+
+    },
+
+    
+    system_assign_lawyer: async function (caseId) {
+        
+        try{
+            const lawyer = await Lawyer.find()
+            var least = lawyer[0].number_of_cases
+
+            for (let i = 1; i < lawyer.length; i += 1) {
+                if (lawyer[i].number_of_cases < least) {
+                    least = lawyer[i].number_of_cases
+                }
+            }
+
+            for (let i = 0; i < lawyer.length; i += 1) {
+                if (lawyer[i].number_of_cases === least) {
+                    AdminController.assign_lawyer(caseId, lawyer[i]._id)
+                    break;
+                }
+            }
+        }
+        catch(error){
+            console.log(error)
+        }
+        
+
+        
+    },
+    
+    assign_lawyer: async function (caseId, lawyerId) {
+        const updatedCase = await Case.findByIdAndUpdate(caseId, { 'lawyerID': lawyerId })
+        const st = await Lawyer.findById(lawyerId)
+        const updatedLawyer1 = await Lawyer.findByIdAndUpdate(lawyerId, { 'total_number_of_cases': st.total_number_of_cases + 1 })
+        const updatedLawyer2 = await Lawyer.findByIdAndUpdate(lawyerId, { 'number_of_cases': st.number_of_cases + 1 })
+    },
+    
+    AdminDeleteReviewer: async function (req, res) {
+        
+        try {
+            const Admin = await Admins.findById('5c9bb0dc5185793518ea84fb')//get from login
+            const ReviewerID = req.params.id
+            if(Admin){
+                
+                mongoose.set('useFindAndModify', false)
+                const deletedReviewer = await Reviewer.findByIdAndRemove(ReviewerID)
+                if(!deletedReviewer){
+                    res.json({message: 'there is not Reviewer by this id to remove'})
+                }
+                else{
+                    const query = { reviewerID: ReviewerID }
+                    const UpdateCases = await Case.find(query)
+                    console.log(UpdateCases)
+                    for (let i = 0; i < UpdateCases.length; i += 1) {
+                        console.log(UpdateCases[i]._id)
+                        AdminController.system_assign_Reviewer(UpdateCases[i]._id)
+            
+                    }
+            
+                    res.json({
+                        message: 'Reviewer deleted successfuly'
+                    })
+                }
+            }
+    
+        }
+        catch (error) {
+            console.log(error)
+        }
+    
+    },
+
+ 
+   
+    assign_Reviewer: async function (caseId, ReviewerId) {
+        const updatedCase = await Case.findByIdAndUpdate(caseId, { 'reviewerID': ReviewerId })
+        const st = await Reviewer.findById(ReviewerId)
+        const updatedReviewer1 = await Reviewer.findByIdAndUpdate(ReviewerId, { 'total_number_of_cases': st.total_number_of_cases + 1 })
+        const updatedReviewer2 = await Reviewer.findByIdAndUpdate(ReviewerId, { 'number_of_cases': st.number_of_cases + 1 })
+    },
+    
+    SystemCalcFees: async function (id) {
+        var fees = 0
+        const newCase = await Case.findById(id)
+        const regLaw = await newCase.regulated_law
+        const capital = await newCase.equality_capital
+        const LawArray = await Laws.find({LawNumber: regLaw.toString()})
+        console.log(LawArray)
+        for (var i = 0; i < LawArray.length; i++) {
+            var newVal = capital * LawArray[i].LawCalc
+            console.log("newVal is" +newVal)
+            if (newVal < LawArray[i].min) {
+                fees = fees + LawArray[i].min
+                console.log("newVal<min"+fees)
+            }
+            else if (newVal > LawArray[i].max) {
+                fees = fees + LawArray[i].max
+                console.log("newVal>max"+fees)
+            }
+            else {
+                fees = fees + newVal
+                console.log("newVal in range"+fees)
+            }
+            fees = fees + LawArray[i].LawValue
+            console.log("plues el damgha" + fees)
+        }
+        console.log(fees)
+    },
+
+    AdminCreateNewLaw: async function (req, res) {
+        try {
+            // const isValidated = validator.createValidation(req.body)
+            // if (isValidated.error) return res.status(400).send({ error: isValidated.error.details[0].message })
+            const AdminId = '5c9bb0dc5185793518ea84fb' //login token
+            const Admin = await Admins.findById(AdminId)
+            if ((!Admin)|| (Admin && Admin.Type !== 'Super')) {
+                return res.json({ msg: 'Only super admins have access' })
+            }
+            else {
+                const newLaw = await Laws.create(req.body)
+                res.json({ msg: 'Law was created successfully', data: newLaw })
+            }
+        }
+        catch (error) {
+            // We will be handling the error later
+            console.log(error)
+        }
+    },
+
+    
+
+    AdminChangePricingStrategy: async function(req, res) {
+        try {
+            const AdminId = '5c9bb0dc5185793518ea84fb' //login token
+            const Admin = await Admins.findById(AdminId)
+            if ((!Admin) || (Admin && Admin.Type !== 'Super')) {
+                return res.json({ msg: 'Only super admins have access' })
+            }
+            else {
+            const id = req.params.id
+            const Law = await Laws.findById(id)
+            if (!Law) return res.status(404).send({ error: 'Law does not exist' });
+            //  const isValidated = validator.updateValidation(req.body)
+            //  if (isValidated.error) return res.status(400).send({ error: isValidated.error.details[0].message })
+            const updatedLaw = await Law.updateOne(req.body)
+            res.json({ msg: 'Laws updated successfully', data: updatedLaw })
+            }
+        }
+        catch (error) {
+            // We will be handling the error later
+            console.log(error)
+        }
+    }
 }
+
 
 module.exports = AdminController
