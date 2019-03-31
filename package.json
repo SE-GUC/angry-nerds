@@ -18,6 +18,7 @@
     "dotenv": "^7.0.0",
     "express": "^4.16.4",
     "hbs": "^4.0.3",
+    "jest": "^24.5.0",
     "joi": "^14.3.1",
     "mailer": "^0.6.7",
     "mongoose": "^5.4.15",
@@ -26,6 +27,7 @@
     "pdfmake": "^0.1.54",
     "randomstring": "^1.1.5",
     "request": "^2.88.0",
+    "socket.io": "^2.2.0",
     "stripe": "^6.28.0"
   },
   "devDependencies": {
