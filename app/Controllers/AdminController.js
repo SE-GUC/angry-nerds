@@ -17,8 +17,6 @@ var InvestorController = require('./InvestorController')
 
 let AdminController = {
     //write your methods here: check investorController for example
-    //write your methods here: check investorController for example
-
 
     /* Malak
     this is a method that takes nothing as an input and calculates time
@@ -429,8 +427,6 @@ let AdminController = {
             console.log(error)
         }
         
-
-        
     },
     
     assign_lawyer: async function (caseId, lawyerId) {
@@ -554,8 +550,6 @@ let AdminController = {
             console.log(error)
         }
     },
-
-    
 
     AdminChangePricingStrategy: async function(req, res) {
         try {
