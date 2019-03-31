@@ -76,13 +76,11 @@ let AdminController = {
         const AdminId = '5c9bb0dc5185793518ea84fb' //login token
         const Admin = await Admins.findById(AdminId)
         if (!Admin)
-            return res.json({ error: 'Only Admins have access' })
-            // return res.status(403).json({ error: 'Only Admins have access' })
+            return res.status(403).json({ error: 'Only Admins have access' })
         const email = req.body.email
         const Reviewers = await Reviewer.findOne({ email })
         if (Reviewers)
-            return res.json({ error: 'Email already exists' })
-            // return res.status(400).json({ error: 'Email already exists' })
+            return res.status(400).json({ error: 'Email already exists' })
         else {
             const newReviewer = await Reviewer.create(req.body)
             return res.status(200).json({ msg: 'Reviewer was created successfully', data: newReviewer })
@@ -131,13 +129,11 @@ let AdminController = {
         const AdminId = '5c9bb0dc5185793518ea84fb' //login token
         const Admin = await Admins.findById(AdminId)
         if (!Admin)
-              return res.json({ error: 'Only Admins have access' })
-            //return res.status(403).json({ error: 'Only Admins have access' })
+            return res.status(403).json({ error: 'Only Admins have access' })
         const email = req.body.email
         const Lawyers = await Lawyer.findOne({ email })
         if (Lawyers)
-             return res.json({ error: 'Email already exists' })
-            // return res.status(400).json({ error: 'Email already exists' })
+            return res.status(400).json({ error: 'Email already exists' })
         else {
             const newLawyer = await Lawyer.create(req.body)
             return res.status(200).json({ msg: 'Lawyer was created successfully', data: newLawyer })
@@ -224,19 +220,19 @@ let AdminController = {
         main().catch(console.error);
     },
     AdminRegisterAdmin: async (req, res) => {
-        const AdminId = '5c9bb0dc5185793518ea84fb' //login token
+        const AdminId = '5ca1144b4cf5920704aeab7a' //login token
         const Admin = await Admins.findById(AdminId)
         if ((!Admin) || (Admin && Admin.Type !== 'Super'))
-            return res.json({ error: 'Only syuper admins have access' })
-            // return res.status(403).json({ error: 'Only syuper admins have access' })
+            return res.status(403).json({ error: 'Only super admins have access' })
+        if (req.body.Type !== 'Admin')
+            return res.status(400).json({ error: 'Type should be only Admin' })
         const email = req.body.email
         const checkAdmin = await Admins.findOne({ email })
         if (checkAdmin)
-        return res.json({ error: 'Email already exists' })    
-        // return res.status(400).json({ error: 'Email already exists' })
+            return res.status(400).json({ error: 'Email already exists' })
+        if (req.body.Type !== 'Admin')
+            return res.status(400).json({ error: 'Type should be only Admin' })
         else {
-            if (req.body.Type !== 'Admin')
-                return res.status(400).json({ error: 'Type should be only Admin' })
             const newAdmin = await Admins.create(req.body)
             return res.status(200).json({ msg: 'Admin was created successfully', data: newAdmin })
             //   .catch(err => res.json('There was an error ,Try again later'))
@@ -247,12 +243,15 @@ let AdminController = {
         try {
             mongoose.set('useFindAndModify', false)
             const id = req.params.id
-            const AdminId = '5c9bb0dc5185793518ea84fb' //login token
+            const AdminId = '5ca1144b4cf5920704aeab7a' //login token
             const Admin = await Admins.findById(AdminId)
 
             if ((!Admin) || (Admin && Admin.Type !== 'Super'))
                 return res.status(403).json({ error: 'Only Admins have access' })
             else {
+                const newAdmin = await Admins.findById(id)
+                if (!newAdmin)
+                    return res.status(400).json({ error: 'Can not find Admin' })
                 await Admins.findByIdAndRemove(id)
                 return res.status(200).json({ msg: 'Admin deleted successfully' })
             }
