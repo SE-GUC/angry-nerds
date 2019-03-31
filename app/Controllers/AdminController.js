@@ -1,8 +1,11 @@
 const express = require('express')
 const router = express.Router()
 const mongoose = require('mongoose')
+
 const Admins = require('./../models/Admin')
 const Reviewer = require('./../models/Reviewer')
+const Investor = require('./../models/Investor')
+const Laws = require('./../models/Laws')
 const validator = require('../../validations/AdminValidations')
 const Case = require('../models/Cases')
 const Lawyer = require('../models/Lawyer')
@@ -105,14 +108,12 @@ let AdminController = {
         const id = req.params.id //this represents the id of the case being edited
 
         const admin = await Admins.findById(AdminID).catch((err) => {
-            res.json({ message: 'This id is not valid. please contact technical support' })
+            res.json({ message: 'you are not authorized' })
         })
 
         const currentCase = await Case.findById(id).catch((err) => {
-            res.json({ message: 'This id is not valid. please contact technical support' })
+            res.json({ message: 'This id is not a valid company.' })
         })
-
-
 
         if (currentCase) {
             if (admin) {
@@ -181,6 +182,7 @@ let AdminController = {
         }
     },
 
+
     /* Malak
     this function takes Text, subject< recipient and send an email
     */
@@ -227,17 +229,19 @@ let AdminController = {
         main().catch(console.error);
     },
     AdminRegisterAdmin: async (req, res) => {
-        const AdminId = '5c9bb0dc5185793518ea84fb' //login token
+        const AdminId = '5ca1144b4cf5920704aeab7a' //login token
         const Admin = await Admins.findById(AdminId)
         if ((!Admin) || (Admin && Admin.Type !== 'Super'))
-            return res.status(403).json({ error: 'Only syuper admins have access' })
+            return res.status(403).json({ error: 'Only super admins have access' })
+        if (req.body.Type !== 'Admin')
+            return res.status(400).json({ error: 'Type should be only Admin' })
         const email = req.body.email
         const checkAdmin = await Admins.findOne({ email })
         if (checkAdmin)
             return res.status(400).json({ error: 'Email already exists' })
+        if (req.body.Type !== 'Admin')
+            return res.status(400).json({ error: 'Type should be only Admin' })
         else {
-            if (req.body.Type !== 'Admin')
-                return res.status(400).json({ error: 'Type should be only Admin' })
             const newAdmin = await Admins.create(req.body)
             return res.status(200).json({ msg: 'Admin was created successfully', data: newAdmin })
             //   .catch(err => res.json('There was an error ,Try again later'))
@@ -248,12 +252,15 @@ let AdminController = {
         try {
             mongoose.set('useFindAndModify', false)
             const id = req.params.id
-            const AdminId = '5c9bb0dc5185793518ea84fb' //login token
+            const AdminId = '5ca1144b4cf5920704aeab7a' //login token
             const Admin = await Admins.findById(AdminId)
 
             if ((!Admin) || (Admin && Admin.Type !== 'Super'))
                 return res.status(403).json({ error: 'Only Admins have access' })
             else {
+                const newAdmin = await Admins.findById(id)
+                if (!newAdmin)
+                    return res.status(400).json({ error: 'Can not find Admin' })
                 await Admins.findByIdAndRemove(id)
                 return res.status(200).json({ msg: 'Admin deleted successfully' })
             }
@@ -499,17 +506,151 @@ let AdminController = {
     },
 
 
+    AdminDeleteLawyer: async function (req, res) {
+
+        try {
+            const Admin = await Admins.findById('5c9bb0dc5185793518ea84fb')
+            const LawyerID = req.params.id
+            if (Admin) {
+                mongoose.set('useFindAndModify', false)
+                const deletedLawyer = await Lawyer.findByIdAndRemove(LawyerID)
+                if (!deletedLawyer) {
+                    res.json({ message: 'there is not lawyer by this id to remove' })
+                }
+                else {
+                    const query = { lawyerID: LawyerID }
+                    const UpdateCases = await Case.find(query)
+                    console.log(UpdateCases)
+                    for (let i = 0; i < UpdateCases.length; i += 1) {
+                        console.log(UpdateCases[i]._id)
+                        AdminController.system_assign_lawyer(UpdateCases[i]._id)
+
+                    }
+
+                    res.json({
+                        message: 'lawyer deleted successfuly'
+                    })
+                }
+            }
+            else res.json({ message: 'you are not authorized fir this action' })
+
+
+        }
+        catch (error) {
+            console.log(error)
+        }
+
+    },
+
+
+    system_assign_lawyer: async function (caseId) {
+
+        try {
+            const lawyer = await Lawyer.find()
+            var least = lawyer[0].number_of_cases
+
+            for (let i = 1; i < lawyer.length; i += 1) {
+                if (lawyer[i].number_of_cases < least) {
+                    least = lawyer[i].number_of_cases
+                }
+            }
+
+            for (let i = 0; i < lawyer.length; i += 1) {
+                if (lawyer[i].number_of_cases === least) {
+                    AdminController.assign_lawyer(caseId, lawyer[i]._id)
+                    break;
+                }
+            }
+        }
+        catch (error) {
+            console.log(error)
+        }
+
+    },
+
+    assign_lawyer: async function (caseId, lawyerId) {
+        const updatedCase = await Case.findByIdAndUpdate(caseId, { 'lawyerID': lawyerId })
+        const st = await Lawyer.findById(lawyerId)
+        const updatedLawyer1 = await Lawyer.findByIdAndUpdate(lawyerId, { 'total_number_of_cases': st.total_number_of_cases + 1 })
+        const updatedLawyer2 = await Lawyer.findByIdAndUpdate(lawyerId, { 'number_of_cases': st.number_of_cases + 1 })
+    },
+
+    AdminDeleteReviewer: async function (req, res) {
+
+        try {
+            const Admin = await Admins.findById('5c9bb0dc5185793518ea84fb')//get from login
+            const ReviewerID = req.params.id
+            if (Admin) {
+
+                mongoose.set('useFindAndModify', false)
+                const deletedReviewer = await Reviewer.findByIdAndRemove(ReviewerID)
+                if (!deletedReviewer) {
+                    res.json({ message: 'there is not Reviewer by this id to remove' })
+                }
+                else {
+                    const query = { reviewerID: ReviewerID }
+                    const UpdateCases = await Case.find(query)
+                    console.log(UpdateCases)
+                    for (let i = 0; i < UpdateCases.length; i += 1) {
+                        console.log(UpdateCases[i]._id)
+                        AdminController.system_assign_Reviewer(UpdateCases[i]._id)
+
+                    }
+
+                    res.json({
+                        message: 'Reviewer deleted successfuly'
+                    })
+                }
+            }
+
+        }
+        catch (error) {
+            console.log(error)
+        }
+    },
+
+    system_assign_Reviewer: async function (caseId) {
+
+        try {
+            const Reviewers = await Reviewer.find()
+            var least = Reviewers[0].number_of_cases
+
+            for (let i = 1; i < Reviewers.length; i += 1) {
+                if (Reviewers[i].number_of_cases < least) {
+                    least = Reviewers[i].number_of_cases
+                }
+            }
+
+            for (let i = 0; i < Reviewers.length; i += 1) {
+                if (Reviewers[i].number_of_cases === least) {
+                    AdminController.assign_Reviewer(caseId, Reviewers[i]._id)
+                    break;
+                }
+            }
+        }
+        catch (error) {
+            console.log(error)
+        }
+
+    },
+
+    assign_Reviewer: async function (caseId, ReviewerId) {
+        const updatedCase = await Case.findByIdAndUpdate(caseId, { 'reviewerID': ReviewerId })
+        const st = await Reviewer.findById(ReviewerId)
+        const updatedReviewer1 = await Reviewer.findByIdAndUpdate(ReviewerId, { 'total_number_of_cases': st.total_number_of_cases + 1 })
+        const updatedReviewer2 = await Reviewer.findByIdAndUpdate(ReviewerId, { 'number_of_cases': st.number_of_cases + 1 })
+    },
 
     SystemCalcFees: async function (id) {
         var Fees = 0
         const newCase = await Case.findById(id)
         const regLaw = await newCase.regulated_law
         const capital = await newCase.equality_capital
-        const LawArray = await Laws.find({LawNumber: regLaw.toString()})
+        const LawArray = await Laws.find({ LawNumber: regLaw.toString() })
         console.log(LawArray)
         for (var i = 0; i < LawArray.length; i++) {
             var newVal = capital * LawArray[i].LawCalc
-            console.log("newVal is" +newVal)
+            console.log("newVal is" + newVal)
             if (newVal < LawArray[i].min) {
                 Fees = Fees + LawArray[i].min
                 console.log("newVal<min"+Fees)
@@ -535,7 +676,7 @@ let AdminController = {
             // if (isValidated.error) return res.status(400).send({ error: isValidated.error.details[0].message })
             const AdminId = '5c9bb0dc5185793518ea84fb' //login token
             const Admin = await Admins.findById(AdminId)
-            if ((!Admin)|| (Admin && Admin.Type !== 'Super')) {
+            if ((!Admin) || (Admin && Admin.Type !== 'Super')) {
                 return res.json({ msg: 'Only super admins have access' })
             }
             else {
@@ -549,9 +690,7 @@ let AdminController = {
         }
     },
 
-    
-
-    AdminChangePricingStrategy: async function(req, res) {
+    AdminChangePricingStrategy: async function (req, res) {
         try {
             const AdminId = '5c9bb0dc5185793518ea84fb' //login token
             const Admin = await Admins.findById(AdminId)
@@ -559,20 +698,48 @@ let AdminController = {
                 return res.json({ msg: 'Only super admins have access' })
             }
             else {
-            const id = req.params.id
-            const Law = await Laws.findById(id)
-            if (!Law) return res.status(404).send({ error: 'Law does not exist' });
-            //  const isValidated = validator.updateValidation(req.body)
-            //  if (isValidated.error) return res.status(400).send({ error: isValidated.error.details[0].message })
-            const updatedLaw = await Law.updateOne(req.body)
-            res.json({ msg: 'Laws updated successfully', data: updatedLaw })
+                const id = req.params.id
+                const Law = await Laws.findById(id)
+                if (!Law) return res.status(404).send({ error: 'Law does not exist' });
+                //  const isValidated = validator.updateValidation(req.body)
+                //  if (isValidated.error) return res.status(400).send({ error: isValidated.error.details[0].message })
+                const updatedLaw = await Law.updateOne(req.body)
+                res.json({ msg: 'Laws updated successfully', data: updatedLaw })
             }
         }
         catch (error) {
             // We will be handling the error later
             console.log(error)
         }
-    }
+    },
+
+    SystemCalcFees: async function (id) {
+        var fees = 0
+        const newCase = await Case.findById(id)
+        const regLaw = await newCase.regulated_law
+        const capital = await newCase.equality_capital
+        const LawArray = await Laws.find({ LawNumber: regLaw.toString() })
+        console.log(LawArray)
+        for (var i = 0; i < LawArray.length; i++) {
+            var newVal = capital * LawArray[i].LawCalc
+            console.log("newVal is" + newVal)
+            if (newVal < LawArray[i].min) {
+                fees = fees + LawArray[i].min
+                console.log("newVal<min" + fees)
+            }
+            else if (newVal > LawArray[i].max) {
+                fees = fees + LawArray[i].max
+                console.log("newVal>max" + fees)
+            }
+            else {
+                fees = fees + newVal
+                console.log("newVal in range" + fees)
+            }
+            fees = fees + LawArray[i].LawValue
+            console.log("plues el damgha" + fees)
+        }
+        console.log(fees)
+    },
 }
 
 

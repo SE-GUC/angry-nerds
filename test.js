@@ -1,4 +1,10 @@
-const funcs = require('./fn');
+const lawyer = require('./tests/lawyerFunctions');
+const adminFunctions = require('./tests/adminFunctions')
+const investorFunctions = require('./tests/investorFunctions')
+const userFunctions = require('./tests/userFunctions')
+const Lawyer = require('./app/models/Lawyer')
+const Reviewer = require('./app/models/Reviewer')
+jest.setTimeout(30000)
 
 const Admin = require('./app/Functions/Admin.functions');
 const Investor = require('./app/Functions/Investor.functions')
@@ -115,9 +121,63 @@ test ('View notification of an investor', async () => {
     const response = await Investor.investorMyNotifications(validInvestorID)
     //console.log(response)
     expect(response.data.msg).toEqual('Done')
+})
+
+                 //// dany boy
+
+test(`case disaproves at lawyer and casestatus should be investor`, async () => {
+  const CASE =  await lawyer.caseDisAproveedAtLawyer('5c7a9b46470a360ac8b0d412','5c94df923c95ff18c8866d54')    // stafID+'/:'+caseID,
+  expect(CASE.data.msg).toEqual('Case disaproved')
+});
+
+test(`case aproved at lawyer and casestatus should be reviewer`, async () => {
+  const CASE =  await lawyer.caseAproveedAtLawyer('5c9e4dc353415c34a0f35cd1','5c93e0be81a45d15089ab710')    // stafID+'/:'+caseID,
+  expect(CASE.data.msg).toEqual('Case aproved')
+});
+
+
+test(`case disaproves at reviewer and casestatus should be lawyer`, async () => {
+  const CASE =  await lawyer.caseDisAproveedAtLawyer('5c7a9b46470a360ac8b0d412','5c94df923c95ff18c8866d54')    // stafID+'/:'+caseID,
+  expect(CASE.data.msg).toEqual('Case disaproved')
+});
+
+test(`case aproved at reviewer and casestatus should be pending`, async () => {
+  const CASE =  await lawyer.caseAproveedAtReviewer('5c7a9b46470a360ac8b0d412','5c94df923c95ff18c8866d54')    // stafID+'/:'+caseID,
+  expect(CASE.data.msg).toEqual('Case aproved')
+});
+
+
+///////////////////
+
+
+
+//Admin tests
+
+test(`Editing company city to Alex`, async () => {
+    const company =  await adminFunctions.AdminEditCompany('5c9502b9ae1fad2e00c0bc7a')
+    expect(company.data.data.city).toEqual('Alex')
+  });
+
+  test(`Editing company that does not exist`, async () => {
+    const company =  await adminFunctions.AdminEditCompany('5c9502b9d2e00c0bc7a')
+    expect(company.data.message).toEqual('This id is not valid a company.' )
+  });
+
+  //Investor tests
+  test(`paying fees for a company with valid card`, async () => {
+    const charge =  await investorFunctions.InvestorPayFees(4242424242424242,12,19,121)
+    expect(charge.data.message).toEqual
+    ('your payment has been made; you will receive an invoice via your mail.' )
+  });
+
+  test(`paying fees for a company with expired card`, async () => {
+    const charge =  await investorFunctions.InvestorPayFees(4242424242424242,1,19,121)
+    console.log(charge)
+    expect(charge.data.message).toEqual
+    ('card declined' )
+  });
 
   
-})
 
 test ('View notification of an investor with an invalid ID', async () => {
   var validInvestorID = "x"
@@ -152,6 +212,116 @@ test ('View pending companies of an investor with an invalid ID', async () => {
   }
   
 })
+
+test(`Editing company that does not exist`, async () => {
+  const company = await adminFunctions.AdminEditCompany('5c9502b9d2e00c0bc7a')
+  expect(company.data.message).toEqual('This id is not valid a company.')
+});
+
+//Investor tests
+test(`paying fees for a company with valid card`, async () => {
+  const charge = await investorFunctions.InvestorPayFees(4242424242424242, 12, 19, 121)
+  expect(charge.data.message).toEqual
+    ('your payment has been made; you will receive an invoice via your mail.')
+});
+
+// test(`paying fees for a company with expired card`, async () => {
+//   const charge =  await investorFunctions.InvestorPayFees(4242424242424242,1,19,121)
+//   expect(charge.data.message).toEqual
+//   ('card declined' )
+// });
+
+//====================Hemaya tests===========================================================
+test(`Unregister view questions`, async () => {
+  const ques = await userFunctions.UnregisterViewQuestions()
+  expect(ques.data.data[0].question).toEqual('do you?')
+});
+
+
+test(`Admin register reviewer with email already exists`, async () => {
+  // await Lawyer.create(data)
+  try {
+    const ques = await adminFunctions.AdminRegisterReviewer()
+    expect(ques.data.error).toEqual('Email already exists')
+  }
+  catch (e) {
+    expect(e.response.data.error).toEqual("Email already exists")
+  }
+});
+
+test(`Admin register lawyer with email already exists`, async () => {
+  // await Lawyer.create(data)
+  try {
+    const ques = await adminFunctions.AdminRegisterLawyer()
+    expect(ques.data.error).toEqual('Email already exists')
+  } catch (e) {
+    expect(e.response.data.error).toEqual("Email already exists")
+  }
+});
+
+test(`Admin register reviewer successfully`, async () => {
+
+  // await Lawyer.create(data)
+  const ques = await adminFunctions.AdminRegisterReviewerSuccessfully();
+  expect(ques.data.msg).toEqual('Reviewer was created successfully')
+  // var query = { email: "new_emaill@gmail.com" }
+  // await Reviewer.findOneAndRemove(query)
+});
+test(`Admin register lawyer successfully`, async () => {
+
+  // await Lawyer.create(data)
+  const ques = await adminFunctions.AdminRegisterLawyerSuccessfully();
+  expect(ques.data.msg).toEqual('Lawyer was created successfully')
+  // var query = { email: "new_emaill@gmail.com" }
+  // await Lawyer.findOneAndRemove(query)
+});
+test(`Admin register Admin with email already exists`, async () => {
+  // await Lawyer.create(data)
+  try {
+    const ques = await adminFunctions.AdminRegisterAdmin()
+    expect(ques.data.error).toEqual('Email already exists')
+  } catch (e) {
+    expect(e.response.data.error).toEqual("Email already exists")
+  }
+})
+
+test(`Admin register Admin with type not admin`, async () => {
+  // await Lawyer.create(data)
+
+  try {
+    const ques = await adminFunctions.AdminRegisterAdminType()
+    expect(ques.data.error).toEqual('Email already exists')
+  } catch (e) {
+    expect(e.response.data.error).toEqual("Type should be only Admin")
+  }
+})
+
+test(`Admin register Admin successfully`, async () => {
+  // await Lawyer.create(data)
+
+    const ques = await adminFunctions.AdminRegisterAdminSuccessfully()
+    expect(ques.data.msg).toEqual('Admin was created successfully')
+})
+
+
+test(`Admin delete Investor not exist`, async () => {
+  // await Lawyer.create(data)
+  try {
+    const ques = await adminFunctions.AdminDeleteInvestorNot()
+    expect(ques.data.error).toEqual('Email already exists')
+  } catch (e) {
+    expect(e.response.data.error).toEqual("Can not find Investor")
+  }
+})
+
+
+test(`Admin delete Investor successfully`, async () => {
+  // await Lawyer.create(data)
+
+    const ques = await adminFunctions.AdminDeleteInvestor()
+    expect(ques.data.msg).toEqual('Investor deleted successfully')
+})
+
 
 test ('generate a PDF with a valid ID', async () => {
   var validCaseID = "5c9cfd1d05f1d42e68b75fb7"

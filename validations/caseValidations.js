@@ -26,8 +26,13 @@ module.exports = {
             equality_capital: Joi.require().number(),
             fees:Joi.number(),
             managers: Joi.array(),
-            comment: Joi.array()
+            comment: Joi.array(),
 
+            comment:  joi.aray().date.date().iso(),
+            comment:  joi.aray().Case.number(),
+            comment:  joi.aray().Reviewer.number(),
+            comment:  joi.aray().Lawyer.number(),
+            comment:  joi.aray().Investor.number(),
 
 
          }
@@ -41,19 +46,21 @@ module.exports = {
             
             caseOpenSince: Joi.date(),
             caseClosedDate: Joi.date(),
+            lawyerFinishDate: joi.date(),
+            reviewerFinishDate: joi.date(),
 
-           /* reviewerID: Joi.required(),
+          /*  reviewerID: Joi.required(),
             lawyerID: Joi.required(),
             investorID: Joi.required(),*/
             
-            //forms
-            form_type:Joi.string().min(3),
+            //forms          /// dont forget to add the comments arrey ex joi.aray().text we date beta3et paul
+            form_type:Joi.string().min(3),                                       //for dates .min('1-1-1990').iso().required();
             regulated_law: Joi.string().min(3).max(500),
             legal_form: Joi.string().min(3).max(100),
             arabic_name: Joi.string().min(3).max(100),
             english_name: Joi.string().min(3).max(100),
             government: Joi.string().min(3).max(100),
-            city: Joi.string().min(3).max(100),
+            city: Joi.string().min(3).max(24),
             hq_address: Joi.string().min(3).max(100),
             hq_city: Joi.string().min(3).max(100),
             main_center_phone: Joi.number(),
