@@ -411,6 +411,7 @@ CheckForms = async function (data) {
         if (data.equality_capital < 50000) {
             console.log('SSC must have a minimum capital of 50000')
             return -1;
+           
         }
         
         if (inv.Nationality != 'Egyptian') {
@@ -433,6 +434,8 @@ CheckForms = async function (data) {
           return -1;
     
         }
+
+        return 5;
        
     }
 
@@ -451,8 +454,9 @@ CheckForms = async function (data) {
             console.log('SPC Companies should not have any managers')
             return -1;
         }
+        
     }
-
+    return 5;
 }
 
 

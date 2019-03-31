@@ -41,9 +41,9 @@ router.get('AdminViewLawyersLeaderBoard',AdminController.adminViewLawyersLeaderB
 router.get('AdminViewReviewersLeaderBoard',AdminController.adminViewReviewersLeaderBoard)
 router.put('/AdminChangePricingStrategy/:id', AdminController.AdminChangePricingStrategy)
 router.post('/AdminCreateNewLaw', AdminController.AdminCreateNewLaw)
-
-
-
+router.put('/AdminAssignLawyer',AdminController.AdminAssignLawyer)
+router.put('/AdminAssignReviewer',AdminController.AdminAssignReviewer)
+router.post('/SendAttachmentMail', AdminController.SendAttachmentMail)
 
 
 

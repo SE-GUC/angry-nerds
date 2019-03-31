@@ -50,15 +50,22 @@ router.post('/register', async (req, res) => {
         const newInvestor = await Investor.create(req.body)
         res.json({ msg: 'Investor was created successfully', data: newInvestor })
         //.catch(err => res.json('You could not be registered, try again'))
-    }
+    
 
     //compose an email
-    const html = 'Hi there, <br/> Thank you for registering <br/><br/> Please verify your email by clicking on the following page:<a href= "http://localhost:3000/Investor/verify">http://localhost:3000/Investor/verify</a> </br></br> '
+    const html = 'Hi there, <br/> Thank you for registering <br/><br/> Please verify your email by clicking' + tok + ' on the following page:<a href= "http://localhost:3000/api/Investor/verify">http://localhost:3000/api/Investor/verify</a> </br></br> '
     //send the email
+    // var FileContent = require("fs").readFileSync('D:/Monica GUC/Sem6 =D/CA/CSEN601 project_28866.pdf')
+    // var attachments =  [{
+    //      filename : 'CSEN601 project_28866.pdf',
+    //      filepath : 'D:/Monica GUC/Sem6 =D/CA',
+    //      content :new Buffer(FileContent),
+    //      contentType: 'application/pdf'
+    // }]
     console.log('before')
     await mailer.sendEmail(config.user, req.body.email, 'Please verify your email', html)
     console.log('after')
-    
+    }
 })  
 
 

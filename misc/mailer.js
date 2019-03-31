@@ -15,15 +15,21 @@ const transport = nodemailer.createTransport({
         rejectUnauthorized: false
     }
 })
+ 
+
+
 
 
 module.exports = {
-    sendEmail(from, to, subject, html){
+    sendEmail(from, to, subject, html, attachments){
         return new Promise ((resolve, reject) =>{
-            transport.sendMail({ from, subject, to, html}, (err, info) => {
-                if(err) reject(err)
-
+            transport.sendMail({ from, subject, to, html, attachments}, (err, info) => {
+                if(err) {
+                console.log(err)
+                reject(err)
+                }
                 resolve(info)
+                console.log(info)
             })
         })
     }

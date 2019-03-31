@@ -11,6 +11,8 @@ const validator = require('../../validations/AdminValidations')
 "use strict";
 const nodemailer = require("nodemailer");
 const dotenv = require("dotenv");
+const mailer = require('./../../misc/mailer')
+const config = require('./../../config/mailer')
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 
 var InvestorController = require('./InvestorController')
@@ -571,6 +573,123 @@ let AdminController = {
             // We will be handling the error later
             console.log(error)
         }
+    },
+
+
+    AdminAssignLawyer: async function (req, res) {
+
+        try {
+            var x = '5c9bb0dc5185793518ea84fb' //get from login token
+            const admin = await Admin.findById(x)
+            //console.log(admin)
+            if (admin) {
+                const id = req.body.CaseId
+                const id1 = req.body.LawyerId
+                const Cases = await Case.findById(id)
+                const lawyer = await Lawyer.findById(id1)
+                // if(Cases.lawyerID != null )
+                // res.json({msg: 'Case already assigned to a lawyer'})
+                //else{
+                if (lawyer) {
+                    const updatedCase = await Case.updateOne({ _id: id }, { $set: { lawyerID: id1 } })
+                    console.log(updatedCase.lawyerID)
+                    res.json({ msg: 'Case updated successfully', data: updatedCase })
+                }
+                else
+                    res.json({ msg: 'Please select a valid lawyer' })
+            }
+            //  }
+            //  else
+            //  res.json({msg:'Only Admins can perform this action'})
+        }
+
+
+        catch (error) {
+            // We will be handling the error later
+            console.log(error)
+        }
+    },
+
+
+
+
+    AdminAssignReviewer: async function (req, res) {
+
+        try {
+            var x = "5c9bb0dc5185793518ea84fb"
+            const admin = await Admin.findById(x)
+            console.log(admin)
+            if (admin) {
+                const id = req.body.CaseId
+                const id1 = req.body.ReviewerId
+                console.log(id)
+                const Cases = await Case.findById(id)
+                const rev = await Reviewer.findById(id1)
+                //  console.log(staff)
+                // if(Cases.reviewerID >= null )
+                //res.json({msg: 'Case already assigned to a reviewer'})
+                // else{
+                if (rev) {
+                    const updatedCase = await Case.updateOne({ _id: id }, { $set: { reviewerID: id1 } })
+
+                    res.json({ msg: 'Case updated successfully', data: updatedCase })
+                }
+                else
+                    res.json({ msg: 'Please select a valid reviewer' })
+
+                //}
+            }
+        }
+        catch (error) {
+            // We will be handling the error later kkkkkk
+            console.log(error)
+        }
+
+
+    },
+
+
+    SendAttachmentMail: async function (req, res) {
+        const email = req.body.email
+        const user = await Investor.findOne({ email: email })
+        console.log(user)
+        if (user) {
+
+            //compose an email
+            const html = 'Hi there, <br/> Kindly find Attached the contract '
+
+            //send the email
+            //var FileContent = require("fs").readFileSync('D:/Monica GUC/Sem6 =D/CA/CSEN601 project_28866.pdf')
+            //try{
+                //const projection = { _id: 0, pdfString:1 }
+               // const casepdf = await Case.findById('5c9cfd1d05f1d42e68b75fb7', projection)
+                //var FileContent = casepdf.pdfString
+                
+              //  console.log(casepdf)
+                //console.log(casepdf.data.pdfString)
+           // }
+          //  catch(error){
+          //      console.log(error)
+           // }
+              
+            
+            var attachments = [{
+                filename: 'Contract.pdf',
+                //filepath: 'D:/Monica GUC/Sem6 =D/CA',
+                content: new Buffer( 'JVBERi0xLjMKJf////8KNyAwIG9iago8PAovVHlwZSAvRXh0R1N0YXRlCi9jYSAxCi9DQSAxCj4+CmVuZG9iago2IDAgb2JqCjw8Ci9UeXBlIC9QYWdlCi9QYXJlbnQgMSAwIFIKL01lZGlhQm94IFswIDAgNTk1LjI4IDg0MS44OV0KL0NvbnRlbnRzIDQgMCBSCi9SZXNvdXJjZXMgNSAwIFIKPj4KZW5kb2JqCjUgMCBvYmoKPDwKL1Byb2NTZXQgWy9QREYgL1RleHQgL0ltYWdlQiAvSW1hZ2VDIC9JbWFnZUldCi9FeHRHU3RhdGUgPDwKL0dzMSA3IDAgUgo+PgovRm9udCA8PAovRjIgOCAwIFIKPj4KPj4KZW5kb2JqCjQgMCBvYmoKPDwKL0xlbmd0aCAzNTkKL0ZpbHRlciAvRmxhdGVEZWNvZGUKPj4Kc3RyZWFtCnictVXLasMwELzrK/YHquzqtRKEHELbQG8tvpUeEscuPbRQDP3+rhylhKDmZGHGki3bM9rHmADluCM5RUc6Jug/1Wo3EbxPanU//Hz0w8tuC/2kcH506r/UqL4V1V7cduU+gUPgyDqxTdFBJx99NEAeulG9rhGRCozAbgDfoHtSD516XoydUdvko08VdifwgiDgxdmZtCEfzW0NUZCa7NwbHYnZ1uK+FxzKzvsNWK/JB+Mhrx0FQ1lvo0zojE0Ba/EwJSdjLowNJM3hrIyoiRpiHQK5Wn2SqCErcKcRj00UIGqM1tbqg3IskoySKeLTNS1fq6IiRKM9elOrlz/mWOazoiYqgtPJMNVqY2beZyVNmB1r62LVp2bmw4WCdFZyNS+xadM3wUg3MP7vIwXUhp2MJklNtT76CyeVHgkSydy3s58cis0v3zvyZzHWxsg3xWUryYZHQ0VYthl3bTMn67kQ+wtBtIw/CmVuZHN0cmVhbQplbmRvYmoKMTAgMCBvYmoKKHBkZm1ha2UpCmVuZG9iagoxMSAwIG9iagoocGRmbWFrZSkKZW5kb2JqCjEyIDAgb2JqCihEOjIwMTkwMzMxMTk1NTQ2WikKZW5kb2JqCjkgMCBvYmoKPDwKL1Byb2R1Y2VyIDEwIDAgUgovQ3JlYXRvciAxMSAwIFIKL0NyZWF0aW9uRGF0ZSAxMiAwIFIKPj4KZW5kb2JqCjE0IDAgb2JqCjw8Ci9UeXBlIC9Gb250RGVzY3JpcHRvcgovRm9udE5hbWUgL0JaWlpaWitSb2JvdG8tUmVndWxhcgovRmxhZ3MgNAovRm9udEJCb3ggWy03MzYuODE2NDA2IC0yNzAuOTk2MDk0IDExNDguNDM3NSAxMDU2LjE1MjM0NF0KL0l0YWxpY0FuZ2xlIDAKL0FzY2VudCA5MjcuNzM0Mzc1Ci9EZXNjZW50IC0yNDQuMTQwNjI1Ci9DYXBIZWlnaHQgNzEwLjkzNzUKL1hIZWlnaHQgNTI4LjMyMDMxMwovU3RlbVYgMAovRm9udEZpbGUyIDEzIDAgUgo+PgplbmRvYmoKMTUgMCBvYmoKPDwKL1R5cGUgL0ZvbnQKL1N1YnR5cGUgL0NJREZvbnRUeXBlMgovQmFzZUZvbnQgL0JaWlpaWitSb2JvdG8tUmVndWxhcgovQ0lEU3lzdGVtSW5mbyA8PAovUmVnaXN0cnkgKEFkb2JlKQovT3JkZXJpbmcgKElkZW50aXR5KQovU3VwcGxlbWVudCAwCj4+Ci9Gb250RGVzY3JpcHRvciAxNCAwIFIKL1cgWzAgWzkwOCA1OTMuMjYxNzE5IDY1MC44Nzg5MDYgNjMwLjg1OTM3NSA1MzguMDg1OTM4IDU0My45NDUzMTMgNzUxLjQ2NDg0NCAyNDcuNTU4NTk0IDU2MS41MjM0MzggNTYxLjUyMzQzOCA1NTEuNzU3ODEzIDUyOS43ODUxNTYgNTk2LjY3OTY4OCA0NzMuMTQ0NTMxIDU2MS4wMzUxNTYgMjQyLjY3NTc4MSAzMzguMzc4OTA2IDU3MC4zMTI1IDU2MS4wMzUxNTYgMzQ3LjE2Nzk2OSAzMjYuNjYwMTU2IDU2MS41MjM0MzggNTYxLjUyMzQzOCA1NjEuNTIzNDM4IDU2MS41MjM0MzggNTYxLjUyMzQzOCA1NjEuNTIzNDM4IDU2MS41MjM0MzggMjQyLjY3NTc4MSAyNzUuODc4OTA2IDQ4NC4zNzUgNTE1LjYyNV1dCj4+CmVuZG9iagoxNiAwIG9iago8PAovTGVuZ3RoIDMwMAovRmlsdGVyIC9GbGF0ZURlY29kZQo+PgpzdHJlYW0KeJxdUstugzAQvPMVe0wPEQET0koIqUovHPpQaU9VDmCvkaViLGMO/H2N102qWsKjfcywHjs9N0+NVg7S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', 'base64'),
+                contentType: 'application/pdf'
+            }]
+
+            console.log('before')
+            await mailer.sendEmail(config.user, req.body.email, 'Please verify your email', html, attachments)
+            console.log('after')
+            res.json({ message: 'Please check your email' })
+        }
+
+        else {
+            res.json({ message: 'Incorrect Mail' })
+        }
+
     }
 }
 

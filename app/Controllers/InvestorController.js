@@ -38,14 +38,14 @@ let InvestorController = {
             }, function (err, token) {
                 if (err) return res.json({ message: 'card declinded' })
                 else {
-                    console.log(token)
+                   // console.log(token)
                     var chargeAmount = 30000
                     var charge = stripe.charges.create({
                         amount: chargeAmount,
                         currency: 'usd',
                         source: token.id
                     }, async function (err) {
-                        console.log(err)
+                       // console.log(err)
                         if (err) {
                             return res.json({ message: 'your card is declined, try again!' })
                         }
@@ -64,7 +64,7 @@ let InvestorController = {
         else
             return res.json({ message: 'you cannot pay for a company that is not yours ' })
 
-        console.log(req.body)
+        //console.log(req.body)
 
     },
 
