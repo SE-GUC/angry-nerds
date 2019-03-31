@@ -271,7 +271,7 @@ let InvestorController = {
             }
             else {
                 let notifications = await Notification.find({ 'receiverInvestor': id })
-                return res.status(200).json({ data: notifications })
+                return res.status(200).json({ msg: 'Done' , data: notifications })
             }
 
         }
@@ -300,7 +300,7 @@ let InvestorController = {
             }
             else {
                 let cases = await Case.find({ 'caseStatus': 'published', 'investorID': id })
-                return res.status(200).json({ data: cases })
+                return res.status(200).json({ msg:'Done',data: cases })
             }
 
         }
@@ -328,7 +328,7 @@ let InvestorController = {
             }
             else {
                 let cases = await Case.find({ 'caseStatus': { $ne: 'published' }, 'investorID': id })
-                return res.status(200).json({ data: cases })
+                return res.status(200).json({ msg: 'Done', data: cases })
             }
 
         }
@@ -396,9 +396,11 @@ let InvestorController = {
                     chunks.push(chunk)
                 });
 
-                doc.on('end', () => {
+
+                doc.on('end', async () => {
                     const result = Buffer.concat(chunks)
-                    return res.status(200).json({ data: 'data:application/pdf;base64,' + result.toString('base64') })
+                    await Case.findByIdAndUpdate(id,{ pdfString: result.toString('base64') })
+                    return res.status(200).json({ msg: 'Done' , data: 'data:application/pdf;base64,' + result.toString('base64') })
                 });
 
                 doc.end()
@@ -410,7 +412,9 @@ let InvestorController = {
             console.log(error)
             return res.status(400).json({ error: 'Error processing query.' })
         }
-    }
+    },
+
+    
 
 
 }

@@ -70,6 +70,9 @@ const AdminSchema = new Schema({
     },
     token:{
         type:String
+    },
+    token_date : {
+        type:Date
     }
 
 })

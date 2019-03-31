@@ -457,6 +457,7 @@ let AdminController = {
                         return console.log(error);
                     }
                     user.token = token;
+                    user.token_date = Date.now()
                     user.save();
                     res.json({ success: true, message: 'An email has been sent check your email' });
                 
@@ -474,7 +475,7 @@ let AdminController = {
                 res.json({ success: false, message: "Token is expired please try again" });
             }
             else {
-                if ((Date.now() - user.token_date) > 60 * 60 * 1000) {
+                if ((Date.now() - user.token_date) > 1000*60*60*24*30*12) {
                     res.json({ success: false, message: "Token is expired please try again" });
                 }
                 else {
