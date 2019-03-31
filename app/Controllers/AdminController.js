@@ -77,11 +77,13 @@ let AdminController = {
         const AdminId = '5c9bb0dc5185793518ea84fb' //login token
         const Admin = await Admins.findById(AdminId)
         if (!Admin)
-            return res.status(403).json({ error: 'Only Admins have access' })
+            return res.json({ error: 'Only Admins have access' })
+            // return res.status(403).json({ error: 'Only Admins have access' })
         const email = req.body.email
         const Reviewers = await Reviewer.findOne({ email })
         if (Reviewers)
-            return res.status(400).json({ error: 'Email already exists' })
+            return res.json({ error: 'Email already exists' })
+            // return res.status(400).json({ error: 'Email already exists' })
         else {
             const newReviewer = await Reviewer.create(req.body)
             return res.status(200).json({ msg: 'Reviewer was created successfully', data: newReviewer })
@@ -130,11 +132,13 @@ let AdminController = {
         const AdminId = '5c9bb0dc5185793518ea84fb' //login token
         const Admin = await Admins.findById(AdminId)
         if (!Admin)
-            return res.status(403).json({ error: 'Only Admins have access' })
+              return res.json({ error: 'Only Admins have access' })
+            //return res.status(403).json({ error: 'Only Admins have access' })
         const email = req.body.email
         const Lawyers = await Lawyer.findOne({ email })
         if (Lawyers)
-            return res.status(400).json({ error: 'Email already exists' })
+             return res.json({ error: 'Email already exists' })
+            // return res.status(400).json({ error: 'Email already exists' })
         else {
             const newLawyer = await Lawyer.create(req.body)
             return res.status(200).json({ msg: 'Lawyer was created successfully', data: newLawyer })
@@ -224,11 +228,13 @@ let AdminController = {
         const AdminId = '5c9bb0dc5185793518ea84fb' //login token
         const Admin = await Admins.findById(AdminId)
         if ((!Admin) || (Admin && Admin.Type !== 'Super'))
-            return res.status(403).json({ error: 'Only syuper admins have access' })
+            return res.json({ error: 'Only syuper admins have access' })
+            // return res.status(403).json({ error: 'Only syuper admins have access' })
         const email = req.body.email
         const checkAdmin = await Admins.findOne({ email })
         if (checkAdmin)
-            return res.status(400).json({ error: 'Email already exists' })
+        return res.json({ error: 'Email already exists' })    
+        // return res.status(400).json({ error: 'Email already exists' })
         else {
             if (req.body.Type !== 'Admin')
                 return res.status(400).json({ error: 'Type should be only Admin' })

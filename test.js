@@ -1,6 +1,8 @@
 const adminFunctions = require('./tests/adminFunctions')
 const investorFunctions = require('./tests/investorFunctions')
-
+const userFunctions = require('./tests/userFunctions')
+const Lawyer = require('./app/models/Lawyer')
+jest.setTimeout(30000)
 //Admin tests
 
 test(`Editing company city to Alex`, async () => {
@@ -27,6 +29,48 @@ test(`Editing company city to Alex`, async () => {
     expect(charge.data.message).toEqual
     ('card declined' )
   });
+
+  //====================Hemaya tests===========================================================
+  test(`Unregister view questions`, async () => {
+    const ques =  await userFunctions.UnregisterViewQuestions()
+    expect(ques.data.data[0].question).toEqual('how are you?')
+  });
+
+
+  test(`Admin register lawyer with email already exists`, async () => {
+   var data = {
+    "FName":"Romba",
+      "MName": "Ramremo",
+      "LName":"Gamd",
+      "email": "fr@gmail.com",
+      "password":"cnjdqqcrjcsjn151215'",
+      "gender": "Male",
+  
+      "Nationality":"Egyptian",
+  
+      "birthdate":"1980",
+  
+      "Address":"11 makram",
+  
+  
+      "fax":"125252",
+  
+      "telephone_number":"151515",
+      
+      "total_number_of_cases": "588",
+      "completed_number_of_cases":"561",
+      "number_of_cases":"2",
+      "total_time_on_cases":"25",
+  
+      "ssid": "15552"
+      }
+  
+   // await Lawyer.create(data)
+    const ques =  await adminFunctions.AdminRegisterLawyer();
+    expect(ques).to.have.status(400)
+  });
+
+
 
 
 
