@@ -14,6 +14,116 @@ const Lawyer = require('./../models/Lawyer')
 let ReviewerController = {
 //write methods here: check InvestorController for example
 
+
+// the case will go baack to the lawyer to fix his mistake
+// will resume timer for lawer's work on case
+
+caseDisAproveedAtReviewer: async function (req, res) {     /// :idStaff/:idCase'  routs
+    // var CASE = new Case(req.body);
+    // const staff= await Staff.findById(id)
+
+     const caseID = req.params.idCase
+     const staffID = req.params.idStaff
+     const comment = req.body.Comment
+
+     const reviewer= await Reviewer.findById(staffID)
+     const CASE =   await Case.findById(caseID)
+
+     if (CASE.caseStatus==reviewer){
+     if (reviewer._id==CASE.reviewerID) {  /// test if this if function is valid
+        await Case.updateOne({_id:req.params.idCase}, {$set: {caseStatus:"lawyer"}}) // updates case with _id matching Case and sets caseStatus to null  
+         res.send(Cases)
+
+         var ReviewerEndTime = new Date();                  
+         var ReviewerStartTime = CASE.body.reviewerStartTime             
+         var ReviewerHours =Math.abs(ReviewerEndTime-ReviewerStartTime)/36e5           
+         var ReviewerTotalTimeATCase =CASE.body.reviewerTotalTime + ReviewerHours
+         var RevieweTotalTime = reviewer.body.total_time_on_cases + ReviewerTotalTimeATCase
+
+         var LawyerStartTime = new Date()
+
+        await Case.findByIdAndUpdate(id, { 'lawyerStartTime': LawyerStartTime,})     
+        await Case.findByIdAndUpdate(id, { 'reviewerTotalTime': ReviewerTotalTimeATCase,})     
+        await  Reviewer.findByIdAndUpdate(staffID, { 'total_number_of_cases':RevieweTotalTime})       
+  
+         
+         ReviewerController.reviewrWriteComment(casID,comment)
+                       
+
+         return res.status(200).json({ msg: 'Case disaproved', data: CASE })     // in test check that caseStatus is lawyer  
+
+
+     }}
+   }   ,
+
+   caseAproveedAtreviewer: async function (req, res) {
+    // var CASE = new Case(req.body);
+    // const staff= await Staff.findById(id)
+
+    const staffID = req.params.idStaff
+    const caseID = req.params.idCase
+
+
+    const reviewer= await Reviewer.findById(staffID)
+    const CASE =await Case.findById(caseID)
+
+    if (CASE.caseStatus==reviewer){
+     if (reviewer._id==CASE.reviewerID) {  /// test if this if function is valid
+       await Case.updateOne({_id:req.params.idCase}, {$set: {caseStatus:"pending"}}) // updates case with _id matching Case and sets caseStatus to null  
+         res.send(Cases)
+
+         var ReviewerEndTime = new Date();                  
+         var ReviewerStartTime = CASE.body.reviewerStartTime             
+         var ReviewerHours =Math.abs(ReviewerEndTime-ReviewerStartTime)/36e5           
+         var ReviewerTotalTimeATCase =CASE.body.reviewerTotalTime + ReviewerHours
+         var RevieweTotalTime = reviewer.body.total_time_on_cases + ReviewerTotalTimeATCase
+
+        await Case.findByIdAndUpdate(id, { 'reviewerTotalTime': ReviewerTotalTimeATCase})  
+        await Reviewer.findByIdAndUpdate(staffID, { 'total_number_of_cases':RevieweTotalTime})       
+   
+        return res.status(200).json({ msg: 'Case approved', data: CASE })     // in test check that caseStatus is pending  
+
+     }
+    }
+   }   ,
+
+   reviewrWriteComment: async function (caseID,comment) {  //   Only  called in case(Dis)AproveedAtReviewer!! and takes caseID and comment as inputs
+    const CASE = Case.findById(caseID)
+    // const comment = req.params.comment
+    // const comment = req.params.Comment
+
+
+    const writecomment = await Case.findByIdAndUpdate(id, { 'comment.text': comment,})
+    return res.status(200).json({ msg: 'comment sent', data: writecomment })
+
+   }   ,
+
+   viewCasesReviewer: async function (req, res) {         // req contain the lawyer id 
+    try {
+        const id = req.params.id
+        let reviewer = await Lawyer.findById(id)
+        if (!reviewer) {
+            return res.status(404).json({ error: 'error' })
+        }
+        else {
+            let cases = await Case.find({'reviewerID': id })
+                if(!cases){
+                    return res.status(404).json({ error: 'Cannot find cases' })
+
+            }
+            return res.status(200).json({ data: cases })
+        }
+
+    }
+    catch (error) {
+        console.log(error)
+        return res.status(400).json({ error: 'Error processing query.' })
+    }
+
+   }   ,
+
+
+
      /*
         PUT request to change password of the reviewer
         PARAMS:{ adminID: String }
@@ -163,7 +273,12 @@ console.log(error)
 
 
 
+   //    reviewerComment: async function (req, res) {    
+       
+    
+   
 
+//    }   ,
 
 
 }

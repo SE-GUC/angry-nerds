@@ -20,7 +20,7 @@ UnregisteredViewQuestions: async (req,res) =>{
     try {
         const projection = { _id: 0, question: 1, answer: 1, time: 1 }
         const ques = await Questions.find({}, projection)
-        res.json({ data: ques })
+        res.status(200).json({ data: ques })
     } catch (err) {
         return next(err);
     }
@@ -118,6 +118,7 @@ console.log(error)
 
 
 
-}
+    }
+
 
 module.exports = UserController
