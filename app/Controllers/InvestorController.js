@@ -23,7 +23,7 @@ let InvestorController = {
 
         const myCase = await Case.findById(CaseID)
 
-        if (!myCase )
+        if (!myCase)
             res.json({ message: 'you cannot pay for this company' })
 
         console.log(myCase)
@@ -36,7 +36,7 @@ let InvestorController = {
                     'cvc': req.body.cvc
                 }
             }, function (err, token) {
-                if (err) return res.json({ message: 'card declinded' })
+                if (err) return res.json({ message: 'card declined' })
                 else {
                     console.log(token)
                     var chargeAmount = 30000
@@ -68,20 +68,22 @@ let InvestorController = {
 
     },
 
-    /* Malak
-    this is a function that takes as an input company id and returns its fees
-    it is still under construction because its unlogical since we want anyone be
-    be able to view the fees without having to create a company
-    i also think this is front end work
-    */
     InvestorViewFees: async function (req, res) {
-        const id = req.params.id
-        const Cases = await Case.findById(id, projection)
-        if (Cases === null) {
-            res.json({ msg: 'Can not find company' })
+        try {
+            
+            const id = req.params.id
+            const projection = { _id: 0, Fees: 1}
+            const Cases = await Case.findById(id,projection)
+            if (!Cases) {
+                res.json({ msg: 'Can not find company' })
+            }
+            else {
+                console.log(Cases)
+                res.json({ data: Cases , msg:'This is your fees' })
+            }
         }
-        else {
-            res.json({ data: Cases.Fees })
+        catch {
+            res.json({msg: 'Cannot find company'})
         }
     },
 

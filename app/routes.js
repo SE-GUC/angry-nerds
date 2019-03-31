@@ -15,7 +15,7 @@ router.post('/InvestorFillForm',InvestorController.investorFillForm)
 router.put('/InvestorUpdateForm/:id',InvestorController.investorUpdateForm)
 router.get('/InvestorViewComment',InvestorController.investorViewComment)
 //this endpoint allows investor to view his company fees
-router.get('/InvestorViewFees', InvestorController.InvestorViewFees)
+router.get('/InvestorViewFees/:id', InvestorController.InvestorViewFees)
 router.put('/InvestorChangePassword/:id',InvestorController.investorChangePassword)
 router.get('/InvestorMyNotifications/:id',InvestorController.investorMyNotifications)
 router.get('/ViewPublishedCompanies/:id',InvestorController.viewMyPublishedCompanies)
@@ -29,7 +29,7 @@ router.post('/AdminRegisterLawyer',AdminController.AdminRegisterLawyer)
 router.post('/AdminRegisterReviewer',AdminController.AdminRegisterReviewer)
 router.get('/AdminViewComment',AdminController.adminViewComment)
 router.post('/AdminRegisterAdmin',AdminController.AdminRegisterAdmin)
-router.put('/AdminEditCompany/:id', AdminController.AdminEditCompany)
+router.put('/adminEditCompany/:id', AdminController.adminEditCompany)
 router.delete('/AdminDeleteInvestor/:id',AdminController.AdminDeleteInvestor)
 router.post('/AdminRegisterLawyer',AdminController.AdminRegisterLawyer)
 router.post('AdminRegisterReviewer',AdminController.AdminRegisterReviewer)
@@ -39,9 +39,8 @@ router.delete('/AdminDeleteAdmin/:id',AdminController.AdminDeleteAdmin)
 router.put('/AdminChangePassword/:id',AdminController.adminChangePassword)
 router.get('AdminViewLawyersLeaderBoard',AdminController.adminViewLawyersLeaderBoard)
 router.get('AdminViewReviewersLeaderBoard',AdminController.adminViewReviewersLeaderBoard)
-router.put('/AdminChangePricingStrategy/:id', AdminController.AdminChangePricingStrategy)
-router.post('/AdminCreateNewLaw', AdminController.AdminCreateNewLaw)
-
+router.put('/adminChangePricingStrategy/:id', AdminController.adminChangePricingStrategy)
+router.post('/adminCreateNewLaw', AdminController.adminCreateNewLaw)
 
 
 
@@ -67,7 +66,7 @@ router.get('/ReviewerViewLawyersLeaderBoard',ReviewerController.reviewerViewLawy
 //-------------------------------User Routes---------------------------------------------------------
 router.get('/UnregisteredViewQuestions',UserController.UnregisteredViewQuestions)
 router.get('/UnregisteredViewLawyers',UserController.viewLawyers)
-//router.get('/UserViewLaws', UserController.UserViewLaws)
+router.get('/UserViewLaws', UserController.UserViewLaws)
 
 //--------------------------------------------------done
 module.exports = router
