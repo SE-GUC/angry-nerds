@@ -117,9 +117,9 @@ mongoose.connect('mongodb+srv://ramyGabra:Nike-1234@angrynerds-ymdpc.mongodb.net
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 
-const mongoURI = 'mongodb+srv://ramyGabra:Nike-1234@angrynerds-ymdpc.mongodb.net/test?retryWrites=true';
-const conn = mongoose.createConnection(mongoURI);
-let gfs;
+ const mongoURI = 'mongodb+srv://ramyGabra:Nike-1234@angrynerds-ymdpc.mongodb.net/test?retryWrites=true';
+ const conn = mongoose.createConnection(mongoURI);
+// let gfs;
 
 conn.once('open', () => {
   // Init stream
@@ -127,21 +127,21 @@ conn.once('open', () => {
   gfs.collection('uploads');
 });
 
-// Create storage engine
-const storage = new GridFsStorage({
-  url: mongoURI,
-  file: (req, file) => {
-    return new Promise((resolve, reject) => {
-      const filename = file.originalname;
-      const fileInfo = {
-        filename: filename,
-        bucketName: 'uploads'
-      };
-      resolve(fileInfo);
-    });
-  }
-});
-const upload = multer({ storage });
+// // Create storage engine
+// const storage = new GridFsStorage({
+//   url: mongoURI,
+//   file: (req, file) => {
+//     return new Promise((resolve, reject) => {
+//       const filename = file.originalname;
+//       const fileInfo = {
+//         filename: filename,
+//         bucketName: 'uploads'
+//       };
+//       resolve(fileInfo);
+//     });
+//   }
+// });
+// const upload = multer({ storage });
 
 
 
@@ -150,7 +150,7 @@ const upload = multer({ storage });
 app.get('/', (req, res) => res.send(`<h1>Hello World!</h1>`))
 app.get('/Ramy', (req, res) => res.send('<h1>Ramy test page</h1>'))
 app.get('/test', (req, res) => res.sendFile(__dirname + '/views/test.html'))
-app.post('/upload', upload.single('file'), InvestorController.uploadFile);
+//app.post('/upload', upload.single('file'), InvestorController.uploadFile);
 
 
 app.get('/payment', (req, res) => {
