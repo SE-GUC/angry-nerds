@@ -25,6 +25,10 @@ const Commentj = require('./app/routes/api/Comments')
 // const fun = require('./app/routes/api/Cases_func')
 const Perform = require('./app/routes/api/Performance')
 const Admin = require('./app/routes/api/Admin')
+const AdminContoller = require('./app/Controllers/AdminController')
+
+
+
 const routes = require('./app/routes.js')
 
 // const routes = require('./app/routes.js')
@@ -33,6 +37,8 @@ const routes = require('./app/routes.js')
 //console.log(Cases_func.revenue159)
  
 global.heroku = "https://angrynerds1.herokuapp.com"
+
+
 
 const app = express()
 app.set('view engine', 'hbs')
@@ -160,10 +166,25 @@ app.get('/payment',(req,res)=>{
             return
 
         }
-            
-
     })
 })
+app.get('//resetpass/:token',(req,res)=>{
+    var userToken =  req.params.token
+    fs.readFile('./views/reset_page.html',null,function(error,data){
+        if(error){
+            res.writeHead(404)
+            return
+        }
+        else{
+            //data.reset_link='resetpassword/'+userToken
+            console.log(data.getElementById("reset").action) 
+            res.write(data)
+            return
+        }
+    })
+})
+
+
 
 // //////////UPLOAD IMAGE TO DATABASE /////////////
 

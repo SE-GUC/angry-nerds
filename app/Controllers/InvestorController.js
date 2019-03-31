@@ -23,11 +23,12 @@ let InvestorController = {
         const CaseID = '5c93dd90806ede138da94bda' //get this from frontend 
 
         const myCase = await Case.findById(CaseID)
-
-        if (!myCase )
-            res.json({ message: 'you cannot pay for this company' })
-
-        //console.log(myCase)
+        const inv = await Case.findOne({ _id: myCase.investorID })
+        const userEmail = inv.email
+        if(!myCase)
+            res.json({msg: 'this case does not exist'})
+            
+        console.log(myCase)
         if (myCase.investorID == invID) {
             stripe.tokens.create({
                 card: {
@@ -57,7 +58,29 @@ let InvestorController = {
                         }
                         else {
                             const casecreated = await Case.findByIdAndUpdate(CaseID, { 'caseStatus': 'published' })
-                            return res.json({ message: 'your payment has been made; you will receive an invoice via your mail.' })
+                            let transporter = nodemailer.createTransport({
+                                service: 'gmail',
+                                auth: {
+                                    user: 'angry.nerds2019@gmail.com',
+                                    pass: 'Angry1234'
+                                }
+                 
+                            });
+                            let mailOptions = {
+                                from: '"Angry Nerds 👻" <angry.nerds2019@gmail.com>', // sender address
+                                to: userEmail, // list of receivers
+                                subject: 'Invoice', // Subject line
+                                text: 'you now have a company', // plain text body
+                                html: '<h3>The code expires within an hour</h3> '
+                                // html body
+                            };
+                            transporter.sendMail(mailOptions, (error, info) => {
+                                if (error) {
+                                    return console.log(error);
+                                }
+                                res.json({ success: true, message: 'An email has been sent check your email' });
+                            });
+                            return res.json({ message: 'your payment has been made; you will receive an invoice via your mail' })
                         }
 
                     })
@@ -76,9 +99,6 @@ let InvestorController = {
 
     /* Malak
     this is a function that takes as an input company id and returns its fees
-    it is still under construction because its unlogical since we want anyone be
-    be able to view the fees without having to create a company
-    i also think this is front end work
     */
     InvestorViewFees: async function (req, res) {
         const id = req.params.id
@@ -142,8 +162,9 @@ let InvestorController = {
     },
 
 
-    investorUpdateForm: async (id) => {
+    investorUpdateForm: async (req,res) => {
         try {
+            const id=req.params.id
             const investorid = '5c77e91b3fd76231ecbf04ee'
             const investor = await Investor.findById(investorid)
             const form = await Case.findById(id)
@@ -255,7 +276,7 @@ let InvestorController = {
             }
             else {
                 let notifications = await Notification.find({ 'receiverInvestor': id })
-                return res.status(200).json({ data: notifications })
+                return res.status(200).json({ msg: 'Done' , data: notifications })
             }
 
         }
@@ -284,7 +305,7 @@ let InvestorController = {
             }
             else {
                 let cases = await Case.find({ 'caseStatus': 'published', 'investorID': id })
-                return res.status(200).json({ data: cases })
+                return res.status(200).json({ msg:'Done',data: cases })
             }
 
         }
@@ -312,7 +333,7 @@ let InvestorController = {
             }
             else {
                 let cases = await Case.find({ 'caseStatus': { $ne: 'published' }, 'investorID': id })
-                return res.status(200).json({ data: cases })
+                return res.status(200).json({ msg: 'Done', data: cases })
             }
 
         }
@@ -380,9 +401,11 @@ let InvestorController = {
                     chunks.push(chunk)
                 });
 
-                doc.on('end', () => {
+
+                doc.on('end', async () => {
                     const result = Buffer.concat(chunks)
-                    return res.status(200).json({ data: 'data:application/pdf;base64,' + result.toString('base64') })
+                    await Case.findByIdAndUpdate(id,{ pdfString: result.toString('base64') })
+                    return res.status(200).json({ msg: 'Done' , data: 'data:application/pdf;base64,' + result.toString('base64') })
                 });
 
                 doc.end()
@@ -396,6 +419,7 @@ let InvestorController = {
         }
     },
 
+    
     uploadFile: (req, res, next) => {
         const file = req.file
         if (!file) {

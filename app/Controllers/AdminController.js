@@ -1,16 +1,23 @@
-const express = require('express');
+const express = require('express')
 const router = express.Router()
 const mongoose = require('mongoose')
 
 const Admins = require('./../models/Admin')
-const Case = require('./../models/Cases')
-const Lawyer = require('./../models/Lawyer')
 const Reviewer = require('./../models/Reviewer')
 const Investor = require('./../models/Investor')
 const Laws = require('./../models/Laws')
 const validator = require('../../validations/AdminValidations')
+const Case = require('../models/Cases')
+const Lawyer = require('../models/Lawyer')
+const fun = require('./AdminController')
+const jwt = require('jsonwebtoken');
+var nodemailer = require('nodemailer');
+var bcrypt = require('bcryptjs');
+const Laws = require('./../models/Laws')
+const Investor = require('./../models/Investor')
+
 "use strict";
-const nodemailer = require("nodemailer");
+
 const dotenv = require("dotenv");
 const mailer = require('./../../misc/mailer')
 const config = require('./../../config/mailer')
@@ -20,6 +27,7 @@ var InvestorController = require('./InvestorController')
 
 let AdminController = {
     //write your methods here: check investorController for example
+
 
     /* Malak
     this is a method that takes nothing as an input and calculates time
@@ -181,7 +189,7 @@ let AdminController = {
     this function takes Text, subject< recipient and send an email
     */
 
-    SendEmail: async function (Text, Subject, Reciepient) {
+    SendEmail: async function (Text, Subject, Recipient) {
 
         process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
         // async..await is not allowed in global scope, must use a wrapper
@@ -371,8 +379,133 @@ let AdminController = {
 
         }
     },
+    system_assign_lawyer: async function (caseId) {
+        const Cases = await Case.findById(caseId)
+        const st = await Lawyer.find({ number_of_cases: 1 })
+        var least = st[0].number_of_cases
+        for (let i = 1; i < st.length; i += 1) {
+            if (st[i].number_of_cases < least) {
+                least = st[i].number_of_cases
+            }
+        }
+        for (let i = 0; i < st.length; i += 1) {
+            if (st[i].number_of_cases === least) {
+                fun.admin_assign_lawyer(caseId, st[i]._id)
+                break;
+            }
+        }
+    },
 
+    admin_assign_lawyer: async function (caseId, lawyerId) {
+        const updatedCase = await Case.findByIdAndUpdate(caseId, { 'lawyerID': lawyerId })
+        const st = await Lawyer.findById(lawyerId)
+        const updatedLawyer1 = await Lawyer.findByIdAndUpdate(lawyerId, { 'total_number_of_cases': st.total_number_of_cases + 1 })
+        const updatedLawyer2 = await Lawyer.findByIdAndUpdate(lawyerId, { 'number_of_cases': st.number_of_cases + 1 })
+    },
 
+    system_assign_reviewer: async function (caseId) {
+        const st = await Reviewer.find({ number_of_cases: 1 })
+        var least = st[0].number_of_cases
+        for (let i = 1; i < st.length; i += 1) {
+            if (st[i].number_of_cases < least) {
+                least = st[i].number_of_cases
+            }
+        }
+        for (let i = 0; i < st.length; i += 1) {
+            if (st[i].number_of_cases === least) {
+                fun.admin_assign_reviewer(caseId, st[i]._id)
+                break;
+            }
+        }
+    },
+
+    admin_assign_reviewer: async function (caseId, reviewerId) {
+        const updatedCase = await Case.findByIdAndUpdate(caseId, { 'reviewerID': reviewerId })
+        const st = await Reviewer.findById(reviewerId)
+        const updatedLawyer1 = await Reviewer.findByIdAndUpdate(reviewerId, { 'total_number_of_cases': st.total_number_of_cases + 1 })
+        const updatedLawyer2 = await Reviewer.findByIdAndUpdate(reviewerId, { 'number_of_cases': st.number_of_cases + 1 })
+
+    },
+
+    forgotpassword: async (req, res) => {
+        var userEmail = req.body.email;
+        //var userEmail = req.params.email;
+        Admins.findOne({ email: userEmail }, function (err, user) {
+            if (err) {
+                res.json({ success: false, message: err.message });
+            }
+            else if (!user) {
+                res.json({ success: false, message: "incorrect email" });
+            
+            }
+            else {
+
+                var token = jwt.sign({
+                    _id: Admins._id,
+                    FName: user.FName
+                }, 'secret', { expiresIn: 60*60 }); //seconds
+
+                let transporter = nodemailer.createTransport({
+                    service: 'gmail',
+                    auth: {
+                        user: 'angry.nerds2019@gmail.com',
+                        pass: 'Angry1234'
+                    }
+
+                });
+                let mailOptions = {
+                    from: '"Angry Nerds 👻" <angry.nerds2019@gmail.com>', // sender address
+                    to: userEmail, // list of receivers
+                    subject: 'Resetting Password', // Subject line
+                    text: 'reset Link expires in 24 hours', // plain text body
+                    html: '<h3>The code expires within an hour</h3> <br> <p>Click <a href="http://localhost:3000//resetpass/' + token + '">here</a> to reset your password</p>'
+                    // html body
+                };
+                transporter.sendMail(mailOptions, (error, info) => {
+                    if (error) {
+                        return console.log(error);
+                    }
+                    user.token = token;
+                    user.token_date = Date.now()
+                    user.save();
+                    res.json({ success: true, message: 'An email has been sent check your email' });
+                
+                });
+            }
+            
+        });
+    },
+
+    resetpassword: function (req, res) {
+        var userToken = req.params.token;
+        var newPassword = req.body.pass;
+        Admins.findOne({ token: userToken }, function (err, user) {
+            if (err) {
+                res.json({ success: false, message: "Token is expired please try again" });
+            }
+            else {
+                if ((Date.now() - user.token_date) > 1000*60*60*24*30*12) {
+                    res.json({ success: false, message: "Token is expired please try again" });
+                }
+                else {
+                    bcrypt.genSalt(10, function (err, salt) {
+                        bcrypt.hash(newPassword, salt, function (err, hash) {
+                            user.password = hash;
+                            user.save(function (err) {
+                                if (err) {
+                                    res.json({ success: false, message: err.message });
+                                    console.log(err);
+                                }
+                                else {
+                                    res.json({ success: true, message: "Password reseted succesfully" });
+                                }
+                            });
+                        });
+                    });
+                }
+            }
+        });
+    },
 
 
     AdminDeleteLawyer: async function (req, res) {
@@ -511,7 +644,7 @@ let AdminController = {
     },
 
     SystemCalcFees: async function (id) {
-        var fees = 0
+        var Fees = 0
         const newCase = await Case.findById(id)
         const regLaw = await newCase.regulated_law
         const capital = await newCase.equality_capital
@@ -521,21 +654,22 @@ let AdminController = {
             var newVal = capital * LawArray[i].LawCalc
             console.log("newVal is" + newVal)
             if (newVal < LawArray[i].min) {
-                fees = fees + LawArray[i].min
-                console.log("newVal<min" + fees)
+                Fees = Fees + LawArray[i].min
+                console.log("newVal<min"+Fees)
             }
             else if (newVal > LawArray[i].max) {
-                fees = fees + LawArray[i].max
-                console.log("newVal>max" + fees)
+                Fees = Fees + LawArray[i].max
+                console.log("newVal>max"+Fees)
             }
             else {
-                fees = fees + newVal
-                console.log("newVal in range" + fees)
+                Fees = Fees + newVal
+                console.log("newVal in range"+fees)
             }
-            fees = fees + LawArray[i].LawValue
-            console.log("plues el damgha" + fees)
+            Fees = Fees + LawArray[i].LawValue
+            console.log("plues el damgha" + Fees)
         }
-        console.log(fees)
+        console.log(Fees)
+        newCase.fees= Fees
     },
 
     AdminCreateNewLaw: async function (req, res) {

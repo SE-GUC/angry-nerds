@@ -42,6 +42,7 @@ UserViewLaws: async function(req, res){
 
 
 
-}
+    }
+
 
 module.exports = UserController

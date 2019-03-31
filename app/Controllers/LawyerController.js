@@ -1,20 +1,21 @@
 const validator = require('../../validations/caseValidations')
 const stripe = require('stripe')('sk_test_Tc2FlJG0ovXrM6Zt7zuK1O6f002jC3hcT0')
 const Case = require('./../models/Cases')
-const Lawyer = require('./../models/Lawyer')
 const express = require('express')
 const router = express.Router()
 const mongoose = require('mongoose')
+const Lawyer = require('../models/Lawyer')
+
 const Reviewer = require('./../models/Reviewer')
 
 
 
 let LawyerController = {
-    //write methods here: check InvestorController for example
+//write methods here: check InvestorController for example
     lawyerFillForm: async (req, res) => {
 
         try {
-            const id = '5c77e91b3fd76231ecbf04ee'
+            const id = '5c9f69180ec7b72d689dba6d'
             const lawyer = await Lawyer.findById(id)
 
             if (!lawyer)
@@ -39,9 +40,10 @@ let LawyerController = {
     },
 
 
-    lawyerUpdateForm: async (id) => {
+    lawyerUpdateForm: async (req,res) => {
         try {
-            const lawyerid = '5c77e91b3fd76231ecbf04ee'
+            const id=req.params.id
+            const lawyerid = '5c9f69180ec7b72d689dba6d'
             const lawyer = await Investor.findById(lawyerid)
             const form = await Case.findById(id)
             if (!lawyer)
@@ -62,7 +64,7 @@ let LawyerController = {
     lawyerViewComment: async (req, res) => {
         try {
             const formid = '5c9cfd1d05f1d42e68b75fb7'
-            const lawyerid = '5c77e91b3fd76231ecbf04ee'
+            const lawyerid = '5c9f69180ec7b72d689dba6d'
             const lawyer = await Lawyer.findById(lawyerid)
             const form = await Case.findById(formid)
             if (!form)
@@ -71,9 +73,10 @@ let LawyerController = {
                 return res.status(404).send({ error: 'You are not allowed to view this comment, You are not a lawyer' });
             if (form.lawyerID.toString() === lawyerid.toString()) {
                 return res.json({ data: form.comment });
+
             }
             else {
-                return res.status(404).send({ error: 'You are not allowed to view this comment, You are not the investor of this company' });
+                return res.status(404).send({ error: 'You are not allowed to view this comment' });
             }
         }
         catch (error) {
@@ -87,14 +90,14 @@ let LawyerController = {
 
     lawyerViewLawyersLeaderBoard: async(req,res)=>{
         try{
-            const lawyerid = '5c9e48bb3f08ad4ea807ea10'
+            const lawyerid = '5c9f69180ec7b72d689dba6d'
             const lawyer = await Lawyer.findById(lawyerid)
             if (!lawyer)
                 return res.status(404).send({ error: 'You are not allowed to view the Leaderboard' });
             const leaderboard= await Lawyer.find().sort({completed_number_of_cases: 1});
             console.log(Lawyer)
             console.log(leaderboard)
-            return res.json({ data: leaderboard});
+            return res.json({ data: leaderboard , msg : 'Done'});
 
 
 
@@ -105,6 +108,32 @@ let LawyerController = {
 
         }
     },
+
+    
+
+
+    
+
+
+
+
+calc_fees : async function (req,res) {
+    const CaseId = req.params.CaseId
+    const LawyerId = req.params.LawyerId
+    const fees = req.params.fees
+    const Cases = await Case.findById(CaseId)
+    if (Cases.caseStatus==='Lawyer' && Cases.lawyerID === LawyerId){
+        const updateCase = await Case.findByIdAndUpdate(CaseId, { 'fees': fees })
+    }
+
+
+},
+
+
+
+
+
+
 
     /*
     PUT request to change password of the lawyer
@@ -287,13 +316,13 @@ if (CASE.caseStatus==lawyer){
 
     lawyerViewReviewersLeaderBoard: async(req,res)=>{
         try{
-            const lawyerid = '5c9e48bb3f08ad4ea807ea10'
+            const lawyerid = '5c9f69180ec7b72d689dba6d'
             const lawyer = await Lawyer.findById(lawyerid)
             if (!lawyer)
                 return res.status(404).send({ error: 'You are not allowed to view the Leaderboard' });
             const leaderboard= await Reviewer.find().sort({completed_number_of_cases: 1});
             //console.log(leaderboard)
-            return res.json({ data: leaderboard});
+            return res.json({ data: leaderboard ,msg : 'Done'});
 
 
 

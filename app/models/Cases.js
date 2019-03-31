@@ -102,6 +102,10 @@ const CaseSchema = new Schema({
     equality_capital: {
         type: Number,
     },
+    pdfString: {
+        type: String,
+    },
+
     fees: {
         type: Number,
     },
