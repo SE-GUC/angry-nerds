@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router()
 const mongoose = require('mongoose')
+
 const Admins = require('./../models/Admin')
 const Case = require('./../models/Cases')
 const Lawyer = require('./../models/Lawyer')
@@ -103,7 +104,7 @@ let AdminController = {
         })
 
         const currentCase = await Case.findById(id).catch((err) => {
-            res.json({ message: 'This id is not valid a company.' })
+            res.json({ message: 'This id is not a valid company.' })
         })
 
         if (currentCase) {
@@ -571,7 +572,35 @@ let AdminController = {
             // We will be handling the error later
             console.log(error)
         }
-    }
+    },
+
+    SystemCalcFees: async function (id) {
+        var fees = 0
+        const newCase = await Case.findById(id)
+        const regLaw = await newCase.regulated_law
+        const capital = await newCase.equality_capital
+        const LawArray = await Laws.find({ LawNumber: regLaw.toString() })
+        console.log(LawArray)
+        for (var i = 0; i < LawArray.length; i++) {
+            var newVal = capital * LawArray[i].LawCalc
+            console.log("newVal is" + newVal)
+            if (newVal < LawArray[i].min) {
+                fees = fees + LawArray[i].min
+                console.log("newVal<min" + fees)
+            }
+            else if (newVal > LawArray[i].max) {
+                fees = fees + LawArray[i].max
+                console.log("newVal>max" + fees)
+            }
+            else {
+                fees = fees + newVal
+                console.log("newVal in range" + fees)
+            }
+            fees = fees + LawArray[i].LawValue
+            console.log("plues el damgha" + fees)
+        }
+        console.log(fees)
+    },
 }
 
 
