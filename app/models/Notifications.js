@@ -55,5 +55,4 @@ var notificationSchema = new mongoose.Schema({
 
 )
 
-
  module.exports = Notification = mongoose.model('Notifications', notificationSchema)      

@@ -11,29 +11,10 @@ const Staff = require('../../models/Admin')
 const fun = require('./Cases_func')
 const cases = require('./Cases')
 const staffs = require('./Staff')
-//const listing = require('Listing')
 const array = require('array')
 
 
-module.exports.system_assign_lawyer = async function (caseId) {
-    const Cases = await Case.findById(caseId)
-    const st = await Staff.find({ Type: 'Lawyer' }, { number_of_cases: 1 })
 
-
-    var least = st[0].number_of_cases
-    for (let i = 1; i < st.length; i += 1) {
-        if (st[i].number_of_cases < least) {
-            least = st[i].number_of_cases
-        }
-    }
-    for (let i = 0; i < st.length; i += 1) {
-        if (st[i].number_of_cases === least) {
-
-            fun.admin_assign_lawyer(caseId, st[i]._id)
-            break;
-        }
-    }
-}
 
 module.exports.system_assign_reviewer = async function (caseId) {
     const st = await Staff.find({ Type: 'Reviewer' }, { number_of_cases: 1 })

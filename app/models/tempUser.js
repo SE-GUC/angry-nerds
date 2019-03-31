@@ -3,7 +3,7 @@ const Schema = mongoose.Schema
 //const uniqueValidator= require ('mongoose-unique-validator')
 
 
-InvestorSchema = new Schema({
+tempUserSchema = new Schema({
 
     firstName: {
         type: String,
@@ -63,13 +63,8 @@ InvestorSchema = new Schema({
     },
     active: {
         type: Boolean
-    },
-
-    //dany
-    photoID: {
-        type: String
     }
 })
 
 //CaseSchema.plugin(uniqueValidator)
-module.exports = Investor = mongoose.model('Investors', InvestorSchema)
+module.exports = tempUser = mongoose.model('tempUsers', InvestorSchema)

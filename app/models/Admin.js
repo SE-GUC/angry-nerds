@@ -12,7 +12,7 @@ const AdminSchema = new Schema({
         required: true
     },
 
-    LName: {
+    LName: { 
         type: String,
         required: true
     },
@@ -40,7 +40,8 @@ const AdminSchema = new Schema({
 
     Type:{
         type: String,
-        required: true
+        required: true,
+        default:'Admin'
     },
 
     birthdate:{
@@ -66,7 +67,14 @@ const AdminSchema = new Schema({
     ssid: {
         type: Number,
         required: true
+    },
+    token:{
+        type:String
+    },
+    token_date : {
+        type:Date
     }
+
 })
 
 module.exports = Admin = mongoose.model('Admin', AdminSchema)

@@ -58,10 +58,6 @@ const ReviewerSchema = new Schema({
         required: true
     },
     
-    total_number_of_cases: {
-        type: Number,
-        required: true
-    },
     completed_number_of_cases:{
         type: Number,
         required: true
@@ -78,6 +74,10 @@ const ReviewerSchema = new Schema({
     ssid: {
         type: Number,
         required: true
+    } ,
+     //dany
+     photoID: {
+        type: String
     }
 
 })
