@@ -13,7 +13,12 @@ var router = express.Router();
 router.post('/InvestorPayFees',InvestorController.InvestorPayFees)
 router.post('/InvestorFillForm',InvestorController.investorFillForm)
 router.put('/InvestorUpdateForm/:id',InvestorController.investorUpdateForm)
+<<<<<<< HEAD
 // router.get('/InvestorViewComment',InvestorController.investorViewComment)
+=======
+router.get('/InvestorViewComment',InvestorController.investorViewComment)
+//router.post('/upload', upload.single('file'), InvestorController.uploadFile);
+>>>>>>> 24bc814efd8763f39ff0f7ada95e4384d1fdf6ae
 
 
 
