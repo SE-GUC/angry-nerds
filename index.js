@@ -35,7 +35,7 @@ const routes = require('./app/routes.js')
 // const AdminController= require('./app/Controllers/AdminController')
 //AdminController.AdminChangePricingStrategy("revenues159", 10)
 //console.log(Cases_func.revenue159)
- 
+
 global.heroku = "https://angrynerds1.herokuapp.com"
 
 
@@ -48,74 +48,74 @@ const db1 = require('./config/keys').mongoURI
 
 // Connect to mongo
 mongoose.connect('mongodb+srv://ramyGabra:Nike-1234@angrynerds-ymdpc.mongodb.net/test?retryWrites=true', function (err, db) {
-    if (err) {
-        throw err;
-    }
-    console.log('Connected to MongoDB')
-    //connect to socket.io
-    client.on('connection', function (socket) {
-        let chat = db.collection('chats')
+  if (err) {
+    throw err;
+  }
+  console.log('Connected to MongoDB')
+  //connect to socket.io
+  client.on('connection', function (socket) {
+    let chat = db.collection('chats')
 
-        //create function to send status
-        sendStatus = function (s) {
-            socket.emit('status', s)
+    //create function to send status
+    sendStatus = function (s) {
+      socket.emit('status', s)
+    }
+
+    //get chats from mongo collection
+
+    chat.find().limit(100).sort({ _id: 1 }).toArray(function (err, res) {
+      if (err) {
+        throw err
+      }
+
+      //Emit the messages
+      socket.emit('output', res)
+
+
+      //handle input events
+
+      socket.on('input', function (data) {
+        let name = data.name
+        let message = data.message
+
+
+        //check for the name and message 
+        if (name === '' || message === '') {
+          sendStatus('Please enter name and message')
+        } else {
+          //insert message
+          chat.insert({ name: name, message: message }, function () {
+            client.emit('output', [data])
+
+
+            //send status object
+            sendStatus({
+              message: 'Message sent',
+              clear: true
+            });
+          });
         }
 
-        //get chats from mongo collection
+      });
 
-        chat.find().limit(100).sort({ _id: 1 }).toArray(function (err, res) {
-            if (err) {
-                throw err
-            }
+      //handle clear
+      socket.on('clear', function () {
+        //remove all chats from collection
+        chat.remove({}, function () {
+          //Emit cleared
 
-            //Emit the messages
-            socket.emit('output', res)
-
-
-            //handle input events
-
-            socket.on('input', function (data) {
-                let name = data.name
-                let message = data.message
-
-
-                //check for the name and message 
-                if (name === '' || message === '') {
-                    sendStatus('Please enter name and message')
-                } else {
-                    //insert message
-                    chat.insert({ name: name, message: message }, function () {
-                        client.emit('output', [data])
-
-
-                        //send status object
-                        sendStatus({
-                            message: 'Message sent',
-                            clear: true
-                        });
-                    });
-                }
-
-            });
-
-            //handle clear
-            socket.on('clear', function () {
-                //remove all chats from collection
-                chat.remove({}, function () {
-                    //Emit cleared
-
-                    socket.emit('Cleared')
-                })
-            })
-
-        });
+          socket.emit('Cleared')
+        })
+      })
 
     });
+
+  });
 });
 
 // Init middleware
 app.use(express.json())
-app.use(express.urlencoded({extended: false}))
+app.use(express.urlencoded({ extended: false }))
 
 const mongoURI = 'mongodb+srv://ramyGabra:Nike-1234@angrynerds-ymdpc.mongodb.net/test?retryWrites=true';
 const conn = mongoose.createConnection(mongoURI);
@@ -123,7 +123,7 @@ let gfs;
 
 conn.once('open', () => {
   // Init stream
-  gfs = Grid(conn.db, mongoose.mongo);  
+  gfs = Grid(conn.db, mongoose.mongo);
   gfs.collection('uploads');
 });
 
@@ -132,12 +132,12 @@ const storage = new GridFsStorage({
   url: mongoURI,
   file: (req, file) => {
     return new Promise((resolve, reject) => {
-        const filename = file.originalname;
-        const fileInfo = {
-          filename: filename,
-          bucketName: 'uploads'
-        };
-        resolve(fileInfo);
+      const filename = file.originalname;
+      const fileInfo = {
+        filename: filename,
+        bucketName: 'uploads'
+      };
+      resolve(fileInfo);
     });
   }
 });
@@ -147,41 +147,41 @@ const upload = multer({ storage });
 
 
 // Entry point
-app.get('/', (req,res) => res.send(`<h1>Hello World!</h1>`))
-app.get('/Ramy', (req,res) => res.send('<h1>Ramy test page</h1>'))
-app.get('/test', (req,res) => res.sendFile(__dirname + '/views/test.html' ))  
+app.get('/', (req, res) => res.send(`<h1>Hello World!</h1>`))
+app.get('/Ramy', (req, res) => res.send('<h1>Ramy test page</h1>'))
+app.get('/test', (req, res) => res.sendFile(__dirname + '/views/test.html'))
 app.post('/upload', upload.single('file'), InvestorController.uploadFile);
 
 
-app.get('/payment',(req,res)=>{
-    //res.writeHead(200, {'Content-Type': 'text/html'});
-    fs.readFile('./views/payment.html',null,function(error,data){
-        if(error){
-            res.writeHead(404)
-            return
-        }
-        else{
+app.get('/payment', (req, res) => {
+  //res.writeHead(200, {'Content-Type': 'text/html'});
+  fs.readFile('./views/payment.html', null, function (error, data) {
+    if (error) {
+      res.writeHead(404)
+      return
+    }
+    else {
 
-            res.write(data)
-            return
+      res.write(data)
+      return
 
-        }
-    })
+    }
+  })
 })
-app.get('//resetpass/:token',(req,res)=>{
-    var userToken =  req.params.token
-    fs.readFile('./views/reset_page.html',null,function(error,data){
-        if(error){
-            res.writeHead(404)
-            return
-        }
-        else{
-            //data.reset_link='resetpassword/'+userToken
-            console.log(data.getElementById("reset").action) 
-            res.write(data)
-            return
-        }
-    })
+app.get('//resetpass/:token', (req, res) => {
+  var userToken = req.params.token
+  fs.readFile('./views/reset_page.html', null, function (error, data) {
+    if (error) {
+      res.writeHead(404)
+      return
+    }
+    else {
+      //data.reset_link='resetpassword/'+userToken
+      console.log(data.getElementById("reset").action)
+      res.write(data)
+      return
+    }
+  })
 })
 
 
@@ -237,34 +237,35 @@ const upload = multer({ storage });    // uploading to database
 // @route POST /upload       
 // @desc  Uploads file to DB                                             // need to edit this to post the profile of user schema
 app.post('/upload/:id', upload.single('file'), async (req, res) => {    // file is the name of the file field from the HTML doc 
-   try {
+  try {
     const id = req.params.id  // id of picture
-    const investor = await Investor.findByIdAndUpdate(id, { 'photoID': id,  })    //   putting the photo id in schema
-  
-    if(!investor){
-        res.status(200).json({data: 'Fail' })    
+    const investor = await Investor.findByIdAndUpdate(id, { 'photoID': id, })    //   putting the photo id in schema
+
+    if (!investor) {
+      res.status(200).json({ data: 'Fail' })
     }
-    else{
-        res.json({ msg: 'Form updated successfully', data: investor })
-   
-    }}
-    catch (error) {
-         console.log(error)
-        
+    else {
+      res.json({ msg: 'Form updated successfully', data: investor })
+
     }
-//    const newInvestor = await Investor.findById(id)
-    //const inv = JSON.stringify(investor.photoID)
-    // const json = JSON.stringify(investor);
+  }
+  catch (error) {
+    console.log(error)
 
-     //res.status(200).json({data: 'Success' })
+  }
+  //    const newInvestor = await Investor.findById(id)
+  //const inv = JSON.stringify(investor.photoID)
+  // const json = JSON.stringify(investor);
+
+  //res.status(200).json({data: 'Success' })
 
 
-    // res.json({ file: req.file.filename });     /// id el pic el hayroo7 el schema " make it a global variable ?"  findbyidandupdate
-    //res.json( {id: investor._id} );     /// id el pic el hayroo7 el schema " make it a global variable ?"  findbyidandupdate
+  // res.json({ file: req.file.filename });     /// id el pic el hayroo7 el schema " make it a global variable ?"  findbyidandupdate
+  //res.json( {id: investor._id} );     /// id el pic el hayroo7 el schema " make it a global variable ?"  findbyidandupdate
 
-    //console.log("Imhere")
+  //console.log("Imhere")
 
-//   res.redirect('/');                            // redirects to home page , change it to whatever 
+  //   res.redirect('/');                            // redirects to home page , change it to whatever 
 });
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -276,58 +277,58 @@ app.post('/upload/:id', upload.single('file'), async (req, res) => {    // file 
 // @route GET /files
 // @desc  Display all files in JSON                     // displays all Uploded pics as querys from mongo db atlas
 app.get('/files', (req, res) => {
-    gfs.files.find().toArray((err, files) => {
-      // Check if files
-      if (!files || files.length === 0) {
-        return res.status(404).json({
-          err: 'No files exist'
-        });
-      }
-  
-      // Files exist
-      return res.json(files);
-    });
+  gfs.files.find().toArray((err, files) => {
+    // Check if files
+    if (!files || files.length === 0) {
+      return res.status(404).json({
+        err: 'No files exist'
+      });
+    }
+
+    // Files exist
+    return res.json(files);
   });
-  
-  // @route GET /files/:filename
-  // @desc  Display single file object                        /// display query results from mongodb atlas
-  app.get('/files/:filename', (req, res) => {
-    gfs.files.findOne({ filename: req.params.filename }, (err, file) => {
-      // Check if file
-      if (!file || file.length === 0) {
-        return res.status(404).json({
-          err: 'No file exists'
-        });
-      }
-      // File exists
-      return res.json(file);
-    });
+});
+
+// @route GET /files/:filename
+// @desc  Display single file object                        /// display query results from mongodb atlas
+app.get('/files/:filename', (req, res) => {
+  gfs.files.findOne({ filename: req.params.filename }, (err, file) => {
+    // Check if file
+    if (!file || file.length === 0) {
+      return res.status(404).json({
+        err: 'No file exists'
+      });
+    }
+    // File exists
+    return res.json(file);
   });
-  
-  // @route GET /image/:filename                                ///// to be able to retrive image using filename  "take file name from investor,"
-  // @desc Display Image                     to see uploaded pic   /// http://localhost:3000/image/9f2afd767a8c1dd18de66671eeb5ea33.jpg  :)
-  app.get('/image/:filename', (req, res) => {
-    gfs.files.findOne({ filename: req.params.filename }, (err, file) => {      
-      // Check if file
-      if (!file || file.length === 0) {
-        return res.status(404).json({
-          err: 'No file exists'
-        });
-      }
-  
-      // Check if image
-      if (file.contentType === 'image/jpeg' || file.contentType === 'image/png') {
-        // Read output to browser
-        const readstream = gfs.createReadStream(file.filename);
-        readstream.pipe(res);
-      } else {
-        res.status(404).json({
-          err: 'Not an image'
-        });
-      }
-    });
+});
+
+// @route GET /image/:filename                                ///// to be able to retrive image using filename  "take file name from investor,"
+// @desc Display Image                     to see uploaded pic   /// http://localhost:3000/image/9f2afd767a8c1dd18de66671eeb5ea33.jpg  :)
+app.get('/image/:filename', (req, res) => {
+  gfs.files.findOne({ filename: req.params.filename }, (err, file) => {
+    // Check if file
+    if (!file || file.length === 0) {
+      return res.status(404).json({
+        err: 'No file exists'
+      });
+    }
+
+    // Check if image
+    if (file.contentType === 'image/jpeg' || file.contentType === 'image/png') {
+      // Read output to browser
+      const readstream = gfs.createReadStream(file.filename);
+      readstream.pipe(res);
+    } else {
+      res.status(404).json({
+        err: 'Not an image'
+      });
+    }
   });
-  
+});
+
 
 
 
@@ -337,19 +338,19 @@ app.get('/files', (req, res) => {
 
 
 // Direct to Route Handlers
-app.get('/chat', function(req, res){
-    res.sendFile(__dirname + '/views/chat.html');
-  });
+app.get('/chat', function (req, res) {
+  res.sendFile(__dirname + '/views/chat.html');
+});
 app.use('/api/Staff', Staffi)
 // app.use('/api/Cases', Cases)
 app.use('/api/Investor', investor)
 app.use('/api/Notifications', Notification)
 app.use('/api/Questions', questions)
-app.use('/api/Comments',Commentj)
-app.use('/api/Admin',Admin)
- app.use('/', routes)
+app.use('/api/Comments', Commentj)
+app.use('/api/Admin', Admin)
+app.use('/', routes)
 
-app.use((req,res) => res.status(404).send(`<h1>Can not find what you're looking for</h1>`))
+app.use((req, res) => res.status(404).send(`<h1>Can not find what you're looking for</h1>`))
 
 
 
