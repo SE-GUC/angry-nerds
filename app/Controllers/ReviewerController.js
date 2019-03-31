@@ -27,8 +27,9 @@ caseDisAproveedAtReviewer: async function (req, res) {     /// :idStaff/:idCase'
      const reviewer= await Reviewer.findById(staffID)
      const CASE =   await Case.findById(caseID)
 
-     if (reviewer) {  /// test if this if function is valid
-         Case.updateOne({_id:req.params.idCase}, {$set: {caseStatus:"lawyer"}}) // updates case with _id matching Case and sets caseStatus to null  
+     if (CASE.caseStatus==reviewer){
+     if (reviewer._id==CASE.reviewerID) {  /// test if this if function is valid
+        await Case.updateOne({_id:req.params.idCase}, {$set: {caseStatus:"lawyer"}}) // updates case with _id matching Case and sets caseStatus to null  
          res.send(Cases)
 
          var ReviewerEndTime = new Date();                  
@@ -50,7 +51,7 @@ caseDisAproveedAtReviewer: async function (req, res) {     /// :idStaff/:idCase'
          return res.status(200).json({ msg: 'Case disaproved', data: CASE })     // in test check that caseStatus is lawyer  
 
 
-     };
+     }}
    }   ,
 
    caseAproveedAtreviewer: async function (req, res) {
@@ -61,12 +62,12 @@ caseDisAproveedAtReviewer: async function (req, res) {     /// :idStaff/:idCase'
     const caseID = req.params.idCase
 
 
-    const reviewer= Reviewer.findById(staffID)
-    const CASE =Case.findById(caseID)
+    const reviewer= await Reviewer.findById(staffID)
+    const CASE =await Case.findById(caseID)
 
-     const reviewer= Reviewer.findById(idStaff)
-     if (reviewer) {  /// test if this if function is valid
-         Case.updateOne({_id:req.params.idCase}, {$set: {caseStatus:"pending"}}) // updates case with _id matching Case and sets caseStatus to null  
+    if (CASE.caseStatus==reviewer){
+     if (reviewer._id==CASE.reviewerID) {  /// test if this if function is valid
+       await Case.updateOne({_id:req.params.idCase}, {$set: {caseStatus:"pending"}}) // updates case with _id matching Case and sets caseStatus to null  
          res.send(Cases)
 
          var ReviewerEndTime = new Date();                  
@@ -75,12 +76,13 @@ caseDisAproveedAtReviewer: async function (req, res) {     /// :idStaff/:idCase'
          var ReviewerTotalTimeATCase =CASE.body.reviewerTotalTime + ReviewerHours
          var RevieweTotalTime = reviewer.body.total_time_on_cases + ReviewerTotalTimeATCase
 
-         Case.findByIdAndUpdate(id, { 'reviewerTotalTime': ReviewerTotalTimeATCase})  
-         Reviewer.findByIdAndUpdate(staffID, { 'total_number_of_cases':RevieweTotalTime})       
+        await Case.findByIdAndUpdate(id, { 'reviewerTotalTime': ReviewerTotalTimeATCase})  
+        await Reviewer.findByIdAndUpdate(staffID, { 'total_number_of_cases':RevieweTotalTime})       
    
-         return res.status(200).json({ msg: 'Case approved', data: CASE })     // in test check that caseStatus is pending  
+        return res.status(200).json({ msg: 'Case approved', data: CASE })     // in test check that caseStatus is pending  
 
-     };
+     }
+    }
    }   ,
 
    reviewrWriteComment: async function (caseID,comment) {  //   Only  called in case(Dis)AproveedAtReviewer!! and takes caseID and comment as inputs

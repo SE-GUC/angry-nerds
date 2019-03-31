@@ -1,5 +1,5 @@
 var InvestorController = require('./Controllers/InvestorController')
-const AdminController = require('./Controllers/AdminController')
+ const AdminController = require('./Controllers/AdminController')
 const LawyerController = require('./Controllers/LawyerController')
 const ReviewerController = require('./Controllers/ReviewerController')
 const UserController = require('./Controllers/UserController')
@@ -10,7 +10,6 @@ var router = express.Router();
 //--------------------------------Investor Routes----------------------------------------------------------
 
 //this endpoint allows the investor to pay fees for a pending company
-
 router.post('/InvestorPayFees',InvestorController.InvestorPayFees)
 router.post('/InvestorFillForm',InvestorController.investorFillForm)
 router.put('/InvestorUpdateForm/:id',InvestorController.investorUpdateForm)
@@ -22,8 +21,6 @@ router.put('/InvestorUpdateForm/:id',InvestorController.investorUpdateForm)
 
 //this endpoint allows investor to view his company fees
 router.get('/InvestorViewFees', InvestorController.InvestorViewFees)
-
-
 router.put('/InvestorChangePassword/:id',InvestorController.investorChangePassword)
 router.get('/InvestorMyNotifications/:id',InvestorController.investorMyNotifications)
 router.get('/ViewPublishedCompanies/:id',InvestorController.viewMyPublishedCompanies)
@@ -61,14 +58,6 @@ router.put('/LawyerUpdateForm/:id',LawyerController.lawyerUpdateForm)
 router.get('/LawyerViewComment',LawyerController.lawyerViewComment)
 router.get('/LawyerViewLawyersLeaderBoard',LawyerController.lawyerViewLawyersLeaderBoard)
 router.get('/LawyerViewReviewersLeaderBoard',LawyerController.lawyerViewReviewersLeaderBoard)
-
-
-
-
-
-
-
-
 router.put('/LawyerChangePassword/:id',LawyerController.lawyerChangePassword)
 router.get('/LawyerMyNotifications/:id',LawyerController.lawyerMyNotifications)
 
@@ -76,11 +65,6 @@ router.put('/caseDisAproveedAtLawyer/:idStaff/:idCase',LawyerController.caseDisA
 router.put('/caseAproveedAtLawyer/:idStaff:idCase',LawyerController.caseAproveedAtLawyer)
 router.get('/viewCasesLawyer/:id',LawyerController.viewCasesLawyer)
 // router.post('/lawyerWriteComment',LawyerController.lawyerComment)
-
-
-
-
-
 
 
 
@@ -99,17 +83,10 @@ router.get('/ReviewerMyNotifications/:id',ReviewerController.reviewerMyNotificat
 router.get('/ReviewerViewLawyersLeaderBoard',ReviewerController.reviewerViewLawyersLeaderBoard)
 
 
-
-
-
-
-
-
-
 //-------------------------------User Routes---------------------------------------------------------
 router.get('/UnregisteredViewQuestions',UserController.UnregisteredViewQuestions)
 router.get('/UnregisteredViewLawyers',UserController.viewLawyers)
 //router.get('/UserViewLaws', UserController.UserViewLaws)
 
-
+//--------------------------------------------------done
 module.exports = router

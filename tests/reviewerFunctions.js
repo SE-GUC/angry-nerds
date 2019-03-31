@@ -3,13 +3,13 @@ const adapter = require('axios/lib/adapters/http')
 // const LawyerTest = require('./app/Controllers/LawyerController');
 
 
-const lawyerFunctions = {
+const reviewerFunctions = {
 
-    caseDisAproveedAtLawyer:  async (caseID, stafID) => {
+    caseAproveedAtReviewer:  async (caseID, stafID) => {
         
         const CASE = await axios({
             method: 'put',
-            url: 'http://127.0.0.1:3000/caseDisAproveedAtLawyer/'+stafID+'/'+caseID,
+            url: 'http://127.0.0.1:3000/caseAproveedAtReviewer/'+stafID+'/'+caseID,
             headers: {}, 
             data: { //body
             }
@@ -18,11 +18,11 @@ const lawyerFunctions = {
         
     },
 
-    caseAproveedAtLawyer:  async (caseID, stafID) => {
+    caseDisAproveedAtReviewer:  async (caseID, stafID) => {
         
         const CASE = await axios({
             method: 'put',
-            url: 'http://localhost:3000/caseAproveedAtLawyer/'+stafID+'/'+caseID,
+            url: 'http://localhost:3000/caseDisAproveedAtReviewer/'+stafID+'/'+caseID,
             headers: {}, 
             data: { //body
             }
@@ -38,4 +38,4 @@ const lawyerFunctions = {
 
 }
 
-module.exports = lawyerFunctions
+module.exports = reviewerFunctions
