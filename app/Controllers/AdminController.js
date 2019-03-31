@@ -2,26 +2,19 @@ const express = require('express')
 const router = express.Router()
 const mongoose = require('mongoose')
 const Admins = require('./../models/Admin')
-const Lawyer = require('./../models/Lawyer')
 const Reviewer = require('./../models/Reviewer')
 const validator = require('../../validations/AdminValidations')
 const Case = require('../models/Cases')
 const Lawyer = require('../models/Lawyer')
-const Reviewer = require('../models/Reviewer')
 const fun = require('./AdminController')
 const jwt = require('jsonwebtoken');
 var nodemailer = require('nodemailer');
 var bcrypt = require('bcryptjs');
-
-
-const Case = require('./../models/Cases')
-const Lawyer = require('./../models/Lawyer')
-const Reviewer = require('./../models/Reviewer')
 const Laws = require('./../models/Laws')
 const Investor = require('./../models/Investor')
-const validator = require('../../validations/AdminValidations')
+
 "use strict";
-const nodemailer = require("nodemailer");
+
 const dotenv = require("dotenv");
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 
@@ -425,22 +418,23 @@ let AdminController = {
 
     },
 
-    forgotpassword: async (mail) => {
-        //var userEmail = req.body.email;
-        var userEmail = mail
+    forgotpassword: async (req, res) => {
+        var userEmail = req.body.email;
+        //var userEmail = req.params.email;
         Admins.findOne({ email: userEmail }, function (err, user) {
             if (err) {
                 res.json({ success: false, message: err.message });
             }
             else if (!user) {
                 res.json({ success: false, message: "incorrect email" });
+            
             }
             else {
 
                 var token = jwt.sign({
                     _id: Admins._id,
                     FName: user.FName
-                }, 'secret', { expiresIn: 60 }); //seconds
+                }, 'secret', { expiresIn: 60*60 }); //seconds
 
                 let transporter = nodemailer.createTransport({
                     service: 'gmail',
@@ -455,7 +449,7 @@ let AdminController = {
                     to: userEmail, // list of receivers
                     subject: 'Resetting Password', // Subject line
                     text: 'reset Link expires in 24 hours', // plain text body
-                    html: '<h3>The code expires within an hour</h3> <br> <p>Click <a href="http://localhost:3000/resetpass/' + token + '">here</a> to reset your password</p>'
+                    html: '<h3>The code expires within an hour</h3> <br> <p>Click <a href="http://localhost:3000//resetpass/' + token + '">here</a> to reset your password</p>'
                     // html body
                 };
                 transporter.sendMail(mailOptions, (error, info) => {
@@ -465,14 +459,16 @@ let AdminController = {
                     user.token = token;
                     user.save();
                     res.json({ success: true, message: 'An email has been sent check your email' });
+                
                 });
             }
+            
         });
     },
 
     resetpassword: function (req, res) {
         var userToken = req.params.token;
-        var newPassword = req.body.password;
+        var newPassword = req.body.pass;
         Admins.findOne({ token: userToken }, function (err, user) {
             if (err) {
                 res.json({ success: false, message: "Token is expired please try again" });

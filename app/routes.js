@@ -44,32 +44,16 @@ router.put('/AdminEditCompany/:id', AdminController.AdminEditCompany)
 router.delete('/AdminDeleteInvestor/:id',AdminController.AdminDeleteInvestor)
 router.delete('/AdminDeleteAdmin/:id',AdminController.AdminDeleteAdmin)
 
-<<<<<<< HEAD
 router.post('/forgotpassword', AdminController.forgotpassword)
 
 router.post('/resetpassword/:token', AdminController.resetpassword)
 
-router.get('/resetpass/:token',(req,res)=>{
-    var userToken =  req.params.token
-    fs.readFile('../views/reset_page',null,function(error,data){
-        if(error){
-            res.writeHead(404)
-            return
-        }
-        else{
-            data.reset_link.action='routes/resetpassword/'+userToken
-            res.write(data)
-            return
-        }
-    })
-})
-=======
+
 router.put('/AdminChangePassword/:id',AdminController.adminChangePassword)
 router.put('/AdminChangePricingStrategy/:id', AdminController.AdminChangePricingStrategy)
 router.post('/AdminCreateNewLaw', AdminController.AdminCreateNewLaw)
 router.get('AdminViewLawyersLeaderBoard',AdminController.adminViewLawyersLeaderBoard)
 router.get('AdminViewReviewersLeaderBoard',AdminController.adminViewReviewersLeaderBoard)
->>>>>>> 6c9cf1eca2fddddd1f5055d3f9abdeac9c5a59c8
 
 
 
@@ -120,6 +104,6 @@ router.get('/ReviewerViewLawyersLeaderBoard',ReviewerController.reviewerViewLawy
 router.get('/UnregisteredViewQuestions',UserController.UnregisteredViewQuestions)
 router.get('/UserViewLaws', UserController.UserViewLaws)
 
-router.get('/UnregisteredViewLawyers',UserController.viewLawyers)
+//router.get('/UnregisteredViewLawyers',UserController.viewLawyers)
 
 module.exports = router

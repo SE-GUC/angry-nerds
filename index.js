@@ -16,7 +16,7 @@ const Perform = require('./app/routes/api/Performance')
 const Admin = require('./app/routes/api/Admin')
 const AdminContoller = require('./app/Controllers/AdminController')
 
-AdminContoller.forgotpassword('fady.wasfalla@gmail.com')
+
 
 const routes = require('./app/routes.js')
 const AdminController= require('./app/Controllers/AdminController')
@@ -26,7 +26,7 @@ const AdminController= require('./app/Controllers/AdminController')
 //AdminController.SystemCalcFees('5c94df923c95ff18c8866d54')
 global.heroku = "https://angrynerds1.herokuapp.com"
 
-AdminController.SendEmail('aho shaghal', 'shaghal aho', 'fadywasfalla@gmail.com')
+
 
 const app = express()
 app.set('view engine', 'hbs')
@@ -61,6 +61,21 @@ app.get('/payment',(req,res)=>{
             res.write(data)
             return
 
+        }
+    })
+})
+app.get('//resetpass/:token',(req,res)=>{
+    var userToken =  req.params.token
+    fs.readFile('./views/reset_page.html',null,function(error,data){
+        if(error){
+            res.writeHead(404)
+            return
+        }
+        else{
+            //data.reset_link='resetpassword/'+userToken
+            console.log(data.getElementById("reset").action) 
+            res.write(data)
+            return
         }
     })
 })

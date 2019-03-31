@@ -3,21 +3,18 @@ axios.defaults.adapter = require ('axios/lib/adapters/http')
 
 
 const functions = {
-    UserViewLaws: async () => {
-        const schema = {
-        }
-        const Laws= await axios.get
-        "http://localhost:3000/UserViewLaws" //, schema if used the schema
+
+    MailForgotPassword : async (mail) => {
+        const t = await axios({
+            method: 'post',
+            url:'http://localhost:3000/forgotpassword',
+            headers: {}, 
+            data: {
+              email: mail, // This is the body part
+            }
+          });
+          return t.data.message
     },
-    UserViewLaws: async () => {
-        const schema = {
-
-        }
-        const Laws= await axios.get
-        "http://localhost:3000/UserViewLaws" //, schema if used the schema
-    },
-
-    
-
 
 }
+module.exports = functions;

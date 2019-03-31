@@ -1,5 +1,21 @@
 const funcs = require('./fn');
 
+const f = require('./app/Functions/Admin.functions');
+
+test('Forgot password with valid mail', async () => {
+  const msg =  await f.MailForgotPassword('fady.wasfalla@gmail.com')
+  expect(msg).toEqual('An email has been sent check your email');
+});
+
+test('Forgot password with invalid mail', async () => {
+  const msg =  await f.MailForgotPassword('Wrong_mail@gmail.com')
+  expect(msg).toEqual('incorrect email');
+});
+
+
+
+
+/*
 test('adds 1 + 2 to be 3', () => {
   expect(funcs.add(1, 2)).toBe(3);
 });
@@ -63,4 +79,4 @@ test('object assignment', () => {
 //     const user =  await funcs.getUser()
 //     expect(user.data.name).toEqual('Leanne Graham')
 //   });
-
+*/
