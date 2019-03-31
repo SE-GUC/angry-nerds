@@ -14,8 +14,6 @@ const fun = require('./AdminController')
 const jwt = require('jsonwebtoken');
 var nodemailer = require('nodemailer');
 var bcrypt = require('bcryptjs');
-const Laws = require('./../models/Laws')
-const Investor = require('./../models/Investor')
 
 "use strict";
 
@@ -109,7 +107,7 @@ let AdminController = {
         this method allows admins to edit company details,
         This will be used to edit info such as currency, city, name, etc...
         */
-    adminEditCompany: async function (req, res) {
+    AdminEditCompany: async function (req, res) {
 
         const AdminID = '5c9bb0dc5185793518ea84fb' //get this from login toked later
         const id = req.params.id //this represents the id of the case being edited
@@ -648,7 +646,7 @@ let AdminController = {
         newCase.fees= Fees
     },
 
-    adminCreateNewLaw: async function (req, res) {
+    AdminCreateNewLaw: async function (req, res) {
         try {
             // const isValidated = validator.createValidation(req.body)
             // if (isValidated.error) return res.status(400).send({ error: isValidated.error.details[0].message })
@@ -667,7 +665,7 @@ let AdminController = {
         }
     },
 
-    adminChangePricingStrategy: async function (req, res) {
+    AdminChangePricingStrategy: async function (req, res) {
         try {
             const AdminId = '5c9bb0dc5185793518ea84fb' //login token
             const Admin = await Admins.findById(AdminId)

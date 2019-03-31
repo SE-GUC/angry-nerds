@@ -54,7 +54,6 @@ router.post('/register', async (req, res) => {
         const newTempUser = await tempUser.create(req.body)
         res.json({ msg: 'tempUser was created successfully', data: newTempUser })
         //.catch(err => res.json('You could not be registered, try again'))
-<<<<<<< HEAD
     
 
     //compose an email
@@ -71,17 +70,9 @@ router.post('/register', async (req, res) => {
     await mailer.sendEmail(config.user, req.body.email, 'Please verify your email', html)
     console.log('after')
     }
-=======
-        //compose an email
-        const html = 'Hi there, <br/> Thank you for registering <br/><br/> Please verify your email by copying the following token and   by clicking on the following page:<a href= "http://localhost:3000/api/Investor/verify/' +secretToken+ '">http://localhost:3000/api/Investor/verify</a> </br></br> '
-        //send the email
-        console.log('before')
-        await mailer.sendEmail(config.user, req.body.email, 'Please verify your email', html)
-        console.log('after')
-    }
+     
 
     
->>>>>>> c210ca29730b214b466a2d10707682d92a66ef61
 })  
 
 
