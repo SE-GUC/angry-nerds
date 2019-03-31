@@ -4,6 +4,18 @@ jest.setTimeout( 30000);
 
 const adminFunctions = {
 
+
+  adminChangePricingStrategy: async (lawID) => {
+    const Law = await axios({
+      method: 'put',
+      url: 'http://127.0.0.1:3000/adminChangePricingStrategy/' + lawID,
+      headers: {},
+      data: {
+        LawEntity: 'Malak'
+      }
+    })
+    return Law
+  },
   AdminEditCompany: async (companyID) => {
     const company = await axios({
       method: 'put',
@@ -169,7 +181,7 @@ const adminFunctions = {
         "email": "fady.wasfalla@gmail.com",
         "password": "cnjdqqcrjcsjn151215'",
         "gender": "Male",
-        "Type":"Admin",
+        "Type": "Admin",
 
         "Nationality": "Egyptian",
 
@@ -289,57 +301,82 @@ const adminFunctions = {
     return rev
   },
 
-  
-  AdminAssignLawyer : async(caseid,lawyerid) => {
+
+  AdminAssignLawyer: async (caseid, lawyerid) => {
     const cases = await axios({
-        method: 'put',
-        url: 'http://localhost:3000/AdminAssignLawyer',
-        headers: {}, 
-        data: { 
-          CaseId : caseid  ,
-          LawyerId : lawyerid
-        }
-      });
-    return cases.data.msg
-},
-AdminAssignReviewer : async(caseid,revid) => {
-  const cases = await axios({
       method: 'put',
-      url: 'http://localhost:3000/AdminAssignReviewer',
-      headers: {}, 
-      data: { 
-        CaseId : caseid  ,
-        ReviewerId : revid
+      url: 'http://localhost:3000/AdminAssignLawyer',
+      headers: {},
+      data: {
+        CaseId: caseid,
+        LawyerId: lawyerid
       }
     });
-  return cases.data.msg
-},
-CheckFroms : async() => {
-  const form = await axios({
+    return cases.data.msg
+  },
+  AdminAssignReviewer: async (caseid, revid) => {
+    const cases = await axios({
+      method: 'put',
+      url: 'http://localhost:3000/AdminAssignReviewer',
+      headers: {},
+      data: {
+        CaseId: caseid,
+        ReviewerId: revid
+      }
+    });
+    return cases.data.msg
+  },
+  CheckFroms: async () => {
+    const form = await axios({
       method: 'put',
       url: 'http://localhost:3000/api/Cases',
       headers: {},
       data: {
-          investorId: "5c77c2b0c5973856f492f33e",
-          form_type: "SSC"
+        investorId: "5c77c2b0c5973856f492f33e",
+        form_type: "SSC"
       }
-  });
-  return form
-},
+    });
+    return form
+  },
 
 
-SendAttachmentMail: async(mail) => {
-const m = await axios({ 
-  method: 'post',
-  headers : {},
-  url:'http://localhost:3000/SendAttachmentMail',
-  data: {
-    email: mail,
-  }
-});
-console.log(m.data.message)
-return m.data.message
-},
+  SendAttachmentMail: async (mail) => {
+    const m = await axios({
+      method: 'post',
+      headers: {},
+      url: 'http://localhost:3000/SendAttachmentMail',
+      data: {
+        email: mail,
+      }
+    });
+    console.log(m.data.message)
+    return m.data.message
+  },
+
+  adminCreateNewLaw: async () => {
+    const law = await axios({
+      method: 'post',
+      url: 'http://127.0.0.1:3000/adminCreateNewLaw',
+      data: {
+        LawNumber: "Law test",
+        LawEntity: "Malak",
+        LawValue: 0,
+        LawCalc: 0,
+        min: 0,
+        max: 0
+      }
+    })
+    return law
+  },
+
+  InvestorViewFees: async () => {
+    const Case = await axios({
+      method: 'get',
+      url: 'http://127.0.0.1:3000/InvestorViewFees/' + id
+    })
+    return Case
+  },
+
 
     AdmDelCase: async(id)=> {
       console.log('im here' + id)

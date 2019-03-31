@@ -5,12 +5,12 @@ const Joi = require('joi')
 module.exports = {
     createValidation: request => {
         const createSchema = {
-            FName: Joi.string().min(3).max(100).required(),
-            MName: Joi.string().min(3).max(100).required(),
-            LName: Joi.string().min(3).max(100).required(),
+            FName: Joi.String().min(3).max(100).required(),
+            MName: Joi.String().min(3).max(100).required(),
+            LName: Joi.String().min(3).max(100).required(),
             ssid: Joi.number().integer(),
-            Nationality:Joi.string().required(),
-            gender:Joi.string().min(4).max(6),
+            Nationality:Joi.String().required(),
+            gender:Joi.String().min(4).max(6),
             birthdate: Joi.number().integer().min(1900).max(2013),
             Type:Joi.required(),
             gender:Joi.required().string(),
@@ -18,7 +18,7 @@ module.exports = {
             fax:Joi.number(),
             password: Joi.string().regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/),
             telephone_number:Joi.number().required(),
-            email: Joi.string().email({ minDomainAtoms: 2 })
+            email: Joi.String().email({ minDomainAtoms: 2 })
 
         }
 
@@ -27,19 +27,19 @@ module.exports = {
 
     updateValidation: request => {
         const updateSchema = {
-            FName: Joi.string().min(3).max(100).required(),
-            MName: Joi.string().min(3).max(100).required(),
-            LName: Joi.string().min(3).max(100).required(),
+            FName: Joi.String().min(3).max(100).required(),
+            MName: Joi.String().min(3).max(100).required(),
+            LName: Joi.String().min(3).max(100).required(),
             ssid: Joi.number().min(0).max(3000).required(),
-            Nationality:Joi.string().required(),
-            gender:Joi.string().min(4).max(6),
+            Nationality:Joi.String().required(),
+            gender:Joi.String().min(4).max(6),
             birthdate: Joi.number().integer().min(1900).max(2013),
             Type:Joi.required(),
-            Address:Joi.string().required(),
+            Address:Joi.String().required(),
             fax:Joi.number().required(),
-            password: Joi.string().regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/),
+            password: Joi.String().regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/),
             telephone_number:Joi.number().required(),
-            email: Joi.string().email({ minDomainAtoms: 2 })
+            email: Joi.String().email({ minDomainAtoms: 2 })
 
         }
 

@@ -96,17 +96,22 @@ let InvestorController = {
 
     },
 
-    /* Malak
-    this is a function that takes as an input company id and returns its fees
-    */
     InvestorViewFees: async function (req, res) {
-        const id = req.params.id
-        const Cases = await Case.findById(id, projection)
-        if (Cases === null) {
-            res.json({ msg: 'Can not find company' })
+        try {
+            
+            const id = req.params.id
+            const projection = { _id: 0, Fees: 1}
+            const Cases = await Case.findById(id,projection)
+            if (!Cases) {
+                res.json({ msg: 'Can not find company' })
+            }
+            else {
+                console.log(Cases)
+                res.json({ data: Cases , msg:'This is your fees' })
+            }
         }
-        else {
-            res.json({ data: Cases.Fees })
+        catch {
+            res.json({msg: 'Cannot find company'})
         }
     },
 

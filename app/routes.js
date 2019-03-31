@@ -130,12 +130,9 @@ router.get('/viewCasesReviewer/:id', ReviewerController.viewCasesReviewer)
 
 
 //-------------------------------User Routes---------------------------------------------------------
-router.get('/UnregisteredViewQuestions', UserController.UnregisteredViewQuestions)
+router.get('/UnregisteredViewQuestions',UserController.UnregisteredViewQuestions)
+router.get('/UnregisteredViewLawyers',UserController.viewLawyers)
 router.get('/UserViewLaws', UserController.UserViewLaws)
-
-//router.get('/UnregisteredViewLawyers',UserController.viewLawyers)
-router.get('/UnregisteredViewLawyers', UserController.viewLawyers)
-//router.get('/UserViewLaws', UserController.UserViewLaws)
 
 //--------------------------------------------------done
 module.exports = router
