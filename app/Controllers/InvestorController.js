@@ -157,8 +157,9 @@ let InvestorController = {
     },
 
 
-    investorUpdateForm: async (id) => {
+    investorUpdateForm: async (req,res) => {
         try {
+            const id=req.params.id
             const investorid = '5c77e91b3fd76231ecbf04ee'
             const investor = await Investor.findById(investorid)
             const form = await Case.findById(id)

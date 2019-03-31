@@ -15,7 +15,7 @@ let LawyerController = {
     lawyerFillForm: async (req, res) => {
 
         try {
-            const id = '5c77e91b3fd76231ecbf04ee'
+            const id = '5c9f69180ec7b72d689dba6d'
             const lawyer = await Lawyer.findById(id)
 
             if (!lawyer)
@@ -40,9 +40,10 @@ let LawyerController = {
     },
 
 
-    lawyerUpdateForm: async (id) => {
+    lawyerUpdateForm: async (req,res) => {
         try {
-            const lawyerid = '5c77e91b3fd76231ecbf04ee'
+            const id=req.params.id
+            const lawyerid = '5c9f69180ec7b72d689dba6d'
             const lawyer = await Investor.findById(lawyerid)
             const form = await Case.findById(id)
             if (!lawyer)
@@ -63,7 +64,7 @@ let LawyerController = {
     lawyerViewComment: async (req, res) => {
         try {
             const formid = '5c9cfd1d05f1d42e68b75fb7'
-            const lawyerid = '5c77e91b3fd76231ecbf04ee'
+            const lawyerid = '5c9f69180ec7b72d689dba6d'
             const lawyer = await Lawyer.findById(lawyerid)
             const form = await Case.findById(formid)
             if (!form)
@@ -72,9 +73,10 @@ let LawyerController = {
                 return res.status(404).send({ error: 'You are not allowed to view this comment, You are not a lawyer' });
             if (form.lawyerID.toString() === lawyerid.toString()) {
                 return res.json({ data: form.comment });
+
             }
             else {
-                return res.status(404).send({ error: 'You are not allowed to view this comment, You are not the investor of this company' });
+                return res.status(404).send({ error: 'You are not allowed to view this comment' });
             }
         }
         catch (error) {
@@ -88,14 +90,14 @@ let LawyerController = {
 
     lawyerViewLawyersLeaderBoard: async(req,res)=>{
         try{
-            const lawyerid = '5c9e48bb3f08ad4ea807ea10'
+            const lawyerid = '5c9f69180ec7b72d689dba6d'
             const lawyer = await Lawyer.findById(lawyerid)
             if (!lawyer)
                 return res.status(404).send({ error: 'You are not allowed to view the Leaderboard' });
             const leaderboard= await Lawyer.find().sort({completed_number_of_cases: 1});
             console.log(Lawyer)
             console.log(leaderboard)
-            return res.json({ data: leaderboard});
+            return res.json({ data: leaderboard , msg : 'Done'});
 
 
 
@@ -207,13 +209,13 @@ calc_fees : async function (req,res) {
 
     lawyerViewReviewersLeaderBoard: async(req,res)=>{
         try{
-            const lawyerid = '5c9e48bb3f08ad4ea807ea10'
+            const lawyerid = '5c9f69180ec7b72d689dba6d'
             const lawyer = await Lawyer.findById(lawyerid)
             if (!lawyer)
                 return res.status(404).send({ error: 'You are not allowed to view the Leaderboard' });
             const leaderboard= await Reviewer.find().sort({completed_number_of_cases: 1});
             //console.log(leaderboard)
-            return res.json({ data: leaderboard});
+            return res.json({ data: leaderboard ,msg : 'Done'});
 
 
 
