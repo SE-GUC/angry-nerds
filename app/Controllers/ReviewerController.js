@@ -45,6 +45,7 @@ caseDisAproveedAtReviewer: async function (req, res) {     /// :idStaff/:idCase'
          ReviewerController.reviewrWriteComment(casID,comment)
                        
 
+         return res.status(200).json({ msg: 'Case disaproved', data: CASE })     // in test check that caseStatus is lawyer  
 
 
      };
@@ -75,8 +76,7 @@ caseDisAproveedAtReviewer: async function (req, res) {     /// :idStaff/:idCase'
          Case.findByIdAndUpdate(id, { 'reviewerTotalTime': ReviewerTotalTimeATCase})  
          Reviewer.findByIdAndUpdate(staffID, { 'total_number_of_cases':RevieweTotalTime})       
    
-
-
+         return res.status(200).json({ msg: 'Case approved', data: CASE })     // in test check that caseStatus is pending  
 
      };
    }   ,

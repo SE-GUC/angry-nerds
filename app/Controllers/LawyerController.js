@@ -149,11 +149,11 @@ caseDisAproveedAtLawyer: async function (req, res) {       /// :idStaff/:idCase'
         Case.findByIdAndUpdate(caseID, { 'lawyerTotalTime': lawyerTotalTime,})    
         Lawyer.findByIdAndUpdate(staffID, { 'total_time_on_cases': lawyerTotalTime,})   
 
-        return res.status(200).json({ msg: 'cases updated', data: lawyer })
+        return res.status(200).json({ msg: 'Case disaproved', data: CASE })     // in test check that caseStatus is reviewer  
        
     }
     else {
-        return res.status(404).json({ error: 'error ' })
+        return res.status(404).json({ error: 'error ' })        
 
 
     }
@@ -186,7 +186,7 @@ caseDisAproveedAtLawyer: async function (req, res) {       /// :idStaff/:idCase'
 
     LawyerController.lawyerWriteComment(caseID,comment)
 
-                      
+    return res.status(200).json({ msg: 'Case approved' , data: Case})       // in test check that caseStatus is reviewer      
      }
 
      else {
