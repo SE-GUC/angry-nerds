@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
     "start": "node index.js",
     "dev": "nodemon index"
   },
@@ -13,6 +13,7 @@
   "description": "",
   "dependencies": {
     "array": "^0.4.3",
+    "axios": "^0.18.0",
     "body-parser": "^1.18.3",
     "dotenv": "^7.0.0",
     "express": "^4.16.4",
@@ -26,5 +27,8 @@
     "randomstring": "^1.1.5",
     "request": "^2.88.0",
     "stripe": "^6.28.0"
+  },
+  "devDependencies": {
+    "jest": "^24.5.0"
   }
 }

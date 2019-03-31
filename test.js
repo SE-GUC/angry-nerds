@@ -1,66 +1,31 @@
-const funcs = require('./fn');
+const adminFunctions = require('./tests/adminFunctions')
+const investorFunctions = require('./tests/investorFunctions')
 
-test('adds 1 + 2 to be 3', () => {
-  expect(funcs.add(1, 2)).toBe(3);
-});
+//Admin tests
 
-
-//To be exact comparison, with objects use toEqual
-test('object assignment', () => {
-    const data = {one: 1};
-    data['two'] = 2;
-    expect(data).toEqual({one: 1, two: 2});
+test(`Editing company city to Alex`, async () => {
+    const company =  await adminFunctions.AdminEditCompany('5c9502b9ae1fad2e00c0bc7a')
+    expect(company.data.data.city).toEqual('Alex')
   });
 
-  test('adding positive numbers is not zero', () => {
-        const a = 1
-        const b = 2
-        expect(a + b).not.toBe(0);
+  test(`Editing company that does not exist`, async () => {
+    const company =  await adminFunctions.AdminEditCompany('5c9502b9d2e00c0bc7a')
+    expect(company.data.message).toEqual('This id is not valid a company.' )
   });
 
-  test('adding floating point numbers', () => {
-    const value = 0.1 + 0.2;
-    //expect(value).toBe(0.3);           This won't work because of rounding error
-    expect(value).toBeCloseTo(0.3); // This works.
+  //Investor tests
+  test(`paying fees for a company with valid card`, async () => {
+    const charge =  await investorFunctions.InvestorPayFees(4242424242424242,12,19,121)
+    expect(charge.data.message).toEqual
+    ('your payment has been made; you will receive an invoice via your mail.' )
   });
 
-  test('there is no I in team', () => {
-    expect('team').not.toMatch(/I/);
-  });
-  
-  test('but there is a "stop" in Christoph', () => {
-    expect('Christoph').toMatch(/stop/);
-  });
-
-  const people = [
-    'Ammar',
-    'Leo',
-    'Barney',
-    'Jaime',
-    'Tywin',
-  ];
-  
-  test('The list of people has Ammar on it', () => {
-    expect(people).toContain('Ammar');
+  test(`paying fees for a company with expired card`, async () => {
+    const charge =  await investorFunctions.InvestorPayFees(4242424242424242,1,19,121)
+    console.log(charge)
+    expect(charge.data.message).toEqual
+    ('card declined' )
   });
 
 
-// //Working with async
-//   test('First book should be Crime and Punishment', async () => {
-//     expect.assertions(1)
-//     const response =  await funcs.getBooks()
-//     expect(response.data.data[0].title).toEqual('Crime and Puishment')
-//   });
-
-//   test('Number of books should be 11', async () => {
-//     expect.assertions(1)
-//     const response =  await funcs.getBooks()
-//     expect(response.data.data.length).toBe(11)
-//   });
-
-//   test(`User's name should be  Leanne Graham`, async () => {
-//     expect.assertions(1)
-//     const user =  await funcs.getUser()
-//     expect(user.data.name).toEqual('Leanne Graham')
-//   });
 

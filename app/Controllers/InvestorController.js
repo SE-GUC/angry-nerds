@@ -19,12 +19,12 @@ let InvestorController = {
     InvestorPayFees: async function (req, res) {
         const id = req.params.id
         const invID = '5c77c2b0c5973856f492f33e' //get this from login token
-        const CaseID = '5c94df653c95ff18c8866d52' //get this from frontend 
+        const CaseID = '5c93dd90806ede138da94bda' //get this from frontend 
 
         const myCase = await Case.findById(CaseID)
 
-        if (!myCase)
-            res.json({ msg: 'this case does not exist' })
+        if (!myCase )
+            res.json({ message: 'you cannot pay for this company' })
 
         console.log(myCase)
         if (myCase.investorID == invID) {
@@ -51,7 +51,7 @@ let InvestorController = {
                         }
                         else {
                             const casecreated = await Case.findByIdAndUpdate(CaseID, { 'caseStatus': 'published' })
-                            return res.json({ message: 'your payment has been made; you will receive an invoice via your mail' })
+                            return res.json({ message: 'your payment has been made; you will receive an invoice via your mail.' })
                         }
 
                     })
