@@ -1,0 +1,30 @@
+<html>
+<head>
+</head>
+<body>
+    <h2 class="page-header textcolor">Reser your password</h2>
+    <form action="/resetpassword" method="POST" name="reset_link" id="reset">
+            <legend>Reset Your new Password</legend>
+            <input type="password" placeholder="Password" name = "pass" id="password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" required>
+            <input type="password" placeholder="Confirm Password" id="confirm_password" required>
+            <button type="submit" class="pure-button pure-button-primary">Confirm</button>
+    </form>
+
+    <script>
+      var password = document.getElementById("password")
+      , confirm_password = document.getElementById("confirm_password");
+
+      function validatePassword(){
+        if(password.value != confirm_password.value) {
+          confirm_password.setCustomValidity("Passwords Don't Match");
+        } else {
+          confirm_password.setCustomValidity('');
+        }
+      }
+      password.onchange = validatePassword;
+      confirm_password.onkeyup = validatePassword;
+  </script>
+
+</body>
+</html>
+
