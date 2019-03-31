@@ -106,23 +106,6 @@ let LawyerController = {
         }
     },
 
-    
-
-
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
     /*
     PUT request to change password of the lawyer
     PARAMS:{ lawyerID: String }
@@ -152,7 +135,7 @@ let LawyerController = {
                     return res.status(403).json({ error: 'The passwords do not match' })
                 }
                 else {
-                    const updatedLawyer = await Lawyer.findByIdAndUpdate(id, {
+                    const updatedLawyer = await Lawyer.findByIdAndUpdate(id, {      ////////////
                         'password': newPassword,
                     })
                     lawyer = await Lawyer.findById(id)
@@ -162,9 +145,116 @@ let LawyerController = {
         } catch (error) {
             console.log(error)
             return res.status(400).json({ error: 'Error processing query.' })
+        } },
+
+
+caseDisAproveedAtLawyer: async function (req, res) {       /// :idStaff/:idCase'  routs
+   // var CASE = new Case(req.body);
+   // const staff= await Staff.findById(id)
+
+   const caseID = req.params.idCase
+   const staffID = req.params.idStaff
+
+   const CASE =await Case.findById(caseID)
+   const lawyer= await Lawyer.findById(staffID)
+   
+
+   if (CASE.caseStatus==lawyer){
+
+    if (lawyer._id==CASE.lawyerID) {       
+        await Case.updateOne({_id:req.params.idCase}, {$set: {caseStatus:"Investor"}}) // updates case with _id matching Case and sets caseStatus to null  
+
+        var LawyerEndTime = new Date();  
+        var lawyerStartTime = Case.body.lawyerStartTime              
+        var lawyerHours =Math.abs(LawyerEndTime-lawyerStartTime)/36e5            
+        var lawyerTotalTimeAtCase =CASE.body.lawyerTotalTime + lawyerHours             // this is the total time on this specific case
+        var lawyerTotalTime = lawyer.body.total_time_on_cases + lawyerTotalTimeAtCase  // this is the overall total time on all cases
+
+
+       await Case.findByIdAndUpdate(caseID, { 'lawyerTotalTime': lawyerTotalTime,})    
+       await Lawyer.findByIdAndUpdate(staffID, { 'total_time_on_cases': lawyerTotalTime,})   
+
+        return res.status(200).json({ msg: 'Case aproved', data: CASE })     // in test check that caseStatus is reviewer  
+       
+    }}
+
+    else {
+        return res.status(404).json({ error: 'error ' })        
+
+
+    }
+  }   ,
+
+  caseAproveedAtLawyer: async function (req, res) {     /// :idStaff/:idCase'  routs
+
+    const caseID = req.params.idCase
+    const staffID = req.params.idStaff
+
+     const lawyer= await Lawyer.findById(idStaff)
+     const CASE =await Case.findById(caseID)
+
+     const comment = req.body.Comment
+
+if (CASE.caseStatus==lawyer){
+     if (lawyer._id==CASE.lawyerID) {  /// test if this if function is valid
+         await Case.updateOne({_id:req.params.idCase}, {$set: {caseStatus:"reviewer"}}) // updates case with _id matching Case and sets caseStatus to null  
+         res.send(Cases)
+                                                   
+    var LawyerEndTime = new Date();                  //// start time for reviewer
+    var lawyerStartTime = CASE.body.lawyerStartTime               /// get total time of lawyer
+    var lawyerHours =Math.abs(LawyerEndTime-lawyerStartTime)/36e5            // total time lawyer worked on this casn "in  this session"
+    var lawyerTotalTimeAtCase =CASE.body.lawyerTotalTime + lawyerHours
+    var ReviewerStartDate = new Date();
+    var lawyerTotalTime = lawyer.body.total_time_on_cases + lawyerTotalTimeAtCase
+
+  await  Case.findByIdAndUpdate(caseID, { 'reviewerStartTime': ReviewerStartDate,})     // ID of CASE
+  await Case.findByIdAndUpdate(caseID, { 'lawyerTotalTime': lawyerTotalTimeAtCase,})       // ID of Lawyer
+  await Lawyer.findByIdAndUpdate(staffID, { 'total_time_on_cases': lawyerTotalTime,})  
+
+    LawyerController.lawyerWriteComment(caseID,comment)
+
+    return res.status(200).json({ msg: 'Case approved' , data: Case})       // in test check that caseStatus is reviewer      
+     }
+    }
+
+     else {
+        return res.status(404).json({ error: 'error ' })
+    }
+   }   ,
+
+  
+
+   lawyerWriteComment: async function (caseID,comment) {  //   Only  called in caseDisAproveedAtLawyer !! and takes caseID and comment as inputs
+    const CASE = Case.findById(caseID)
+
+    const writecomment = await Case.findByIdAndUpdate(caseID, { 'password': comment,})
+    return  'comment sent'
+
+   }   ,
+
+   viewCasesLawyer: async function (req, res) {         // req contain the lawyer id 
+    try {
+        const id = req.params.id
+        let lawyer = await Lawyer.findById(id)
+        if (!lawyer) {
+            return res.status(404).json({ error: 'Cannot find an investor account with this ID' })
+        }
+        else {
+            let cases = await Case.find({'lawyerID': id })
+                if(!cases){
+                    return res.status(404).json({ error: 'Cannot find cases' })
+
+            }
+            return res.status(200).json({ data: cases })
         }
 
-    },
+    }
+    catch (error) {
+        console.log(error)
+        return res.status(400).json({ error: 'Error processing query.' })
+    }
+
+   }   ,
 
     /*
         GET request to view the notifications of the lawyer.
@@ -214,10 +304,6 @@ let LawyerController = {
 
         }
     }
-
-
-
-
 
 }
 

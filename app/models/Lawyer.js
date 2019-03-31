@@ -76,6 +76,10 @@ const LawyerSchema = new Schema({
         type: Number,
         required: true
     },
+     //dany
+     photoID: {
+        type: String
+    },
 
     ratings: {
         type : [{

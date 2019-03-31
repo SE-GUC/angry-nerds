@@ -1,5 +1,5 @@
 var InvestorController = require('./Controllers/InvestorController')
-const AdminController = require('./Controllers/AdminController')
+ const AdminController = require('./Controllers/AdminController')
 const LawyerController = require('./Controllers/LawyerController')
 const ReviewerController = require('./Controllers/ReviewerController')
 const UserController = require('./Controllers/UserController')
@@ -13,7 +13,13 @@ var router = express.Router();
 router.post('/InvestorPayFees',InvestorController.InvestorPayFees)
 router.post('/InvestorFillForm',InvestorController.investorFillForm)
 router.put('/InvestorUpdateForm/:id',InvestorController.investorUpdateForm)
-router.get('/InvestorViewComment',InvestorController.investorViewComment)
+
+
+
+
+
+
+
 //this endpoint allows investor to view his company fees
 router.get('/InvestorViewFees', InvestorController.InvestorViewFees)
 router.put('/InvestorChangePassword/:id',InvestorController.investorChangePassword)
@@ -56,9 +62,23 @@ router.get('/LawyerViewReviewersLeaderBoard',LawyerController.lawyerViewReviewer
 router.put('/LawyerChangePassword/:id',LawyerController.lawyerChangePassword)
 router.get('/LawyerMyNotifications/:id',LawyerController.lawyerMyNotifications)
 
+router.put('/caseDisAproveedAtLawyer/:idStaff/:idCase',LawyerController.caseDisAproveedAtLawyer)  
+router.put('/caseAproveedAtLawyer/:idStaff:idCase',LawyerController.caseAproveedAtLawyer)
+router.get('/viewCasesLawyer/:id',LawyerController.viewCasesLawyer)
+// router.post('/lawyerWriteComment',LawyerController.lawyerComment)
+
+
 
 
 //----------------------------------------------Reviewer Routes-----------------------------------------
+
+ router.put('/caseAproveedAtReviewer/:idStaff/:idCase',ReviewerController.caseAproveedAtreviewer)    // fix this
+router.put('/caseDisAproveedAtReviewer/:idStaff/:idCase',ReviewerController.caseDisAproveedAtReviewer)
+ router.get('/viewCasesReviewer/:id',ReviewerController.viewCasesReviewer)
+// router.post('/reviewrWriteComment',ReviewerController.reviewrWriteComment)
+
+
+
 router.put('/ReviewerChangePassword/:id',ReviewerController.reviewerChangePassword)
 router.get('/ReviewerMyNotifications/:id',ReviewerController.reviewerMyNotifications)
 router.get('/ReviewerViewLawyersLeaderBoard',ReviewerController.reviewerViewLawyersLeaderBoard)

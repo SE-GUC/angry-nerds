@@ -2,6 +2,7 @@ const validator = require('../../validations/caseValidations')
 const stripe = require('stripe')('sk_test_Tc2FlJG0ovXrM6Zt7zuK1O6f002jC3hcT0')
 const Case = require('./../models/Cases')
 const Investor = require('./../models/Investor')
+const AdminController = require('./AdminController')
 const Notification = require('./../models/Notifications')
 const express = require('express')
 const router = express.Router()
@@ -26,7 +27,7 @@ let InvestorController = {
         if (!myCase )
             res.json({ message: 'you cannot pay for this company' })
 
-        console.log(myCase)
+        //console.log(myCase)
         if (myCase.investorID == invID) {
             stripe.tokens.create({
                 card: {
@@ -36,10 +37,15 @@ let InvestorController = {
                     'cvc': req.body.cvc
                 }
             }, function (err, token) {
-                if (err) return res.json({ message: 'card declinded' })
+                if (err) return res.json({ message: 'card declined' })
                 else {
+<<<<<<< HEAD
                    // console.log(token)
                     var chargeAmount = 30000
+=======
+                    //console.log(token)
+                    var chargeAmount = AdminController.SystemCalcFees(CaseID)
+>>>>>>> c210ca29730b214b466a2d10707682d92a66ef61
                     var charge = stripe.charges.create({
                         amount: chargeAmount,
                         currency: 'usd',
@@ -62,7 +68,7 @@ let InvestorController = {
 
         }
         else
-            return res.json({ message: 'you cannot pay for a company that is not yours ' })
+            return res.json({ message: 'you cannot pay for a company that is not yours' })
 
         //console.log(req.body)
 
@@ -388,7 +394,18 @@ let InvestorController = {
             console.log(error)
             return res.status(400).json({ error: 'Error processing query.' })
         }
-    }
+    },
+
+    uploadFile: (req, res, next) => {
+        const file = req.file
+        if (!file) {
+          const error = new Error('Please upload a file')
+          error.httpStatusCode = 400
+          return next(error)
+        }
+          res.send(file)
+        
+      }
 
 
 }

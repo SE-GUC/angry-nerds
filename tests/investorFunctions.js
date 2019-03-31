@@ -16,7 +16,11 @@ const investorFunctions = {
             }
           });
         return charge
-    }
+    },
+
+    
+
+    
 
 }
 

@@ -26,13 +26,13 @@ module.exports = {
 
     updateValidation: request => {
         const updateSchema = {
-            FName: Joi.string().min(3).max(100).required(),
-            MName: Joi.string().min(3).max(100).required(),
-            LName: Joi.string().min(3).max(100).required(),
-            ssid: Joi.number().min(0).max(3000).required(),
+            FName: Joi.string().min(3).max(58).required(),
+            MName: Joi.string().min(3).max(58).required(),
+            LName: Joi.string().min(3).max(58).required(),
+            ssid: Joi.number().min(14).max(14).positive().required(),
             Nationality:Joi.string().required(),
-            gender:Joi.string().min(4).max(6),
-            birthdate: Joi.number().integer().min(1900).max(2013),
+            gender:Joi.string().valid(['Male', 'Female']).required(),  
+            birthdate: Joi.number().integer().positive().min(1900).max(2013),
             Type:Joi.required(),
             Address:Joi.string().required(),
             fax:Joi.number().required(),
