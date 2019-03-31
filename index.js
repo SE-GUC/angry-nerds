@@ -194,11 +194,7 @@ app.use(bodyParser.json());
 app.use(methodOverride('_method'));
 app.set('view engine', 'ejs');          // change with react later
 
-// Mongo URI
-const mongoURI = 'mongodb+srv://ramyGabra:Nike-1234@angrynerds-ymdpc.mongodb.net/test?retryWrites=true';
-
 // Create mongo connection
-const conn = mongoose.createConnection(mongoURI);
 
 // Init gfs
 let gfs;     ////  variable for grid fs stream
