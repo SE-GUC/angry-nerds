@@ -7,6 +7,7 @@ const Lawyer = require('./../models/Lawyer')
 const Reviewer = require('./../models/Reviewer')
 const Investor = require('./../models/Investor')
 const Laws = require('./../models/Laws')
+const Question = require('./../models/Questions')
 const validator = require('../../validations/AdminValidations')
 "use strict";
 const nodemailer = require("nodemailer");
@@ -537,11 +538,11 @@ let AdminController = {
             const AdminId = '5c9bb0dc5185793518ea84fb' //login token
             const Admin = await Admins.findById(AdminId)
             if ((!Admin) || (Admin && Admin.Type !== 'Super')) {
-                return res.json({ msg: 'Only super admins have access' })
+                return res.json({ message: 'Only super admins have access' })
             }
             else {
                 const newLaw = await Laws.create(req.body)
-                res.json({ msg: 'Law was created successfully', data: newLaw })
+                res.json({ message: 'Law was created successfully', data: newLaw })
             }
         }
         catch (error) {
@@ -555,7 +556,7 @@ let AdminController = {
             const AdminId = '5c9bb0dc5185793518ea84fb' //login token
             const Admin = await Admins.findById(AdminId)
             if ((!Admin) || (Admin && Admin.Type !== 'Super')) {
-                return res.json({ msg: 'Only super admins have access' })
+                return res.json({ message: 'Only super admins have access' })
             }
             else {
                 const id = req.params.id
@@ -564,14 +565,124 @@ let AdminController = {
                 //  const isValidated = validator.updateValidation(req.body)
                 //  if (isValidated.error) return res.status(400).send({ error: isValidated.error.details[0].message })
                 const updatedLaw = await Law.updateOne(req.body)
-                res.json({ msg: 'Laws updated successfully', data: updatedLaw })
+                res.json({ message: 'Laws updated successfully', data: updatedLaw })
             }
         }
         catch (error) {
             // We will be handling the error later
             console.log(error)
         }
+    },
+
+
+ AdmCompListViewing: async (req,res) => {
+
+    try {
+        var Cas = await Case.find({ caseStatus: 'published' }, projx)
+
+    for (var i = 0; i < Cas.length; i++) {
+     var projx = { '_id': 0, 'reviewerID': 0, 'lawyerID': 0, 'investorID': 0 }
     }
+     Cas = await Case.find({ caseStatus: 'published' }, projx)
+
+     return res.json({ message: 'Cases', data: Cas })
+ }
+     catch (error) {
+        console.log(error)
+    }
+},
+
+AdmCompViewing: async (req, res)=> {
+
+    const id = req.params.id
+    var Cas = await Case.findById(id)
+    
+    try {
+        if (Cas.caseStatus === 'published') {
+            var proj1 = { '_id': 0, 'reviewerID': 0, 'lawyerID': 0, 'InvestorID': 0 }
+            Cas = await Case.findById(id, proj1)
+           return res.json({ message: 'case ahe' ,data: Cas }) 
+        } else {
+           return res.json({ message: 'Case was not published' })
+
+        }
+    }
+    catch (error) {
+        console.log(error)
+    }
+},
+AdmViewing: async (req, res)=> {
+    var proj = { '_id': 0, 'password': 0 }
+        try {
+            const id = req.params.id
+            const Inv = await Investor.findById(id, proj)
+            const Revs = await Reviewer.findById(id, proj)
+            const Adm = await Admins.findById(id,proj)
+            const Lawy = await Lawyer.findById(id, proj)
+            if(Inv)
+            res.json({ message:'investor' ,data: Inv})
+            else if(Revs)
+            res.json({message: 'Rev' ,data: Revs})
+            else if(Lawy)
+            res.json({message: 'lawyer',data: Lawy})
+            else if(Adm)
+            res.json({message: 'Admin', data: Adm})
+            else {
+                res.json({message: 'User does not exist'})
+
+            }
+        }
+        catch (error) {
+        console.log(error)
+    }
+},
+
+AdmDelQuestion: async (req, res) => {
+   try {
+        mongoose.set('useFindAndModify', false)
+        const id = req.params.id
+        const AdminId = '5c9bb0dc5185793518ea84fb' //login token
+        const Admin = await Admins.findById(AdminId)
+        const Ques = await Question.findById(id)
+         if (!Admin)
+            return res.json({ message: 'Only Admins have access' })
+        if (!Ques)
+             return res.json({message:'not a ques'})
+         else {
+
+             const deletedques = await Question.findByIdAndRemove(id)
+            return res.json({ message: 'This question was deleted successfully', data: deletedques })
+        }
+    }
+    catch (error) {
+        console.log(error)
+    }
+},    
+
+AdmDelCase: async (req, res) => {
+    try {
+        mongoose.set('useFindAndModify', false)
+        const id = req.params.id
+        const aCase = await Case.findById(id)
+        const AdminId = '5c9bb0dc5185793518ea84fb' //login token
+        const Admin = await Admins.findById(AdminId)
+         if (!Admin)
+            return res.json({ message: 'Only Admins have access' })
+         if (!aCase)
+            return res.json({message: 'not a case'})
+
+         else {           
+            const deletedCase = await Case.findByIdAndRemove(id)
+            return res.json({ message: 'Case was deleted successfully', data: deletedCase })
+    }
+
+}
+   catch (error) {
+    console.log(error)
+    res.json({message: error})
+   }
+},
+
 }
 
 

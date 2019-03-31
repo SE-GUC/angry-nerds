@@ -3,6 +3,8 @@ const stripe = require('stripe')('sk_test_Tc2FlJG0ovXrM6Zt7zuK1O6f002jC3hcT0')
 const Case = require('./../models/Cases')
 const Reviewer = require('./../models/Reviewer')
 const express = require('express')
+const Admins = require('./../models/Admin')
+const Investor = require('./../models/Investor')
 const router = express.Router()
 const mongoose = require('mongoose')
 const Lawyer = require('./../models/Lawyer')
@@ -94,7 +96,71 @@ reviewerViewLawyersLeaderBoard: async(req,res)=>{
         return res.status(404).send({ error: 'LeaderBoard cant be viewed' })
 
     }
+},
+
+RevCompListViewing: async (res) => {
+
+    try {
+        var Case = await Cases.find({ caseStatus: 'published' }, projx)
+
+        for (var i = 0; i < Case.length; i++) {
+         var projx = { '_id': 0, 'reviewerID': 0, 'lawyerID': 0, 'investorID': 0 }
+        }
+         Case = await Cases.find({ caseStatus: 'published' }, projx)
+         res.json({ data: Case })
+     }
+     catch (error) {
+        console.log(error)
+    }
+},
+
+RevCompViewing: async (req, res)=> {
+
+    const id = req.params.id
+    var Cas = await Case.findById(id)
+    
+    try {
+        if (Cas.caseStatus === 'published') {
+            var proj1 = { '_id': 0,'reviewerID': 0, 'lawyerID': 0, 'InvestorID': 0 }
+            Cas = await Case.findById(id, proj1)
+            res.json({ data: Cas })
+        } else {
+            res.json({ message: 'Case was not published' })
+
+        }
+    }
+    catch (error) {
+        console.log(error)
+    }
+},
+
+RevViewing: async (req, res)=> {
+var proj = { '_id': 0, 'password': 0 }
+try {
+    const id = req.params.id
+    const Inv = await Investor.findById(id, proj)
+    const Revs = await Reviewer.findById(id, proj)
+    const Adm = await Admins.findById(id,proj)
+    const Lawy = await Lawyer.findById(id, proj)
+    if(Inv)
+    res.json({ message:'investor' ,data: Inv})
+        else if(Revs)
+        res.json({message: 'Rev' ,data: Revs})
+        else if(Lawy)
+        res.json({message: 'lawyer',data: Lawy})
+        else if(Adm)
+        res.json({message: 'Admin',data: Adm})
+    else {
+            res.json({message: 'User does not exist'})
+
+        }
+    }
+catch (error) {
+console.log(error)
 }
+},
+
+
 
 
 

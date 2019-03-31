@@ -3,10 +3,14 @@ const stripe = require('stripe')('sk_test_Tc2FlJG0ovXrM6Zt7zuK1O6f002jC3hcT0')
 const Case = require('./../models/Cases')
 const Investor = require('./../models/Investor')
 const Notification = require('./../models/Notifications')
+const Admins = require('./../models/Admin')
 const express = require('express')
 const router = express.Router()
 const mongoose = require('mongoose')
 const pdfMakePrinter = require('pdfmake/src/printer')
+const Reviewer = require('./../models/Reviewer')
+const Lawyer = require('./../models/Lawyer')
+
 
 
 let InvestorController = {
@@ -388,7 +392,105 @@ let InvestorController = {
             console.log(error)
             return res.status(400).json({ error: 'Error processing query.' })
         }
+    },
+
+
+    InvCompListViewing: async (res) => {
+
+        try {
+            var Cas = await Case.find({ caseStatus: 'published' }, projx)
+    
+            for (var i = 0; i < Cas.length; i++) {
+             var projx = { '_id': 0, 'reviewerID': 0, 'lawyerID': 0, 'investorID': 0 ,  'equality_capital': 0, 'currency': 0, 'fees':0}
+            }
+             Cas = await Case.find({ caseStatus: 'published' }, projx)
+             res.json({ data: Cas })
+         }
+         catch (error) {
+            console.log(error)
+        }
+    },
+
+    InvCompViewing: async (req, res)=> {
+
+        const id = req.params.id
+        var Cas = await Case.findById(id)
+        
+        try {
+            if (Cas.caseStatus === 'published') {
+                var proj1 = {  '_id': 0, 'reviewerID': 0, 'lawyerID': 0, 'investorID': 0 ,  'equality_capital': 0, 'currency': 0, 'fees':0}
+                Cas = await Case.findById(id, proj1)
+                res.json({ data: Cas }) 
+            } else {
+                res.json({ msg: 'Case was not published' })
+    
+            }
+        }
+        catch (error) {
+            console.log(error)
+        }
+    },
+    
+    InvViewing: async (req, res)=> {
+        
+    var proj = { '_id': 0, 'password': 0}
+    var projy = {'_id': 0, 'password': 0 , 'ratings': 0}
+    try {
+        const id = req.params.id
+        const Inv = await Investor.findById(id, proj)
+        const Revs = await Reviewer.findById(id, proj)
+        const Adm = await Admins.findById(id,proj)
+        const Lawy = await Lawyer.findById(id, projy)
+        if(Inv)
+        res.json({ message:'investor' ,data: Inv})
+        else if(Revs)
+        res.json({message: 'Rev' ,data: Revs})
+        else if(Lawy)
+        res.json({message: 'lawyer',data: Lawy})
+        else if(Adm)
+        res.json({message: 'Admin',data: Adm})
+        else {
+            res.json({message: 'User does not exist'})
+
+        }
     }
+    catch (error) {
+    console.log(error)
+}
+    },
+    InvestorRateLawyer: async function (req, res) {
+        const id = req.params.id // Lawyer ID
+        const invID = '5c77c2b0c5973856f492f33e' //get this from login token
+        const CasID = '5c94dfa63c95ff18c8866d56' //get this from frontend 
+        const Ratin = req.body.rating
+        const Comm = req.body.Comment
+        const aCase = await Case.findById(CasID)
+        const Lawy = await Lawyer.findById(id)
+       
+        try{
+            
+            if(!aCase)
+            res.json({msg: 'this case does not exist'})
+            if(!Lawy)  {
+            res.json({msg: 'not a lawyer, try again'})}
+            
+            if(aCase.investorID == invID&&aCase.lawyerID == id){
+                var newrate = [{'investorID': invID, 'CaseID':CasID, 'rating': Ratin , 'Comment': Comm}]
+                console.log(newrate)
+                const updat = await Lawyer.findOneAndUpdate(id, {$push: {ratings: newrate}})
+                res.json({msg: 'Rating placed', Data: updat })
+            }else{
+                res.json({msg: 'you are trying to access a case that is not yours or has a lawyer who did not work with you'})
+            }
+            
+        }
+        
+        
+        
+        catch (error) {
+            console.log(error)
+        }
+    },
 
 
 }
