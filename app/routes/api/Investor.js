@@ -10,8 +10,8 @@ const randomstring = require('randomstring')
 const mailer =require ('../../../misc/mailer')
 const config = require('../../../config/mailer')
 
-router.get('/', async (req, res) => {
-    const Investors = await Investor.find()
+router.get('/',  async (req, res) => {
+    const Investors = await  Investor.find()
     res.json({ data: Investors })
 })
 
@@ -54,18 +54,10 @@ router.post('/register', async (req, res) => {
 
     //compose an email
     const html = 'Hi there, <br/> Thank you for registering <br/><br/> Please verify your email by clicking on the following page:<a href= "http://localhost:3000/Investor/verify">http://localhost:3000/Investor/verify</a> </br></br> '
-
     //send the email
     console.log('before')
     await mailer.sendEmail(config.user, req.body.email, 'Please verify your email', html)
     console.log('after')
-    //Generate secret token
-    //const secretToken = randomstring.generate()
-    //result.value.secretToken = secretToken
-    
-
-    //flag the account as inactive
-    //result.value.active = false
     
 })  
 

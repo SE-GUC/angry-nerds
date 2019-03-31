@@ -221,7 +221,7 @@ router.put('/AssignLawyer/:id/:id1', async (req, res) => {
 
     //check if I am admin
     try { 
-        var x = '5c9553126e4cb565a02e1089'
+        var x = '5c9553126e4cb565a02e1089' //get from login token
         const admin= await Admin.findById(x)
         console.log(admin)
         if (admin) {

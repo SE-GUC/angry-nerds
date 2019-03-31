@@ -20,6 +20,7 @@
     "hbs": "^4.0.3",
     "jest": "^24.5.0",
     "joi": "^14.3.1",
+    "mailer": "^0.6.7",
     "mongoose": "^5.4.15",
     "mongoose-unique-validator": "^2.0.2",
     "nodemailer": "^6.0.0",
@@ -28,5 +29,8 @@
     "request": "^2.88.0",
     "socket.io": "^2.2.0",
     "stripe": "^6.28.0"
+  },
+  "devDependencies": {
+    "jest": "^24.5.0"
   }
 }
