@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
     "start": "node index.js",
     "dev": "nodemon index"
   },
@@ -13,6 +13,7 @@
   "description": "",
   "dependencies": {
     "array": "^0.4.3",
+    "axios": "^0.18.0",
     "body-parser": "^1.18.3",
     "circular-json": "^0.5.9",
     "dotenv": "^7.0.0",
@@ -20,14 +21,10 @@
     "express": "^4.16.4",
     "gridfs-stream": "^1.1.1",
     "hbs": "^4.0.3",
-    "i": "^0.3.6",
     "jest": "^24.5.0",
     "joi": "^14.3.1",
-<<<<<<< HEAD
-    "method-override": "^3.0.0",
-=======
     "mailer": "^0.6.7",
->>>>>>> 96dd354c08be7372728ac11d78ed29f7474e0272
+    "method-override": "^3.0.0",
     "mongoose": "^5.4.15",
     "mongoose-file": "0.0.2",
     "mongoose-unique-validator": "^2.0.2",

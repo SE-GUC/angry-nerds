@@ -155,13 +155,14 @@ caseDisAproveedAtLawyer: async function (req, res) {       /// :idStaff/:idCase'
    const caseID = req.params.idCase
    const staffID = req.params.idStaff
 
-   const CASE =Case.findById(caseID)
-   const lawyer= Lawyer.findById(staffID)
+   const CASE =await Case.findById(caseID)
+   const lawyer= await Lawyer.findById(staffID)
    
 
+   if (CASE.caseStatus==lawyer){
 
-    if (lawyer) {       
-        Case.updateOne({_id:req.params.idCase}, {$set: {caseStatus:"Investor"}}) // updates case with _id matching Case and sets caseStatus to null  
+    if (lawyer._id==CASE.lawyerID) {       
+        await Case.updateOne({_id:req.params.idCase}, {$set: {caseStatus:"Investor"}}) // updates case with _id matching Case and sets caseStatus to null  
 
         var LawyerEndTime = new Date();  
         var lawyerStartTime = Case.body.lawyerStartTime              
@@ -170,12 +171,13 @@ caseDisAproveedAtLawyer: async function (req, res) {       /// :idStaff/:idCase'
         var lawyerTotalTime = lawyer.body.total_time_on_cases + lawyerTotalTimeAtCase  // this is the overall total time on all cases
 
 
-        Case.findByIdAndUpdate(caseID, { 'lawyerTotalTime': lawyerTotalTime,})    
-        Lawyer.findByIdAndUpdate(staffID, { 'total_time_on_cases': lawyerTotalTime,})   
+       await Case.findByIdAndUpdate(caseID, { 'lawyerTotalTime': lawyerTotalTime,})    
+       await Lawyer.findByIdAndUpdate(staffID, { 'total_time_on_cases': lawyerTotalTime,})   
 
-        return res.status(200).json({ msg: 'Case disaproved', data: CASE })     // in test check that caseStatus is reviewer  
+        return res.status(200).json({ msg: 'Case aproved', data: CASE })     // in test check that caseStatus is reviewer  
        
-    }
+    }}
+
     else {
         return res.status(404).json({ error: 'error ' })        
 
@@ -188,14 +190,14 @@ caseDisAproveedAtLawyer: async function (req, res) {       /// :idStaff/:idCase'
     const caseID = req.params.idCase
     const staffID = req.params.idStaff
 
-     const lawyer= Lawyer.findById(idStaff)
-     const CASE =Case.findById(caseID)
+     const lawyer= await Lawyer.findById(idStaff)
+     const CASE =await Case.findById(caseID)
 
      const comment = req.body.Comment
 
 if (CASE.caseStatus==lawyer){
      if (lawyer._id==CASE.lawyerID) {  /// test if this if function is valid
-         Case.updateOne({_id:req.params.idCase}, {$set: {caseStatus:"reviewer"}}) // updates case with _id matching Case and sets caseStatus to null  
+         await Case.updateOne({_id:req.params.idCase}, {$set: {caseStatus:"reviewer"}}) // updates case with _id matching Case and sets caseStatus to null  
          res.send(Cases)
                                                    
     var LawyerEndTime = new Date();                  //// start time for reviewer
@@ -205,9 +207,9 @@ if (CASE.caseStatus==lawyer){
     var ReviewerStartDate = new Date();
     var lawyerTotalTime = lawyer.body.total_time_on_cases + lawyerTotalTimeAtCase
 
-    Case.findByIdAndUpdate(caseID, { 'reviewerStartTime': ReviewerStartDate,})     // ID of CASE
-    Case.findByIdAndUpdate(caseID, { 'lawyerTotalTime': lawyerTotalTimeAtCase,})       // ID of Lawyer
-    Lawyer.findByIdAndUpdate(staffID, { 'total_time_on_cases': lawyerTotalTime,})  
+  await  Case.findByIdAndUpdate(caseID, { 'reviewerStartTime': ReviewerStartDate,})     // ID of CASE
+  await Case.findByIdAndUpdate(caseID, { 'lawyerTotalTime': lawyerTotalTimeAtCase,})       // ID of Lawyer
+  await Lawyer.findByIdAndUpdate(staffID, { 'total_time_on_cases': lawyerTotalTime,})  
 
     LawyerController.lawyerWriteComment(caseID,comment)
 

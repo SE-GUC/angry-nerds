@@ -197,7 +197,7 @@ app.get('/files', (req, res) => {
   });
   
   // @route GET /image/:filename                                ///// to be able to retrive image using filename  "take file name from investor,"
-  // @desc Display Image                     to se uploaded pic   /// http://localhost:3000/image/9f2afd767a8c1dd18de66671eeb5ea33.jpg  :)
+  // @desc Display Image                     to see uploaded pic   /// http://localhost:3000/image/9f2afd767a8c1dd18de66671eeb5ea33.jpg  :)
   app.get('/image/:filename', (req, res) => {
     gfs.files.findOne({ filename: req.params.filename }, (err, file) => {      
       // Check if file

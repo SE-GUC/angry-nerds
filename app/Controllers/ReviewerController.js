@@ -24,8 +24,8 @@ caseDisAproveedAtReviewer: async function (req, res) {     /// :idStaff/:idCase'
      const staffID = req.params.idStaff
      const comment = req.body.Comment
 
-     const reviewer= Reviewer.findById(staffID)
-     const CASE =Case.findById(caseID)
+     const reviewer= await Reviewer.findById(staffID)
+     const CASE =   await Case.findById(caseID)
 
      if (reviewer) {  /// test if this if function is valid
          Case.updateOne({_id:req.params.idCase}, {$set: {caseStatus:"lawyer"}}) // updates case with _id matching Case and sets caseStatus to null  
@@ -39,9 +39,9 @@ caseDisAproveedAtReviewer: async function (req, res) {     /// :idStaff/:idCase'
 
          var LawyerStartTime = new Date()
 
-         Case.findByIdAndUpdate(id, { 'lawyerStartTime': LawyerStartTime,})     
-         Case.findByIdAndUpdate(id, { 'reviewerTotalTime': ReviewerTotalTimeATCase,})     
-         Reviewer.findByIdAndUpdate(staffID, { 'total_number_of_cases':RevieweTotalTime})       
+        await Case.findByIdAndUpdate(id, { 'lawyerStartTime': LawyerStartTime,})     
+        await Case.findByIdAndUpdate(id, { 'reviewerTotalTime': ReviewerTotalTimeATCase,})     
+        await  Reviewer.findByIdAndUpdate(staffID, { 'total_number_of_cases':RevieweTotalTime})       
   
          
          ReviewerController.reviewrWriteComment(casID,comment)
