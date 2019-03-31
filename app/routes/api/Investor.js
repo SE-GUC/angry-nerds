@@ -9,6 +9,8 @@ const request = require('request')
 const randomstring = require('randomstring')
 const mailer =require ('../../../misc/mailer')
 const config = require('../../../config/mailer')
+const tempUser = require('../../models/tempUser')
+
 
 router.get('/',  async (req, res) => {
     const Investors = await  Investor.find()
@@ -47,50 +49,34 @@ router.post('/register', async (req, res) => {
     if (user)
         return res.status(400).json({ error: 'Email already exists' })
     else{
-        const newInvestor = await Investor.create(req.body)
-        res.json({ msg: 'Investor was created successfully', data: newInvestor })
+        const secretToken = randomstring.generate()
+        req.body.secretToken = secretToken
+        const newTempUser = await tempUser.create(req.body)
+        res.json({ msg: 'tempUser was created successfully', data: newTempUser })
         //.catch(err => res.json('You could not be registered, try again'))
+        //compose an email
+        const html = 'Hi there, <br/> Thank you for registering <br/><br/> Please verify your email by copying the following token and   by clicking on the following page:<a href= "http://localhost:3000/api/Investor/verify/' +secretToken+ '">http://localhost:3000/api/Investor/verify</a> </br></br> '
+        //send the email
+        console.log('before')
+        await mailer.sendEmail(config.user, req.body.email, 'Please verify your email', html)
+        console.log('after')
     }
 
-    //compose an email
-    const html = 'Hi there, <br/> Thank you for registering <br/><br/> Please verify your email by clicking on the following page:<a href= "http://localhost:3000/Investor/verify">http://localhost:3000/Investor/verify</a> </br></br> '
-
-    //send the email
-    console.log('before')
-    await mailer.sendEmail(config.user, req.body.email, 'Please verify your email', html)
-    console.log('after')
-    //Generate secret token
-    //const secretToken = randomstring.generate()
-    //result.value.secretToken = secretToken
-    
-
-    //flag the account as inactive
-    //result.value.active = false
     
 })  
 
 
-router.route('/verify')
-.post(async (req,res,next) => {
+router.get('/verify/:secretToken', async (req,res) => {
     try{
-        const secretToken = req.body.secretToken
-
-//find the account matching the secret Token 
-const inv = await Investor.findOne({ "secretToken": secretToken})
-if(!inv) {
-    req.flash('error', 'No Investor Found')
-    res.redirect('Investor/verify')
-    return
-}
-Investor.active = true
-Investor.secretToken = ''
-await Investor.save()
-
-req.flash('success', 'Thank you now you may login.')
-//re.redirect('/Investor/login')
-
-    } catch(error){
-        next(error)
+        const secretToken1 = req.body.secretToken
+        const user = await tempUser.findOne({'secretToken': secretToken1})
+        if(user){
+            const investor1 = await Investor.create(user)
+            res.json(investor1)
+        }
+    }
+    catch(error){
+        res.json({message:'error'})
     }
 })
 

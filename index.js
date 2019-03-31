@@ -1,11 +1,13 @@
 const express = require('express')
 const mongoose = require('mongoose')
 const hbs = require('hbs')
+const client = require('socket.io').listen('4000').sockets
 const fs = require('fs')
 const path = require('path')
 const multer = require('multer')
 const GridFsStorage = require('multer-gridfs-storage')
 const Grid = require('gridfs-stream')
+
 
 
 // Require Router Handlers
@@ -24,20 +26,81 @@ var InvestorController = require('./app/Controllers/InvestorController')
 
 //AdminController.AdminChangePricingStrategy("revenues159", 10)
 //console.log(Cases_func.revenue159)
-
+ 
 global.heroku = "https://angrynerds1.herokuapp.com"
 
 const app = express()
 app.set('view engine', 'hbs')
 
 // DB Config
-const db = require('./config/keys').mongoURI
+const db1 = require('./config/keys').mongoURI
 
 // Connect to mongo
-mongoose
-    .connect("mongodb+srv://ramyGabra:Nike-1234@angrynerds-ymdpc.mongodb.net/test?retryWrites=true")
-    .then(() => console.log('Connected to MongoDB'))
-    .catch(err => console.log(err))
+mongoose.connect('mongodb+srv://ramyGabra:Nike-1234@angrynerds-ymdpc.mongodb.net/test?retryWrites=true', function (err, db) {
+    if (err) {
+        throw err;
+    }
+    console.log('Connected to MongoDB')
+    //connect to socket.io
+    client.on('connection', function (socket) {
+        let chat = db.collection('chats')
+
+        //create function to send status
+        sendStatus = function (s) {
+            socket.emit('status', s)
+        }
+
+        //get chats from mongo collection
+
+        chat.find().limit(100).sort({ _id: 1 }).toArray(function (err, res) {
+            if (err) {
+                throw err
+            }
+
+            //Emit the messages
+            socket.emit('output', res)
+
+
+            //handle input events
+
+            socket.on('input', function (data) {
+                let name = data.name
+                let message = data.message
+
+
+                //check for the name and message 
+                if (name === '' || message === '') {
+                    sendStatus('Please enter name and message')
+                } else {
+                    //insert message
+                    chat.insert({ name: name, message: message }, function () {
+                        client.emit('output', [data])
+
+
+                        //send status object
+                        sendStatus({
+                            message: 'Message sent',
+                            clear: true
+                        });
+                    });
+                }
+
+            });
+
+            //handle clear
+            socket.on('clear', function () {
+                //remove all chats from collection
+                chat.remove({}, function () {
+                    //Emit cleared
+
+                    socket.emit('Cleared')
+                })
+            })
+
+        });
+
+    });
+});
 
 // Init middleware
 app.use(express.json())
@@ -96,6 +159,9 @@ app.get('/payment',(req,res)=>{
 })
 
 // Direct to Route Handlers
+app.get('/chat', function(req, res){
+    res.sendFile(__dirname + '/views/chat.html');
+  });
 app.use('/api/Staff', Staffi)
 app.use('/api/Cases', Cases)
 app.use('/api/Investor', investor)

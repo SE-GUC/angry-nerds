@@ -2,6 +2,7 @@ const validator = require('../../validations/caseValidations')
 const stripe = require('stripe')('sk_test_Tc2FlJG0ovXrM6Zt7zuK1O6f002jC3hcT0')
 const Case = require('./../models/Cases')
 const Investor = require('./../models/Investor')
+const AdminController = require('./AdminController')
 const Notification = require('./../models/Notifications')
 const express = require('express')
 const router = express.Router()
@@ -19,14 +20,14 @@ let InvestorController = {
     InvestorPayFees: async function (req, res) {
         const id = req.params.id
         const invID = '5c77c2b0c5973856f492f33e' //get this from login token
-        const CaseID = '5c94df653c95ff18c8866d52' //get this from frontend 
+        const CaseID = '5c93dd90806ede138da94bda' //get this from frontend 
 
         const myCase = await Case.findById(CaseID)
 
-        if (!myCase)
-            res.json({ msg: 'this case does not exist' })
+        if (!myCase )
+            res.json({ message: 'you cannot pay for this company' })
 
-        console.log(myCase)
+        //console.log(myCase)
         if (myCase.investorID == invID) {
             stripe.tokens.create({
                 card: {
@@ -36,22 +37,22 @@ let InvestorController = {
                     'cvc': req.body.cvc
                 }
             }, function (err, token) {
-                if (err) return res.json({ message: 'card declinded' })
+                if (err) return res.json({ message: 'card declined' })
                 else {
-                    console.log(token)
-                    var chargeAmount = 30000
+                    //console.log(token)
+                    var chargeAmount = AdminController.SystemCalcFees(CaseID)
                     var charge = stripe.charges.create({
                         amount: chargeAmount,
                         currency: 'usd',
                         source: token.id
                     }, async function (err) {
-                        console.log(err)
+                        //console.log(err)
                         if (err) {
                             return res.json({ message: 'your card is declined, try again!' })
                         }
                         else {
                             const casecreated = await Case.findByIdAndUpdate(CaseID, { 'caseStatus': 'published' })
-                            return res.json({ message: 'your payment has been made; you will receive an invoice via your mail' })
+                            return res.json({ message: 'your payment has been made; you will receive an invoice via your mail.' })
                         }
 
                     })
@@ -62,7 +63,7 @@ let InvestorController = {
 
         }
         else
-            return res.json({ message: 'you cannot pay for a company that is not yours ' })
+            return res.json({ message: 'you cannot pay for a company that is not yours' })
 
         console.log(req.body)
 

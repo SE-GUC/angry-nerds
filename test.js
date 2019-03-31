@@ -1,66 +1,78 @@
-const funcs = require('./fn');
+const adminFunctions = require('./tests/adminFunctions')
+const investorFunctions = require('./tests/investorFunctions')
+const userFunctions = require('./tests/userFunctions')
+const Lawyer = require('./app/models/Lawyer')
+jest.setTimeout(30000)
+//Admin tests
 
-test('adds 1 + 2 to be 3', () => {
-  expect(funcs.add(1, 2)).toBe(3);
-});
-
-
-//To be exact comparison, with objects use toEqual
-test('object assignment', () => {
-    const data = {one: 1};
-    data['two'] = 2;
-    expect(data).toEqual({one: 1, two: 2});
+test(`Editing company city to Alex`, async () => {
+    const company =  await adminFunctions.AdminEditCompany('5c9507e0384b413494812ddb')
+    expect(company.data.data.city).toEqual('Alex')
   });
 
-  test('adding positive numbers is not zero', () => {
-        const a = 1
-        const b = 2
-        expect(a + b).not.toBe(0);
+  test(`Editing company that does not exist`, async () => {
+    const company =  await adminFunctions.AdminEditCompany('5c9502b9d2e00c0bc7a')
+    expect(company.data.message).toEqual('This id is not a valid company.' )
   });
 
-  test('adding floating point numbers', () => {
-    const value = 0.1 + 0.2;
-    //expect(value).toBe(0.3);           This won't work because of rounding error
-    expect(value).toBeCloseTo(0.3); // This works.
+  //Investor tests
+  test(`paying fees for a company with valid card`, async () => {
+    const charge =  await investorFunctions.InvestorPayFees(4242424242424242,12,19,121)
+    expect(charge.data.message).toEqual
+    ('your payment has been made; you will receive an invoice via your mail.' )
   });
 
-  test('there is no I in team', () => {
-    expect('team').not.toMatch(/I/);
+  test(`paying fees for a company with expired card`, async () => {
+    const charge =  await investorFunctions.InvestorPayFees(4242424242424242,1,19,121)
+    console.log(charge)
+    console.log(charge.data.message)
+    expect(charge.data.message).toEqual
+    ('card declined' )
   });
+
+  //====================Hemaya tests===========================================================
+  test(`Unregister view questions`, async () => {
+    const ques =  await userFunctions.UnregisterViewQuestions()
+    expect(ques.data.data[0].question).toEqual('how are you?')
+  });
+
+
+  test(`Admin register lawyer with email already exists`, async () => {
+   var data = {
+    "FName":"Romba",
+      "MName": "Ramremo",
+      "LName":"Gamd",
+      "email": "fr@gmail.com",
+      "password":"cnjdqqcrjcsjn151215'",
+      "gender": "Male",
   
-  test('but there is a "stop" in Christoph', () => {
-    expect('Christoph').toMatch(/stop/);
-  });
-
-  const people = [
-    'Ammar',
-    'Leo',
-    'Barney',
-    'Jaime',
-    'Tywin',
-  ];
+      "Nationality":"Egyptian",
   
-  test('The list of people has Ammar on it', () => {
-    expect(people).toContain('Ammar');
+      "birthdate":"1980",
+  
+      "Address":"11 makram",
+  
+  
+      "fax":"125252",
+  
+      "telephone_number":"151515",
+      
+      "total_number_of_cases": "588",
+      "completed_number_of_cases":"561",
+      "number_of_cases":"2",
+      "total_time_on_cases":"25",
+  
+      "ssid": "15552"
+      }
+  
+   // await Lawyer.create(data)
+    const ques =  await adminFunctions.AdminRegisterLawyer();
+    expect(ques).to.have.status(400)
   });
 
 
-// //Working with async
-//   test('First book should be Crime and Punishment', async () => {
-//     expect.assertions(1)
-//     const response =  await funcs.getBooks()
-//     expect(response.data.data[0].title).toEqual('Crime and Puishment')
-//   });
 
-//   test('Number of books should be 11', async () => {
-//     expect.assertions(1)
-//     const response =  await funcs.getBooks()
-//     expect(response.data.data.length).toBe(11)
-//   });
 
-//   test(`User's name should be  Leanne Graham`, async () => {
-//     expect.assertions(1)
-//     const user =  await funcs.getUser()
-//     expect(user.data.name).toEqual('Leanne Graham')
-//   });
+
+
 
