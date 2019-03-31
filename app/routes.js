@@ -14,6 +14,12 @@ router.post('/InvestorPayFees',InvestorController.InvestorPayFees)
 router.post('/InvestorFillForm',InvestorController.investorFillForm)
 router.put('/InvestorUpdateForm/:id',InvestorController.investorUpdateForm)
 router.get('/InvestorViewComment',InvestorController.investorViewComment)
+//router.post('/upload', upload.single('file'), InvestorController.uploadFile);
+
+
+
+
+
 //this endpoint allows investor to view his company fees
 router.get('/InvestorViewFees', InvestorController.InvestorViewFees)
 router.put('/InvestorChangePassword/:id',InvestorController.investorChangePassword)
