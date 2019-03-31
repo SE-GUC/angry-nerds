@@ -7,7 +7,7 @@ const functions = {
     MailForgotPassword : async (mail) => {
         const t = await axios({
             method: 'post',
-            url:'http://localhost:3000/forgotpassword',
+            url:'http://127.0.0.1:3000/forgotpassword',
             headers: {}, 
             data: {
               email: mail, // This is the body part
