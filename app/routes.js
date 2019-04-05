@@ -15,6 +15,7 @@ var fs = require('fs');
 router.post('/InvestorPayFees', InvestorController.InvestorPayFees)
 router.post('/InvestorFillForm', InvestorController.investorFillForm)
 router.put('/InvestorUpdateForm/:id', InvestorController.investorUpdateForm)
+router.put('/InvestorEditProfile',InvestorController.InvestorEditProfile)
 
 
 
