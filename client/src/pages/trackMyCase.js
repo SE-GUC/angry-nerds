@@ -1,6 +1,4 @@
 import React, { Component } from 'react'
-import NavBar from '../layout/navBar'
-//import { ProgressBar } from 'react-bootstrap'
 import StepProgressBar from '../components/stepProgressBar'
 
 
@@ -10,7 +8,7 @@ export class trackMyCase extends Component {
             
             <div>
                 <h1>Case status</h1><br></br><br></br>
-                <StepProgressBar/>
+                <StepProgressBar status={this.props}/>
            
             </div>
         )

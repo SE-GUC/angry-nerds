@@ -35,11 +35,6 @@ class App extends Component {
 
   render() {
     return (
-      // <div>
-      //   <center>
-      //   <TrackMyCase/>
-      //   </center>
-      //   </div>
       
       <Router>
         <div className="App">
@@ -50,13 +45,7 @@ class App extends Component {
               <h2> my name is Ramy! </h2>
             </React.Fragment>
           )} />
-          <Route exact path="/trackMyCase" render={props => (
-            <React.Fragment>
-              <center>
-              <TrackMyCase/>
-              </center>
-            </React.Fragment>
-          )} />
+          <Route exact path= "/trackMyCase" component = {TrackMyCase} />
 
           <Route exact path="/about" render={props => (
             <React.Fragment>
