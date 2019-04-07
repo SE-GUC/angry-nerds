@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import './App.css';
 import Companies from './pages/Companies';
-import signup from './pages/signup'
+import signup from './pages/signUp'
 import signin from './pages/signin'
 import home from './pages/home'
 import LawyerHome from './pages/LawyerHome'
@@ -24,7 +24,7 @@ class App extends Component {
       {<Companies CompanyName = {this.state.CompanyName}/> }
           <div className="container">
           <Route  exact path = "/home" component = {home}  />
-            <Route exact path="/signup" component={signup} />
+            <Route exact path="/signUp" component={signup} />
             <Route exact path="/signin" component= {signin} />
           </div>  
         </div>
