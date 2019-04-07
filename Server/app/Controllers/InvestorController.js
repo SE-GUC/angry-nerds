@@ -548,6 +548,25 @@ let InvestorController = {
             //  .catch(err => res.json('There was an error ,Try again later'))
         }
 
+      },
+      InvestorSignIn: async (req,res) =>{
+        const email = req.params.email
+        const password = req.params.password
+        const inv = await Investor.find({email})
+        var x = false
+        console.log(inv.length)
+            for (let i = 0; i < inv.length; i += 1) {
+                if (inv[i].password === password) {
+                    x =true 
+                    console.log('hi')
+                }
+            }
+
+        if(x === true)
+            return res.status(200).json({ msg: 'Logged in successfully' })
+        else 
+            return res.status(400).json({ erroe: 'Incorrect email or password' })
+        //To be continued ....  
       }
 
 

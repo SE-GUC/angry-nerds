@@ -12,6 +12,7 @@ var fs = require('fs');
 //--------------------------------Investor Routes----------------------------------------------------------
 
 //this endpoint allows the investor to pay fees for a pending company
+router.get('/InvestorSignIn/:email/:password',InvestorController.InvestorSignIn)
 router.post('/InvestorPayFees', InvestorController.InvestorPayFees)
 router.post('/InvestorFillForm', InvestorController.investorFillForm)
 router.put('/InvestorUpdateForm/:id', InvestorController.investorUpdateForm)
@@ -116,6 +117,7 @@ router.get('/UnregisteredViewLawyers',UserController.viewLawyers)
 router.get('/UnregCompListViewing', UserController.UnregCompListViewing)
 router.get('/UnregCompViewing/:id', UserController.UnregCompViewing)
 router.get('/UnregViewing/:id', UserController.UnregViewing)
+
 
 
 
