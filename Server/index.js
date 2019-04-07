@@ -18,7 +18,7 @@ const router = express.Router()
 // Require Router Handlers
 const investor = require('./app/routes/api/Investor')
 const Staffi = require('./app/routes/api/Staff')
-// const Cases = require('./app/routes/api/Cases')
+ const Cases = require('./app/routes/api/Cases')
 const Notification = require('./app/routes/api/Notifications')
 const questions = require('./app/routes/api/Questions')
 const Commentj = require('./app/routes/api/Comments')
@@ -335,6 +335,8 @@ app.get('/image/:filename', (req, res) => {
 
 
 // ///////////END OF UPLOADING image to database/////////////
+
+//Enable CORS on the express server
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
@@ -360,3 +362,4 @@ app.use((req, res) => res.status(404).send(`<h1>Can not find what you're looking
 
 const port = process.env.PORT || 3000
 app.listen(port, () => console.log(`Server on ${port}`))
+
