@@ -17,6 +17,10 @@ const router = express.Router()
 
 // Require Router Handlers
 const investor = require('./app/routes/api/Investor')
+const lawyer = require('./app/routes/api/Lawyer')
+const reviewer = require('./app/routes/api/Reviewer')
+
+
 const Staffi = require('./app/routes/api/Staff')
 // const Cases = require('./app/routes/api/Cases')
 const Notification = require('./app/routes/api/Notifications')
@@ -290,6 +294,13 @@ app.get('/files', (req, res) => {
   });
 });
 
+//Enable CORS on the express server
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
+
 // @route GET /files/:filename
 // @desc  Display single file object                        /// display query results from mongodb atlas
 app.get('/files/:filename', (req, res) => {
@@ -344,6 +355,8 @@ app.get('/chat', function (req, res) {
 app.use('/api/Staff', Staffi)
 // app.use('/api/Cases', Cases)
 app.use('/api/Investor', investor)
+app.use('/api/Lawyer', lawyer)
+app.use('/api/Reviewer', reviewer)
 app.use('/api/Notifications', Notification)
 app.use('/api/Questions', questions)
 app.use('/api/Comments', Commentj)
