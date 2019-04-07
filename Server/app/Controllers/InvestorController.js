@@ -284,7 +284,7 @@ let InvestorController = {
                 return res.status(404).json({ error: 'Cannot find an investor account with this ID' })
             }
             else {
-                let notifications = await Notification.find({ 'receiverInvestor': id })
+                let notifications = investor.notifications
                 return res.status(200).json({ msg: 'Done' , data: notifications })
             }
 

@@ -73,7 +73,8 @@ const AdminSchema = new Schema({
     },
     token_date : {
         type:Date
-    }
+    },
+    
 
 })
 
