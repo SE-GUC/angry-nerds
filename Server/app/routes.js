@@ -12,6 +12,7 @@ var fs = require('fs');
 //--------------------------------Investor Routes----------------------------------------------------------
 
 //this endpoint allows the investor to pay fees for a pending company
+router.get('/InvestorSignIn/:email/:password',InvestorController.InvestorSignIn)
 router.post('/InvestorPayFees', InvestorController.InvestorPayFees)
 router.post('/InvestorFillForm', InvestorController.investorFillForm)
 router.put('/InvestorUpdateForm/:id', InvestorController.investorUpdateForm)
@@ -21,8 +22,8 @@ router.put('/InvestorEditProfile',InvestorController.InvestorEditProfile)
 router.get('/InvestorViewFees', InvestorController.InvestorViewFees)
 router.put('/InvestorChangePassword/:id',InvestorController.investorChangePassword)
 router.get('/InvestorMyNotifications/:id',InvestorController.investorMyNotifications)
-router.get('/ViewPublishedCompanies/:id',InvestorController.viewMyPublishedCompanies)
-router.get('/ViewPendingCompanies/:id',InvestorController.viewMyPendingCompanies)
+router.get('/ViewPublishedCompanies',InvestorController.viewMyPublishedCompanies)
+router.get('/ViewPendingCompanies',InvestorController.viewMyPendingCompanies)
 router.get('/generatePdf/:id',InvestorController.generatePdf)
 router.get('/InvCompListViewing', InvestorController.InvCompListViewing)
 router.get('/InvCompViewing/:id', InvestorController.InvCompViewing)
@@ -110,6 +111,7 @@ router.get('/UnregisteredViewLawyers',UserController.viewLawyers)
 router.get('/UnregCompListViewing', UserController.UnregCompListViewing)
 router.get('/UnregCompViewing/:id', UserController.UnregCompViewing)
 router.get('/UnregViewing/:id', UserController.UnregViewing)
+
 
 
 

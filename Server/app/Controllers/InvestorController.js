@@ -307,13 +307,14 @@ let InvestorController = {
     */
     viewMyPublishedCompanies: async function (req, res) {
         try {
-            const id = req.params.id
-            let investor = await Investor.findById(id)
+            // const id = req.params.id
+            const ids = '5c78e4a73ba5f854b86f9058' //will take from login
+            let investor = await Investor.findById(ids)
             if (!investor) {
                 return res.status(404).json({ error: 'Cannot find an investor account with this ID' })
             }
             else {
-                let cases = await Case.find({ 'caseStatus': 'published', 'investorID': id })
+                let cases = await Case.find({ 'caseStatus': 'published', 'investorID': ids })
                 return res.status(200).json({ msg:'Done',data: cases })
             }
 
@@ -335,13 +336,14 @@ let InvestorController = {
    */
     viewMyPendingCompanies: async function (req, res) {
         try {
-            const id = req.params.id
-            let investor = await Investor.findById(id)
+            // const id = req.params.id
+            const ids = '5c78e4a73ba5f854b86f9058' // will take from login
+            let investor = await Investor.findById(ids)
             if (!investor) {
                 return res.status(404).json({ error: 'Cannot find an investor account with this ID' })
             }
             else {
-                let cases = await Case.find({ 'caseStatus': { $ne: 'published' }, 'investorID': id })
+                let cases = await Case.find({ 'caseStatus': { $ne: 'published' }, 'investorID': ids})
                 return res.status(200).json({ msg: 'Done', data: cases })
             }
 
@@ -551,6 +553,25 @@ let InvestorController = {
             //  .catch(err => res.json('There was an error ,Try again later'))
         }
 
+      },
+      InvestorSignIn: async (req,res) =>{
+        const email = req.params.email
+        const password = req.params.password
+        const inv = await Investor.find({email})
+        var x = false
+        console.log(inv.length)
+            for (let i = 0; i < inv.length; i += 1) {
+                if (inv[i].password === password) {
+                    x =true 
+                    console.log('hi')
+                }
+            }
+
+        if(x === true)
+            return res.status(200).json({ msg: 'Logged in successfully' })
+        else 
+            return res.status(400).json({ erroe: 'Incorrect email or password' })
+        //To be continued ....  
       }
 
 

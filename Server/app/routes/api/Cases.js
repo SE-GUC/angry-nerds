@@ -293,7 +293,6 @@ global.debt72 = 6
 
 // show case
 router.get('/', async (req, res) => {
-
     try {
     const Cases = await Case.find()
     res.json({ data: Cases })

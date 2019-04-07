@@ -8,6 +8,16 @@ import InvestorForm from './pages/InvestorForm'
 import axios from 'axios'
 import SideNav from './layout/sideNav'
 import TrackMyCase from './pages/trackMyCase'
+import Companies from './pages/Companies';
+import signup from './pages/signUp'
+import signin from './pages/signin'
+import home from './pages/home'
+import LawyerHome from './pages/LawyerHome'
+import ChangePricing from './pages/ChangePricing'
+import AdminViewLaws from './pages/AdminViewLaws'
+import AddLawyer from './components/AddLawyer';
+import AddReviewer from './components/AddReviewer';
+import testing from './components/testing';
 
 
 
@@ -54,6 +64,7 @@ class App extends Component {
 
 
   render() {
+    
     return (
       <Router>
         <div className="App">
@@ -87,6 +98,17 @@ class App extends Component {
           <Route exact path = "/LawyerForm" component={LawyerForm} />
 
 
+          <Route exact path = '/ViewMyCompanies' component =  {Companies}/>
+          <Route  exact path = "/home" component = {home}  />
+            <Route exact path="/signUp" component={signup} />
+            <Route exact path="/signin" component= {signin} />
+            <Route exact path="/lawyer" component={AddLawyer} />
+          <Route exact path="/reviewer" component={AddReviewer} /> 
+          <Route  exact path="/testing" component={testing} />
+          <Route exact path = "/LawyerHome" component={LawyerHome} />
+        <Route exact path = "/ChangePricing" component={ChangePricing} />
+        <Route exact path = "/AdminViewLaws" component={AdminViewLaws} /> 
+
 
           <Route exact path="/notification" render={props => (
             <React.Fragment>
@@ -102,6 +124,7 @@ class App extends Component {
       </Router>
      );
    }
+  
 }
 
 
