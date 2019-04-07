@@ -335,11 +335,8 @@ app.get('/image/:filename', (req, res) => {
 
 
 // ///////////END OF UPLOADING image to database/////////////
-<<<<<<< HEAD
-=======
 
 //Enable CORS on the express server
->>>>>>> 1586c917cd492270403b02744b8a2c6c321966a0
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");

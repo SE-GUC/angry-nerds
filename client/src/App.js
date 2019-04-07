@@ -36,10 +36,6 @@ class App extends Component {
 
   render() {
     return (
-<<<<<<< HEAD
-      
-=======
->>>>>>> 1586c917cd492270403b02744b8a2c6c321966a0
       <Router>
         <div className="App">
         <div className="row">
@@ -78,13 +74,8 @@ class App extends Component {
         
         </div>
       </Router>
-<<<<<<< HEAD
      );
    }
-=======
-    );
-  }
->>>>>>> 1586c917cd492270403b02744b8a2c6c321966a0
 }
 
 
