@@ -4,7 +4,8 @@ import Payment from './pages/payment'
 import Notification from './components/notification'
 import './App.css';
 import LawyerForm from './pages/LawyerForm'
-
+import InvestorForm from './pages/InvestorForm'
+import axios from 'axios'
 import SideNav from './layout/sideNav'
 import TrackMyCase from './pages/trackMyCase'
 
@@ -16,7 +17,25 @@ class App extends Component {
   
   //states & functions
   state = {
-      notifications: []
+      notifications: [],
+      case:
+      {
+        _id: "5c95094155f85f30d82dcfeb",
+        form_type: "SSCP",
+        regulated_law: "masr",
+        arabic_name: "تتتت",
+        english_name: "Hello6",
+        government: "ENG",
+        city: "Cairo",
+        hq_address: "gftfy",
+        hq_city: "yes",
+        main_center_phone: 123515,
+        main_center_fax: 518563,
+        currency: "541",
+        equality_capital: 5054641641562,
+        caseStatus: "published",
+        investorID: "5ca772654d70710fa843bd5f",
+    }
   }
 
   componentDidMount() {
