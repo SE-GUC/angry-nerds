@@ -35,12 +35,12 @@ class App extends Component {
 
   render() {
     return (
-<<<<<<< HEAD
-      <div className="App">
-        
-        <TrackMyCase/>
-      </div>
-=======
+      // <div>
+      //   <center>
+      //   <TrackMyCase/>
+      //   </center>
+      //   </div>
+      
       <Router>
         <div className="App">
 
@@ -48,6 +48,13 @@ class App extends Component {
             <React.Fragment>
               <h1>Hello World!</h1>
               <h2> my name is Ramy! </h2>
+            </React.Fragment>
+          )} />
+          <Route exact path="/trackMyCase" render={props => (
+            <React.Fragment>
+              <center>
+              <TrackMyCase/>
+              </center>
             </React.Fragment>
           )} />
 
@@ -68,9 +75,8 @@ class App extends Component {
 
         </div>
       </Router>
->>>>>>> c3a99387f499cb21ad3a9b2469a7a34c473d96c2
-    );
-  }
+     );
+   }
 }
 
 

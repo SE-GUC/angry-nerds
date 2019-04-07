@@ -8,10 +8,9 @@ import Published from '../Images/published.png'
 
 class StepProgressBar extends React.Component {
   render() {
+    
     return (
-        <div class="row">
-
-<div style={{display: 'flex', justifyContent: 'center'}}>
+        
       <ProgressBar
         percent={100}
         filledBackground="linear-gradient(to right, #fefb72, #f0bb31)"
@@ -21,8 +20,8 @@ class StepProgressBar extends React.Component {
           {({ accomplished }) => (
             <img
               style={{ filter: `grayscale(${accomplished ? 0 : 80}%)` }}
-              width="300"
-              src={LawyerStep}
+              //width="300"
+              src={LawyerStep} alt="Lawyer"
             />
           )}
         </Step>
@@ -30,8 +29,8 @@ class StepProgressBar extends React.Component {
           {({ accomplished }) => (
             <img
               style={{ filter: `grayscale(${accomplished ? 0 : 80}%)` }}
-              width="300"
-              src={Reviewer}
+              //width="300"
+              src={Reviewer} alt="reviewer"
             />
           )}
           
@@ -39,9 +38,9 @@ class StepProgressBar extends React.Component {
         <Step transition="scale">
           {({ accomplished }) => (
             <img
-              style={{ filter: `grayscale(${accomplished ? 50 : 80}%)` }}
-              width="300"
-              src={Waiting}
+              style={{ filter: `grayscale(${accomplished ? 0 : 80}%)` }}
+              //width="300"
+              src={Waiting} alt="waiting"
             />
           )}
         </Step>
@@ -49,14 +48,13 @@ class StepProgressBar extends React.Component {
           {({ accomplished }) => (
             <img
               style={{ filter: `grayscale(${accomplished ? 0 : 80}%)` }}
-              width="300"
-              src={Published}
+              //width="300"
+              src={Published} alt= "published"
             />
           )}
         </Step>
       </ProgressBar>
-      </div>
-      </div>
+      
     );
   }
 }

@@ -9,7 +9,7 @@ export class trackMyCase extends Component {
         return (
             
             <div>
-                <h1>Track my case</h1><br></br><br></br>
+                <h1>Case status</h1><br></br><br></br>
                 <StepProgressBar/>
            
             </div>
