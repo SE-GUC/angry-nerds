@@ -22,7 +22,7 @@ const reviewer = require('./app/routes/api/Reviewer')
 
 
 const Staffi = require('./app/routes/api/Staff')
-// const Cases = require('./app/routes/api/Cases')
+const Cases = require('./app/routes/api/Cases')
 const Notification = require('./app/routes/api/Notifications')
 const questions = require('./app/routes/api/Questions')
 const Commentj = require('./app/routes/api/Comments')
@@ -347,13 +347,19 @@ app.get('/image/:filename', (req, res) => {
 
 // ///////////END OF UPLOADING image to database/////////////
 
+//Enable CORS on the express server
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
 
 // Direct to Route Handlers
 app.get('/chat', function (req, res) {
   res.sendFile(__dirname + '/views/chat.html');
 });
 app.use('/api/Staff', Staffi)
-// app.use('/api/Cases', Cases)
+app.use('/api/Cases', Cases)
 app.use('/api/Investor', investor)
 app.use('/api/Lawyer', lawyer)
 app.use('/api/Reviewer', reviewer)

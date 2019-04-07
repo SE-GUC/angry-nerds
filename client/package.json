@@ -8,9 +8,15 @@
     "react": "^16.8.6",
     "react-bootstrap": "^1.0.0-beta.6",
     "react-dom": "^16.8.6",
+<<<<<<< HEAD
     "react-router-dom": "^5.0.0",
     "react-scripts": "2.1.8",
     "reactstrap": "^8.0.0"
+=======
+    "react-router": "^5.0.0",
+    "react-router-dom": "^5.0.0",
+    "react-scripts": "2.1.8"
+>>>>>>> e657e22cd6b0c1d0c3bdba27086f2c4b0e72e9bb
   },
   "scripts": {
     "start": "set PORT=3001 && react-scripts start",
