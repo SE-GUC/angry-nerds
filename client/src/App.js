@@ -4,6 +4,19 @@ import './App.css';
 import signup from './pages/signup'
 import signin from './pages/signin'
 import home from './pages/home'
+import {BrowserRouter as Router, Route} from 'react-router-dom'
+import LawyerHome from './pages/LawyerHome'
+import ChangePricing from './pages/ChangePricing'
+import AdminViewLaws from './pages/AdminViewLaws'
+
+import './App.css';
+ import AddLawyer from './components/AddLawyer';
+ import AddReviewer from './components/AddReviewer';
+ import testing from './components/testing';
+
+
+
+
 class App extends Component {
   
   render() {
@@ -16,6 +29,19 @@ class App extends Component {
             <Route exact path="/signin" component= {signin} />
           </div>  
         </div>
+        <div>
+          {/* <Route exact path = "/" component={AddLawyer}/> */}
+          <Route path="/lawyer" component={AddLawyer} />
+          <Route path="/reviewer" component={AddReviewer} /> 
+          <Route path="/testing" component={testing} /> 
+
+
+
+        </div>
+
+        <Route exact path = "/LawyerHome" component={LawyerHome} />
+        <Route exact path = "/ChangePricing" component={ChangePricing} />
+        <Route exact path = "/AdminViewLaws" component={AdminViewLaws} />
       </Router>
     );
   }
