@@ -18,7 +18,7 @@ const router = express.Router()
 // Require Router Handlers
 const investor = require('./app/routes/api/Investor')
 const Staffi = require('./app/routes/api/Staff')
-// const Cases = require('./app/routes/api/Cases')
+ const Cases = require('./app/routes/api/Cases')
 const Notification = require('./app/routes/api/Notifications')
 const questions = require('./app/routes/api/Questions')
 const Commentj = require('./app/routes/api/Comments')
@@ -335,14 +335,18 @@ app.get('/image/:filename', (req, res) => {
 
 
 // ///////////END OF UPLOADING image to database/////////////
-
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
 
 // Direct to Route Handlers
 app.get('/chat', function (req, res) {
   res.sendFile(__dirname + '/views/chat.html');
 });
 app.use('/api/Staff', Staffi)
-// app.use('/api/Cases', Cases)
+app.use('/api/Cases', Cases)
 app.use('/api/Investor', investor)
 app.use('/api/Notifications', Notification)
 app.use('/api/Questions', questions)
@@ -356,3 +360,4 @@ app.use((req, res) => res.status(404).send(`<h1>Can not find what you're looking
 
 const port = process.env.PORT || 3000
 app.listen(port, () => console.log(`Server on ${port}`))
+
