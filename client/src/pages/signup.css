@@ -1,5 +1,4 @@
-
-.App {
+.App { 
     height: 100vh;
     display: flex;
     color: white;
@@ -10,14 +9,14 @@
     background-color: #66DAC7;
   }
   
-  /* .App__Form {
+   .App__Form {
     width: 50%;
     background-color: #2E4158;
     padding: 25px 40px;
     overflow: auto;
   } */
   
-  .PageSwitcher {
+   .PageSwitcher {
     display: flex;
     justify-content: flex-end;
     margin-bottom: 50%;
@@ -131,13 +130,13 @@
   .FormField__Checkbox {
     position: relative;
     top: 1.5px;
-  }
+  } 
   
-  .FormField__TermsLink {
+   .FormField__TermsLink {
     color: white;
     border-bottom: 1px solid #199087;
     text-decoration: none;
     display: inline-block;
     padding-bottom: 2px;
     margin-left: 5px;
-  }
+  } 
