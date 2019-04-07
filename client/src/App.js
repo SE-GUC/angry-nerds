@@ -4,7 +4,6 @@ import './App.css';
 import signup from './pages/signup'
 import signin from './pages/signin'
 import home from './pages/home'
-import {BrowserRouter as Router, Route} from 'react-router-dom'
 import LawyerHome from './pages/LawyerHome'
 import ChangePricing from './pages/ChangePricing'
 import AdminViewLaws from './pages/AdminViewLaws'
@@ -30,10 +29,9 @@ class App extends Component {
           </div>  
         </div>
         <div>
-          {/* <Route exact path = "/" component={AddLawyer}/> */}
           <Route path="/lawyer" component={AddLawyer} />
-          <Route path="/reviewer" component={AddReviewer} /> 
-          <Route path="/testing" component={testing} /> 
+          <Route exact path="/reviewer" component={AddReviewer} /> 
+          <Route  exact path="/testing" component={testing} /> 
 
 
 
