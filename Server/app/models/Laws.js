@@ -24,7 +24,7 @@ const LawSchema = new Schema({
         type: Number,
     },
 
-    max : {
+    max: {
         type: Number,
     },
 

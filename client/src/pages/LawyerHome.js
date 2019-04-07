@@ -57,6 +57,8 @@ class LawyerHome extends Component {
          this.setState({allCases: this.state.allCases.sort(function(a,b){ console.log(a.fees - b.fees); return a.equality_capital - b.equality_capital})});
         break;
 
+        default: break; 
+
       }
   };
 
