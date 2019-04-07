@@ -45,19 +45,29 @@ router.post('/', async (req, res) => {
 router.post('/register', async (req, res) => {
     console.log(req.body)
     const email = req.body.email
+    if(email == ''){
+        res.json({
+            error: 'enter email'
+        })
+    }
     const user = await Investor.findOne({ email })
+    console.log(user)
     if (user)
+    {
+        console.log('error')
         return res.status(400).json({ error: 'Email already exists' })
+    }
     else{
         const secretToken = randomstring.generate()
         req.body.secretToken = secretToken
         const newTempUser = await tempUser.create(req.body)
+        
         res.json({ msg: 'tempUser was created successfully', data: newTempUser })
         //.catch(err => res.json('You could not be registered, try again'))
     
 
     //compose an email
-    const html = 'Hi there, <br/> Thank you for registering <br/><br/> Please verify your email by clicking' + tok + ' on the following page:<a href= "http://localhost:3000/api/Investor/verify">http://localhost:3000/api/Investor/verify</a> </br></br> '
+    const html = 'Hi there, <br/> Thank you for registering <br/><br/> Please verify your email by clicking'  + ' on the following page:<a href= "http://localhost:3000/api/Investor/verify">http://localhost:3000/api/Investor/verify</a> </br></br> '
     //send the email
     // var FileContent = require("fs").readFileSync('D:/Monica GUC/Sem6 =D/CA/CSEN601 project_28866.pdf')
     // var attachments =  [{
@@ -66,9 +76,11 @@ router.post('/register', async (req, res) => {
     //      content :new Buffer(FileContent),
     //      contentType: 'application/pdf'
     // }]
-    console.log('before')
+    
     await mailer.sendEmail(config.user, req.body.email, 'Please verify your email', html)
     console.log('after')
+
+
     }
      
 

@@ -336,7 +336,11 @@ app.get('/image/:filename', (req, res) => {
 
 // ///////////END OF UPLOADING image to database/////////////
 
-
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
 // Direct to Route Handlers
 app.get('/chat', function (req, res) {
   res.sendFile(__dirname + '/views/chat.html');
