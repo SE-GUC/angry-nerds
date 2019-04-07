@@ -40,14 +40,6 @@ render() {
         )))
 
 
-        
-
-    // ( <Company key={aCase._id} aCase ={aCase}/>) )
-
-//     return this.props.CompanyName.map((Ename) => (
-//      <Company Ename = {Ename}/>
-//     ));
-
       }
 }
 
