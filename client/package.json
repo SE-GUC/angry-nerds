@@ -5,14 +5,14 @@
   "dependencies": {
     "axios": "^0.18.0",
     "bootstrap": "^4.3.1",
+    "eslint": "5.12.0",
     "react": "^16.8.6",
     "react-bootstrap": "^1.0.0-beta.6",
     "react-dom": "^16.8.6",
+    "react-progress-bar": "^0.1.0",
+    "react-router-dom": "^5.0.0",
     "react-scripts": "2.1.8",
     "react-step-progress-bar": "^1.0.3",
-    "eslint": "5.12.0",
-    "react-dom": "^16.8.6",
-    "react-router-dom": "^5.0.0",
     "reactstrap": "^8.0.0"
   },
   "scripts": {

@@ -49,6 +49,7 @@ class App extends Component {
               <h2> my name is Ramy! </h2>
             </React.Fragment>
           )} />
+          <Route exact path= "/trackMyCase" component = {TrackMyCase} />
 
           <Route exact path="/about" render={props => (
             <React.Fragment>
@@ -73,8 +74,8 @@ class App extends Component {
         
         </div>
       </Router>
-    );
-  }
+     );
+   }
 }
 
 
