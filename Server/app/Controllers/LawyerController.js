@@ -15,6 +15,7 @@ const Reviewer = require('./../models/Reviewer')
 let LawyerController = {
 //write methods here: check InvestorController for example
     lawyerFillForm: async (req, res) => {
+        
 
         try {
             const id = '5c9f69180ec7b72d689dba6d'
@@ -30,7 +31,10 @@ let LawyerController = {
                 'lawyerStartDate': new Date(),
                 'lawyerID': lawyer
             })
-            res.json({ msg: 'The form was created successfully' })
+            const form = await Case.findById(newForm._id)
+           
+                res.json({ msg: 'The form was created successfully', data:casecreated })
+            
 
         }
         catch (error) {

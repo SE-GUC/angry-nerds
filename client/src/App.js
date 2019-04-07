@@ -3,6 +3,10 @@ import { BrowserRouter as Router, Route } from 'react-router-dom'
 import Payment from './pages/payment'
 import logo from './logo.svg';
 import './App.css';
+import InvestorForm from './pages/InvestorForm'
+import LawyerForm from './pages/LawyerForm'
+
+
 
 
 
@@ -55,6 +59,21 @@ class App extends Component {
               <Payment case={this.state.case} />
             </React.Fragment>
           )} />
+
+        <Router>
+          <Route exact path = "/InvestorForm" component={InvestorForm} />
+        </Router>
+        <Router>
+          <Route exact path = "/LawyerForm" component={LawyerForm} />
+        </Router>
+
+
+
+          
+
+
+
+
 
 
 
