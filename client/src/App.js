@@ -29,7 +29,7 @@ class App extends Component {
           </div>  
         </div>
         <div>
-          <Route path="/lawyer" component={AddLawyer} />
+          <Route exact path="/lawyer" component={AddLawyer} />
           <Route exact path="/reviewer" component={AddReviewer} /> 
           <Route  exact path="/testing" component={testing} /> 
 
