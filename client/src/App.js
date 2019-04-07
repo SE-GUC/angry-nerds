@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import './App.css';
 import Companies from './pages/Companies';
-import signup from './pages/signup'
+import signup from './pages/signUp'
 import signin from './pages/signin'
 import home from './pages/home'
 import LawyerHome from './pages/LawyerHome'
@@ -16,15 +16,17 @@ import testing from './components/testing';
 
 
 class App extends Component {
+
   
   render() {
+    
     return (
       <Router>
         <div className="App">
-      {<Companies CompanyName = {this.state.CompanyName}/> }
           <div className="container">
+          <Route exact path = '/ViewMyCompanies' component =  {Companies}/>
           <Route  exact path = "/home" component = {home}  />
-            <Route exact path="/signup" component={signup} />
+            <Route exact path="/signUp" component={signup} />
             <Route exact path="/signin" component= {signin} />
           </div>  
         </div>

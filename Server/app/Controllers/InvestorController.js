@@ -303,7 +303,7 @@ let InvestorController = {
     viewMyPublishedCompanies: async function (req, res) {
         try {
             // const id = req.params.id
-            const ids = '5ca772654d70710fa843bd5f' //will take from login
+            const ids = '5c78e4a73ba5f854b86f9058' //will take from login
             let investor = await Investor.findById(ids)
             if (!investor) {
                 return res.status(404).json({ error: 'Cannot find an investor account with this ID' })
@@ -332,7 +332,7 @@ let InvestorController = {
     viewMyPendingCompanies: async function (req, res) {
         try {
             // const id = req.params.id
-            const ids = '5ca772654d70710fa843bd5f' // will take from login
+            const ids = '5c78e4a73ba5f854b86f9058' // will take from login
             let investor = await Investor.findById(ids)
             if (!investor) {
                 return res.status(404).json({ error: 'Cannot find an investor account with this ID' })
