@@ -5,6 +5,8 @@ import Notification from './components/notification'
 import './App.css';
 import SideNav from './layout/sideNav'
 import axios from 'axios';
+import TrackMyCase from './pages/trackMyCase'
+
 
 
 
@@ -75,4 +77,6 @@ class App extends Component {
   }
 }
 
+
 export default App;
+//export default navBar;
