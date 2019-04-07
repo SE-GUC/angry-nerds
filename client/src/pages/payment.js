@@ -1,11 +1,10 @@
 import React, { Component } from "react";
-import { Card, CardImg, CardText, CardBody,
+import { Card, CardText, CardBody,
     CardTitle, CardSubtitle, Button } from 'reactstrap';
 
 export class payment extends Component {
     render() {
         const Case = this.props.case;
-        const fees = Case.fees;
         console.log(Case);
         return (
             <div>

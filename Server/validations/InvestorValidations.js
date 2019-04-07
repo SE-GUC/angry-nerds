@@ -14,10 +14,11 @@ module.exports = {
             gender:Joi.string().min(4).max(6),
             birthdate: Joi.number().integer().min(1900).max(2013),
             Type:Joi.required(),
-            gender:Joi.required().string(),
+            gender:Joi.string().required(),
             Address:Joi.string().required(),
             fax:Joi.number(),
             telephone_number:Joi.number().required(),
+            notifications:Joi.array()
 
         }
 
@@ -37,10 +38,11 @@ module.exports = {
             gender:Joi.string().min(4).max(6),
             birthdate: Joi.number().integer().min(1900).max(2013),
             Type:Joi.required(),
-            gender:Joi.required().string(),
+            gender:Joi.string().required(),
             Address:Joi.string().required(),
             fax:Joi.number(),
             telephone_number:Joi.number().required(),
+            notifications:Joi.array()
 
         }
 
