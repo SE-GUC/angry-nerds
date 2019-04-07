@@ -35,7 +35,6 @@ class App extends Component {
     return (
       <Router>
         <div className="App">
-
           <Route exact path="/" render={props => (
             <React.Fragment>
               <h1>Hello World!</h1>
@@ -52,7 +51,7 @@ class App extends Component {
 
           <Route exact path="/payment" render={props => (
             <React.Fragment>
-              <Payment case={this.state.case} />
+              <Payment case = {this.state.case} />
             </React.Fragment>
           )} />
 

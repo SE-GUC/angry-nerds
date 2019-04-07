@@ -22,12 +22,14 @@ let InvestorController = {
     when the payment is successfully complete the case status is changed to published
     */
     InvestorPayFees: async function (req, res) {
+        console.log(req.body)
         const id = req.params.id
-        const invID = '5c77c2b0c5973856f492f33e' //get this from login token
-        const CaseID = '5c93dd90806ede138da94bda' //get this from frontend 
-
+        const invID = '5ca772654d70710fa843bd5f' //get this from login token
+        
+        const CaseID = req.body.caseID  
         const myCase = await Case.findById(CaseID)
-        const inv = await Case.findOne({ _id: myCase.investorID })
+        const inv = await Investor.findOne({ _id: invID })
+        console.log(inv)
         const userEmail = inv.email
         if(!myCase)
             res.json({msg: 'this case does not exist'})
@@ -36,49 +38,52 @@ let InvestorController = {
         if (myCase.investorID == invID) {
             stripe.tokens.create({
                 card: {
-                    'number': req.body.name,
+                    'number': req.body.creditNumber,
                     'exp_month': req.body.month,
                     'exp_year': req.body.year,
                     'cvc': req.body.cvc
                 }
-            }, function (err, token) {
+            }, async function (err, token) {
                 if (err) return res.json({ message: 'card declined' })
                 else {
-                    //console.log(token)
-                    var chargeAmount = AdminController.SystemCalcFees(CaseID)
-                    var charge = stripe.charges.create({
-                        amount: chargeAmount,
+                    //console.log(token)     
+                        var charge = stripe.charges.create({
+                        amount: 30000,
                         currency: 'usd',
                         source: token.id
                     }, async function (err) {
                        // console.log(err)
                         if (err) {
-                            return res.json({ message: 'your card is declined, try again!' })
+                            return res.json({ message: 'your card is declined, try again!' + err})
                         }
                         else {
-                            const casecreated = await Case.findByIdAndUpdate(CaseID, { 'caseStatus': 'published' })
-                            let transporter = nodemailer.createTransport({
-                                service: 'gmail',
-                                auth: {
-                                    user: 'angry.nerds2019@gmail.com',
-                                    pass: 'Angry1234'
-                                }
+                            // const casecreated = await Case.findByIdAndUpdate(CaseID, { 'caseStatus': 'published' })
+                            // let transporter = nodemailer.createTransport({
+                            //     service: 'gmail',
+                            //     auth: {
+                            //         user: 'angry.nerds2019@gmail.com',
+                            //         pass: 'Angry1234'
+                            //     }
                  
-                            });
-                            let mailOptions = {
-                                from: '"Angry Nerds 👻" <angry.nerds2019@gmail.com>', // sender address
-                                to: userEmail, // list of receivers
-                                subject: 'Invoice', // Subject line
-                                text: 'you now have a company', // plain text body
-                                html: '<h3>The code expires within an hour</h3> '
-                                // html body
-                            };
-                            transporter.sendMail(mailOptions, (error, info) => {
-                                if (error) {
-                                    return console.log(error);
-                                }
-                                res.json({ success: true, message: 'An email has been sent check your email' });
-                            });
+                            // });
+                            // let mailOptions = {
+                            //     from: '"Angry Nerds 👻" <angry.nerds2019@gmail.com>', // sender address
+                            //     to: userEmail, // list of receivers
+                            //     subject: 'Invoice', // Subject line
+                            //     text: 'you now have a company', // plain text body
+                            //     html: '<h3>The code expires within an hour</h3> '
+                            //     // html body
+                            // };
+                            // transporter.sendMail(mailOptions, (error, info) => {
+                            //     if (error) {
+                            //         return console.log(error);
+                            //     }
+                            //     res.json({ success: true, message: 'An email has been sent check your email' });
+                            // });
+                            console.log('token')
+                            console.log(token)
+                            console.log('charge')
+                            console.log(charge)
                             return res.json({ message: 'your payment has been made; you will receive an invoice via your mail' })
                         }
 
