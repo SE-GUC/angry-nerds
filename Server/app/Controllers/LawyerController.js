@@ -45,69 +45,6 @@ lawyerFillForm: async (req, res) => {
 
 
 
-
-
-
-lawyerFillForm: async (req, res) => {
-
-    try {
-        const id = '5c9f69180ec7b72d689dba6d'
-        const lawyer = await Lawyer.findById(id)
-
-        if (!lawyer)
-            return res.status(404).send({ error: 'You are not allowed to fill this form' });
-
-        const newForm = await Case.create(req.body)
-        const casecreated = await Case.findByIdAndUpdate(newForm.id, {
-            'caseStatus': 'lawyer-investor',
-            'caseOpenSince': new Date(),
-            'lawyerStartDate': new Date(),
-            'lawyerID': lawyer
-        })
-        res.json({ msg: 'The form was created successfully' })
-
-    }
-    catch (error) {
-
-        console.log(error)
-        return res.status(404).send({ error: 'Form cant be created' })
-    }
-
-},
-
-
-    lawyerFillForm: async (req, res) => {
-        
-
-        try {
-            const id = '5c9f69180ec7b72d689dba6d'
-            const lawyer = await Lawyer.findById(id)
-
-            if (!lawyer)
-                return res.status(404).send({ error: 'You are not allowed to fill this form' });
-
-            const newForm = await Case.create(req.body)
-            const casecreated = await Case.findByIdAndUpdate(newForm.id, {
-                'caseStatus': 'lawyer-investor',
-                'caseOpenSince': new Date(),
-                'lawyerStartDate': new Date(),
-                'lawyerID': lawyer
-            })
-            const form = await Case.findById(newForm._id)
-           
-                res.json({ msg: 'The form was created successfully', data:casecreated })
-            
-
-        }
-        catch (error) {
-
-            console.log(error)
-            return res.status(404).send({ error: 'Form cant be created' })
-        }
-
-    },
-
-
     lawyerUpdateForm: async (req,res) => {
         try {
             const id=req.params.id
@@ -256,14 +193,14 @@ caseDisAproveedAtLawyer: async function (req, res) {       /// :idStaff/:idCase'
    const lawyer= await Lawyer.findById(staffID)
    
 
-   if (CASE.caseStatus == lawyer){
+   if (CASE.caseStatus === 'lawyer'){
 
-    if (lawyer._id==CASE.lawyerID) {       
+    if (lawyer._id===CASE.lawyerID) {       
         await Case.updateOne({_id:req.params.idCase}, {$set: {caseStatus:"Investor"}}) // updates case with _id matching Case and sets caseStatus to null  
 
         var LawyerEndTime = new Date();  
         var lawyerStartTime = Case.body.lawyerStartTime              
-        var lawyerHours =Math.abs(LawyerEndTime-lawyerStartTime)/36e5            
+        var lawyerHours =Math.abs(LawyerEndTime-lawyerStartTime)/365            
         var lawyerTotalTimeAtCase =CASE.body.lawyerTotalTime + lawyerHours             // this is the total time on this specific case
         var lawyerTotalTime = lawyer.body.total_time_on_cases + lawyerTotalTimeAtCase  // this is the overall total time on all cases
 
@@ -299,7 +236,7 @@ if (CASE.caseStatus==lawyer){
                                                    
     var LawyerEndTime = new Date();                  //// start time for reviewer
     var lawyerStartTime = CASE.body.lawyerStartTime               /// get total time of lawyer
-    var lawyerHours =Math.abs(LawyerEndTime-lawyerStartTime)/36e5            // total time lawyer worked on this casn "in  this session"
+    var lawyerHours =Math.abs(LawyerEndTime-lawyerStartTime)/365            // total time lawyer worked on this casn "in  this session"
     var lawyerTotalTimeAtCase =CASE.body.lawyerTotalTime + lawyerHours
     var ReviewerStartDate = new Date();
     var lawyerTotalTime = lawyer.body.total_time_on_cases + lawyerTotalTimeAtCase
