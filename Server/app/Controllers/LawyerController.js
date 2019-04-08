@@ -6,6 +6,7 @@ const Admins = require('./../models/Admin')
 const Investor = require('./../models/Investor')
 const router = express.Router()
 const mongoose = require('mongoose')
+const PasswordGenerator = require('secure-random-password')
 const Lawyer = require('../models/Lawyer')
 
 const Reviewer = require('./../models/Reviewer')
@@ -14,23 +15,47 @@ const Reviewer = require('./../models/Reviewer')
 
 let LawyerController = {
 //write methods here: check InvestorController for example
+lawyerRegisterInvestor: async (body) => {
+    const email = body.email
+    const user = await Investor.findOne({ email })
 
+    if (user)
+        throw 'habda'
+    else{
+        const password = PasswordGenerator.randomPassword({ characters: [PasswordGenerator.lower, PasswordGenerator.upper, PasswordGenerator.digits] })
+        console.log(password)
+        const newUser = await Investor.create(body)
+        const updatePassword = await Investor.findByIdAndUpdate(newUser._id, {
+            'password': password
+        })
+
+        return newUser._id
+    }
+},
 
 lawyerFillForm: async (req, res) => {
 
     try {
-        const id = '5c9f69180ec7b72d689dba6d'
+        const id = '5c9f69180ec7b72d689dba6d' //From Token
         const lawyer = await Lawyer.findById(id)
 
         if (!lawyer)
             return res.status(404).send({ error: 'You are not allowed to fill this form' });
 
-        const newForm = await Case.create(req.body)
-        const casecreated = await Case.findByIdAndUpdate(newForm.id, {
-            'caseStatus': 'lawyer-investor',
-            'caseOpenSince': new Date(),
-            'lawyerStartDate': new Date(),
-            'lawyerID': lawyer
+        const userID = await LawyerController.lawyerRegisterInvestor(req.body.investor)
+        
+        const newForm = await Case.create(req.body.case)
+        const casecreated = await Case.findByIdAndUpdate(newForm._id, {
+            'investorID':userID,
+            'caseStatus': 'reviewer',
+            'walk_in': true,
+            'locked': false,
+            'comment':[],
+            'log': [{
+                'id':id,
+                'destination':'reviewer',
+                'date': new Date() 
+            }]
         })
         res.json({ msg: 'The form was created successfully' })
 
@@ -66,23 +91,32 @@ lawyerFillForm: async (req, res) => {
         }
     },
 
+     /*
+    GET request to view the comments on the case.
+    PARAMS:{   caseID: String }    
+    RETURNS 404 NOT FOUND: if the ID is not in the database.
+            403 FORBIDDEN: if the user is not a lawyer.
+            200 OK: if the query is done.
+            400 BAD REQUEST: if an exception is thrown.   
+
+    */
+
     lawyerViewComment: async (req, res) => {
         try {
-            const formid = '5c9cfd1d05f1d42e68b75fb7'
-            const lawyerid = '5c9f69180ec7b72d689dba6d'
-            const lawyer = await Lawyer.findById(lawyerid)
-            const form = await Case.findById(formid)
-            if (!form)
+            // const formid = '5c9cfd1d05f1d42e68b75fb7'
+            const lawyerID = '5c9f69180ec7b72d689dba6d' //from Token
+            const caseID = req.params.caseID
+           
+            const lawyer = await Lawyer.findById(lawyerID)
+            const c = await Case.findById(caseID)
+            if (!c)
                 return res.status(404).send({ error: 'The form does not exist' });
             if (!lawyer)
-                return res.status(404).send({ error: 'You are not allowed to view this comment, You are not a lawyer' });
-            if (form.lawyerID.toString() === lawyerid.toString()) {
-                return res.json({ data: form.comment });
+                return res.status(403).send({ error: 'You are not allowed to view this comment, You are not a lawyer' });
+            
+            return res.json({ data: form.comment });
 
-            }
-            else {
-                return res.status(404).send({ error: 'You are not allowed to view this comment' });
-            }
+            
         }
         catch (error) {
             console.log(error)
@@ -114,14 +148,10 @@ lawyerFillForm: async (req, res) => {
         }
     },
 
-    
+  
 
 
-    
-
-
-
-
+//NEEDS ADJUTMENTS ??
 calc_fees : async function (req,res) {
     const CaseId = req.params.CaseId
     const LawyerId = req.params.LawyerId
@@ -133,11 +163,6 @@ calc_fees : async function (req,res) {
 
 
 },
-
-
-
-
-
 
 
     /*
