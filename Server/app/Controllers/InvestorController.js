@@ -149,28 +149,35 @@ let InvestorController = {
     investorFillForm: async (req, res) => {
 
         try {
-            const id = '5c77e91b3fd76231ecbf04ee'
-            const investor = await Investor.findById(id)
-
-
+            const id = "5c9f69180ec7b72d689dba6d"; //From Token
+            const investor = await Investor.findById(id);
+      
             if (!investor)
-                return res.status(404).send({ error: 'You are not allowed to fill this form' });
-
-            const newForm = await Case.create(req.body)
-            const casecreated = await Case.findByIdAndUpdate(newForm.id, {
-                'caseStatus': 'lawyer-investor',
-                'caseOpenSince': new Date(),
-                'lawyerStartDate': new Date(),
-                'investorID': investor
-            })
-            res.json({ msg: 'The form was created successfully' })
-
-        }
-        catch (error) {
-            console.log(error)
-            return res.status(404).send({ error: 'Form cant be created' })
-        }
-
+              return res
+                .status(404)
+                .send({ error: "You are not allowed to fill this form" });
+      
+           
+      
+            const newForm = await Case.create(req.body.case);
+            const casecreated = await Case.findByIdAndUpdate(newForm._id, {
+              investorID: id,
+              caseStatus: "lawyer-investor",
+              walk_in: false,
+              locked: false,
+              log: [
+                {
+                  id: id,
+                  destination: "lawyer",
+                  date: new Date()
+                }
+              ]
+            });
+            res.json({ msg: "The form was created successfully" });
+          } catch (error) {
+            console.log(error);
+            return res.status(404).send({ error: "Form cant be created" });
+          }
     },
 
 
@@ -383,7 +390,7 @@ let InvestorController = {
                 const docDefinition = {
                     content: [
                         c.form_type,
-                        c.regulated_law,
+                        c. ulated_law,
                         //c.arabic_name,
                         c.english_name,
                         c.city,
