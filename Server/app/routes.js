@@ -78,10 +78,12 @@ router.get('/LawyerViewReviewersLeaderBoard', LawyerController.lawyerViewReviewe
 router.put('/LawyerChangePassword/:id', LawyerController.lawyerChangePassword)
 router.get('/LawyerMyNotifications/:id', LawyerController.lawyerMyNotifications)
 
-router.put('/caseDisAproveedAtLawyer/:idStaff/:idCase', LawyerController.caseDisAproveedAtLawyer)
-router.put('/caseAproveedAtLawyer/:idStaff:idCase', LawyerController.caseAproveedAtLawyer)
+router.put('/caseDisAproveedAtLawyer/:idCase', LawyerController.caseDisAproveedAtLawyer)
+router.put('/caseAproveedAtLawyer/:idCase', LawyerController.caseAproveedAtLawyer)
 router.get('/viewCasesLawyer/:id', LawyerController.viewCasesLawyer)
-// router.post('/lawyerWriteComment',LawyerController.lawyerComment)
+
+router.get('/lawyerOpenCase/:id', LawyerController.lawyerOpenCase)
+router.get('/lawyerCloseCase/:id', LawyerController.lawyerCloseCase)
 
 //------------------------------------Lawyer Routes----------------------------------------------------
 router.post('/LawyerFillForm',LawyerController.lawyerFillForm)
