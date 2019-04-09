@@ -117,6 +117,7 @@ router.get('/UnregisteredViewLawyers',UserController.viewLawyers)
 router.get('/UnregCompListViewing', UserController.UnregCompListViewing)
 router.get('/UnregCompViewing/:id', UserController.UnregCompViewing)
 router.get('/UnregViewing/:id', UserController.UnregViewing)
+router.get('/login', UserController.Login)
 
 
 

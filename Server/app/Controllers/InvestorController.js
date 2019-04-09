@@ -11,7 +11,10 @@ const mongoose = require('mongoose')
 const pdfMakePrinter = require('pdfmake/src/printer')
 const Reviewer = require('./../models/Reviewer')
 const Lawyer = require('./../models/Lawyer')
-
+const config = require('../../config/mailer')
+const tokenKey = config.tokenKey;
+const bcrypt = require('bcryptjs')
+const jwt = require('jsonwebtoken')
 
 
 let InvestorController = {
@@ -579,7 +582,81 @@ let InvestorController = {
         else 
             return res.status(400).json({ erroe: 'Incorrect email or password' })
         //To be continued ....  
-      }
+      },
+
+      forgotpassword: async (req, res) => {
+        var userEmail = req.body.email;
+        Investor.findOne({ email: userEmail }, function (err, user) {
+            if (err) {
+                res.json({ success: false, message: err.message });
+            }
+            else if (!user) {
+                res.json({ success: false, message: "incorrect email" });
+            
+            }
+            else {
+                var token = jwt.sign({
+                    _id: Investor._id,
+                    firstname : user.firstname,
+                    Type:'Investor'
+                }, tokenKey, { expiresIn: '1h' }); 
+
+                let transporter = nodemailer.createTransport({
+                    service: 'gmail',
+                    auth: {
+                        user: config.user,
+                        pass: config.pass
+                    }
+
+                });
+                let mailOptions = {
+                    from: '"Angry Nerds 👻" <angry.nerds2019@gmail.com>', // sender address
+                    to: userEmail, // list of receivers
+                    subject: 'Resetting Password', // Subject line
+                    text: 'reset Link expires in 24 hours', // plain text body
+                    html: '<h3>The code expires within an hour</h3> <br> <p>Click <a href="http://localhost:3000//resetpass/' + token + '">here</a> to reset your password</p>'
+                    // html body
+                };
+                transporter.sendMail(mailOptions, (error, info) => {
+                    if (error) {
+                        return console.log(error);
+                    }
+                    user.token = token;
+                    user.token_date = Date.now()
+                    user.save();
+                    res.json({ success: true, message: 'An email has been sent check your email' });
+                
+                });
+            }
+            
+        });
+    },
+
+    resetpassword: function (req, res) {
+        var userToken = req.params.token;
+        var newPassword = req.body.password;
+        Investor.findOne({ token: userToken }, function (err, user) {
+            if (err) {
+                res.json({ success: false, message: "Token is expired please try again" });
+            }
+            else {
+                bcrypt.genSalt(10, function (err, salt) {
+                    bcrypt.hash(newPassword, salt, function (err, hash) {
+                        user.password = hash;
+                        user.save(function (err) {
+                            if (err) {
+                                res.json({ success: false, message: err.message });
+                                console.log(err);
+                            }
+                            else {
+                                res.json({ success: true, message: "Password reseted succesfully" });
+                            }
+                        });
+                    });
+                });
+            }
+        });
+    },
 
 
 }

@@ -31,6 +31,7 @@ const investorFunctions = {
     return Case
   }
 
+
 }
 
 module.exports = investorFunctions
