@@ -120,7 +120,7 @@ const CaseSchema = new Schema({
     } ,
 
     comment: {
-        type : [
+        type : 
             {
                 text: {
                     type: Object,
@@ -137,7 +137,7 @@ const CaseSchema = new Schema({
                     ref: 'Lawyer',
                 },
         }
-        ],
+        ,
 
 
     },
