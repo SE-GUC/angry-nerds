@@ -332,7 +332,7 @@ if (CASE.caseStatus==lawyer){
                 return res.status(404).json({ error: 'Cannot find an lawyer account with this ID' })
             }
             else {
-                let notifications = await Notification.find({ 'receiverLawyer': id })
+                let notifications = lawyer.notifications
                 return res.status(200).json({ data: notifications })
             }
 

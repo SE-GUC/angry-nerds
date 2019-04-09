@@ -103,6 +103,10 @@ router.get('/ReviewerViewLawyersLeaderBoard',ReviewerController.reviewerViewLawy
 router.get('/RevCompListViewing', ReviewerController.RevCompListViewing)
 router.get('/RevCompViewing/:id', ReviewerController.RevCompViewing)
 router.get('/RevViewing/:id', ReviewerController.RevViewing)
+router.get('/ReviewerOpenCase/:id', ReviewerController.ReviewerOpenCase)
+router.get('/ReviewerCloseCase/:id', ReviewerController.ReviewerCloseCase)
+
+
 
 
 //-------------------------------User Routes---------------------------------------------------------
@@ -117,9 +121,9 @@ router.get('/UnregViewing/:id', UserController.UnregViewing)
 
 //----------------------------------------------Reviewer Routes-----------------------------------------
 
-router.put('/caseAproveedAtReviewer/:idStaff/:idCase', ReviewerController.caseAproveedAtreviewer)    // fix this
-router.put('/caseDisAproveedAtReviewer/:idStaff/:idCase', ReviewerController.caseDisAproveedAtReviewer)
-router.get('/viewCasesReviewer/:id', ReviewerController.viewCasesReviewer)
+router.put('/caseAproveedAtReviewer/:idCase', ReviewerController.caseAproveedAtreviewer)// fix this
+router.put('/caseDisAproveedAtReviewer/:idCase', ReviewerController.caseDisAproveedAtReviewer)
+router.get('/viewCasesReviewer/', ReviewerController.viewCasesReviewer)
 // router.post('/reviewrWriteComment',ReviewerController.reviewrWriteComment)
 
 
