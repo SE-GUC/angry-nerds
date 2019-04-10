@@ -100,7 +100,8 @@ let ReviewerController = {
         if (!cases) {
           return res.status(200).json({ message: "Cannot find cases" });
         }
-        return res.status(200).json({ data: cases });
+        
+        return res.status(200).json({ data: cases , msg: "Done"  });
       }
      catch (error) {
       console.log(error);

@@ -18,7 +18,7 @@ const reviewerFunctions = {
             data: { //body
             }
           });
-        return CASE.data.message
+        return CASE
         
     },
 
@@ -31,9 +31,22 @@ const reviewerFunctions = {
             data: { //body
             }
           });
-        return CASE.data.message
+        return CASE
         
     },
+
+    viewCasesReviewer:async () => {
+        const CASE = await axios({
+            method: 'get',
+            url: 'http://localhost:3000/viewCasesReviewer',
+            headers: {}, 
+            data: { //body
+               
+            }
+          });
+        return CASE
+    },
+
 
 
     

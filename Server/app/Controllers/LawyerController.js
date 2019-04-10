@@ -127,7 +127,7 @@ let LawyerController = {
             "You are not allowed to view this comment, You are not a lawyer"
         });
 
-      return res.json({ data: form.comment });
+      return res.json({ data: form.comment  });
     } catch (error) {
       console.log(error);
       return res.status(404).send({ error: "Comment cant be viewed" });
@@ -292,21 +292,22 @@ let LawyerController = {
   },
 
   viewCasesLawyer: async function(req, res) {
-    // req contain the lawyer id
     try {
       let cases = await Case.find({
         $or: [
           { caseStatus: "lawyer-investor" },
-          { caseStatus: "lawyer-reviewer" }
+          { caseStatus: "lawyer-reviewer" },
         ]
       });
 
-      return res.status(200).json({ data: cases });
+      return res.status(200).json({ data: cases , msg: "Done" });
     } catch (error) {
       console.log(error);
       return res.status(400).json({ error: "Error processing query." });
     }
   },
+
+ 
 
   /*
         GET request to view the notifications of the lawyer.

@@ -20,7 +20,8 @@ export class AddLawyer extends Component {
     Address: '',
     telephone_number: '',
     completed_number_of_cases :'0',
-    total_time_on_cases: '0',
+    number_of_cases: '0' ,
+    total_time_on_cases: '0' ,
     fax: '',
     ssid:''
   }
@@ -87,6 +88,7 @@ export class AddLawyer extends Component {
       fax: this.state.fax,
       completed_number_of_cases: '0',
       total_time_on_cases: '0',
+      number_of_cases: '0' ,
       ssid: this.state.ssid,
 
 
@@ -152,7 +154,7 @@ export class AddLawyer extends Component {
 
   <Form.Group as={Col} controlId="formGridAddress1">
     <Form.Label>Phone Number</Form.Label>
-    <Form.Control name="telephone_number" onChange={this.telephone_number} />
+    <Form.Control name="telephone_number" onChange={this.handleChangegtelephone_number} />
   </Form.Group>
   </Form.Row>
 
