@@ -22,6 +22,7 @@ const router = express.Router()
 const investor = require('./app/routes/api/Investor')
 const lawyer = require('./app/routes/api/Lawyer')
 const reviewer = require('./app/routes/api/Reviewer')
+// const pic = require('./app/routes/api/uploadPic')   ////
 
 
 const Staffi = require('./app/routes/api/Staff')
@@ -382,6 +383,7 @@ app.use(function(req, res, next) {
   next();
 });
 app.use('/api/Staff', Staffi)
+// app.use('/api/uploadPic', pic)   ///
 app.use('/api/Cases', Cases)
 app.use('/api/Investor', investor)
 app.use('/api/Lawyer', lawyer)
