@@ -64,7 +64,6 @@ InvestorSchema = new Schema({
     active: {
         type: Boolean
     },
-
     //dany
     photoID: {
         type: String

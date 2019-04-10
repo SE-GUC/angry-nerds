@@ -11,7 +11,10 @@ const mongoose = require('mongoose')
 const pdfMakePrinter = require('pdfmake/src/printer')
 const Reviewer = require('./../models/Reviewer')
 const Lawyer = require('./../models/Lawyer')
-
+const config = require('../../config/mailer')
+const tokenKey = config.tokenKey;
+const bcrypt = require('bcryptjs')
+const jwt = require('jsonwebtoken')
 
 
 let InvestorController = {
@@ -146,28 +149,35 @@ let InvestorController = {
     investorFillForm: async (req, res) => {
 
         try {
-            const id = '5c77e91b3fd76231ecbf04ee'
-            const investor = await Investor.findById(id)
-
-
+            const id = "5c9f69180ec7b72d689dba6d"; //From Token
+            const investor = await Investor.findById(id);
+      
             if (!investor)
-                return res.status(404).send({ error: 'You are not allowed to fill this form' });
-
-            const newForm = await Case.create(req.body)
-            const casecreated = await Case.findByIdAndUpdate(newForm.id, {
-                'caseStatus': 'lawyer-investor',
-                'caseOpenSince': new Date(),
-                'lawyerStartDate': new Date(),
-                'investorID': investor
-            })
-            res.json({ msg: 'The form was created successfully' })
-
-        }
-        catch (error) {
-            console.log(error)
-            return res.status(404).send({ error: 'Form cant be created' })
-        }
-
+              return res
+                .status(404)
+                .send({ error: "You are not allowed to fill this form" });
+      
+           
+      
+            const newForm = await Case.create(req.body.case);
+            const casecreated = await Case.findByIdAndUpdate(newForm._id, {
+              investorID: id,
+              caseStatus: "lawyer-investor",
+              walk_in: false,
+              locked: false,
+              log: [
+                {
+                  id: id,
+                  destination: "lawyer",
+                  date: new Date()
+                }
+              ]
+            });
+            res.json({ msg: "The form was created successfully" });
+          } catch (error) {
+            console.log(error);
+            return res.status(404).send({ error: "Form cant be created" });
+          }
     },
 
 
@@ -380,7 +390,7 @@ let InvestorController = {
                 const docDefinition = {
                     content: [
                         c.form_type,
-                        c.regulated_law,
+                        c. ulated_law,
                         //c.arabic_name,
                         c.english_name,
                         c.city,
@@ -572,7 +582,81 @@ let InvestorController = {
         else 
             return res.status(400).json({ erroe: 'Incorrect email or password' })
         //To be continued ....  
-      }
+      },
+
+      forgotpassword: async (req, res) => {
+        var userEmail = req.body.email;
+        Investor.findOne({ email: userEmail }, function (err, user) {
+            if (err) {
+                res.json({ success: false, message: err.message });
+            }
+            else if (!user) {
+                res.json({ success: false, message: "incorrect email" });
+            
+            }
+            else {
+                var token = jwt.sign({
+                    _id: Investor._id,
+                    firstname : user.firstname,
+                    Type:'Investor'
+                }, tokenKey, { expiresIn: '1h' }); 
+
+                let transporter = nodemailer.createTransport({
+                    service: 'gmail',
+                    auth: {
+                        user: config.user,
+                        pass: config.pass
+                    }
+
+                });
+                let mailOptions = {
+                    from: '"Angry Nerds 👻" <angry.nerds2019@gmail.com>', // sender address
+                    to: userEmail, // list of receivers
+                    subject: 'Resetting Password', // Subject line
+                    text: 'reset Link expires in 24 hours', // plain text body
+                    html: '<h3>The code expires within an hour</h3> <br> <p>Click <a href="http://localhost:3000//resetpass/' + token + '">here</a> to reset your password</p>'
+                    // html body
+                };
+                transporter.sendMail(mailOptions, (error, info) => {
+                    if (error) {
+                        return console.log(error);
+                    }
+                    user.token = token;
+                    user.token_date = Date.now()
+                    user.save();
+                    res.json({ success: true, message: 'An email has been sent check your email' });
+                
+                });
+            }
+            
+        });
+    },
+
+    resetpassword: function (req, res) {
+        var userToken = req.params.token;
+        var newPassword = req.body.password;
+        Investor.findOne({ token: userToken }, function (err, user) {
+            if (err) {
+                res.json({ success: false, message: "Token is expired please try again" });
+            }
+            else {
+                bcrypt.genSalt(10, function (err, salt) {
+                    bcrypt.hash(newPassword, salt, function (err, hash) {
+                        user.password = hash;
+                        user.save(function (err) {
+                            if (err) {
+                                res.json({ success: false, message: err.message });
+                                console.log(err);
+                            }
+                            else {
+                                res.json({ success: true, message: "Password reseted succesfully" });
+                            }
+                        });
+                    });
+                });
+            }
+        });
+    },
 
 
 }

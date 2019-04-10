@@ -80,6 +80,19 @@ const LawyerSchema = new Schema({
      photoID: {
         type: String
     },
+    notifications:{
+        type : [
+            {
+               text: {
+                   type: String
+               },
+               time:{
+                   type: Date,
+                   default: Date.now
+               }
+            }
+         ]
+     },
 
     ratings: {
         type : [{
