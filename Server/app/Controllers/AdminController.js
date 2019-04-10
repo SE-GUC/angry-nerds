@@ -618,78 +618,96 @@ let AdminController = {
 
 
 
-    SystemCalcFees: async function (id) {
-        console.log('haaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa')
-        var Fees = 0
+    SystemCalcFees: async function (req,res) {
+        id = req.params.id
+        console.log('entered function')
+        var fees = 0
         const newCase = await Case.findById(id)
         const regLaw = await newCase.regulated_law
-        const capital = await newCase.equality_capital
-        const lawArray = await Laws.find({ lawNumber: regLaw.toString() })
-        console.log(lawArray)
-        for (var i = 0; i < lawArray.length; i++) {
-            var newVal = capital * lawArray[i].lawCalc
-            console.log("newVal is" + newVal)
-            if (newVal < LawArray[i].min) {
-                Fees = Fees + LawArray[i].min
-                console.log("newVal<min"+Fees)
-            }
-            else if (newVal > LawArray[i].max) {
-                Fees = Fees + LawArray[i].max
-                console.log("newVal>max"+Fees)
-            }
-            else {
-                Fees = Fees + newVal
-                console.log("newVal in range"+fees)
-            }
-            Fees = Fees + LawArray[i].LawValue
-            console.log("plues el damgha" + Fees)
+        const law = await Laws.findOne({ LawNumber: regLaw })
+        const capital = newCase.equality_capital
+        var fixedFees = 0
+        var percentageFees = 0
+        var message = ''
+        for (var i = 0; i < law.fixedValues.length; i++) {
+            console.log('values are' + law.fixedValues[i])
+            fixedFees = fixedFees + law.fixedValues[i].value
+            message = message + law.fixedValues[i].description + ': ' + law.fixedValues[i].value + ','
         }
-        console.log(Fees+'hoooooooo')
-        await Case.findByIdAndUpdate(id, {fees: Fees})
-        return ('hiiiiiiii')
-    },
+        var temp
+        for (var i = 0; i < law.percentages.length; i++) {
+            console.log('values are' + law.percentages[i])
+            if(law.percentages[i].max < law.percentages[i].value/100 * capital){
+                temp = law.percentages[i].max
+                percentageFees = percentageFees + law.percentages[i].max
+            }
+            else{
+                if(law.percentages[i].min > law.percentages[i].value/100 * capital){
+                    temp = law.percentages[i].min
+                    percentageFees = percentageFees + law.percentages[i].min
+                }
+                else{
+                    temp = law.percentages[i].value/100 * capital
+                    percentageFees = percentageFees + law.percentages[i].value/100 * capital
+                }
+                    
 
+            }
+            message = message + law.percentages[i].description + ':' + temp + '\n'
+            console.log(percentageFees + '  percentage fee')
+        }
+        console.log(fixedFees)
+        console.log(percentageFees)
+        const totalfees = fixedFees + percentageFees
+        return res.status(200).json({fees: totalfees, invoice:message})
+        
+    },
+    /*
+    allows the admin to create new laws that define 
+    new pricing strategies. 
+    each law contains an array of fixed values 
+    and an array of percentages from capital 
+    */
     AdminCreateNewLaw: async function (req, res) {
         try {
-            // const isValidated = validator.createValidation(req.body)
-            // if (isValidated.error) return res.status(400).send({ error: isValidated.error.details[0].message })
-            const AdminId = '5c9bb0dc5185793518ea84fb' //login token
-            const Admin = await Admins.findById(AdminId)
-            //if ((!Admin) || (Admin && Admin.Type !== 'Super')) {                  //commented for the sake of the tests
-             //   return res.json({ msg: 'Only super admins have access' })         //only super admins can create a new law
-            //}
-            //else {
-                const newLaw = await Laws.create(req.body)
-                res.json({ msg: 'Law was created successfully', data: newLaw })
-            //}
+                const law = await Laws.findOne({LawNumber: req.body.LawNumber})
+                console.log(law)
+                if(law){
+                    return res.status(403).json({message:'error, there exists a law with this number'})
+                }
+                else{
+                    const newLaw = await Laws.create(req.body)
+                    return res.json({ msg: 'Law was created successfully', data: newLaw })
+                }
+                
         }
         catch (error) {
-            res.json({ msg: 'Only super admins have access' })
+            console.log(error)
+            res.json({ msg: 'error creating new law' })
         }
     },
 
     AdminChangePricingStrategy: async function (req, res) {
         try {
-            const AdminId = '5c9bb0dc5185793518ea84fb' //login token
-            const Admin = await Admins.findById(AdminId)
-            //if ((!Admin) || (Admin && Admin.Type !== 'Super')) {               //commented for the sake of tests
-              //  return res.json({ msg: 'Only super admins have access' })      // only super admins can change a law
-            //}
-            //else {
-                const id = req.params.id
-                const Law = await Laws.findById(id)
-                if (!Law)
-                    return res.json({ msg: 'Law does not exist' });
-                //  const isValidated = validator.updateValidation(req.body)
-                //  if (isValidated.error)  
-                //return res.status(400).send({ error: isValidated.error.details[0].message })
-                const updatedLaw = await Law.updateOne(req.body)
-                res.json({ msg: 'Laws updated successfully', data: updatedLaw })
-            //}
-        }
+              //authorization using passport
+              const id = req.params.id;
+              const Law = await Laws.findById(id);
+              if (!Law)
+                return res.json({ msg: "Law does not exist" });
+              else {
+                const updatedLaw = await Laws.findByIdAndUpdate(id,req.body);
+                res.json({
+                  msg: "Laws updated successfully",
+                  data: updatedLaw
+                });
+              }
+
+              //}
+            }
         catch (error) {
+            console.log(error)
             // We will be handling the error later
-            res.json({ msg: 'Law does not exist' })
+            res.json({ msg: 'error editing law' })
         }
     },
 

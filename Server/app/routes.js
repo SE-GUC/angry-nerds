@@ -62,6 +62,7 @@ router.get('/getFormType/:formName', AdminController.getFormType)
 router.get('/getAllFormTypes', AdminController.getAllFormTypes)
 router.delete('/deleteFormType/:formName', AdminController.deleteFormType)
 
+router.get('/calculateFees/:id', AdminController.SystemCalcFees)
 
 //------------------------------------Lawyer Routes----------------------------------------------------
 router.post('/LawyerFillForm', LawyerController.lawyerFillForm)

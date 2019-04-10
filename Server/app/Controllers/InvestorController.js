@@ -24,9 +24,9 @@ let InvestorController = {
     it creates a token of this info and then it creates a charge
     when the payment is successfully complete the case status is changed to published
     */
+
     InvestorPayFees: async function (req, res) {
         console.log(req.body)
-        const id = req.params.id
         const invID = '5ca772654d70710fa843bd5f' //get this from login token
         
         const CaseID = req.body.caseID  
@@ -48,19 +48,17 @@ let InvestorController = {
                 }
             }, async function (err, token) {
                 if (err) return res.json({ message: 'card declined' })
-                else {
-                    //console.log(token)     
+                else {    
                         var charge = stripe.charges.create({
                         amount: 30000,
                         currency: 'usd',
                         source: token.id
                     }, async function (err) {
-                       // console.log(err)
                         if (err) {
                             return res.json({ message: 'your card is declined, try again!' + err})
                         }
                         else {
-                            // const casecreated = await Case.findByIdAndUpdate(CaseID, { 'caseStatus': 'published' })
+                            const casecreated = await Case.findByIdAndUpdate(CaseID, { 'caseStatus': 'published' })
                             // let transporter = nodemailer.createTransport({
                             //     service: 'gmail',
                             //     auth: {
@@ -83,11 +81,7 @@ let InvestorController = {
                             //     }
                             //     res.json({ success: true, message: 'An email has been sent check your email' });
                             // });
-                            console.log('token')
-                            console.log(token)
-                            console.log('charge')
-                            console.log(charge)
-                            return res.json({ message: 'your payment has been made; you will receive an invoice via your mail' })
+                            return res.json({ message: 'your payment has been made; you will receive an invoice via your mail', data: casecreated })
                         }
 
                     })
