@@ -10,10 +10,12 @@ const Question = require('./../models/Questions')
 const validator = require('../../validations/AdminValidations')
 const Case = require('../models/Cases')
 const Lawyer = require('../models/Lawyer')
+const FormType = require('../models/FormType')
 const fun = require('./AdminController')
 const jwt = require('jsonwebtoken');
 var nodemailer = require('nodemailer');
 var bcrypt = require('bcryptjs');
+ 
 
 "use strict";
 
@@ -918,7 +920,62 @@ AdmDelCase: async (req, res) => {
             res.json({ message: 'Incorrect Mail' })
         }
 
-    }
+    },
+
+    /**
+     * POST method to add a form to the FormType table
+     * the body should be in this form:
+     * {
+     *      formName: "SPC",
+     *      format: {
+     *                  "name":"String",
+     *                  "SSN":"Number"
+     *              }
+     * }
+     */
+    addFormType: async function (req, res) {
+        const createdForm = await FormType.create(req.body)
+        res.status(200).json({msg: 'Form Created.', data: createdForm})
+    },
+
+    /**
+     * GET method to get the format of this form from the FormType table.
+     */
+    getFormType: async function (req, res) {
+        const form = await FormType.findOne({formName: req.params.formName})
+        if(!form){
+            res.status(404).json({error: 'Form not found'})
+        }
+        else{
+            res.status(200).json({msg: 'Form found.', data: form.format})
+        }
+        
+    },
+
+    /**
+     * GET method to get all the formats of the forms in the FormType table.
+     */
+    getAllFormTypes: async function (req, res) {
+        const form = await FormType.find()
+        res.status(200).json({data: form.format})
+        
+        
+    },
+
+    /**
+     * DELTE method to delete this form from the FormType table.
+     */
+    deleteFormType: async function (req, res) {
+        const form = await FormType.deleteOne({formName: req.params.formName})
+        if(!form){
+            res.status(404).json({error: 'Form not found'})
+        }
+        else{
+            res.status(200).json({msg: 'Form deleted.'})
+        }
+        
+    },
+
 }
 
 
