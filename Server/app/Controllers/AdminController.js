@@ -628,29 +628,38 @@ let AdminController = {
         const capital = newCase.equality_capital
         var fixedFees = 0
         var percentageFees = 0
+        var message = ''
         for (var i = 0; i < law.fixedValues.length; i++) {
             console.log('values are' + law.fixedValues[i])
             fixedFees = fixedFees + law.fixedValues[i].value
+            message = message + law.fixedValues[i].description + ': ' + law.fixedValues[i].value + ','
         }
-
+        var temp
         for (var i = 0; i < law.percentages.length; i++) {
             console.log('values are' + law.percentages[i])
             if(law.percentages[i].max < law.percentages[i].value/100 * capital){
+                temp = law.percentages[i].max
                 percentageFees = percentageFees + law.percentages[i].max
             }
             else{
                 if(law.percentages[i].min > law.percentages[i].value/100 * capital){
+                    temp = law.percentages[i].min
                     percentageFees = percentageFees + law.percentages[i].min
                 }
-                else
+                else{
+                    temp = law.percentages[i].value/100 * capital
                     percentageFees = percentageFees + law.percentages[i].value/100 * capital
+                }
+                    
 
             }
+            message = message + law.percentages[i].description + ':' + temp + '\n'
             console.log(percentageFees + '  percentage fee')
         }
         console.log(fixedFees)
         console.log(percentageFees)
-        
+        const totalfees = fixedFees + percentageFees
+        return res.status(200).json({fees: totalfees, invoice:message})
         
     },
     /*
