@@ -5,7 +5,7 @@ const Schema = mongoose.Schema
 const LawSchema = new Schema({
 
     LawNumber: {
-        type: String,
+        type: Number,
     },
 
     LawEntity: {
