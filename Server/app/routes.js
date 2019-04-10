@@ -57,6 +57,10 @@ router.put('/AdminAssignLawyer',AdminController.AdminAssignLawyer)
 router.put('/AdminAssignReviewer',AdminController.AdminAssignReviewer)
 router.post('/SendAttachmentMail', AdminController.SendAttachmentMail)
 
+router.post('/addFormType', AdminController.addFormType)
+router.get('/getFormType/:formName', AdminController.getFormType)
+router.get('/getAllFormTypes', AdminController.getAllFormTypes)
+router.delete('/deleteFormType/:formName', AdminController.deleteFormType)
 
 
 //------------------------------------Lawyer Routes----------------------------------------------------

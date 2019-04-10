@@ -293,6 +293,7 @@ global.debt72 = 6
 
 // show case
 router.get('/', async (req, res) => {
+    console.log('Im heeeeree')
     try {
     const Cases = await Case.find()
     res.json({ data: Cases })
@@ -385,7 +386,7 @@ router.post('/', async (req, res) => {
 
   var i = await CheckForms(req.body)
     console.log(i)
-    if (i === -1) {
+    if (i !== 'Done') {
         res.json({ msg: 'Could not create case' })
     }
     else {
@@ -420,7 +421,7 @@ router.put('/:id', async (req, res) => {
   //   const isValidated = validator.updateValidation(req.body)
    //  if (isValidated.error) return res.status(400).send({ error: isValidated.error.details[0].message })
    var i = CheckForms(req.body)
-   if (i === -1) {
+   if (i !== 'Done') {
        res.json({ msg: 'Could not create case' })
      }
      else {
@@ -676,17 +677,20 @@ router.put('/system_assign_lawyer/:caseId', async (req, res) => {
 
 })
 CheckForms = async function (data) {
-    var query = { $and: [ { _id: data.investorID }, { form_type: 'SSC' } ] }
+    console.log('Im heree')
+    var query = { $and: [ { investorID : data.investorID }, { form_type: 'SSC' } ] }
     
     const AllCases = await Case.find(query)
     const inv = await Investor.findById(data.investorID)
     
-    //console.log(AllCases)
+    const error = {}
+    console.log(AllCases)
 
     if (data.form_type === 'SSC') {
         if (data.equality_capital < 50000) {
             console.log('SSC must have a minimum capital of 50000')
-            return -1;
+            error.equality_capital = 'SSC must have a minimum capital of 50000'
+            //return -1;
            
         }
         
@@ -695,23 +699,27 @@ CheckForms = async function (data) {
         var a2 = false
 
         for (i = 0; i < data.managers.length; i++) { 
-          if (data.managers[i].nationallity === 'Egyptian')
+          if (data.managers[i].Nationality === 'Egyptian')
               a2 = true  
               console.log('here')
         }
           if (a2 === false) {
             console.log('SSC must have at least 1 egyptian manager')
-            return -1;
+            error.managers = 'SSC must have at least 1 egyptian manager'
+            //return -1;
         }
     }      
       
-            if (AllCases) {
-          console.log('1 Investor can only have 1 SSC company')
-          return -1;
+        if (AllCases.length !== 0) {
+          console.log(' 1 Investor can only have 1 SSC company')
+          error.general = ' 1 Investor can only have 1 SSC company'
+          //return -1;
     
         }
-
-        return 5;
+        if(Object.keys(error).length !== 0)
+            return error;
+        else    
+            return 'Done'    
        
     }
 
@@ -722,17 +730,24 @@ CheckForms = async function (data) {
             //console.log(data.investorID)
             if (data.equality_capital < 100000) {
                 console.log('Capital must be greater than 100000')
-                return -1;
+                error.equality_capital = 'Capital must be greater than 100000'
+
+                //return -1;
             }
     
             if (data.managers.length > 0) {
             //console.log(data.managers.length)
             console.log('SPC Companies should not have any managers')
-            return -1;
+            error.managers = 'SPC Companies should not have any managers'
+            //return -1;
         }
         
     }
-    return 5;
+     
+    if(Object.keys(error).length !== 0)
+            return error;
+        else    
+            return 'Done' 
 }
 
 
