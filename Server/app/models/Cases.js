@@ -136,8 +136,7 @@ const CaseSchema = new Schema({
                     type: Schema.Types.ObjectId, 
                     ref: 'Lawyer',
                 },
-        }
-        ,
+        },
 
 
     },

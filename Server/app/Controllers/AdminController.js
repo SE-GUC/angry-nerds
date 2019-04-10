@@ -403,7 +403,6 @@ let AdminController = {
 
     forgotpassword: async (req, res) => {
         var userEmail = req.body.email;
-        //var userEmail = req.params.email;
         Admins.findOne({ email: userEmail }, function (err, user) {
             if (err) {
                 res.json({ success: false, message: err.message });

@@ -122,12 +122,10 @@ let LawyerController = {
       const c = await Case.findById(caseID);
       if (!c) return res.status(404).send({ error: "The form does not exist" });
       if (!lawyer)
-        return res
-          .status(403)
-          .send({
-            error:
-              "You are not allowed to view this comment, You are not a lawyer"
-          });
+        return res.status(403).send({
+          error:
+            "You are not allowed to view this comment, You are not a lawyer"
+        });
 
       return res.json({ data: form.comment });
     } catch (error) {
@@ -219,38 +217,37 @@ let LawyerController = {
 
     const caseID = req.params.idCase;
     const staffID = "5c9f69180ec7b72d689dba6d";
-    
 
     const CASE = await Case.findById(caseID);
     const lawyer = await Lawyer.findById(staffID);
 
     if (!CASE) {
-        return res.status(404).json({ error: "cannot find this case" }) };
+      return res.status(404).json({ error: "cannot find this case" });
+    }
 
-    const newLog = CASE.log
+    const newLog = CASE.log;
     newLog.push({
-        id: staffID,
-        destination: 'investor',
-        date: new Date()
-    })
-      
+      id: staffID,
+      destination: "investor",
+      date: new Date()
+    });
+
     await Case.findByIdAndUpdate(caseID, {
-        caseStatus: "investor",
-        locked: false,
-        log: newLog
-    })
+      caseStatus: "investor",
+      locked: false,
+      log: newLog
+    });
 
-    LawyerController.lawyerWriteComment(caseID,req.body.comment,staffID)
+    LawyerController.lawyerWriteComment(caseID, req.body.comment, staffID);
 
-    return res.status(200).json({ msg: "Case rejected and sent to investor", data: CASE }); // in test check that caseStatus is reviewer
-      
-    
+    return res
+      .status(200)
+      .json({ msg: "Case rejected and sent to investor", data: CASE }); // in test check that caseStatus is reviewer
   },
 
   caseAproveedAtLawyer: async function(req, res) {
     /// :idStaff/:idCase'  routs
 
-    
     const caseID = req.params.idCase;
     const staffID = "5c9f69180ec7b72d689dba6d";
 
@@ -258,21 +255,24 @@ let LawyerController = {
     const lawyer = await Lawyer.findById(staffID);
 
     if (!CASE) {
-        return res.status(404).json({ error: "cannot find this case" }) };
+      return res.status(404).json({ error: "cannot find this case" });
+    }
 
-    const newLog = CASE.log
+    const newLog = CASE.log;
     newLog.push({
-        id: staffID,
-        destination: 'reviewer',
-        date: new Date()
-    })
-      
+      id: staffID,
+      destination: "reviewer",
+      date: new Date()
+    });
+
     await Case.findByIdAndUpdate(caseID, {
-        caseStatus: "reviewer",
-        locked: false,
-        log: newLog
-    })
-    return res.status(200).json({ msg: "Case approved and sent to reviewer", data: CASE }); // in test check that caseStatus is reviewer
+      caseStatus: "reviewer",
+      locked: false,
+      log: newLog
+    });
+    return res
+      .status(200)
+      .json({ msg: "Case approved and sent to reviewer", data: CASE }); // in test check that caseStatus is reviewer
   },
 
   lawyerWriteComment: async function(caseID, comment, lawyerID) {
@@ -280,13 +280,13 @@ let LawyerController = {
     const CASE = Case.findById(caseID);
 
     const newComment = {
-        text: comment,
-        date: new Date(),
-        Lawyer: lawyerID
-    }
+      text: comment,
+      date: new Date(),
+      Lawyer: lawyerID
+    };
 
     const writecomment = await Case.findByIdAndUpdate(caseID, {
-      comment : newComment
+      comment: newComment
     });
     return writecomment;
   },
@@ -294,12 +294,15 @@ let LawyerController = {
   viewCasesLawyer: async function(req, res) {
     // req contain the lawyer id
     try {
-      
-        let cases = await Case.find({$or: [{ caseStatus: "lawyer-investor" },{ caseStatus: "lawyer-reviewer" }]});
-        
-        return res.status(200).json({ data: cases });
-      }
-     catch (error) {
+      let cases = await Case.find({
+        $or: [
+          { caseStatus: "lawyer-investor" },
+          { caseStatus: "lawyer-reviewer" }
+        ]
+      });
+
+      return res.status(200).json({ data: cases });
+    } catch (error) {
       console.log(error);
       return res.status(400).json({ error: "Error processing query." });
     }
@@ -323,7 +326,7 @@ let LawyerController = {
           .status(404)
           .json({ error: "Cannot find an lawyer account with this ID" });
       } else {
-        let notifications = await Notification.find({ receiverLawyer: id });
+        let notifications = lawyer.notifications;
         return res.status(200).json({ data: notifications });
       }
     } catch (error) {
@@ -402,66 +405,56 @@ let LawyerController = {
   },
 
   //opening and closing a case
-  lawyerOpenCase: async (req,res) => {
+  lawyerOpenCase: async (req, res) => {
+    const lawyerID = "5cabb3ae42c62531851d9cfc";
 
-    const lawyerID = '5cabb3ae42c62531851d9cfc'
+    try {
+      const id = req.params.id;
+      var c = await Case.findById(id);
 
-    try{
-    const id = req.params.id;
-    var c = await Case.findById(id);
-    
-
-    if(c.locked){
-        res.status(403).json({error: 'Case is locked'})
-    }else{
-        var newLog = c.log
+      if (c.locked) {
+        res.status(403).json({ error: "Case is locked" });
+      } else {
+        var newLog = c.log;
         newLog.push({
-            id: lawyerID,
-            destination: 'open',
-            date: new Date()
-        })
-        await Case.findByIdAndUpdate(id,{
-            locked: true,
-            log: newLog
+          id: lawyerID,
+          destination: "open",
+          date: new Date()
         });
-        res.status(200).json({data: c})
-    }}
-    catch(error){
-        console.log(error)
-        res.status(400).json({error: 'error processsing query'})
+        await Case.findByIdAndUpdate(id, {
+          locked: true,
+          log: newLog
+        });
+        res.status(200).json({ data: c });
+      }
+    } catch (error) {
+      console.log(error);
+      res.status(400).json({ error: "error processsing query" });
     }
-
   },
 
-  lawyerCloseCase: async (req,res) => {
-    try{
+  lawyerCloseCase: async (req, res) => {
+    try {
+      const lawyerID = "5cabb3ae42c62531851d9cfc";
 
-    const lawyerID = '5cabb3ae42c62531851d9cfc'
-
-
-    const id = req.params.id;
-    var c = await Case.findById(id);
-    var newLog = c.log
-    newLog.push({
+      const id = req.params.id;
+      var c = await Case.findById(id);
+      var newLog = c.log;
+      newLog.push({
         id: lawyerID,
-        destination: 'close',
+        destination: "close",
         date: new Date()
-    })
-    var c = await Case.findByIdAndUpdate(id,{
+      });
+      var c = await Case.findByIdAndUpdate(id, {
         locked: false,
         log: newLog
-    });
-    res.status(200).json({data: c})
+      });
+      res.status(200).json({ data: c });
+    } catch (error) {
+      console.log(error);
+      res.status(400).json({ error: "error processsing query" });
     }
-    catch(error){
-        console.log(error)
-        res.status(400).json({error: 'error processsing query'})
-    }
-
   }
-
-
-
 };
 
 module.exports = LawyerController;
