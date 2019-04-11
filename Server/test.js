@@ -1,4 +1,5 @@
 //const lawyer = require('./tests/lawyerFunctions');
+
 const adminFunctions = require('./tests/adminFunctions')
 const investorFunctions = require('./tests/investorFunctions')
 const userFunctions = require('./tests/userFunctions')
@@ -7,10 +8,7 @@ const Question = require('./app/models/Questions')
 const Reviewer = require('./app/models/Reviewer')
 const axios = require('axios')
 jest.setTimeout(30000)
-
-
-
-
+axios.defaults.adapter = require ('axios/lib/adapters/http')
 
 /*
 Tests for payment
@@ -108,7 +106,7 @@ test(`paying fees for a company that is not pending`, async () => {
   //console.log(charge)
   expect(charge.data.message).toEqual("company is not ready for payment");
 
-axios.defaults.adapter = require ('axios/lib/adapters/http')
+});
 
 
 
@@ -731,7 +729,7 @@ test(`Admin register Admin successfully`, async () => {
       {
       }});
     expect(ques.data.msg).toEqual('Admin was created successfully')
-})})
+});
 
 
 //test not functionning because we removed the attribute 'lawyerId' from case schema//PLEASE leave it

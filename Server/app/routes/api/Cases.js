@@ -684,8 +684,6 @@ CheckForms = async function (data) {
     const inv = await Investor.findById(data.investorID)
 
     const error = {}
-    
-    const error = {}
     console.log(AllCases)
 
     if (data.form_type === 'SSC') {
