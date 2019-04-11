@@ -3,10 +3,11 @@ axios.defaults.adapter = require ('axios/lib/adapters/http')
 
 const lawyerFunctions = {
 
-LawViewing: async (id) => {
-    const views= await axios.get('http://127.0.0.1:3000/LawViewing/'+id)
+LawyerViewing: async (id) => {
+    const views= await axios.get('http://127.0.0.1:3000/LawyerViewing/'+id)
     return views
     },
+  
 
 
     caseDisAproveedAtLawyer:  async (caseID, stafID) => {
@@ -34,6 +35,17 @@ LawViewing: async (id) => {
         return CASE.data.message
         
     },
+    
+    LawyerViewingPublishedCompanies: async () => {
+      const viewPC= await axios.get('http://127.0.0.1:3000/LawyerViewingPublishedCompanies/')
+      return viewPC
+      },
+  
+      LawyerViewingCompany: async (id) => {
+        const viewC= await axios.get('http://127.0.0.1:3000/LawyerViewingCompany/'+id)
+        return viewC
+        },
+  
 
 
     

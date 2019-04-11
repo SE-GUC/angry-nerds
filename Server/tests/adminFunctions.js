@@ -378,42 +378,50 @@ const adminFunctions = {
   },
 
 
-    AdmDelCase: async(id)=> {
+    AdminDeleteCase: async(id)=> {
       console.log('im here' + id)
       const DelCase = await axios({
 
         method: 'delete',
-        url: 'http://127.0.0.1:3000/AdmDelCase/'+ id,
+        url: 'http://127.0.0.1:3000/AdminDeleteCase/'+ id,
         headers:{},
         
         
         
       })
-      console.log('daammnnnzzyyy')
       return DelCase
     },
 
 
-AdmDelQuestion: async(id)=> {
+AdminDeleteQuestion: async(id)=> {
   console.log('im here' + id)
   const DelCase = await axios({
 
     method: 'delete',
-    url: 'http://127.0.0.1:3000/AdmDelQuestion/'+ id,
+    url: 'http://127.0.0.1:3000/AdminDeleteQuestion/'+ id,
     headers:{},
     
     
     
   })
-  console.log('daammnnnzzyyy')
   return DelCase
 },    
 
-AdmViewing: async (id) => {
-  const views= await axios.get('http://127.0.0.1:3000/AdmViewing/'+id)
+AdminViewing: async (id) => {
+  const views= await axios.get('http://localhost:3000/AdminViewing/'+id)
   return views
   },
 
+  AdminViewingPublishedCompanies: async () => {
+    const viewPC= await axios.get('http://localhost:3000/AdminViewingPublishedCompanies/')
+    return viewPC
+    },
+
+    AdminViewingCompany: async (id) => {
+      const viewC= await axios.get('http://localhost:3000/AdminViewingCompany/'+id)
+      return viewC
+      },
+      
 
 
 

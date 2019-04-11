@@ -208,35 +208,39 @@ reviewerViewLawyersLeaderBoard: async(req,res)=>{
     }
 },
 
-RevCompListViewing: async (res) => {
+//Displaying a List of all published companies
 
+ReviewerViewingPublishedCompanies: async (req,res) => {
+    
     try {
-        var Case = await Cases.find({ caseStatus: 'published' }, projx)
-
+        var Cas = await Case.find({ caseStatus: 'published' }, projx)
+        
         for (var i = 0; i < Case.length; i++) {
-         var projx = { '_id': 0, 'reviewerID': 0, 'lawyerID': 0, 'investorID': 0 }
+            var projx = { '_id': 0, 'reviewerID': 0, 'lawyerID': 0, 'investorID': 0 }
         }
-         Case = await Cases.find({ caseStatus: 'published' }, projx)
-         res.json({ data: Case })
-     }
-     catch (error) {
-        console.log(error)
-    }
+        Cas = await Case.find({ caseStatus: 'published' }, projx)
+
+            res.json({ message:'Cases',data: Cas })
+        }
+        catch (error) {
+            console.log(error)
+        }
 },
 
-RevCompViewing: async (req, res)=> {
-
+//Viewing One specific Company
+ReviewerViewingCompany: async (req, res)=> {
+    
     const id = req.params.id
     var Cas = await Case.findById(id)
     
     try {
-        if (Cas.caseStatus === 'published') {
+        if (Cas.caseStatus == 'published') {
             var proj1 = { '_id': 0,'reviewerID': 0, 'lawyerID': 0, 'InvestorID': 0 }
             Cas = await Case.findById(id, proj1)
-            res.json({ data: Cas })
+            res.json({message:'case' , data: Cas }) 
         } else {
             res.json({ message: 'Case was not published' })
-
+            
         }
     }
     catch (error) {
@@ -244,7 +248,8 @@ RevCompViewing: async (req, res)=> {
     }
 },
 
-RevViewing: async (req, res)=> {
+//Viewing a specific User of any type 
+ReviewerViewing: async (req, res)=> {
 var proj = { '_id': 0, 'password': 0 }
 try {
     const id = req.params.id

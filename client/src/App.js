@@ -16,12 +16,12 @@ import testing from './components/testing';
 
 
 class App extends Component {
-  
+ 
   render() {
     return (
       <Router>
+      <Route exact path= "/Companies" component = {Companies}/> }
         <div className="App">
-      {<Companies CompanyName = {this.state.CompanyName}/> }
           <div className="container">
           <Route  exact path = "/home" component = {home}  />
             <Route exact path="/signup" component={signup} />

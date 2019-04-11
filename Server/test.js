@@ -2,7 +2,9 @@ const lawyer = require('./tests/lawyerFunctions');
 const adminFunctions = require('./tests/adminFunctions')
 const investorFunctions = require('./tests/investorFunctions')
 const userFunctions = require('./tests/userFunctions')
-const Lawyer = require('./app/models/Lawyer')
+const reviewerFunctions = require ('./tests/reviewerFunctions')
+
+// const Lawyer = require('./app/models/Lawyer')
 const Reviewer = require('./app/models/Reviewer')
 jest.setTimeout(30000)
 
@@ -10,7 +12,7 @@ const Admin = require('./app/Functions/Admin.functions');
 const Investor = require('./app/Functions/Investor.functions')
 const Lawyer = require('./app/Functions/Lawyer.functions')
 
-
+/*
 test('Forgot password with valid mail', async () => {
   jest.setTimeout(30000)
   const msg =  await Admin.MailForgotPassword('fady.wasfalla@gmail.com')
@@ -57,7 +59,7 @@ test('lawyer update form', async () => {
 /*test('lawyer view comment', async () => {
   const msg =  await Lawyer.lawyerViewComment()
   expect(msg.data.msg).toEqual('Done');
-});*/
+});
 
 test('lawyer view lawyerLeaderBoard', async () => {
   const msg =  await Lawyer.lawyerViewLawyersLeaderBoard()
@@ -164,8 +166,8 @@ test(`Editing company city to Alex`, async () => {
   });
 
   test('Delete a company that does not exist ', async()=>{
-    jest.setTimeout(50000)
-    const id = await adminFunctions.AdmDelCase('5c94e18af1eg6f3e48b0a2b8')
+
+    const id = await adminFunctions.AdminDeleteCase('5c94e18af1eg6f3e48b0a2b8')
     console.log('shiitt')
     expect(id.data.message).toEqual('not a case')
   });
@@ -173,195 +175,276 @@ test(`Editing company city to Alex`, async () => {
 
 
   test('Delete a company ', async()=>{
-    jest.setTimeout(50000)
-    const id = await adminFunctions.AdmDelCase('5c94e18af1ef0f3e48b0a2b8')
+
+    const id = await adminFunctions.AdminDeleteCase('5c94e18af1ef0f3e48b0a2b8')
     console.log('yeeh')
     expect(id.data.message).toEqual('Case was deleted successfully')
   });
 
   test('Delete a Question that does not exist ', async()=>{
-    jest.setTimeout(50000)
-    const id = await adminFunctions.AdmDelQuestion('5c94e18af1eg6f3e48b0a2b8')
+
+    const id = await adminFunctions.AdminDeleteQuestion('5c94e18af1eg6f3e48b0a2b8')
     console.log('notQUessss')
     expect(id.data.message).toEqual('not a ques')
   });
 
   test('Delete a Question ', async()=>{
-    jest.setTimeout(50000)
-    const id = await adminFunctions.AdmDelQuestion('5c77f15454746a2ec800e532')
+
+    const id = await adminFunctions.AdminDeleteQuestion('5c77f15454746a2ec800e532')
     console.log('Quessss')
     expect(id.data.message).toEqual('This question was deleted successfully')
   });
+*/
+  test('view as admin Investor', async()=>{
 
-  test('view as admin Inv', async()=>{
-    jest.setTimeout(50000)
-    const id = await adminFunctions.AdmViewing('5c93ac9555b21722fc46eb9b')
+    const id = await adminFunctions.AdminViewing('5ca772654d70710fa843bd5f')
     console.log('view')
     expect(id.data.message).toEqual('investor')
   });
 
   test('view as admin Lawyer', async()=>{
-    jest.setTimeout(50000)
-    const id = await adminFunctions.AdmViewing('5c9e4dc353415c34a0f35cd1')
+
+    const id = await adminFunctions.AdminViewing('5ca0a85f309f411aa851bdfd')
     console.log('view')
     expect(id.data.message).toEqual('lawyer')
   });
   test('view as admin Reviewer', async()=>{
-    jest.setTimeout(50000)
-    const id = await adminFunctions.AdmViewing('5c9f81974829dc64cc2c1d0e')
+
+    const id = await adminFunctions.AdminViewing('5caa2255a17f105039d06af6')
     console.log('view')
     expect(id.data.message).toEqual('Rev')
   });
 
   test('view as admin Admin', async()=>{
-    jest.setTimeout(50000)
-    const id = await adminFunctions.AdmViewing('5c9bb0dc5185793518ea84fb')
+
+    const id = await adminFunctions.AdminViewing('5c9bb0dc5185793518ea84fb')
     console.log('view')
     expect(id.data.message).toEqual('Admin')
   });
 
   test('view as admin neither', async()=>{
-    jest.setTimeout(50000)
-    const id = await adminFunctions.AdmViewing('5c77f15454789a2ec800e532')
+
+    const id = await adminFunctions.AdminViewing('5c77f15454789a2ec800e532')
     console.log('view')
     expect(id.data.message).toEqual('User does not exist')
   });
+
+  test('view as Admin a published Company', async()=>{
+    const id = await adminFunctions.AdminViewingCompany('5c9517bdf65058663c3010d3')
+    console.log('view')
+    expect(id.data.message).toEqual('case')
+  });
+
+  test('view as Admin an unpublished Company', async()=>{
+    const id = await adminFunctions.AdminViewingCompany('5c950069f2380140941b74f0')
+    console.log('view')
+    expect(id.data.message).toEqual('Case was not published')
+  });
+
+  test('View list of all published companies', async () => {
+    const msg =  await adminFunctions.AdminViewingPublishedCompanies()
+    expect(msg.data.message).toEqual('Cases');
+  });
   //----------------------------------------------
-  test('view as Inv Inv', async()=>{
-    jest.setTimeout(50000)
-    const id = await adminFunctions.InvViewing('5c93ac9555b21722fc46eb9b')
+  test('view as Investor a published Company', async()=>{
+    const id = await investorFunctions.InvestorViewingCompany('5c9517bdf65058663c3010d3')
+    console.log('view')
+    expect(id.data.message).toEqual('case')
+  });
+
+  test('view as Investor an unpublished Company', async()=>{
+    const id = await investorFunctions.InvestorViewingCompany('5c950069f2380140941b74f0')
+    console.log('view')
+    expect(id.data.message).toEqual('Case was not published')
+  });
+  test('view as Investor Investor', async()=>{
+
+    const id = await investorFunctions.InvestorViewing('5ca772654d70710fa843bd5f')
     console.log('view')
     expect(id.data.message).toEqual('investor')
   });
 
-  test('view as Inv Lawyer', async()=>{
-    jest.setTimeout(50000)
-    const id = await adminFunctions.InvViewing('5c9e4dc353415c34a0f35cd1')
+  test('view as Investor Lawyer', async()=>{
+
+    const id = await investorFunctions.InvestorViewing('5ca0a85f309f411aa851bdfd')
     console.log('view')
     expect(id.data.message).toEqual('lawyer')
   });
-  test('view as Inv Reviewer', async()=>{
+  test('view as Investor Reviewer', async()=>{
     jest.setTimeout(50000)
-    const id = await adminFunctions.InvViewing('5c9f81974829dc64cc2c1d0e')
+    const id = await investorFunctions.InvestorViewing('5caa2255a17f105039d06af6')
     console.log('view')
     expect(id.data.message).toEqual('Rev')
   });
 
-  test('view as Inv Admin', async()=>{
-    jest.setTimeout(50000)
-    const id = await adminFunctions.InvViewing('5c9bb0dc5185793518ea84fb')
+  test('view as Investor Admin', async()=>{
+    const id = await investorFunctions.InvestorViewing('5c9bb0dc5185793518ea84fb')
     console.log('view')
     expect(id.data.message).toEqual('Admin')
   });
 
-  test('view as Inv neither', async()=>{
-    jest.setTimeout(50000)
-    const id = await adminFunctions.InvViewing('5c77f15454789a2ec800e532')
+  test('view as Investor neither', async()=>{
+    
+    const id = await investorFunctions.InvestorViewing('5c77f15454789a2ec800e532')
     console.log('view')
     expect(id.data.message).toEqual('User does not exist')
   });
+
+  test('View list of all published companies', async () => {
+    const msg =  await investorFunctions.InvestorViewingPublishedCompanies()
+    expect(msg.data.message).toEqual('Cases');
+  });
   //----------------------------------------------
-  test('view as Rev Inv', async()=>{
-    jest.setTimeout(50000)
-    const id = await adminFunctions.RevViewing('5c93ac9555b21722fc46eb9b')
+  test('view as Reviewer Investor', async()=>{
+    const id = await reviewerFunctions.ReviewerViewing('5ca772654d70710fa843bd5f')
     console.log('view')
     expect(id.data.message).toEqual('investor')
   });
 
-  test('view as Rev Lawyer', async()=>{
-    jest.setTimeout(50000)
-    const id = await adminFunctions.RevViewing('5c9e4dc353415c34a0f35cd1')
+  test('view as Reviewer Lawyer', async()=>{
+    const id = await reviewerFunctions.ReviewerViewing('5ca0a85f309f411aa851bdfd')
     console.log('view')
     expect(id.data.message).toEqual('lawyer')
   });
-  test('view as Rev Reviewer', async()=>{
-    jest.setTimeout(50000)
-    const id = await adminFunctions.RevViewing('5c9f81974829dc64cc2c1d0e')
+  test('view as Reviewer Reviewer', async()=>{
+    const id = await reviewerFunctions.ReviewerViewing('5caa2255a17f105039d06af6')
     console.log('view')
     expect(id.data.message).toEqual('Rev')
   });
 
-  test('view as Rev Admin', async()=>{
-    jest.setTimeout(50000)
-    const id = await adminFunctions.RevViewing('5c9bb0dc5185793518ea84fb')
+  test('view as Reviewer Admin', async()=>{
+    const id = await reviewerFunctions.ReviewerViewing('5c9bb0dc5185793518ea84fb')
     console.log('view')
     expect(id.data.message).toEqual('Admin')
   });
 
-  test('view as Rev neither', async()=>{
-    jest.setTimeout(50000)
-    const id = await adminFunctions.RevViewing('5c77f15454789a2ec800e532')
+  test('view as Reviewer neither', async()=>{
+    
+    const id = await reviewerFunctions.ReviewerViewing('5c77f15454789a2ec800e532')
     console.log('view')
     expect(id.data.message).toEqual('User does not exist')
   });
+
+  test('view as Reviewer a published Company', async()=>{
+    const id = await reviewerFunctions.ReviewerViewingCompany('5c9517bdf65058663c3010d3')
+    console.log('view')
+    expect(id.data.message).toEqual('case')
+  });
+
+  test('view as Reviewer an unpublished Company', async()=>{
+    const id = await reviewerFunctions.ReviewerViewingCompany('5c950069f2380140941b74f0')
+    console.log('view')
+    expect(id.data.message).toEqual('Case was not published')
+  });
+ 
+  test('View list of all published companies', async () => {
+    const msg =  await reviewerFunctions.ReviewerViewingPublishedCompanies()
+    expect(msg.data.message).toEqual('Cases');
+  });
+
   //----------------------------------------------
-  test('view as unreg Inv', async()=>{
-    jest.setTimeout(50000)
-    const id = await adminFunctions.UnregViewing('5c93ac9555b21722fc46eb9b')
+  test('view as unregister Investor', async()=>{
+
+    const id = await userFunctions.UnregisterViewing('5ca772654d70710fa843bd5f')
     console.log('view')
     expect(id.data.message).toEqual('investor')
   });
 
   test('view as unreg Lawyer', async()=>{
-    jest.setTimeout(50000)
-    const id = await adminFunctions.UnregViewing('5c9e4dc353415c34a0f35cd1')
+
+    const id = await userFunctions.UnregisterViewing('5ca0a85f309f411aa851bdfd')
     console.log('view')
     expect(id.data.message).toEqual('lawyer')
   });
   test('view as unreg Reviewer', async()=>{
-    jest.setTimeout(50000)
-    const id = await adminFunctions.UnregViewing('5c9f81974829dc64cc2c1d0e')
+
+    const id = await userFunctions.UnregisterViewing('5caa2255a17f105039d06af6')
     console.log('view')
     expect(id.data.message).toEqual('Rev')
   });
 
   test('view as unreg Admin', async()=>{
-    jest.setTimeout(50000)
-    const id = await adminFunctions.UnregViewing('5c9bb0dc5185793518ea84fb')
+
+    const id = await userFunctions.UnregisterViewing('5c9bb0dc5185793518ea84fb')
     console.log('view')
     expect(id.data.message).toEqual('Admin')
   });
 
   test('view as unreg neither', async()=>{
-    jest.setTimeout(50000)
-    const id = await adminFunctions.UnregViewing('5c77f15454789a2ec800e532')
+
+    const id = await userFunctions.UnregisterViewing('5c77f15454789a2ec800e532')
     console.log('view')
     expect(id.data.message).toEqual('User does not exist')
   });
+
+  test('view as Unregistered user a published Company', async()=>{
+    const id = await userFunctions.UnregisterViewingCompany('5c9517bdf65058663c3010d3')
+    console.log('view')
+    expect(id.data.message).toEqual('case')
+  });
+
+  test('view as Unregistered user an unpublished Company', async()=>{
+    const id = await userFunctions.UnregisterViewingCompany('5c950069f2380140941b74f0')
+    console.log('view')
+    expect(id.data.message).toEqual('Case was not published')
+  });
+
+  test('View list of all published companies', async () => {
+    const msg =  await userFunctions.UnregisterViewingPublishedCompanies()
+    expect(msg.data.message).toEqual('Cases');
+  });
   //----------------------------------------------
-  test('view as Lawyer Inv', async()=>{
-    jest.setTimeout(50000)
-    const id = await adminFunctions.LawViewing('5c93ac9555b21722fc46eb9b')
+  test('view as Lawyer Investor', async()=>{
+
+    const id = await lawyer.LawyerViewing('5ca772654d70710fa843bd5f')
     console.log('view')
     expect(id.data.message).toEqual('investor')
   });
 
   test('view as Lawyer Lawyer', async()=>{
-    jest.setTimeout(50000)
-    const id = await adminFunctions.LawViewing('5c9e4dc353415c34a0f35cd1')
+
+    const id = await lawyer.LawyerViewing('5ca0a85f309f411aa851bdfd')
     console.log('view')
     expect(id.data.message).toEqual('lawyer')
   });
   test('view as Lawyer Reviewer', async()=>{
-    jest.setTimeout(50000)
-    const id = await adminFunctions.LawViewing('5c9f81974829dc64cc2c1d0e')
+
+    const id = await lawyer.LawyerViewing('5caa2255a17f105039d06af6')
     console.log('view')
     expect(id.data.message).toEqual('Rev')
   });
 
   test('view as Lawyer Admin', async()=>{
-    jest.setTimeout(50000)
-    const id = await adminFunctions.LawViewing('5c9bb0dc5185793518ea84fb')
+
+    const id = await lawyer.LawyerViewing('5c9bb0dc5185793518ea84fb')
     console.log('view')
     expect(id.data.message).toEqual('Admin')
   });
 
   test('view as Lawyer neither', async()=>{
-    jest.setTimeout(50000)
-    const id = await adminFunctions.LawViewing('5c77f15454789a2ec800e532')
+
+    const id = await lawyer.LawyerViewing('5c77f15454789a2ec800e532')
     console.log('view')
     expect(id.data.message).toEqual('User does not exist')
   });
+
+  test('view as lawyer a published Company', async()=>{
+    const id = await lawyer.LawyerViewingCompany('5c9517bdf65058663c3010d3')
+    console.log('view')
+    expect(id.data.message).toEqual('case')
+  });
+
+  test('view as lawyer an unpublished Company', async()=>{
+    const id = await lawyer.LawyerViewingCompany('5c950069f2380140941b74f0')
+    console.log('view')
+    expect(id.data.message).toEqual('Case was not published')
+  });
+
+  test('View list of all published companies', async () => {
+    const msg =  await lawyer.LawyerViewingPublishedCompanies()
+    expect(msg.data.message).toEqual('Cases');
+  });
+/*
   test ('Editing lawEntity to Malak', async () => {
     let law = await adminFunctions.adminChangePricingStrategy('5c9e4b6c4edad508b45adac6')
     expect(law.data.msg).toEqual('Laws updated successfully')
@@ -372,7 +455,7 @@ test(`Editing company city to Alex`, async () => {
     expect(law.data.msg).toEqual('Law does not exist')
 
   })
-
+*/
 
   /*
   either this test works or the previous two work
@@ -383,11 +466,11 @@ test(`Editing company city to Alex`, async () => {
     //expect(law.data.data.message).toEqual('Only super admins have access')
   //})
 
-  test ('Creating a new Law', async () =>{
-    jest.setTimeout(30000)
-    let law= await adminFunctions.adminCreateNewLaw()
-    expect(law.data.msg).toEqual('Law was created successfully')
-  })
+  // test ('Creating a new Law', async () =>{
+  //   jest.setTimeout(30000)
+  //   let law= await adminFunctions.adminCreateNewLaw()
+  //   expect(law.data.msg).toEqual('Law was created successfully')
+  // })
 
   /*
   either this test works or the previous one work
@@ -409,7 +492,7 @@ test(`Editing company city to Alex`, async () => {
 
 
 
-
+/*
 test('Admin assign lawyer' ,async() => {
   const msg = await adminFunctions.AdminAssignLawyer('5c93e4ae5b66b31668f0e28c','5c9e4dc353415c34a0f35cd1')
     expect(msg).toEqual('Case updated successfully')
@@ -642,3 +725,4 @@ test ('generate a PDF with a invalid ID', async () => {
   }
   
 })
+*/

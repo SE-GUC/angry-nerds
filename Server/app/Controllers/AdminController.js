@@ -690,49 +690,52 @@ let AdminController = {
         }
     },
 
+//Displaying a List of all published companies
 
-
- AdmCompListViewing: async (req,res) => {
-
+AdminViewingPublishedCompanies: async (req,res) => {
+    
     try {
         var Cas = await Case.find({ caseStatus: 'published' }, projx)
-
-    for (var i = 0; i < Cas.length; i++) {
-     var projx = { '_id': 0, 'reviewerID': 0, 'lawyerID': 0, 'investorID': 0 }
+        
+        for (var i = 0; i < Cas.length; i++) {
+            var projx = { '_id': 0, 'reviewerID': 0, 'lawyerID': 0, 'investorID': 0 }
+        }
+        Cas = await Case.find({ caseStatus: 'published' }, projx)
+        
+        return res.json({ message: 'Cases', data: Cas })
     }
-     Cas = await Case.find({ caseStatus: 'published' }, projx)
-
-     return res.json({ message: 'Cases', data: Cas })
- }
-     catch (error) {
+    catch (error) {
         console.log(error)
     }
 },
 
-AdmCompViewing: async (req, res)=> {
-
+//Viewing One specific Company
+AdminViewingCompany: async (req, res)=> {
+    
     const id = req.params.id
     var Cas = await Case.findById(id)
     
     try {
-        if (Cas.caseStatus === 'published') {
+        if (Cas.caseStatus == 'published') {
             var proj1 = { '_id': 0, 'reviewerID': 0, 'lawyerID': 0, 'InvestorID': 0 }
             Cas = await Case.findById(id, proj1)
-           return res.json({ message: 'case ahe' ,data: Cas }) 
+            return res.json({ message: 'case' ,data: Cas }) 
         } else {
-           return res.json({ message: 'Case was not published' })
-
+            return res.json({ message: 'Case was not published' })
+            
         }
     }
     catch (error) {
         console.log(error)
     }
 },
-AdmViewing: async (req, res)=> {
+
+//Viewing a specific User of any type 
+AdminViewing: async (req, res)=> {
     var proj = { '_id': 0, 'password': 0 }
-        try {
-            const id = req.params.id
-            const Inv = await Investor.findById(id, proj)
+    try {
+        const id = req.params.id
+        const Inv = await Investor.findById(id, proj)
             const Revs = await Reviewer.findById(id, proj)
             const Adm = await Admins.findById(id,proj)
             const Lawy = await Lawyer.findById(id, proj)
@@ -754,7 +757,7 @@ AdmViewing: async (req, res)=> {
     }
 },
 
-AdmDelQuestion: async (req, res) => {
+AdminDeleteQuestion: async (req, res) => {
    try {
         mongoose.set('useFindAndModify', false)
         const id = req.params.id
@@ -776,7 +779,7 @@ AdmDelQuestion: async (req, res) => {
     }
 },    
 
-AdmDelCase: async (req, res) => {
+AdminDeleteCase: async (req, res) => {
     try {
         mongoose.set('useFindAndModify', false)
         const id = req.params.id

@@ -397,10 +397,11 @@ if (CASE.caseStatus==lawyer){
 
         }
     },
-
-
-
-    LawCompListViewing: async (req,res) => {
+    
+    
+    
+//Displaying a List of all published companies
+    LawyerViewingPublishedCompanies: async (req,res) => {
 
         try {
             var Cas = await Case.find({ caseStatus: 'published' }, projx)
@@ -408,26 +409,27 @@ if (CASE.caseStatus==lawyer){
             for (var i = 0; i < Cas.length; i++) {
              var projx = { '_id': 0, 'reviewerID': 0, 'lawyerID': 0, 'investorID': 0 }
             }
-             Cas = await Cases.find({ caseStatus: 'published' }, projx)
+             Cas = await Case.find({ caseStatus: 'published' }, projx)
     
-             res.json({ data: Cas })
+             res.json({ message:'Cases',data: Cas })
          }
          catch (error) {
             console.log(error)
         }
     },
     
+//Viewing One specific Company
     
-    LawCompViewing: async (req, res)=> {
+    LawyerViewingCompany: async (req, res)=> {
     
         const id = req.params.id
         var Cas = await Case.findById(id)
         
         try {
-            if (Cas.caseStatus === 'published') {
+            if (Cas.caseStatus == 'published') {
                 var proj1 = { '_id': 0, 'reviewerID': 0, 'lawyerID': 0, 'InvestorID': 0 }
                 Cas = await Case.findById(id, proj1)
-                res.json({ data: Cas })
+                res.json({ message:'case' , data: Cas }) 
             } else {
                 res.json({ message: 'Case was not published' })
     
@@ -438,8 +440,8 @@ if (CASE.caseStatus==lawyer){
         }
         
     },
-    
-    LawViewing: async (req, res)=> {
+//Viewing a specific User of any type 
+    LawyerViewing: async (req, res)=> {
         var proj = { '_id': 0, 'password': 0 }
         var projy = {'_id': 0, 'password': 0 , 'ratings': 0}
     
