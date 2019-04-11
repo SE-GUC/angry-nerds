@@ -2,17 +2,17 @@ const lawyer = require('./tests/lawyerFunctions');
 const adminFunctions = require('./tests/adminFunctions')
 const investorFunctions = require('./tests/investorFunctions')
 const userFunctions = require('./tests/userFunctions')
-const Lawyer = require('./app/models/Lawyer')
+//const Lawyer = require('./app/models/Lawyer')
 const Reviewer = require('./app/models/Reviewer')
 const axios = require('axios');
 axios.defaults.adapter = require ('axios/lib/adapters/http')
 jest.setTimeout(30000)
 
 const Admin = require('./app/Functions/Admin.functions');
-//const Investor = require('./app/Functions/Investor.functions')
-//const Lawyer = require('./app/Functions/Lawyer.functions')
+const Investor = require('./app/Functions/Investor.functions')
+const Lawyer = require('./app/Functions/Lawyer.functions')
 const Case = require ('./app/models/Cases')
-const Investor1 = require('./app/models/Investor')
+//const investor = require('./app/models/Investor')
 
 
 
@@ -575,233 +575,206 @@ console.log(cr1)
 
 //test not functionning because we removed the attribute 'lawyerId' from case schema//PLEASE leave it
 
-test('Admin assign lawyer' ,async() => {
+// test('Admin assign lawyer' ,async() => {
 
  
-  const newInvestor = await axios({
-          method:'post',
-          url: 'http://localhost:3000/api/Investor',
-          headers:{},
-          data:{
-            "FirstName": "gee",
-            "MiddleName":"mourad",
-            "LastName":"fayez",
-            "email": "mouradd@gmail.com",
-            "ID_type":"regular",
-            "SSID" :"930240219012394",
-            "Nationality":"Egyptian",
-            "gender":"female",
-            "Type":"pass",
-           "Address":"3489ihkbnknwe",
-           "telephone_number":"89409820"
-          }
-        })
-        console.log('done inv')
+//   const newInvestor = await axios({
+//           method:'post',
+//           url: 'http://localhost:3000/api/Investor',
+//           headers:{},
+//           data:{
+//             "FirstName": "gee",
+//             "MiddleName":"mourad",
+//             "LastName":"fayez",
+//             "email": "mouradd@gmail.com",
+//             "ID_type":"regular",
+//             "SSID" :"930240219012394",
+//             "Nationality":"Egyptian",
+//             "gender":"female",
+//             "Type":"pass",
+//            "Address":"3489ihkbnknwe",
+//            "telephone_number":"89409820"
+//           }
+//         })
+//         console.log('done inv')
 
 
   
   
 
-   const newL = await axios({
-           method:'post',
-           url: 'http://localhost:3000/api/Lawyer',
-           headers:{},
-           data:{
-            "FName": "R",
-            "MName": "Ramremo",
-            "LName": "Gamd",
-            "email": "fr@gmail.com",
-            "password": "cnjdqqcrjcsjn151215'",
-            "gender": "Male",
-            "Nationality": "Egyptian",
-            "birthdate": "1980-01-01T00:00:00.000Z",
-            "Address": "11 makram",
-            "fax": 125252,
-            "telephone_number": 151515,
-            "completed_number_of_cases": 561,
-            "number_of_cases": 2,
-            "total_time_on_cases": 25,
-            "ssid": 15552,
-            "notifications": [],
-            "ratings": []
-   }
- })
- const idL=newL.data.data._id
- console.log(idL)
+//    const newL = await axios({
+//            method:'post',
+//            url: 'http://localhost:3000/api/Lawyer',
+//            headers:{},
+//            data:{
+//             "FName": "R",
+//             "MName": "Ramremo",
+//             "LName": "Gamd",
+//             "email": "fr@gmail.com",
+//             "password": "cnjdqqcrjcsjn151215'",
+//             "gender": "Male",
+//             "Nationality": "Egyptian",
+//             "birthdate": "1980-01-01T00:00:00.000Z",
+//             "Address": "11 makram",
+//             "fax": 125252,
+//             "telephone_number": 151515,
+//             "completed_number_of_cases": 561,
+//             "number_of_cases": 2,
+//             "total_time_on_cases": 25,
+//             "ssid": 15552,
+//             "notifications": [],
+//             "ratings": []
+//    }
+//  })
+//  const idL=newL.data.data._id
+//  console.log(idL)
 
 
-const newC = await axios({
-        method:'post',
-        url: 'http://localhost:3000/api/Cases',
-        headers:{},
-        data:{
-          "form_type": "SPC",
-          "regulated_law": "44",
-          "arabic_name": "اححححنت",
-          "english_name": "lo6",
-          "government": "ENG",
-          "city": "Cairo",
-          "hq_address": "gftfy",
-          "hq_city": "yes",
-          "main_center_phone": 123515,
-          "main_center_fax": 518563,
-          "currency": "541",
-          "equality_capital": 150000,
-          "managers": [],
-          "caseStatus": "published",
-          "investorID": newInvestor.data.data._id,
-          "log": []
-        }
-      })
+// const newC = await axios({
+//         method:'post',
+//         url: 'http://localhost:3000/api/Cases',
+//         headers:{},
+//         data:{
+//           "form_type": "SPC",
+//           "regulated_law": "44",
+//           "arabic_name": "اححححنت",
+//           "english_name": "lo6",
+//           "government": "ENG",
+//           "city": "Cairo",
+//           "hq_address": "gftfy",
+//           "hq_city": "yes",
+//           "main_center_phone": 123515,
+//           "main_center_fax": 518563,
+//           "currency": "541",
+//           "equality_capital": 150000,
+//           "managers": [],
+//           "caseStatus": "published",
+//           "investorID": newInvestor.data.data._id,
+//           "log": []
+//         }
+//       })
 
-      const idC = newC.data.data._id
-      console.log(idC)
+//       const idC = newC.data.data._id
+//       console.log(idC)
 
-  const msg = await adminFunctions.AdminAssignLawyer(idL,idC)
-    expect(msg).toEqual('Please select a valid lawyer')
+//   const msg = await adminFunctions.AdminAssignLawyer(idL,idC)
+//     expect(msg).toEqual('Please select a valid lawyer')
 
-    const delLawyer = await axios({
-           method:'delete',
-            url: 'http://localhost:3000/api/Lawyer/'+ idL,
+//     const delLawyer = await axios({
+//            method:'delete',
+//             url: 'http://localhost:3000/api/Lawyer/'+ idL,
             
-           })
+//            })
   
-          const delC = await axios({
-            method:'delete',
-            url: 'http://localhost:3000/api/Cases/'+ idC,
+//           const delC = await axios({
+//             method:'delete',
+//             url: 'http://localhost:3000/api/Cases/'+ idC,
 
-           })
+//            })
 
-});
+// });
 
 
 
 //test not functionning because we removed the attribute 'reviewerId' from case schema//PLEASE leave it
 
-test('Admin assign Reviewer' ,async() => {
+// test('Admin assign Reviewer' ,async() => {
 
  
-  const newInvestor = await axios({
-          method:'post',
-          url: 'http://localhost:3000/api/Investor',
-          headers:{},
-          data:{
-            "FirstName": "shouuu",
-            "MiddleName":"mou",
-            "LastName":"fayez",
-            "email": "mour@gmail.com",
-            "ID_type":"regular",
-            "SSID" :"930240219012394",
-            "Nationality":"Egyptian",
-            "gender":"female",
-            "Type":"pass",
-           "Address":"3489ihkbnknwe",
-           "telephone_number":"89409820"
-          }
-        })
-        console.log('done inv')
+//   const newInvestor = await axios({
+//           method:'post',
+//           url: 'http://localhost:3000/api/Investor',
+//           headers:{},
+//           data:{
+//             "FirstName": "shouuu",
+//             "MiddleName":"mou",
+//             "LastName":"fayez",
+//             "email": "mour@gmail.com",
+//             "ID_type":"regular",
+//             "SSID" :"930240219012394",
+//             "Nationality":"Egyptian",
+//             "gender":"female",
+//             "Type":"pass",
+//            "Address":"3489ihkbnknwe",
+//            "telephone_number":"89409820"
+//           }
+//         })
+//         console.log('done inv')
 
 
   
   
 
-   const newR = await axios({
-           method:'post',
-           url: 'http://localhost:3000/api/Reviewer',
-           headers:{},
-           data:{
-            "FName": "Rjjjj",
-            "MName": "Ramremo",
-            "LName": "Gamd",
-            "email": "frooo@gmail.com",
-            "password": "cnjdqqjn151215'",
-            "gender": "Male",
-            "Nationality": "Egyptian",
-            "birthdate": "1980-01-01T00:00:00.000Z",
-            "Address": "11 makram",
-            "fax": 125252,
-            "telephone_number": 151515,
-            "completed_number_of_cases": 561,
-            "number_of_cases": 2,
-            "total_time_on_cases": 25,
-            "ssid": 15552,
-            "notifications": [],
-            "ratings": []
-   }
- })
- const idR=newR.data.data._id
- console.log(idR)
+//    const newR = await axios({
+//            method:'post',
+//            url: 'http://localhost:3000/api/Reviewer',
+//            headers:{},
+//            data:{
+//             "FName": "Rjjjj",
+//             "MName": "Ramremo",
+//             "LName": "Gamd",
+//             "email": "frooo@gmail.com",
+//             "password": "cnjdqqjn151215'",
+//             "gender": "Male",
+//             "Nationality": "Egyptian",
+//             "birthdate": "1980-01-01T00:00:00.000Z",
+//             "Address": "11 makram",
+//             "fax": 125252,
+//             "telephone_number": 151515,
+//             "completed_number_of_cases": 561,
+//             "number_of_cases": 2,
+//             "total_time_on_cases": 25,
+//             "ssid": 15552,
+//             "notifications": [],
+//             "ratings": []
+//    }
+//  })
+//  const idR=newR.data.data._id
+//  console.log(idR)
 
 
-const newC = await axios({
-        method:'post',
-        url: 'http://localhost:3000/api/Cases',
-        headers:{},
-        data:{
-          "form_type": "SPC",
-          "regulated_law": "44",
-          "arabic_name": "اححنت",
-          "english_name": "lkkkko6",
-          "government": "ENG",
-          "city": "Cairo",
-          "hq_address": "gftfy",
-          "hq_city": "yes",
-          "main_center_phone": 123515,
-          "main_center_fax": 518879563,
-          "currency": "541",
-          "equality_capital": 150000,
-          "managers": [],
+// const newC = await axios({
+//         method:'post',
+//         url: 'http://localhost:3000/api/Cases',
+//         headers:{},
+//         data:{
+//           "form_type": "SPC",
+//           "regulated_law": "44",
+//           "arabic_name": "اححنت",
+//           "english_name": "lkkkko6",
+//           "government": "ENG",
+//           "city": "Cairo",
+//           "hq_address": "gftfy",
+//           "hq_city": "yes",
+//           "main_center_phone": 123515,
+//           "main_center_fax": 518879563,
+//           "currency": "541",
+//           "equality_capital": 150000,
+//           "managers": [],
 
-          "caseStatus": "published",
-          "investorID": newInvestor.data.data._id,
-          "log": []
-        }
-      })
+//           "caseStatus": "published",
+//           "investorID": newInvestor.data.data._id,
+//           "log": []
+//         }
+//       })
 
-      const idC = newC.data.data._id
-      console.log(idC)
+//       const idC = newC.data.data._id
+//       console.log(idC)
 
-  const msg = await adminFunctions.AdminAssignReviewer(idR,idC)
-    expect(msg).toEqual('Please select a valid reviewer')
+//   const msg = await adminFunctions.AdminAssignReviewer(idR,idC)
+//     expect(msg).toEqual('Please select a valid reviewer')
 
-    const delReviewer = await axios({
-           method:'delete',
-            url: 'http://localhost:3000/api/Reviewer/'+ idR,
+//     const delReviewer = await axios({
+//            method:'delete',
+//             url: 'http://localhost:3000/api/Reviewer/'+ idR,
             
-           })
+//            })
   
-          const delC = await axios({
-            method:'delete',
-            url: 'http://localhost:3000/api/Cases/'+ idC,
+//           const delC = await axios({
+//             method:'delete',
+//             url: 'http://localhost:3000/api/Cases/'+ idC,
 
-           })
-
-});
-
-
-
-
-
-
-
-
-
-
-// test('Admin assign lawyer' ,async() => {
-//   const msg = await adminFunctions.AdminAssignLawyer('5c93e4ae5b66b31668f0e28c','5c9e4dc358415c34a0f35cd1')
-//     expect(msg).toEqual('Please select a valid lawyer')
-
-// });
-
-// test('Admin assign Reviewer' ,async() => {
-//   const msg = await adminFunctions.AdminAssignReviewer('5c93e4ae5b66b31668f0e28c','5ca1144729dfee2fd0a6033a')
-//     expect(msg).toEqual('Case updated successfully')
-
-// });
-
-// test('Admin assign Reviewer' ,async() => {
-//   const msg = await adminFunctions.AdminAssignReviewer('5c93e4ae5b66b31668f0e28c','5c9e4dc35841545c34a0f35cd1')
-//     expect(msg).toEqual('Please select a valid Reviewer')
+//            })
 
 // });
 
@@ -853,195 +826,195 @@ test(`send attachment with an invalid mail`, async () => {
 
 //====================================================================================
 
-//   //Investor tests
-//   test(`paying fees for a company with valid card`, async () => {
-//     const charge =  await investorFunctions.InvestorPayFees(4242424242424242,12,19,121)
-//     expect(charge.data.message).toEqual
-//     ('your payment has been made; you will receive an invoice via your mail.' )
-//   });
+  //Investor tests
+  test(`paying fees for a company with valid card`, async () => {
+    const charge =  await investorFunctions.InvestorPayFees(4242424242424242,12,19,121)
+    expect(charge.data.message).toEqual
+    ('your payment has been made; you will receive an invoice via your mail.' )
+  });
 
-//   test(`paying fees for a company with expired card`, async () => {
-//     const charge =  await investorFunctions.InvestorPayFees(4242424242424242,1,19,121)
-//     //console.log(charge)
-//     expect(charge.data.message).toEqual
-//     ('card declined' )
-//   });
+  test(`paying fees for a company with expired card`, async () => {
+    const charge =  await investorFunctions.InvestorPayFees(4242424242424242,1,19,121)
+    //console.log(charge)
+    expect(charge.data.message).toEqual
+    ('card declined' )
+  });
 
-//   test('Investor view his fees', async () => {
-//     const Case= await investorFunctions.InvestorViewFees('5c9512ba8aba002578c01ad6')
-//     expect(Case.data.msg).toEqual('This is your fees')
-//   })
+  test('Investor view his fees', async () => {
+    const Case= await investorFunctions.InvestorViewFees('5c9512ba8aba002578c01ad6')
+    expect(Case.data.msg).toEqual('This is your fees')
+  })
 
-//   test('Investor view his fees giving a wrong id', async () => {
-//     const Case= await investorFunctions.InvestorViewFees('5c9512ba8aba002578c01a')
-//     expect(Case.data.msg).toEqual('Cannot find company')
-//   })
-
-  
-
-// test ('View notification of an investor with an invalid ID', async () => {
-//   var validInvestorID = "x"
-//   //expect.assertions(1)
-//   try {
-//     const response = await Investor.investorMyNotifications(validInvestorID)
-//   } catch (e) {
-//    // console.log(e.response.data)
-//     expect(e.response.data.error).toMatch('Error processing query.');
-//   }
-  
-// })
-
-// test ('View pending companies of an investor', async () => {
-//   var validInvestorID = "5c7a9b46470a360ac8b0d412"
-//   //expect.assertions(1)
-//     const response = await Investor.viewMyPendingCompanies(validInvestorID)
-//     //console.log(response)
-//     expect(response.data.msg).toEqual('Done')
+  test('Investor view his fees giving a wrong id', async () => {
+    const Case= await investorFunctions.InvestorViewFees('5c9512ba8aba002578c01a')
+    expect(Case.data.msg).toEqual('Cannot find company')
+  })
 
   
-// })
 
-// test ('View pending companies of an investor with an invalid ID', async () => {
-//   var validInvestorID = "x"
-//   //expect.assertions(1)
-//   try {
-//     const response = await Investor.viewMyPendingCompanies(validInvestorID)
-//   } catch (e) {
-//     //console.log(e.response.data)
-//     expect(e.response.data.error).toMatch('Error processing query.');
-//   }
+test ('View notification of an investor with an invalid ID', async () => {
+  var validInvestorID = "x"
+  //expect.assertions(1)
+  try {
+    const response = await Investor.investorMyNotifications(validInvestorID)
+  } catch (e) {
+   // console.log(e.response.data)
+    expect(e.response.data.error).toMatch('Error processing query.');
+  }
   
-// })
+})
 
-// test(`Editing company that does not exist`, async () => {
-//   const company = await adminFunctions.AdminEditCompany('5c9502b9d2e00c0bc7a')
-//   expect(company.data.message).toEqual('This id is not valid a company.')
-// });
+test ('View pending companies of an investor', async () => {
+  var validInvestorID = "5c7a9b46470a360ac8b0d412"
+  //expect.assertions(1)
+    const response = await Investor.viewMyPendingCompanies(validInvestorID)
+    //console.log(response)
+    expect(response.data.msg).toEqual('Done')
 
-// //Investor tests
-// test(`paying fees for a company with valid card`, async () => {
-//   const charge = await investorFunctions.InvestorPayFees(4242424242424242, 12, 19, 121)
+  
+})
+
+test ('View pending companies of an investor with an invalid ID', async () => {
+  var validInvestorID = "x"
+  //expect.assertions(1)
+  try {
+    const response = await Investor.viewMyPendingCompanies(validInvestorID)
+  } catch (e) {
+    //console.log(e.response.data)
+    expect(e.response.data.error).toMatch('Error processing query.');
+  }
+  
+})
+
+test(`Editing company that does not exist`, async () => {
+  const company = await adminFunctions.AdminEditCompany('5c9502b9d2e00c0bc7a')
+  expect(company.data.message).toEqual('This id is not valid a company.')
+});
+
+//Investor tests
+test(`paying fees for a company with valid card`, async () => {
+  const charge = await investorFunctions.InvestorPayFees(4242424242424242, 12, 19, 121)
+  expect(charge.data.message).toEqual
+    ('your payment has been made; you will receive an invoice via your mail.')
+});
+
+// test(`paying fees for a company with expired card`, async () => {
+//   const charge =  await investorFunctions.InvestorPayFees(4242424242424242,1,19,121)
 //   expect(charge.data.message).toEqual
-//     ('your payment has been made; you will receive an invoice via your mail.')
+//   ('card declined' )
 // });
 
-// // test(`paying fees for a company with expired card`, async () => {
-// //   const charge =  await investorFunctions.InvestorPayFees(4242424242424242,1,19,121)
-// //   expect(charge.data.message).toEqual
-// //   ('card declined' )
-// // });
-
-// //====================Hemaya tests===========================================================
-// test(`Unregister view questions`, async () => {
-//   const ques = await userFunctions.UnregisterViewQuestions()
-//   expect(ques.data.data[0].question).toEqual('do you?')
-// });
+//====================Hemaya tests===========================================================
+test(`Unregister view questions`, async () => {
+  const ques = await userFunctions.UnregisterViewQuestions()
+  expect(ques.data.data[0].question).toEqual('do you?')
+});
 
 
-// test(`Admin register reviewer with email already exists`, async () => {
-//   // await Lawyer.create(data)
-//   try {
-//     const ques = await adminFunctions.AdminRegisterReviewer()
-//     expect(ques.data.error).toEqual('Email already exists')
-//   }
-//   catch (e) {
-//     expect(e.response.data.error).toEqual("Email already exists")
-//   }
-// });
+test(`Admin register reviewer with email already exists`, async () => {
+  // await Lawyer.create(data)
+  try {
+    const ques = await adminFunctions.AdminRegisterReviewer()
+    expect(ques.data.error).toEqual('Email already exists')
+  }
+  catch (e) {
+    expect(e.response.data.error).toEqual("Email already exists")
+  }
+});
 
-// test(`Admin register lawyer with email already exists`, async () => {
-//   // await Lawyer.create(data)
-//   try {
-//     const ques = await adminFunctions.AdminRegisterLawyer()
-//     expect(ques.data.error).toEqual('Email already exists')
-//   } catch (e) {
-//     expect(e.response.data.error).toEqual("Email already exists")
-//   }
-// });
+test(`Admin register lawyer with email already exists`, async () => {
+  // await Lawyer.create(data)
+  try {
+    const ques = await adminFunctions.AdminRegisterLawyer()
+    expect(ques.data.error).toEqual('Email already exists')
+  } catch (e) {
+    expect(e.response.data.error).toEqual("Email already exists")
+  }
+});
 
-// test(`Admin register reviewer successfully`, async () => {
+test(`Admin register reviewer successfully`, async () => {
 
-//   // await Lawyer.create(data)
-//   const ques = await adminFunctions.AdminRegisterReviewerSuccessfully();
-//   expect(ques.data.msg).toEqual('Reviewer was created successfully')
-//   // var query = { email: "new_emaill@gmail.com" }
-//   // await Reviewer.findOneAndRemove(query)
-// });
-// test(`Admin register lawyer successfully`, async () => {
+  // await Lawyer.create(data)
+  const ques = await adminFunctions.AdminRegisterReviewerSuccessfully();
+  expect(ques.data.msg).toEqual('Reviewer was created successfully')
+  // var query = { email: "new_emaill@gmail.com" }
+  // await Reviewer.findOneAndRemove(query)
+});
+test(`Admin register lawyer successfully`, async () => {
 
-//   // await Lawyer.create(data)
-//   const ques = await adminFunctions.AdminRegisterLawyerSuccessfully();
-//   expect(ques.data.msg).toEqual('Lawyer was created successfully')
-//   // var query = { email: "new_emaill@gmail.com" }
-//   // await Lawyer.findOneAndRemove(query)
-// });
-// test(`Admin register Admin with email already exists`, async () => {
-//   // await Lawyer.create(data)
-//   try {
-//     const ques = await adminFunctions.AdminRegisterAdmin()
-//     expect(ques.data.error).toEqual('Email already exists')
-//   } catch (e) {
-//     expect(e.response.data.error).toEqual("Email already exists")
-//   }
-// })
+  // await Lawyer.create(data)
+  const ques = await adminFunctions.AdminRegisterLawyerSuccessfully();
+  expect(ques.data.msg).toEqual('Lawyer was created successfully')
+  // var query = { email: "new_emaill@gmail.com" }
+  // await Lawyer.findOneAndRemove(query)
+});
+test(`Admin register Admin with email already exists`, async () => {
+  // await Lawyer.create(data)
+  try {
+    const ques = await adminFunctions.AdminRegisterAdmin()
+    expect(ques.data.error).toEqual('Email already exists')
+  } catch (e) {
+    expect(e.response.data.error).toEqual("Email already exists")
+  }
+})
 
-// test(`Admin register Admin with type not admin`, async () => {
-//   // await Lawyer.create(data)
+test(`Admin register Admin with type not admin`, async () => {
+  // await Lawyer.create(data)
 
-//   try {
-//     const ques = await adminFunctions.AdminRegisterAdminType()
-//     expect(ques.data.error).toEqual('Email already exists')
-//   } catch (e) {
-//     expect(e.response.data.error).toEqual("Type should be only Admin")
-//   }
-// })
+  try {
+    const ques = await adminFunctions.AdminRegisterAdminType()
+    expect(ques.data.error).toEqual('Email already exists')
+  } catch (e) {
+    expect(e.response.data.error).toEqual("Type should be only Admin")
+  }
+})
 
-// test(`Admin register Admin successfully`, async () => {
-//   // await Lawyer.create(data)
+test(`Admin register Admin successfully`, async () => {
+  // await Lawyer.create(data)
 
-//     const ques = await adminFunctions.AdminRegisterAdminSuccessfully()
-//     expect(ques.data.msg).toEqual('Admin was created successfully')
-// })
-
-
-// test(`Admin delete Investor not exist`, async () => {
-//   // await Lawyer.create(data)
-//   try {
-//     const ques = await adminFunctions.AdminDeleteInvestorNot()
-//     expect(ques.data.error).toEqual('Email already exists')
-//   } catch (e) {
-//     expect(e.response.data.error).toEqual("Can not find Investor")
-//   }
-// })
+    const ques = await adminFunctions.AdminRegisterAdminSuccessfully()
+    expect(ques.data.msg).toEqual('Admin was created successfully')
+})
 
 
-// test(`Admin delete Investor successfully`, async () => {
-//   // await Lawyer.create(data)
+test(`Admin delete Investor not exist`, async () => {
+  // await Lawyer.create(data)
+  try {
+    const ques = await adminFunctions.AdminDeleteInvestorNot()
+    expect(ques.data.error).toEqual('Email already exists')
+  } catch (e) {
+    expect(e.response.data.error).toEqual("Can not find Investor")
+  }
+})
 
-//     const ques = await adminFunctions.AdminDeleteInvestor()
-//     expect(ques.data.msg).toEqual('Investor deleted successfully')
-// })
+
+test(`Admin delete Investor successfully`, async () => {
+  // await Lawyer.create(data)
+
+    const ques = await adminFunctions.AdminDeleteInvestor()
+    expect(ques.data.msg).toEqual('Investor deleted successfully')
+})
 
 
-// test ('generate a PDF with a valid ID', async () => {
-//   var validCaseID = "5c9cfd1d05f1d42e68b75fb7"
-//   //expect.assertions(1)
-//     const response = await Investor.generatePdf(validCaseID)
-//     //console.log(response)
-//     expect(response.data.msg).toEqual('Done')
+test ('generate a PDF with a valid ID', async () => {
+  var validCaseID = "5c9cfd1d05f1d42e68b75fb7"
+  //expect.assertions(1)
+    const response = await Investor.generatePdf(validCaseID)
+    //console.log(response)
+    expect(response.data.msg).toEqual('Done')
 
   
-// })
+})
 
-// test ('generate a PDF with a invalid ID', async () => {
-//   jest.setTimeout(30000)
-//   var validCaseID = "x"
-//   //expect.assertions(1)
-//   try {
-//     const response = await Investor.generatePdf(validCaseID)
-//   } catch (e) {
-//     //console.log(e.response.data)
-//     expect(e.response.data.error).toMatch('Error processing query.');
-//   }
+test ('generate a PDF with a invalid ID', async () => {
+  jest.setTimeout(30000)
+  var validCaseID = "x"
+  //expect.assertions(1)
+  try {
+    const response = await Investor.generatePdf(validCaseID)
+  } catch (e) {
+    //console.log(e.response.data)
+    expect(e.response.data.error).toMatch('Error processing query.');
+  }
   
-// })
+})
