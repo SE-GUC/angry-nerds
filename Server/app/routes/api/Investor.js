@@ -51,8 +51,12 @@ router.post('/register', async (req, res) => {
             telephone_number, gender, photoID } = req.body
     
     const user = await Investor.findOne({ email })
+    console.log(user)
     if (user)
+    {
+        console.log('error')
         return res.status(400).json({ error: 'Email already exists' })
+    }
     else{
         const salt = bcrypt.genSaltSync(10); 
 		         const hashPass = bcrypt.hashSync(password, salt); // hashing the password which is already saved in tempUser before saved in investor table

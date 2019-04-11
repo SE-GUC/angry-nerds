@@ -342,14 +342,14 @@ MailResetPassword : async (token,password) => {
     });
     return cases.data.msg
   },
-  CheckFroms: async () => {
-    const form = await axios({
-      method: 'put',
+  CheckForms: async (data) => {
+    const form = await axios({      
+      method: 'post',
       url: 'http://localhost:3000/api/Cases',
       headers: {},
       data: {
-        investorId: "5c77c2b0c5973856f492f33e",
-        form_type: "SSC"
+        // investorId: "5c77c2b0c5973856f492f33e",
+        // form_type: "SSC"
       }
     });
     return form

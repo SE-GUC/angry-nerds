@@ -5,6 +5,8 @@ const userFunctions = require('./tests/userFunctions')
 const Lawyer = require('./app/models/Lawyer')
 const Question = require('./app/models/Questions')
 const Reviewer = require('./app/models/Reviewer')
+const axios = require('axios');
+axios.defaults.adapter = require ('axios/lib/adapters/http')
 jest.setTimeout(30000)
 const axios = require('axios');
 axios.defaults.adapter = require ('axios/lib/adapters/http')
@@ -223,7 +225,7 @@ test('Reset password with valid token', async () => {
 // });
 
 
-// ///////////////////
+
 
 
 
@@ -482,49 +484,420 @@ test('Reset password with valid token', async () => {
    
 //   // })
 
+  
+ //==========================MONICA==========================
+  
+//TESTING CHECK FORM
+
+    test('successful form' , async() => {
+
+        const newInvestor = await axios({
+          method:'post',
+          url: 'http://localhost:3000/api/Investor',
+          headers:{},
+          data:{
+            "FirstName": "gegegegeg",
+            "MiddleName":"gogggggg",
+            "LastName":"fay",
+            "email": "hehehhehe.achrwwwf@gma.com",
+            "ID_type":"regular",
+            "SSID" :"930240219012394",
+            "Nationality":"egy",
+            "gender":"female",
+            "Type":"pass",
+           "Address":"3489ihkbnke",
+           "telephone_number":"894094820"
+          }
+        })
+        
+       
+        
+        const idI = newInvestor.data.data._id
+        console.log(idI)
+        
+
+        const newC = await axios({
+          method:'post',
+          url: 'http://localhost:3000/api/Cases',
+          headers:{},
+          data:{
+            "form_type": "SPC",
+            "regulated_law": "44",
+            "arabic_name": "ققتت",
+            "english_name": "Hooo",
+            "government": "ENG",
+            "city": "Cairo",
+            "hq_address": "gftfy",
+            "hq_city": "yes",
+            "main_center_phone": 123,
+            "main_center_fax": 518563,
+            "currency": "541",
+            "equality_capital": 150000,
+            "managers": [],
+            "caseStatus": "published",
+            "investorID": idI,
+            "log": []
+          }
+        })
+       const cr1 = newC.data.data._id
+      console.log(cr1)
+        
+
+     
+  //console.log(newC)
+        expect(newC.data.msg).toEqual('Case was created successfully')
+        console.log('done testc')
+
+
+        const delC = await axios({
+          method:'delete',
+          url: 'http://localhost:3000/api/Cases/'+ cr1,
+         
+        })
+
+        const delInvestor = await axios({
+          method:'delete',
+          url: 'http://localhost:3000/api/Investor/'+ idI,
+          
+        })
+
+
+      })
 
 
 
+
+//testing for checkForms 
+
+      test('unsuccessful form' , async() => {
+
+        const newInvestor = await axios({
+          method:'post',
+          url: 'http://localhost:3000/api/Investor',
+          headers:{},
+          data:{
+            "FirstName": "gegegege",
+            "MiddleName":"gogoloulo",
+            "LastName":"fay",
+            "email": "hehehee.achwwf@gma.com",
+            "ID_type":"regular",
+            "SSID" :"930240219012394",
+            "Nationality":"french",
+            "gender":"female",
+            "Type":"pass",
+           "Address":"3489ihkbnke",
+           "telephone_number":"894094820"
+          }
+        })
+        
+       
+        
+        const idI = newInvestor.data.data._id
+        console.log(idI)
+
+
+        const newC = await axios({
+          method:'post',
+          url: 'http://localhost:3000/api/Cases',
+          headers:{},
+          data:{
+            "form_type": "SPC",
+            "regulated_law": "44",
+            "arabic_name": "قتخججت",
+            "english_name": "KKKoo",
+            "government": "ENG",
+            "city": "Cairo",
+            "hq_address": "gftfy",
+            "hq_city": "yes",
+            "main_center_phone": 1236,
+            "main_center_fax": 518563,
+            "currency": "541",
+            "equality_capital": 150000,
+            "managers": [],
+            "caseStatus": "published",
+            "investorID": idI,
+            "managers": [
+              {
+                  "_id": "5cad6203dc92d028730630fe",
+                  "name": "Paul"
+              }
+          ],
+            "log": []
+          }
+        })
+const cr1 = newC.data.data._id
+console.log(cr1)
+        
+
+     
+  //console.log(newC)
+        expect(newC.data.msg).toEqual('Could not create case')
+        console.log('done testc')
+
+        const delInvestor = await axios({
+          method:'delete',
+          url: 'http://localhost:3000/api/Investor/'+ idI,
+          
+        })
+
+
+      })
+
+
+
+
+//test not functionning because we removed the attribute 'lawyerId' from case schema//PLEASE leave it
 
 // test('Admin assign lawyer' ,async() => {
-//   const msg = await adminFunctions.AdminAssignLawyer('5c93e4ae5b66b31668f0e28c','5c9e4dc353415c34a0f35cd1')
-//     expect(msg).toEqual('Case updated successfully')
 
-// });
+ 
+//   const newInvestor = await axios({
+//           method:'post',
+//           url: 'http://localhost:3000/api/Investor',
+//           headers:{},
+//           data:{
+//             "FirstName": "gee",
+//             "MiddleName":"mourad",
+//             "LastName":"fayez",
+//             "email": "mouradd@gmail.com",
+//             "ID_type":"regular",
+//             "SSID" :"930240219012394",
+//             "Nationality":"Egyptian",
+//             "gender":"female",
+//             "Type":"pass",
+//            "Address":"3489ihkbnknwe",
+//            "telephone_number":"89409820"
+//           }
+//         })
+//         console.log('done inv')
 
-// test('Admin assign lawyer' ,async() => {
-//   const msg = await adminFunctions.AdminAssignLawyer('5c93e4ae5b66b31668f0e28c','5c9e4dc358415c34a0f35cd1')
+
+  
+  
+
+//    const newL = await axios({
+//            method:'post',
+//            url: 'http://localhost:3000/api/Lawyer',
+//            headers:{},
+//            data:{
+//             "FName": "R",
+//             "MName": "Ramremo",
+//             "LName": "Gamd",
+//             "email": "fr@gmail.com",
+//             "password": "cnjdqqcrjcsjn151215'",
+//             "gender": "Male",
+//             "Nationality": "Egyptian",
+//             "birthdate": "1980-01-01T00:00:00.000Z",
+//             "Address": "11 makram",
+//             "fax": 125252,
+//             "telephone_number": 151515,
+//             "completed_number_of_cases": 561,
+//             "number_of_cases": 2,
+//             "total_time_on_cases": 25,
+//             "ssid": 15552,
+//             "notifications": [],
+//             "ratings": []
+//    }
+//  })
+//  const idL=newL.data.data._id
+//  console.log(idL)
+
+
+// const newC = await axios({
+//         method:'post',
+//         url: 'http://localhost:3000/api/Cases',
+//         headers:{},
+//         data:{
+//           "form_type": "SPC",
+//           "regulated_law": "44",
+//           "arabic_name": "اححححنت",
+//           "english_name": "lo6",
+//           "government": "ENG",
+//           "city": "Cairo",
+//           "hq_address": "gftfy",
+//           "hq_city": "yes",
+//           "main_center_phone": 123515,
+//           "main_center_fax": 518563,
+//           "currency": "541",
+//           "equality_capital": 150000,
+//           "managers": [],
+//           "caseStatus": "published",
+//           "investorID": newInvestor.data.data._id,
+//           "log": []
+//         }
+//       })
+
+//       const idC = newC.data.data._id
+//       console.log(idC)
+
+//   const msg = await adminFunctions.AdminAssignLawyer(idL,idC)
 //     expect(msg).toEqual('Please select a valid lawyer')
 
+//     const delLawyer = await axios({
+//            method:'delete',
+//             url: 'http://localhost:3000/api/Lawyer/'+ idL,
+            
+//            })
+  
+//           const delC = await axios({
+//             method:'delete',
+//             url: 'http://localhost:3000/api/Cases/'+ idC,
+
+//            })
+
 // });
+
+
+
+//test not functionning because we removed the attribute 'reviewerId' from case schema//PLEASE leave it
 
 // test('Admin assign Reviewer' ,async() => {
-//   const msg = await adminFunctions.AdminAssignReviewer('5c93e4ae5b66b31668f0e28c','5ca1144729dfee2fd0a6033a')
-//     expect(msg).toEqual('Case updated successfully')
+
+ 
+//   const newInvestor = await axios({
+//           method:'post',
+//           url: 'http://localhost:3000/api/Investor',
+//           headers:{},
+//           data:{
+//             "FirstName": "shouuu",
+//             "MiddleName":"mou",
+//             "LastName":"fayez",
+//             "email": "mour@gmail.com",
+//             "ID_type":"regular",
+//             "SSID" :"930240219012394",
+//             "Nationality":"Egyptian",
+//             "gender":"female",
+//             "Type":"pass",
+//            "Address":"3489ihkbnknwe",
+//            "telephone_number":"89409820"
+//           }
+//         })
+//         console.log('done inv')
+
+
+  
+  
+
+//    const newR = await axios({
+//            method:'post',
+//            url: 'http://localhost:3000/api/Reviewer',
+//            headers:{},
+//            data:{
+//             "FName": "Rjjjj",
+//             "MName": "Ramremo",
+//             "LName": "Gamd",
+//             "email": "frooo@gmail.com",
+//             "password": "cnjdqqjn151215'",
+//             "gender": "Male",
+//             "Nationality": "Egyptian",
+//             "birthdate": "1980-01-01T00:00:00.000Z",
+//             "Address": "11 makram",
+//             "fax": 125252,
+//             "telephone_number": 151515,
+//             "completed_number_of_cases": 561,
+//             "number_of_cases": 2,
+//             "total_time_on_cases": 25,
+//             "ssid": 15552,
+//             "notifications": [],
+//             "ratings": []
+//    }
+//  })
+//  const idR=newR.data.data._id
+//  console.log(idR)
+
+
+// const newC = await axios({
+//         method:'post',
+//         url: 'http://localhost:3000/api/Cases',
+//         headers:{},
+//         data:{
+//           "form_type": "SPC",
+//           "regulated_law": "44",
+//           "arabic_name": "اححنت",
+//           "english_name": "lkkkko6",
+//           "government": "ENG",
+//           "city": "Cairo",
+//           "hq_address": "gftfy",
+//           "hq_city": "yes",
+//           "main_center_phone": 123515,
+//           "main_center_fax": 518879563,
+//           "currency": "541",
+//           "equality_capital": 150000,
+//           "managers": [],
+
+//           "caseStatus": "published",
+//           "investorID": newInvestor.data.data._id,
+//           "log": []
+//         }
+//       })
+
+//       const idC = newC.data.data._id
+//       console.log(idC)
+
+//   const msg = await adminFunctions.AdminAssignReviewer(idR,idC)
+//     expect(msg).toEqual('Please select a valid reviewer')
+
+//     const delReviewer = await axios({
+//            method:'delete',
+//             url: 'http://localhost:3000/api/Reviewer/'+ idR,
+            
+//            })
+  
+//           const delC = await axios({
+//             method:'delete',
+//             url: 'http://localhost:3000/api/Cases/'+ idC,
+
+//            })
 
 // });
 
-// test('Admin assign Reviewer' ,async() => {
-//   const msg = await adminFunctions.AdminAssignReviewer('5c93e4ae5b66b31668f0e28c','5c9e4dc35841545c34a0f35cd1')
-//     expect(msg).toEqual('Please select a valid Reviewer')
-
-// });
 
 
-// test(`send attachment with a valid mail`, async () => {
-//   const msg = await adminFunctions.SendAttachmentMail('monica.achraff@gmail.com')
-//   expect(msg).toEqual('Please check your email')
-// });
+//testing sending attachement
+test(`send attachment with a valid mail`, async () => {
+  const newInvestor = await axios({
+    method:'post',
+    url: 'http://localhost:3000/api/Investor',
+    headers:{},
+    data:{
+      "FirstName": "shouuu",
+      "MiddleName":"moumou",
+      "LastName":"fayez",
+      "email": "moumou@gmail.com",
+      "ID_type":"regular",
+      "SSID" :"930240219012394",
+      "Nationality":"Egyptian",
+      "gender":"female",
+      "Type":"pass",
+     "Address":"3489ihkbnknwe",
+     "telephone_number":"89409820"
+    }
+  })
+  console.log(newInvestor.data.data.email)
+  const msg = await adminFunctions.SendAttachmentMail(newInvestor.data.data.email)
+  expect(msg).toEqual('Please check your email')
+
+
+  const delReviewer = await axios({
+              method:'delete',
+                url: 'http://localhost:3000/api/Investor/'+ newInvestor.data.data._id,
+                
+               })
+ });
 
 
 
-// test(`send attachment with an invalid mail`, async () => {
-//   const msg = await adminFunctions.SendAttachmentMail('wrong_mail@gmail.com')
-//   console.log(msg)
-//   expect(msg).toEqual('Incorrect Mail')
-// });
 
 
+ //testing sending attachement
+test(`send attachment with an invalid mail`, async () => {
+  const email = 'wrong_mail@gmail.com'
+  const msg = await adminFunctions.SendAttachmentMail(email)
+ 
+  expect(msg).toEqual('Incorrect Mail')
+});
+
+//====================================================================================
 
 //   //Investor tests
 //   test(`paying fees for a company with valid card`, async () => {
