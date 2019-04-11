@@ -44,8 +44,8 @@ let LawyerController = {
    *  case={
    *      //case information
    *  }
-   * }
-   */
+   * }*/
+   
   lawyerFillForm: async (req, res) => {
     try {
       const id = "5c9f69180ec7b72d689dba6d"; //From Token
@@ -56,13 +56,13 @@ let LawyerController = {
           .status(404)
           .send({ error: "You are not allowed to fill this form" });
 
-      const userID = await LawyerController.lawyerRegisterInvestor(
+      /*const userID = await LawyerController.lawyerRegisterInvestor(
         req.body.investor
-      );
+      );*/
 
-      const newForm = await Case.create(req.body.case);
+      const newForm = await Case.create(req.body);
       const casecreated = await Case.findByIdAndUpdate(newForm._id, {
-        investorID: userID,
+       // investorID: userID,
         caseStatus: "reviewer",
         walk_in: true,
         locked: false,
@@ -114,9 +114,9 @@ let LawyerController = {
 
   lawyerViewComment: async (req, res) => {
     try {
-      // const formid = '5c9cfd1d05f1d42e68b75fb7'
+      const caseID = '5caea6d0656a5b5b52c79e9f'
       const lawyerID = "5c9f69180ec7b72d689dba6d"; //from Token
-      const caseID = req.params.caseID;
+      //const caseID = req.params.caseID;
 
       const lawyer = await Lawyer.findById(lawyerID);
       const c = await Case.findById(caseID);
@@ -127,7 +127,7 @@ let LawyerController = {
             "You are not allowed to view this comment, You are not a lawyer"
         });
 
-      return res.json({ data: form.comment  });
+      return res.json({ data: c.comment });
     } catch (error) {
       console.log(error);
       return res.status(404).send({ error: "Comment cant be viewed" });
