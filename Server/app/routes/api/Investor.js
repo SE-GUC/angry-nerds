@@ -32,8 +32,8 @@ router.get('/:id', async (req, res) => {
 
 router.post('/', async (req, res) => {
     try {
-        const isValidated = validator.createValidation(req.body)
-        if (isValidated.error) return res.status(400).send({ error: isValidated.error.details[0].message })
+        // const isValidated = validator.createValidation(req.body)
+        // if (isValidated.error) return res.status(400).send({ error: isValidated.error.details[0].message })
         const newInvestor = await Investor.create(req.body)
         res.json({ msg: 'Investor was created successfully', data: newInvestor })
     }
@@ -44,7 +44,7 @@ router.post('/', async (req, res) => {
     }
 })
 
-
+//under developement... sign up with jwt
 router.post('/register', async (req, res) => {
     const { firstName ,MiddleName,LastName,email,password,
             ID_type,SSID, Nationality,Type,Address, birthdate,

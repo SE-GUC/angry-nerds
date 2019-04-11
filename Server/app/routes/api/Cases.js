@@ -293,6 +293,7 @@ global.debt72 = 6
 
 // show case
 router.get('/', async (req, res) => {
+    console.log('Im heeeeree')
     try {
     const Cases = await Case.find()
     res.json({ data: Cases })
@@ -425,8 +426,8 @@ router.put('/:id', async (req, res) => {
      }
      else {
           const updatedCase = await Case.findByIdAndUpdate(id, req.body)
-          res.json({ msg: 'Case updated successfully', data: updatedCase })
-     }
+          return res.json({ msg: 'Case updated successfully', data: updatedCase })
+    }
     
     }
     catch (error) {
@@ -676,14 +677,14 @@ router.put('/system_assign_lawyer/:caseId', async (req, res) => {
 
 })
 CheckForms = async function (data) {
-    var query = { $and: [ { _id: data.investorID }, { form_type: 'SSC' } ] }
+    console.log('Im heree')
+    var query = { $and: [ { investorID : data.investorID }, { form_type: 'SSC' } ] }
     
     const AllCases = await Case.find(query)
     const inv = await Investor.findById(data.investorID)
 
     const error = {}
-    
-    //console.log(AllCases)
+    console.log(AllCases)
 
     if (data.form_type === 'SSC') {
         if (data.equality_capital < 50000) {
@@ -698,7 +699,7 @@ CheckForms = async function (data) {
         var a2 = false
 
         for (i = 0; i < data.managers.length; i++) { 
-          if (data.managers[i].nationallity === 'Egyptian')
+          if (data.managers[i].Nationality === 'Egyptian')
               a2 = true  
               console.log('here')
         }
@@ -709,8 +710,8 @@ CheckForms = async function (data) {
         }
     }      
       
-            if (AllCases) {
-          console.log('1 Investor can only have 1 SSC company')
+        if (AllCases.length !== 0) {
+          console.log(' 1 Investor can only have 1 SSC company')
           error.general = ' 1 Investor can only have 1 SSC company'
           //return -1;
     
@@ -719,8 +720,6 @@ CheckForms = async function (data) {
             return error;
         else    
             return 'Done'    
-
-        //return 5;
        
     }
 
@@ -732,7 +731,8 @@ CheckForms = async function (data) {
             if (data.equality_capital < 100000) {
                 console.log('Capital must be greater than 100000')
                 error.equality_capital = 'Capital must be greater than 100000'
-               // return -1;
+
+                //return -1;
             }
     
             if (data.managers.length > 0) {
@@ -743,13 +743,11 @@ CheckForms = async function (data) {
         }
         
     }
-
+     
     if(Object.keys(error).length !== 0)
-    return error;
-else    
-    return 'Done' 
-
-//    return 5;
+            return error;
+        else    
+            return 'Done' 
 }
 
 

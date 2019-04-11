@@ -13,8 +13,6 @@ const methodOverride = require('method-override'); //
 const router = express.Router()
 
 
-
-
 // Require Router Handlers
 const investor = require('./app/routes/api/Investor')
 const lawyer = require('./app/routes/api/Lawyer')
