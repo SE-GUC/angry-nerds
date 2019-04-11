@@ -21,8 +21,8 @@ router.put('/InvestorEditProfile',InvestorController.InvestorEditProfile)
 router.get('/InvestorViewFees', InvestorController.InvestorViewFees)
 router.put('/InvestorChangePassword/:id',InvestorController.investorChangePassword)
 router.get('/InvestorMyNotifications/:id',InvestorController.investorMyNotifications)
-router.get('/ViewPublishedCompanies',InvestorController.viewMyPublishedCompanies)
-router.get('/ViewPendingCompanies',InvestorController.viewMyPendingCompanies)
+router.get('/ViewPublishedCompanies/:id',InvestorController.viewMyPublishedCompanies)
+router.get('/ViewPendingCompanies/:id',InvestorController.viewMyPendingCompanies)
 router.get('/generatePdf/:id',InvestorController.generatePdf)
 router.get('/InvCompListViewing', InvestorController.InvCompListViewing)
 router.get('/InvCompViewing/:id', InvestorController.InvCompViewing)
@@ -56,7 +56,12 @@ router.put('/AdminAssignLawyer',AdminController.AdminAssignLawyer)
 router.put('/AdminAssignReviewer',AdminController.AdminAssignReviewer)
 router.post('/SendAttachmentMail', AdminController.SendAttachmentMail)
 
+router.post('/addFormType', AdminController.addFormType)
+router.get('/getFormType/:formName', AdminController.getFormType)
+router.get('/getAllFormTypes', AdminController.getAllFormTypes)
+router.delete('/deleteFormType/:formName', AdminController.deleteFormType)
 
+router.get('/calculateFees/:id', AdminController.SystemCalcFees)
 
 //------------------------------------Lawyer Routes----------------------------------------------------
 router.post('/LawyerFillForm', LawyerController.lawyerFillForm)

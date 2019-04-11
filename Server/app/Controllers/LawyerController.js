@@ -319,7 +319,7 @@ let LawyerController = {
   lawyerMyNotifications: async function(req, res) {
     try {
       const id = req.params.id;
-      let lawyer = await lawyer.findById(id);
+      let lawyer = await Lawyer.findById(id);
       if (!lawyer) {
         return res
           .status(404)
