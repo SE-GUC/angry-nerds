@@ -311,14 +311,13 @@ let InvestorController = {
     */
     viewMyPublishedCompanies: async function (req, res) {
         try {
-            // const id = req.params.id
-            const ids = '5c78e4a73ba5f854b86f9058' //will take from login
-            let investor = await Investor.findById(ids)
+            const id = req.params.id
+            let investor = await Investor.findById(id)
             if (!investor) {
                 return res.status(404).json({ error: 'Cannot find an investor account with this ID' })
             }
             else {
-                let cases = await Case.find({ 'caseStatus': 'published', 'investorID': ids })
+                let cases = await Case.find({ 'caseStatus': 'published', 'investorID': id })
                 return res.status(200).json({ msg:'Done',data: cases })
             }
 
@@ -340,14 +339,14 @@ let InvestorController = {
    */
     viewMyPendingCompanies: async function (req, res) {
         try {
-            // const id = req.params.id
-            const ids = '5c78e4a73ba5f854b86f9058' // will take from login
-            let investor = await Investor.findById(ids)
+             const id = req.params.id
+            //const ids = '5c78e4a73ba5f854b86f9058' // will take from login
+            let investor = await Investor.findById(id)
             if (!investor) {
                 return res.status(404).json({ error: 'Cannot find an investor account with this ID' })
             }
             else {
-                let cases = await Case.find({ 'caseStatus': { $ne: 'published' }, 'investorID': ids})
+                let cases = await Case.find({ 'caseStatus': { $ne: 'published' }, 'investorID': id})
                 return res.status(200).json({ msg: 'Done', data: cases })
             }
 
@@ -360,7 +359,7 @@ let InvestorController = {
 
 
     /*
-        GET method to generate a pdf contract based on the case object.
+        GET method to generate a   contract based on the case object.
         PARAMS:{ caseID: String }
         * Checks if the case is in the database,
         then constructs the docDefinition constant based on the data in the c object (case),

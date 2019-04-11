@@ -414,7 +414,71 @@ AdmViewing: async (id) => {
   return views
   },
 
+  adminChangePassword: async (old1,old2,newPass) =>{
+        
+    const newAdmin = await axios.post('http://127.0.0.1:3000/api/Admin',
+      {
+          "FirstName":"PAUL",
+          "MiddleName": "achraf",
+          "LastName": "fayez",
+          "email": "ccccc.ccccc@gmail.com",
+          "password":old1,
+          "ID_type": "regular",
+          "SSID": 930240219012394,
+          "Nationality": "egy",
+          "gender": "female",
+          "Type": "pass",
+          "Address": "3489hwihkbnknwe",
+          "telephone_number": 894094820,
+          "notifications": []
+      })
+    
+    
 
+    const response = await axios.put('http://127.0.0.1:3000/AdminChangePassword/' +  newAdmin.data.data._id, {
+      oldPassword: old2,
+      newPassword: newPass
+    })
+    const updatedAdmin = await axios.get('http://127.0.0.1:3000/api/Admin/' + newAdmin.data.data._id)
+    await axios.delete('http://127.0.0.1:3000/api/Admin/' + newAdmin.data.data._id)
+  
+  
+  
+    return {res: response, updatedAdmin: updatedAdmin.data.data};
+  },
+
+  adminCalculateAverage: async (old1,old2,newPass) =>{
+        
+    const newAdmin = await axios.post('http://127.0.0.1:3000/api/Admin',
+      {
+          "FirstName":"PAUL",
+          "MiddleName": "achraf",
+          "LastName": "fayez",
+          "email": "ccccc.ccccc@gmail.com",
+          "password":old1,
+          "ID_type": "regular",
+          "SSID": 930240219012394,
+          "Nationality": "egy",
+          "gender": "female",
+          "Type": "pass",
+          "Address": "3489hwihkbnknwe",
+          "telephone_number": 894094820,
+          "notifications": []
+      })
+    
+    
+
+    const response = await axios.put('http://127.0.0.1:3000/AdminChangePassword/' +  newAdmin.data.data._id, {
+      oldPassword: old2,
+      newPassword: newPass
+    })
+    const updatedAdmin = await axios.get('http://127.0.0.1:3000/api/Admin/' + newAdmin.data.data._id)
+    await axios.delete('http://127.0.0.1:3000/api/Admin/' + newAdmin.data.data._id)
+  
+  
+  
+    return {res: response, updatedAdmin: updatedAdmin.data.data};
+  }
 
 
 }

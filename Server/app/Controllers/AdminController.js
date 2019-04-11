@@ -993,6 +993,34 @@ AdmDelCase: async (req, res) => {
         
     },
 
+    calculateAverageMinsLawyer: async function(req,res) {
+        var num = 0
+        var total = 0
+        const lawyerID = req.params.id
+        const AllCases = await Case.find()
+        for(let i = 0;i < AllCases.length;i++){
+            if(AllCases[i].log){
+                for(let j = 0;j<AllCases[i].log.length-1;j++){
+                    if(AllCases[i].log[j].id === id && AllCases[i].log[j].destination === 'open' ){
+                        let mins = AllCases[i].log[j].date.getTime() - AllCases[i].log[j+1].date.getTime() 
+                        mins = mins/1000*60
+                        total = total + mins
+                        num = num + 1
+                    }
+
+                }
+            }
+        }
+
+        var result = 0
+        if(num !== 0){
+            result = total/num
+        }
+
+        return res.status(200).json({data: result})
+
+    }
+
 }
 
 
