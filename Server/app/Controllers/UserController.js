@@ -99,7 +99,7 @@ try {
     const id = req.params.id
     const Inv = await Investor.findById(id, proj)
     const Revs = await Reviewer.findById(id, proj)
-    const Adm = await Admins.findById(id,proj)
+    const Adm = await Admin.findById(id,proj)
     const Lawy = await Lawyer.findById(id, proj)
     if(Inv)
     res.json({ message:'investor' ,data: Inv})
