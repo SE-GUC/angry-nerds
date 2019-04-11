@@ -573,7 +573,7 @@ test ('View notification of an investor with an invalid ID', async () => {
 
 test ('View pending companies of an investor', async () => {
   var validInvestorID = "5c7a9b46470a360ac8b0d412"
-  //expect.assertions(1)
+  //expect.assegit push --set-upstream origin Lawyertions(1)
     const response = await Investor.viewMyPendingCompanies(validInvestorID)
     //console.log(response)
     expect(response.data.msg).toEqual('Done')
