@@ -16,39 +16,22 @@ const CaseSchema = new Schema({
         pending: Reviewer approved, waiting payment
         published
      */
-    caseOpenSince: {
-        type: Date,
+    locked: {
+        type: Boolean
     },
-    //set when creating the form
-    caseClosedDate:{
-        type: Date,
+    //enum:
+    /*
+        false: Not locked
+        true: Locked
+    */    
+    walk_in: {
+        type: Boolean
     },
-    //set when paying the fees
-    lawyerStartTime:{
-        type: Date,
-    },
-    //set whenever the case is returned to the lawyer
-    reviewerStartTime:{
-        type: Date,
-    },
-    //set whenever the case is returned to the reviewer
-
-    lawyerTotalTime:{
-        type: Number,  //in mins
-    },
-    //Updated when the case leaves lawyer (approve or reject)
-    reviewerTotalTime:{
-        type: Number, //in mins
-    },
-    //Updated when the case leaves reviewer (approve or reject)
-    reviewerID: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Reviewer',
-    },
-    lawyerID: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Lawyer',                   
-    },
+    //enum:
+    /*
+        false: Portal
+        true: Walk In 
+    */    
     investorID: {
     	type: mongoose.Schema.Types.ObjectId,
         ref: 'Investor',
@@ -69,11 +52,6 @@ const CaseSchema = new Schema({
         159
         72
      */
-    legal_form: {
-        type: String,
-        required: false
-    },
-    //?????
     arabic_name: {
         type: String,
     },
@@ -97,7 +75,6 @@ const CaseSchema = new Schema({
     },
     currency: {
         type: String,
-        required: false
     },
     equality_capital: {
         type: Number,
@@ -105,100 +82,80 @@ const CaseSchema = new Schema({
     pdfString: {
         type: String,
     },
-
     fees: {
         type: Number,
-    },
-    //ask fady
-    
+    },    
     managers: {
         type: [
             {
                 name: {
                     type: String,
-                    required: false
                 },
                 inv_type: {
                     type: String,
-                    required: false
                 },
                 gender: {
                     type: String,
-                    required: false
                 },
                 nationallity: {
                     type: String,
-                    required: false
                 },
                 person_id_type: {
                     type: String,
-                    required: false
                 },
                 person_id_number: {
                     type: Number,
-                    required: false,
                 },
                 birth_date: {
                     type: Date,
-                    required: false
                 },
                 address: {
                     type: String,
-                    required: false
                 },
                 position: {
                     type: String,
-                    required: false
                 }
             }
         ],
-        required: false
     } ,
 
     comment: {
-        type : [
+        type : 
             {
-
                 text: {
-                    type: String,
-                    required: true
+                    type: Object,
                 },
                 date: {
-                    type: String,
-                    required: true
-                },
-                Case: {
-                    // type: String,
-                    type: Schema.Types.ObjectId,
-                    ref: 'Cases',
-                    required: true
+                    type: Date,
                 },
                 Reviewer: {
-                    // type: String,
                     type: Schema.Types.ObjectId, 
                     ref: 'Reviewer',
-                    required: true
                 },
                 Lawyer: {
-                    // type: String ,
                     type: Schema.Types.ObjectId, 
                     ref: 'Lawyer',
-                    required: true
                 },
-                Investor: {
-                    // type: String,
-                    type: Schema.Types.ObjectId, 
-                    ref: 'Investor',
-                    required: true
+        },
 
 
+    },
+    
+    log: {
+        
+        type:[ {
+            id: {
+                type: String
+            },
+            destination: {
+                type: String
+            },
+            date:{
+                type: Date
             }
-        }
-        ],
-        required: false
+        } ]
 
-
-    } 
+    }
 
 })
 

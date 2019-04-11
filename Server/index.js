@@ -13,12 +13,16 @@ const methodOverride = require('method-override'); //
 const router = express.Router()
 
 
+///// TEST MESSAGE "ON DEV"
+
+
 
 
 // Require Router Handlers
 const investor = require('./app/routes/api/Investor')
 const lawyer = require('./app/routes/api/Lawyer')
 const reviewer = require('./app/routes/api/Reviewer')
+// const pic = require('./app/routes/api/uploadPic')   ////
 
 
 const Staffi = require('./app/routes/api/Staff')
@@ -223,7 +227,7 @@ const storage = new GridFsStorage({
         if (err) {
           return reject(err);
         }
-        const filename = buf.toString('hex') + path.extname(file.originalname);   /// save da fel schema beta3 el user 
+        const filename = buf.toString('hex') + path.extname(file.originalname);
         const fileInfo = {
           filename: filename,
           bucketName: 'uploads'
@@ -236,27 +240,46 @@ const storage = new GridFsStorage({
 
 const upload = multer({ storage });    // uploading to database        
 
-// app.get('')
+// @route GET /
+// @desc Loads form
+app.get('/', (req, res) => {
+  gfs.files.find().toArray((err, files) => {
+    // Check if files
+    if (!files || files.length === 0) {
+      res.render('index', { files: false });
+    } else {
+      files.map(file => {
+        if (
+          file.contentType === 'image/jpeg' ||
+          file.contentType === 'image/png'
+        ) {
+          file.isImage = true;
+        } else {
+          file.isImage = false;
+        }
+      });
+      res.render('index', { files: files });
+    }
+  });
+});
 
 // @route POST /upload       
 // @desc  Uploads file to DB                                             // need to edit this to post the profile of user schema
 app.post('/upload/:id', upload.single('file'), async (req, res) => {    // file is the name of the file field from the HTML doc 
   try {
-    const id = req.params.id  // id of picture
-    const investor = await Investor.findByIdAndUpdate(id, { 'photoID': id, })    //   putting the photo id in schema
-
-    if (!investor) {
-      res.status(200).json({ data: 'Fail' })
+    const id = req.file.filename // id of picture
+    const incID= "5cabb438c2f6c432a8e244ca"
+    const investor = await Investor.findByIdAndUpdate(incID, { 'photoID': id,  })    //   putting the photo id in schema
+  
+   
+    
+        res.json({ msg: 'Form updated successfully', data: investor })
+   
     }
-    else {
-      res.json({ msg: 'Form updated successfully', data: investor })
-
+    catch (error) {
+         console.log(error)
+        
     }
-  }
-  catch (error) {
-    console.log(error)
-
-  }
   //    const newInvestor = await Investor.findById(id)
   //const inv = JSON.stringify(investor.photoID)
   // const json = JSON.stringify(investor);
@@ -341,10 +364,6 @@ app.get('/image/:filename', (req, res) => {
 });
 
 
-
-
-
-
 // ///////////END OF UPLOADING image to database/////////////
 
 //Enable CORS on the express server
@@ -364,6 +383,7 @@ app.use(function(req, res, next) {
   next();
 });
 app.use('/api/Staff', Staffi)
+// app.use('/api/uploadPic', pic)   ///
 app.use('/api/Cases', Cases)
 app.use('/api/Investor', investor)
 app.use('/api/Lawyer', lawyer)
@@ -378,4 +398,3 @@ app.use((req, res) => res.status(404).send(`<h1>Can not find what you're looking
 
 const port = process.env.PORT || 3000
 app.listen(port, () => console.log(`Server on ${port}`))
-
