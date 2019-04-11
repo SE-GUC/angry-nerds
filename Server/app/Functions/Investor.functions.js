@@ -1,4 +1,5 @@
 const axios = require ('axios')
+const InvestorModel = require('../models/Investor')
 axios.defaults.adapter = require ('axios/lib/adapters/http')
 
 const functions = {
@@ -97,12 +98,9 @@ const functions = {
     viewMyPendingCompanies: async (id) => {
         const response = await axios.get('http://127.0.0.1:3000/ViewPendingCompanies/' + id)
         return response;
-    },
-
-    generatePdf: async (id) => {
-        const response = await axios.get('http://127.0.0.1:3000/generatePdf/' + id)
-        return response;
     }
+
+    
 
 }
 

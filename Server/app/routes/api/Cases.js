@@ -387,7 +387,7 @@ router.post('/', async (req, res) => {
   var i = await CheckForms(req.body)
     console.log(i)
     if (i !== 'Done') {
-        res.json({ msg: 'Could not create case' })
+        res.json({ msg: 'Could not create case' , error: i})
     }
     else {
         const newCase = await Case.create(req.body)
