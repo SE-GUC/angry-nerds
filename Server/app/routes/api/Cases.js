@@ -387,7 +387,7 @@ router.post('/', async (req, res) => {
   var i = await CheckForms(req.body)
     console.log(i)
     if (i !== 'Done') {
-        res.json({ msg: 'Could not create case' })
+        res.json({ msg: 'Could not create case', data: i })
     }
     else {
         const newCase = await Case.create(req.body)
@@ -422,12 +422,12 @@ router.put('/:id', async (req, res) => {
    //  if (isValidated.error) return res.status(400).send({ error: isValidated.error.details[0].message })
    var i = CheckForms(req.body)
    if (i !== 'Done') {
-       res.json({ msg: 'Could not create case' })
+       res.json({ msg: 'Could not create case', data: i })
      }
      else {
           const updatedCase = await Case.findByIdAndUpdate(id, req.body)
-          res.json({ msg: 'Case updated successfully', data: updatedCase })
-     }
+          return res.json({ msg: 'Case updated successfully', data: updatedCase })
+    }
     
     }
     catch (error) {
@@ -682,6 +682,8 @@ CheckForms = async function (data) {
     
     const AllCases = await Case.find(query)
     const inv = await Investor.findById(data.investorID)
+
+    const error = {}
     
     const error = {}
     console.log(AllCases)
@@ -694,7 +696,7 @@ CheckForms = async function (data) {
            
         }
         
-        if (inv.Nationality != 'Egyptian') {
+        if (inv.Nationality !== 'Egyptian') {
         var i
         var a2 = false
 

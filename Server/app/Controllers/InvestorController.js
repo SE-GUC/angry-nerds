@@ -16,9 +16,13 @@ const tokenKey = config.tokenKey;
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const axios = require('axios')
+var passport = require('passport');
+require('../../config/passport')(passport);
 
 
 let InvestorController = {
+
+    passportauth: passport.authenticate('jwt', { session: false }),
 
     /* 
     this is a function that takes a request body that contains credit card info
