@@ -4,7 +4,6 @@ jest.setTimeout(30000);
 
 const adminFunctions = {
 
-<<<<<<< HEAD
   AdminDeleteLawyer: async (id) => {
     const lawyer = await axios({
       method: "delete",
@@ -24,7 +23,6 @@ const adminFunctions = {
     });
     return reviewer;
   },
-=======
   MailForgotPassword : async (mail) => {
     const t = await axios({
         method: 'get',
@@ -47,7 +45,6 @@ MailResetPassword : async (token,password) => {
     });
     return t.data.message
 },
->>>>>>> Dev
 
   adminChangePricingStrategy: async lawID => {
     const Law = await axios({
@@ -77,31 +74,6 @@ MailResetPassword : async (token,password) => {
       method: "post",
       url: "http://localhost:3000/AdminRegisterLawyer/",
       headers: {},
-<<<<<<< HEAD
-      data: {
-        FName: "Romba",
-        MName: "Ramremo",
-        LName: "Gamd",
-        email: "fr@gmail.com",
-        password: "cnjdqqcrjcsjn151215'",
-        gender: "Male",
-
-        Nationality: "Egyptian",
-
-        birthdate: "1980",
-
-        Address: "11 makram",
-
-        fax: "125252",
-
-        telephone_number: "151515",
-
-        total_number_of_cases: "588",
-        completed_number_of_cases: "561",
-        number_of_cases: "2",
-        total_time_on_cases: "25",
-        ssid: "15552"
-=======
       data:
       {
         "FName": "Romba",
@@ -120,7 +92,6 @@ MailResetPassword : async (token,password) => {
         "number_of_cases": "2",
         "total_time_on_cases": "25",
         "ssid": "15552"
->>>>>>> Dev
       }
     });
     return lawyer;
@@ -162,31 +133,6 @@ MailResetPassword : async (token,password) => {
       method: "post",
       url: "http://127.0.0.1:3000/AdminRegisterLawyer/",
       headers: {},
-<<<<<<< HEAD
-      data: {
-        FName: "Romba",
-        MName: "Ramremo",
-        LName: "Gamd",
-        email: "new_emaill@gmail.com",
-        password: "cnjdqqcrjcsjn151215'",
-        gender: "Male",
-
-        Nationality: "Egyptian",
-
-        birthdate: "1980",
-
-        Address: "11 makram",
-
-        fax: "125252",
-
-        telephone_number: "151515",
-
-        total_number_of_cases: "588",
-        completed_number_of_cases: "561",
-        number_of_cases: "2",
-        total_time_on_cases: "25",
-        ssid: "15552"
-=======
       data:
       {
         "FName": "Romba",
@@ -205,7 +151,6 @@ MailResetPassword : async (token,password) => {
         "number_of_cases": "2",
         "total_time_on_cases": "25",
         "ssid": "15552"
->>>>>>> Dev
       }
     });
     return lawyer;
@@ -280,31 +225,6 @@ MailResetPassword : async (token,password) => {
       method: "post",
       url: "http://127.0.0.1:3000/AdminRegisterAdmin/",
       headers: {},
-<<<<<<< HEAD
-      data: {
-        FName: "Romba",
-        MName: "Ramremo",
-        LName: "Gamd",
-        email: "new_emaill@gmail.com",
-        password: "cnjdqqcrjcsjn151215'",
-        gender: "Male",
-        Type: "Admin",
-        Nationality: "Egyptian",
-
-        birthdate: "1980",
-
-        Address: "11 makram",
-
-        fax: "125252",
-
-        telephone_number: "151515",
-
-        total_number_of_cases: "588",
-        completed_number_of_cases: "561",
-        number_of_cases: "2",
-        total_time_on_cases: "25",
-        ssid: "15552"
-=======
       data:
       {
         "FName": "Romba",
@@ -324,7 +244,6 @@ MailResetPassword : async (token,password) => {
         "number_of_cases": "2",
         "total_time_on_cases": "25",
         "ssid": "15552"
->>>>>>> Dev
       }
     });
     return rev;
@@ -334,25 +253,6 @@ MailResetPassword : async (token,password) => {
       method: "post",
       url: "http://127.0.0.1:3000/AdminRegisterAdmin/",
       headers: {},
-<<<<<<< HEAD
-      data: {
-        FName: "Romba",
-        MName: "Ramremo",
-        LName: "Gamd",
-        email: "cjdncjnd@gmail.com",
-        password: "cnjdqqcrjcsjn151215",
-        gender: "Male",
-        Type: "Super",
-        Nationality: "Egyptian",
-
-        birthdate: "1980",
-
-        Address: "11 makram",
-
-        fax: "125252",
-
-        telephone_number: "151515",
-=======
       data:
       {
         "FName": "Romba",
@@ -372,13 +272,6 @@ MailResetPassword : async (token,password) => {
         "number_of_cases": "2",
         "total_time_on_cases": "25",
         "ssid": "15552"
->>>>>>> Dev
-
-        total_number_of_cases: "588",
-        completed_number_of_cases: "561",
-        number_of_cases: "2",
-        total_time_on_cases: "25",
-        ssid: "15552"
       }
     });
     return rev;
@@ -395,10 +288,6 @@ MailResetPassword : async (token,password) => {
   },
   AdminDeleteInvestor: async () => {
     const rev = await axios({
-<<<<<<< HEAD
-      method: "delete",
-      url: "http://127.0.0.1:3000/AdminDeleteInvestor/5c77e8603fd76231ecbf04ec",
-=======
       method: 'post',
       url: 'http://localhost:3000/api/Investor/',
       headers: {},
@@ -422,15 +311,10 @@ MailResetPassword : async (token,password) => {
     const rev1 = await axios({
       method: 'delete',
       url: 'http://127.0.0.1:3000/AdminDeleteInvestor/'+rev.data.data._id,
->>>>>>> Dev
       headers: {},
       data: {}
     });
-<<<<<<< HEAD
-    return rev;
-=======
     return rev1
->>>>>>> Dev
   },
 
   AdminAssignLawyer: async (caseid, lawyerid) => {
@@ -457,17 +341,10 @@ MailResetPassword : async (token,password) => {
     });
     return cases.data.msg;
   },
-<<<<<<< HEAD
-  CheckFroms: async () => {
-    const form = await axios({
-      method: "put",
-      url: "http://localhost:3000/api/Cases",
-=======
   CheckForms: async (data) => {
     const form = await axios({      
       method: 'post',
       url: 'http://localhost:3000/api/Cases',
->>>>>>> Dev
       headers: {},
       data: {
         // investorId: "5c77c2b0c5973856f492f33e",

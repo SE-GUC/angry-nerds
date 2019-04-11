@@ -14,14 +14,9 @@ const FormType = require('../models/FormType')
 const fun = require('./AdminController')
 const jwt = require('jsonwebtoken');
 var nodemailer = require('nodemailer');
-var bcrypt = require('bcryptjs');
-<<<<<<< HEAD
- 
-=======
+var bcrypt = require('bcryptjs')
 const config = require('../../config/mailer')
 const tokenKey = config.tokenKey;
->>>>>>> Dev
-
 "use strict";
 
 const dotenv = require("dotenv");
