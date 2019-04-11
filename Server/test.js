@@ -79,7 +79,7 @@ test('Reset password with valid token', async () => {
     }
   });
   const x = await adminFunctions.MailForgotPassword(t1.data.data.email)
-  console.log('One',t1.data.data._id)
+  console.log(x.data.data , 'OOOOOOOOOOOne',t1.data.data._id)
   const tok = await axios.get('http://127.0.0.1:3000/api/admin/'+t1.data.data._id)
   console.log('TWo', tok.data.data )
   console.log('Three',t1.data.data.token)
