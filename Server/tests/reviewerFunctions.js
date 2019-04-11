@@ -4,8 +4,8 @@ axios.defaults.adapter = require ('axios/lib/adapters/http')
 const reviewerFunctions = {
 
 
-    RevViewing: async (id) => {
-    const views= await axios.get('http://127.0.0.1:3000/RevViewing/'+id)
+    ReviewerViewing: async (id) => {
+    const views= await axios.get('http://127.0.0.1:3000/ReviewerViewing/'+id)
     return views
     },
 
@@ -35,6 +35,16 @@ const reviewerFunctions = {
         
     },
 
+    ReviewerViewingPublishedCompanies: async () => {
+      const viewPC= await axios.get('http://127.0.0.1:3000/ReviewerViewingPublishedCompanies/')
+      return viewPC
+      },
+  
+      ReviewerViewingCompany: async (id) => {
+        const viewC= await axios.get('http://localhost:3000/ReviewerViewingCompany/'+id)
+        return viewC
+        },
+  
     viewCasesReviewer:async () => {
         const CASE = await axios({
             method: 'get',

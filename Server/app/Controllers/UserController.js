@@ -40,94 +40,91 @@ let UserController = {
     } catch (err) {
       return next(err);
     }
-  },
-  UserViewLaws: async function(req, res) {
-    const Law = await Laws.find();
-    res.json({ data: Law });
-  },
+},
+UserViewLaws: async function(req, res){
+    const Law = await Laws.find()
+    res.json({ data: Law })
+},
 
-  UnregCompViewing: async (req, res) => {
-    const id = req.params.id;
-    var Cas = await Case.findById(id);
+//Viewing One specific Company
+UnregisterViewingCompany: async (req, res)=> {
+    
+    const id = req.params.id
+    var Cas = await Case.findById(id)    
     try {
-      if (Cas.caseStatus === "published") {
-        var proj1 = {
-          _id: 0,
-          arabic_name: 1,
-          english_name: 1,
-          government: 1,
-          city: 1,
-          hq_address: 1,
-          hq_city: 1,
-          hq_state: 1,
-          main_center_phone: 1,
-          main_center_fax: 1
-        };
-        Cas = await Case.findById(id, proj1);
-        res.json({ data: Cas });
-      } else {
-        res.json({ message: "Case was not published" });
-      }
-    } catch (error) {
-      console.log(error);
+        if (Cas.caseStatus == 'published') {
+            var proj1 = {
+                '_id': 0, 'arabic_name': 1, 'english_name': 1, 'government': 1, 'city': 1
+                , 'hq_address': 1, 'hq_city': 1, 'hq_state': 1, 'main_center_phone': 1, 'main_center_fax': 1
+            }   
+            Cas = await Case.findById(id, proj1)
+            res.json({message:'case' , data: Cas }) 
+        } else {
+            res.json({ message: 'Case was not published' })
+            
+        }
     }
-  },
+    catch (error) {
+        console.log(error)
+    }
+    
+    
+    
+},
 
-  UnregCompListViewing: async (req, res) => {
+//Displaying a List of all published companies
+UnregisterViewingPublishedCompanies: async (req,res) => {
+    
     try {
-      var Case = await Cases.find({ caseStatus: "published" }, projx);
+        var Case = await Cases.find({ caseStatus: 'published' }, projx)
+        
+        for (var i = 0; i < Case.length; i++) {
+            var projx = {
+                '_id': 0, 'arabic_name': 1, 'english_name': 1, 'government': 1, 'city': 1,
+                'hq_address': 1, 'hq_city': 1, 'hq_state': 1, 'main_center_phone': 1, 'main_center_fax': 1
+            }        }
+            Case = await Cases.find({ caseStatus: 'published' }, projx)
+            res.json({ message:'Cases',data: Case })
+        }
+        catch (error) {
+            console.log(error)
+        }
+    },
+    
+//Viewing a specific User of any type 
+UnregisterViewing: async (req,res) => {
+var proj = { '_id': 0, 'firstName': 1, 'MiddleName': 1, 'LastName': 1, 'Nationality': 1, 'Address': 1, 'birthdate': 1, 'telephone_number': 1, 'gender': 1 };
 
-      for (var i = 0; i < Case.length; i++) {
-        var projx = {
-          _id: 0,
-          arabic_name: 1,
-          english_name: 1,
-          government: 1,
-          city: 1,
-          hq_address: 1,
-          hq_city: 1,
-          hq_state: 1,
-          main_center_phone: 1,
-          main_center_fax: 1
-        };
-      }
-      Case = await Cases.find({ caseStatus: "published" }, projx);
-      res.json({ data: Case });
-    } catch (error) {
-      console.log(error);
-    }
-  },
+try {
+    const id = req.params.id
+    const Inv = await Investor.findById(id, proj)
+    const Revs = await Reviewer.findById(id, proj)
+    const Adm = await Admin.findById(id,proj)
+    const Lawy = await Lawyer.findById(id, proj)
+    if(Inv)
+    res.json({ message:'investor' ,data: Inv})
+        else if(Revs)
+        res.json({message: 'Rev' ,data: Revs})
+        else if(Lawy)
+        res.json({message: 'lawyer',data: Lawy})
+        else if(Adm)
+        res.json({message: 'Admin',data: Adm})
+        else {
+            res.json({message: 'User does not exist'})
 
-  UnregViewing: async (req, res) => {
-    var proj = {
-      _id: 0,
-      firstName: 1,
-      MiddleName: 1,
-      LastName: 1,
-      Nationality: 1,
-      Address: 1,
-      birthdate: 1,
-      telephone_number: 1,
-      gender: 1
-    };
+        }
+}
+catch (error) {
+console.log(error)
+}
 
-    try {
-      const id = req.params.id;
-      const Inv = await Investor.findById(id, proj);
-      const Revs = await Reviewer.findById(id, proj);
-      const Adm = await Admin.findById(id, proj);
-      const Lawy = await Lawyer.findById(id, proj);
-      if (Inv) res.json({ message: "investor", data: Inv });
-      else if (Revs) res.json({ message: "Rev", data: Revs });
-      else if (Lawy) res.json({ message: "lawyer", data: Lawy });
-      else if (Adm) res.json({ message: "Admin", data: Adm });
-      else {
-        res.json({ message: "User does not exist" });
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  },
+
+},
+
+
+
+
+
 
   Login: async (req, res) => {
     try {

@@ -67,6 +67,7 @@ class App extends Component {
     
     return (
       <Router>
+      <Route exact path= "/Companies" component = {Companies}/> }
         <div className="App">
         <div className="row">
           <div className="col-sm-2">

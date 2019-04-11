@@ -19,8 +19,8 @@ const investorFunctions = {
     return charge
   },
 
-    InvViewing: async (id) => {
-      const views= await axios.get('http://127.0.0.1:3000/InvViewing/'+id)
+    InvestorViewing: async (id) => {
+      const views= await axios.get('http://127.0.0.1:3000/InvestorViewing/'+id)
       return views
       },
   InvestorViewFees: async (id)=>{
@@ -32,6 +32,15 @@ const investorFunctions = {
     return Case
   },
 
+  InvestorViewingPublishedCompanies: async () => {
+    const viewPC= await axios.get('http://localhost:3000/InvestorViewingPublishedCompanies/')
+    return viewPC
+    },
+
+    InvestorViewingCompany: async (id) => {
+      const viewC= await axios.get('http://localhost:3000/InvestorViewingCompany/'+id)
+      return viewC
+      },
   generatePdf: async (caseID) => {
 
     const newInvestor = await axios.post('http://127.0.0.1:3000/api/Investor',

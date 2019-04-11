@@ -1,30 +1,12 @@
 const lawyer = require('./tests/lawyerFunctions');
 const reviewer = require('./tests/reviewerFunctions');
-//const lawyer = require('./tests/lawyerFunctions');
-
 const adminFunctions = require('./tests/adminFunctions')
 const investorFunctions = require('./tests/investorFunctions')
 const userFunctions = require('./tests/userFunctions')
-//const Lawyer = require('./app/models/Lawyer')
-//const Reviewer = require('./app/models/Reviewer')
-jest.setTimeout(5000)
 const axios = require('axios')
 
 
 
-const InvestorModel = require('./app/models/Investor')
-
-/*
-test('Forgot password with valid mail', async () => {
-  jest.setTimeout(30000)
-  const msg =  await Admin.MailForgotPassword('fady.wasfalla@gmail.com')
-  expect(msg).toEqual('An email has been sent check your email');
-const Lawyer = require('./app/models/Lawyer')
-const Question = require('./app/models/Questions')
-const Reviewer = require('./app/models/Reviewer')
-const axios = require('axios')
-jest.setTimeout(30000)
-axios.defaults.adapter = require ('axios/lib/adapters/http')
 
 /*
 Tests for payment
@@ -125,15 +107,6 @@ test(`paying fees for a company that is not pending`, async () => {
 });
 
 
-//   test('lawyer view comment', async () => {
-//   const msg =  await Lawyer.lawyerViewComment()
-//   expect(msg.data.msg).toEqual('Done');
-// });
-
-
-//edit dany 
-
-
 test(`case disaproves at reviewer and casestatus should be lawyer`, async () => {
   const CASE =  await reviewer.caseDisAproveedAtReviewer('5c9512ba8aba002578c01ad6')    
   expect(CASE.data.data.caseStatus).toEqual('pending')
@@ -148,7 +121,7 @@ test(`case aproved at reviewer and casestatus should be pending`, async () => {
 
 
 test('Forgot password with valid mail', async () => {
-  jest.setTimeout(30000)
+  jest.setTimeout(10000)
   const t1 = await axios({
     method: 'post',
     url:'http://127.0.0.1:3000/api/admin',
@@ -192,7 +165,7 @@ test(`Editing company that does not exist`, async () => {
 });
 
 
-test(`Editing company that does not exist`, async () => {
+test(`Editing company successfully that does not exist`, async () => {
   const myCase = await axios.post("http://localhost:3000/api/cases", {
     form_type: "SSCP",
     regulated_law: "44",
@@ -251,6 +224,11 @@ test(`Admin delete lawyer that does not exist`, async () => {
   expect(lawyer.data.message).toEqual('there is not lawyer by this id to remove')
 });
 
+  test('Delete a company that does not exist ', async()=>{
+
+    const id = await adminFunctions.AdminDeleteCase('5caef099d46a97776c2fbf54')
+    expect(id.data.message).toEqual('not a case')
+  });
 /*
 Admin Edit reviewer
 edit reviewer success
@@ -275,7 +253,7 @@ test(`Admin delete reviewer`, async () => {
     number_of_cases: "2",
     total_time_on_cases: "25",
     ssid: "15552"
-  });
+  })
   const result = await adminFunctions.AdminDeleteReviewer(reviewer.data.data._id)
   expect(result.data.message).toEqual('Reviewer deleted successfully')
 });
@@ -286,6 +264,46 @@ test(`Admin delete reviewer that does not exist`, async () => {
 });
 
 
+  // test('Delete a company ', async()=>{
+
+  //   const id = await adminFunctions.AdminDeleteCase('5c94e18af1ef0f3e48b0a2b8')
+  //   console.log('yeeh')
+  //   expect(id.data.message).toEqual('Case was deleted successfully')
+  // });
+
+  test('Delete a Question that does not exist ', async()=>{
+
+    const id = await adminFunctions.AdminDeleteQuestion('5caed099e96f7300e0148c45')
+    console.log('notQUessss')
+    expect(id.data.message).toEqual('not a ques')
+  });
+
+  // test('Delete a Question ', async()=>{
+
+  //   const id = await adminFunctions.AdminDeleteQuestion('5c77f15454746a2ec800e532')
+  //   console.log('Quessss')
+  //   expect(id.data.message).toEqual('This question was deleted successfully')
+  // });
+
+  test('view as admin Investor', async()=>{
+
+    const id = await adminFunctions.AdminViewing('5ca772654d70710fa843bd5f')
+    console.log('view')
+    expect(id.data.message).toEqual('investor')
+  });
+
+  test('view as admin Lawyer', async()=>{
+
+    const id = await adminFunctions.AdminViewing('5ca0a85f309f411aa851bdfd')
+    console.log('view')
+    expect(id.data.message).toEqual('lawyer')
+  });
+  test('view as admin Reviewer', async()=>{
+
+    const id = await adminFunctions.AdminViewing('5caa2255a17f105039d06af6')
+    console.log('view')
+    expect(id.data.message).toEqual('Rev')
+  });
 test('Forgot password with invalid mail', async () => {
   const msg =  await adminFunctions.MailForgotPassword('Wrong_mail@gmail.com')
   expect(msg.data.message).toEqual('incorrect email');
@@ -295,12 +313,6 @@ test('Reset password with expired token', async () => {
   const msg =  await adminFunctions.MailResetPassword('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJGTmFtZSI6IkZhZHkiLCJpYXQiOjE1NTQwNjU1MjMsImV4cCI6MTU1NDA2OTEyM30.ByMt8yx_wNQGwhxH00LD_2xAjJpzkS7SlaX3rOUB2nE','Fady2512')
   expect(msg).toEqual('Token is expired please try again');
 });
-
-  // test('lawyer view reviewerLeaderBoard', async () => {
-  //   const msg =  await lawyer.lawyerViewReviewersLeaderBoard()
-  //   expect(msg.data.msg).toEqual('Done');
-  // });
-  
 
 
   
@@ -326,8 +338,8 @@ test('Reset password with valid token', async () => {
       "number_of_cases": "2",
       "total_time_on_cases": "25",
       "ssid": "15552"
-    }
-  });
+    }})
+  
   const x = await adminFunctions.MailForgotPassword(t1.data.data.email)
   console.log(x.data.data , 'OOOOOOOOOOOne',t1.data.data._id)
   const tok = await axios.get('http://127.0.0.1:3000/api/admin/'+t1.data.data._id)
@@ -336,8 +348,241 @@ test('Reset password with valid token', async () => {
   const msg =  await adminFunctions.MailResetPassword(tok.data.data.token,'Fady22551122')
   await axios.delete('http://127.0.0.1:3000/api/admin/'+t1.data.data._id)
   expect(msg).toEqual('Password reseted succesfully');
-})
+});
 
+  test('view as admin Admin', async()=>{
+
+    const id = await adminFunctions.AdminViewing('5c9bb0dc5185793518ea84fb')
+    console.log('view')
+    expect(id.data.message).toEqual('Admin')
+  });
+
+  test('view as admin neither', async()=>{
+
+    const id = await adminFunctions.AdminViewing('5c77f15454789a2ec800e532')
+    console.log('view')
+    expect(id.data.message).toEqual('User does not exist')
+  });
+
+  test('view as Admin a published Company', async()=>{
+    const id = await adminFunctions.AdminViewingCompany('5c9517bdf65058663c3010d3')
+    console.log('view')
+    expect(id.data.message).toEqual('case')
+  });
+
+  test('view as Admin an unpublished Company', async()=>{
+    const id = await adminFunctions.AdminViewingCompany('5c950069f2380140941b74f0')
+    console.log('view')
+    expect(id.data.message).toEqual('Case was not published')
+  });
+
+  test('View list of all published companies', async () => {
+    const msg =  await adminFunctions.AdminViewingPublishedCompanies()
+    expect(msg.data.message).toEqual('Cases');
+  });
+  //----------------------------------------------
+  test('view as Investor a published Company', async()=>{
+    const id = await investorFunctions.InvestorViewingCompany('5c9517bdf65058663c3010d3')
+    console.log('view')
+    expect(id.data.message).toEqual('case')
+  });
+
+  test('view as Investor an unpublished Company', async()=>{
+    const id = await investorFunctions.InvestorViewingCompany('5c950069f2380140941b74f0')
+    console.log('view')
+    expect(id.data.message).toEqual('Case was not published')
+  });
+  test('view as Investor Investor', async()=>{
+
+    const id = await investorFunctions.InvestorViewing('5ca772654d70710fa843bd5f')
+    console.log('view')
+    expect(id.data.message).toEqual('investor')
+  });
+
+  test('view as Investor Lawyer', async()=>{
+
+    const id = await investorFunctions.InvestorViewing('5ca0a85f309f411aa851bdfd')
+    console.log('view')
+    expect(id.data.message).toEqual('lawyer')
+  });
+  test('view as Investor Reviewer', async()=>{
+    const id = await investorFunctions.InvestorViewing('5caa2255a17f105039d06af6')
+    console.log('view')
+    expect(id.data.message).toEqual('Rev')
+  });
+
+  test('view as Investor Admin', async()=>{
+    const id = await investorFunctions.InvestorViewing('5c9bb0dc5185793518ea84fb')
+    console.log('view')
+    expect(id.data.message).toEqual('Admin')
+  });
+
+  test('view as Investor neither', async()=>{
+    
+    const id = await investorFunctions.InvestorViewing('5c77f15454789a2ec800e532')
+    console.log('view')
+    expect(id.data.message).toEqual('User does not exist')
+  });
+
+  test('View list of all published companies', async () => {
+    const msg =  await investorFunctions.InvestorViewingPublishedCompanies()
+    expect(msg.data.message).toEqual('Cases');
+  });
+  //----------------------------------------------
+  test('view as Reviewer Investor', async()=>{
+    const id = await reviewer.ReviewerViewing('5ca772654d70710fa843bd5f')
+    console.log('view')
+    expect(id.data.message).toEqual('investor')
+  });
+
+  test('view as Reviewer Lawyer', async()=>{
+    const id = await reviewer.ReviewerViewing('5ca0a85f309f411aa851bdfd')
+    console.log('view')
+    expect(id.data.message).toEqual('lawyer')
+  });
+  test('view as Reviewer Reviewer', async()=>{
+    const id = await reviewer.ReviewerViewing('5caa2255a17f105039d06af6')
+    console.log('view')
+    expect(id.data.message).toEqual('Rev')
+  });
+
+  test('view as Reviewer Admin', async()=>{
+    const id = await reviewer.ReviewerViewing('5c9bb0dc5185793518ea84fb')
+    console.log('view')
+    expect(id.data.message).toEqual('Admin')
+  });
+
+  test('view as Reviewer neither', async()=>{
+    
+    const id = await reviewer.ReviewerViewing('5c77f15454789a2ec800e532')
+    console.log('view')
+    expect(id.data.message).toEqual('User does not exist')
+  });
+
+  test('view as Reviewer a published Company', async()=>{
+    const id = await reviewer.ReviewerViewingCompany('5c9517bdf65058663c3010d3')
+    console.log('view')
+    expect(id.data.message).toEqual('case')
+  });
+
+  test('view as Reviewer an unpublished Company', async()=>{
+    const id = await reviewer.ReviewerViewingCompany('5c950069f2380140941b74f0')
+    console.log('view')
+    expect(id.data.message).toEqual('Case was not published')
+  });
+ 
+  test('View list of all published companies', async () => {
+    const msg =  await reviewer.ReviewerViewingPublishedCompanies()
+    expect(msg.data.message).toEqual('Cases');
+  });
+
+  //----------------------------------------------
+  // test('view as unregister Investor', async()=>{
+
+  //   const id = await userFunctions.UnregisterViewing('5ca772654d70710fa843bd5f')
+  //   console.log('view')
+  //   expect(id.data.message).toEqual('investor')
+  // });
+
+  // test('view as unreg Lawyer', async()=>{
+
+  //   const id = await userFunctions.UnregisterViewing('5ca0a85f309f411aa851bdfd')
+  //   console.log('view')
+  //   expect(id.data.message).toEqual('lawyer')
+  // });
+  // test('view as unreg Reviewer', async()=>{
+
+  //   const id = await userFunctions.UnregisterViewing('5caa2255a17f105039d06af6')
+  //   console.log('view')
+  //   expect(id.data.message).toEqual('Rev')
+  // });
+
+  // test('view as unreg Admin', async()=>{
+
+  //   const id = await userFunctions.UnregisterViewing('5c9bb0dc5185793518ea84fb')
+  //   console.log('view')
+  //   expect(id.data.message).toEqual('Admin')
+  // });
+
+  // test('view as unreg neither', async()=>{
+
+  //   const id = await userFunctions.UnregisterViewing('5c77f15454789a2ec800e532')
+  //   console.log('view')
+  //   expect(id.data.message).toEqual('User does not exist')
+  // });
+
+  test('view as Unregistered user a published Company', async()=>{
+    const id = await userFunctions.UnregisterViewingCompany('5c9517bdf65058663c3010d3')
+    console.log('view')
+    expect(id.data.message).toEqual('case')
+  });
+
+  test('view as Unregistered user an unpublished Company', async()=>{
+    const id = await userFunctions.UnregisterViewingCompany('5c950069f2380140941b74f0')
+    console.log('view')
+    expect(id.data.message).toEqual('Case was not published')
+  });
+
+  test('View list of all published companies', async () => {
+    const msg =  await userFunctions.UnregisterViewingPublishedCompanies()
+    expect(msg.data.message).toEqual('Cases');
+  });
+  //----------------------------------------------
+  test('view as Lawyer Investor', async()=>{
+
+    const id = await lawyer.LawyerViewing('5ca772654d70710fa843bd5f')
+    console.log('view')
+    expect(id.data.message).toEqual('investor')
+  });
+
+  test('view as Lawyer Lawyer', async()=>{
+
+    const id = await lawyer.LawyerViewing('5ca0a85f309f411aa851bdfd')
+    console.log('view')
+    expect(id.data.message).toEqual('lawyer')
+  });
+  test('view as Lawyer Reviewer', async()=>{
+
+    const id = await lawyer.LawyerViewing('5caa2255a17f105039d06af6')
+    console.log('view')
+    expect(id.data.message).toEqual('Rev')
+  });
+
+  test('view as Lawyer Admin', async()=>{
+
+    const id = await lawyer.LawyerViewing('5c9bb0dc5185793518ea84fb')
+    console.log('view')
+    expect(id.data.message).toEqual('Admin')
+  });
+
+  test('view as Lawyer neither', async()=>{
+
+    const id = await lawyer.LawyerViewing('5c77f15454789a2ec800e532')
+    console.log('view')
+    expect(id.data.message).toEqual('User does not exist')
+  });
+
+  test('view as lawyer a published Company', async()=>{
+    const id = await lawyer.LawyerViewingCompany('5c9517bdf65058663c3010d3')
+    console.log('view')
+    expect(id.data.message).toEqual('case')
+  });
+
+  test('view as lawyer an unpublished Company', async()=>{
+    const id = await lawyer.LawyerViewingCompany('5c950069f2380140941b74f0')
+    console.log('view')
+    expect(id.data.message).toEqual('Case was not published')
+  });
+
+  test('View list of all published companies', async () => {
+    const msg =  await lawyer.LawyerViewingPublishedCompanies()
+    expect(msg.data.message).toEqual('Cases');
+  });
+/*
+  test ('Editing lawEntity to Malak', async () => {
+    let law = await adminFunctions.adminChangePricingStrategy('5c9e4b6c4edad508b45adac6')
+    expect(law.data.msg).toEqual('Laws updated successfully')
+  })
 
                   ///////          ////////      //////////
 
@@ -433,6 +678,8 @@ expect(newC.data.msg).toEqual('Case was created successfully')
 ///////////////////   ///////          ////////      ////////// ///////          ////////      //////////
 
 
+  })
+*/
 
 // //Admin tests
 // test('lawyer fill form', async () => {
@@ -448,6 +695,11 @@ expect(newC.data.msg).toEqual('Case was created successfully')
     //expect(law.data.data.message).toEqual('Only super admins have access')
   //})
 
+  // test ('Creating a new Law', async () =>{
+  //   jest.setTimeout(30000)
+  //   let law= await adminFunctions.adminCreateNewLaw()
+  //   expect(law.data.msg).toEqual('Law was created successfully')
+  // })
 //   test ('Creating a new Law', async () =>{
 //     let law= await adminFunctions.adminCreateNewLaw()
 //     expect(law.data.msg).toEqual('Law was created successfully')
@@ -473,6 +725,11 @@ expect(newC.data.msg).toEqual('Case was created successfully')
 
 
 
+
+// test('Admin assign lawyer' ,async() => {
+//   const msg = await adminFunctions.AdminAssignLawyer('5c93e4ae5b66b31668f0e28c','5c9e4dc353415c34a0f35cd1')
+//     expect(msg).toEqual('Case updated successfully')
+// },
 //testing for checkForms 
 
 test('unsuccessful form' , async() => {
@@ -495,13 +752,9 @@ test('unsuccessful form' , async() => {
      "telephone_number":"894094820"
     }
   })
-  
- 
-  
+
   const idI = newInvestor.data.data._id
   console.log(idI)
-
-
   const newC = await axios({
     method:'post',
     url: 'http://localhost:3000/api/Cases',
@@ -597,8 +850,67 @@ test(`send attachment with a valid mail`, async () => {
 test(`View Board of directors`, async () => {
   const board = await userFunctions.UnregisterViewDirectorsID()
   expect(board.data.data.managers[0].name).toEqual("Fady")
+}),
 
-});
+  //Investor tests
+  // test(`paying fees for a company with valid card`, async () => {
+  //   const charge =  await investorFunctions.InvestorPayFees(4242424242424242,12,19,121)
+  //   expect(charge.data.message).toEqual('your payment has been made; you will receive an invoice via your mail.')
+  // });
+
+  // test(`paying fees for a company with expired card`, async () => {
+  //   const charge =  await investorFunctions.InvestorPayFees(4242424242424242,1,19,121)
+  //   //console.log(charge)
+  //   expect(charge.data.message).toEqual
+  //   ('card declined' )
+  // });
+
+  // test('Investor view his fees', async () => {
+  //   const Case= await investorFunctions.InvestorViewFees('5c9512ba8aba002578c01ad6')
+  //   expect(Case.data.msg).toEqual('This is your fees')
+  // })
+
+  // test('Investor view his fees giving a wrong id', async () => {
+  //   const Case= await investorFunctions.InvestorViewFees('5c9512ba8aba002578c01a')
+  //   expect(Case.data.msg).toEqual('Cannot find company')
+  // })
+
+  
+
+// test ('View notification of an investor with an invalid ID', async () => {
+//   var validInvestorID = "x"
+//   //expect.assertions(1)
+//   try {
+//     const response = await Investor.investorMyNotifications(validInvestorID)
+//   } catch (e) {
+//    // console.log(e.response.data)
+//     expect(e.response.data.error).toMatch('Error processing query.');
+//   }
+  
+// })
+
+// test ('View pending companies of an investor', async () => {
+//   var validInvestorID = "5c7a9b46470a360ac8b0d412"
+//   //expect.assegit push --set-upstream origin Lawyertions(1)
+//     const response = await investorFunctions.viewMyPendingCompanies(validInvestorID)
+//     //console.log(response)
+//     expect(response.data.msg).toEqual('Done')
+
+  
+// })
+
+// test ('View pending companies of an investor with an invalid ID', async () => {
+//   var validInvestorID = "x"
+//   //expect.assertions(1)
+//   try {
+//     const response = await investorFunctions.viewMyPendingCompanies(validInvestorID)
+//   } catch (e) {
+//     //console.log(e.response.data)
+//     expect(e.response.data.error).toMatch('Error processing query.');
+//   }
+  
+// })
+
 
 test(`Unregister view questions`, async () => {
     // adding question to database --before all--
@@ -1648,3 +1960,16 @@ test ('View pending companies of a certain investor', async () => {
 // //   expect(charge.data.message).toEqual
 // //   ('card declined' )
 
+/*
+test('Forgot password with valid mail', async () => {
+  jest.setTimeout(30000)
+  const msg =  await Admin.MailForgotPassword('fady.wasfalla@gmail.com')
+  expect(msg).toEqual('An email has been sent check your email');
+const Lawyer = require('./app/models/Lawyer')
+const Question = require('./app/models/Questions')
+const Reviewer = require('./app/models/Reviewer')
+const axios = require('axios')
+jest.setTimeout(30000)
+axios.defaults.adapter = require ('axios/lib/adapters/http')
+
+*/

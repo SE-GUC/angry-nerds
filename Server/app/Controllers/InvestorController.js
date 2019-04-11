@@ -446,44 +446,48 @@ let InvestorController = {
         }
     },
 
-
-    InvCompListViewing: async (res) => {
-
-        try {
-            var Cas = await Case.find({ caseStatus: 'published' }, projx)
-    
-            for (var i = 0; i < Cas.length; i++) {
-             var projx = { '_id': 0, 'reviewerID': 0, 'lawyerID': 0, 'investorID': 0 ,  'equality_capital': 0, 'currency': 0, 'fees':0}
-            }
-             Cas = await Case.find({ caseStatus: 'published' }, projx)
-             res.json({ data: Cas })
-         }
-         catch (error) {
-            console.log(error)
-        }
-    },
-
-    InvCompViewing: async (req, res)=> {
-
-        const id = req.params.id
-        var Cas = await Case.findById(id)
+    //Displaying a List of all published companies
+    InvestorViewingPublishedCompanies: async (req,res) => {
         
         try {
-            if (Cas.caseStatus === 'published') {
-                var proj1 = {  '_id': 0, 'reviewerID': 0, 'lawyerID': 0, 'investorID': 0 ,  'equality_capital': 0, 'currency': 0, 'fees':0}
-                Cas = await Case.findById(id, proj1)
-                res.json({ data: Cas }) 
-            } else {
-                res.json({ msg: 'Case was not published' })
-    
+            var Cas = await Case.find({ caseStatus: 'published' }, projx)
+            
+            for (var i = 0; i < Cas.length; i++) {
+                var projx = { '_id': 0, 'reviewerID': 0, 'lawyerID': 0, 'investorID': 0 ,  'equality_capital': 0, 'currency': 0, 'fees':0}
             }
+            Cas = await Case.find({ caseStatus: 'published' }, projx)
+
+            res.json({ message:'Cases',data: Cas })
         }
         catch (error) {
             console.log(error)
         }
     },
     
-    InvViewing: async (req, res)=> {
+//Viewing One specific Company
+InvestorViewingCompany: async (req, res)=> {
+    
+    const id = req.params.id
+    var Cas = await Case.findById(id)
+    
+    try {
+        if (Cas.caseStatus == 'published') {
+            var proj1 = {  '_id': 0, 'reviewerID': 0, 'lawyerID': 0, 'investorID': 0 ,  'equality_capital': 0, 'currency': 0, 'fees':0}
+            Cas = await Case.findById(id, proj1)
+            res.json({message:'case' , data: Cas }) 
+        } else {
+            res.json({ message: 'Case was not published' })
+            
+        }
+    }
+    catch (error) {
+        console.log(error)
+    }
+},
+
+//Viewing a specific User of any type 
+    
+    InvestorViewing: async (req, res)=> {
         
     var proj = { '_id': 0, 'password': 0}
     var projy = {'_id': 0, 'password': 0 , 'ratings': 0}
@@ -512,19 +516,28 @@ let InvestorController = {
     },
     InvestorRateLawyer: async function (req, res) {
         const id = req.params.id // Lawyer ID
-        const invID = '5c77c2b0c5973856f492f33e' //get this from login token
-        const CasID = '5c94dfa63c95ff18c8866d56' //get this from frontend 
+        const invID = '5c78e4a73ba5f854b86f9058' //get this from login token
+        const CasID = '5c9517dff65058663c3010d7' //get this from frontend 
         const Ratin = req.body.rating
         const Comm = req.body.Comment
         const aCase = await Case.findById(CasID)
         const Lawy = await Lawyer.findById(id)
-       
         try{
             
             if(!aCase)
             res.json({msg: 'this case does not exist'})
-            if(!Lawy)  {
-            res.json({msg: 'not a lawyer, try again'})}
+            if(!Lawy)  
+                res.json({msg: 'not a lawyer, try again'})
+            else{
+            console.log('heeeerreeee')
+
+            console.log(Lawy.ratings)
+            for (let i = 1; i < rat.length; i ++) {
+                    if (rat[i].CaseID == CasID)
+                    res.json({message: 'already rated the lawyer'})
+            
+                }
+            }
             
             if(aCase.investorID == invID&&aCase.lawyerID == id){
                 var newrate = [{'investorID': invID, 'CaseID':CasID, 'rating': Ratin , 'Comment': Comm}]

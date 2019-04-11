@@ -402,6 +402,19 @@ MailResetPassword : async (token,password) => {
     return DelCase;
   },
 
+    AdminDeleteCase: async(id)=> {
+      console.log('im here' + id)
+      const DelCase = await axios({
+
+        method: 'delete',
+        url: 'http://127.0.0.1:3000/AdminDeleteCase/'+ id,
+        headers:{},
+        
+      })
+      return DelCase
+      },
+        
+        
   adminChangePassword: async (old1,old2,newPass) =>{
         
     const newAdmin = await axios.post('http://127.0.0.1:3000/api/Admin',
@@ -420,20 +433,50 @@ MailResetPassword : async (token,password) => {
           "telephone_number": 894094820,
           "notifications": []
       })
+      const response = await axios.put('http://127.0.0.1:3000/AdminChangePassword/' +  newAdmin.data.data._id, {
+        oldPassword: old2,
+        newPassword: newPass
+      })
+      const updatedAdmin = await axios.get('http://127.0.0.1:3000/api/Admin/' + newAdmin.data.data._id)
+      await axios.delete('http://127.0.0.1:3000/api/Admin/' + newAdmin.data.data._id)
     
     
+    
+      return {res: response, updatedAdmin: updatedAdmin.data.data};
+    },
 
-    const response = await axios.put('http://127.0.0.1:3000/AdminChangePassword/' +  newAdmin.data.data._id, {
-      oldPassword: old2,
-      newPassword: newPass
-    })
-    const updatedAdmin = await axios.get('http://127.0.0.1:3000/api/Admin/' + newAdmin.data.data._id)
-    await axios.delete('http://127.0.0.1:3000/api/Admin/' + newAdmin.data.data._id)
-  
-  
-  
-    return {res: response, updatedAdmin: updatedAdmin.data.data};
+      
+
+
+AdminDeleteQuestion: async(id)=> {
+  console.log('im here' + id)
+  const DelCase = await axios({
+
+    method: 'delete',
+    url: 'http://127.0.0.1:3000/AdminDeleteQuestion/'+ id,
+    headers:{},
+    
+    
+    
+  })
+  return DelCase
+},    
+
+AdminViewing: async (id) => {
+  const views= await axios.get('http://localhost:3000/AdminViewing/'+id)
+  return views
   },
+
+  AdminViewingPublishedCompanies: async () => {
+    const viewPC= await axios.get('http://localhost:3000/AdminViewingPublishedCompanies/')
+    return viewPC
+    },
+
+    AdminViewingCompany: async (id) => {
+      const viewC= await axios.get('http://localhost:3000/AdminViewingCompany/'+id)
+      return viewC
+      },
+      
 
   adminCalculateAverage: async (old1,old2,newPass) =>{
         
