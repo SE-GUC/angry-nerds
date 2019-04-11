@@ -431,17 +431,7 @@ expect(newC.data.msg).toEqual('Case was created successfully')
 
 
 ///////////////////   ///////          ////////      ////////// ///////          ////////      //////////
-  const delC = await axios({
-    method:'delete',
-    url: 'http://localhost:3000/api/Cases/'+ cr1,
-   
-  })
 
-  const delInvestor = await axios({
-    method:'delete',
-    url: 'http://localhost:3000/api/Investor/'+ idI,
-    
-  })
 
 
 // //Admin tests
@@ -994,7 +984,7 @@ test(`Admin register Admin successfully`, async () => {
 //The system should be able to generate a PDF format contract and store it 
 //The system should be able to generate a PDF format Decision and store it 
 test ('generate a PDF with a valid ID', async () => {
-  const response = await Investor.generatePdf('')
+  const response = await investorFunctions.generatePdf('')
   expect(response.res.data.msg).toEqual('Done')
   expect(response.newCase.pdfString).toBeDefined()
   expect(response.newCase.pdfString.length).not.toBe(0)
@@ -1003,7 +993,7 @@ test ('generate a PDF with a valid ID', async () => {
 
 test ('generate a PDF with an invalid ID', async () => {
   try {
-        const response = await Investor.generatePdf('wrong_case_id')
+        const response = await investorFunctions.generatePdf('wrong_case_id')
       } catch (e) {
         expect(e.response.data.error).toMatch('Error processing query.');
       }
@@ -1015,7 +1005,7 @@ test ('Updates Password Investor with valid ID and valid old password', async ()
   var validOldPassword2 = "oldPassword"
 
   var newPassword = "newPassword"
-  const response = await Investor.investorChangePassword(validOldPassword1,validOldPassword2,newPassword)
+  const response = await investorFunctions.investorChangePassword(validOldPassword1,validOldPassword2,newPassword)
   expect(response.res.data.msg).toEqual('The password was updated')
   expect(response.updatedInvestor.password).toBe(newPassword)
 })
@@ -1028,9 +1018,9 @@ test ('Updates Password Investor with valid ID and invalid old password', async 
   
 
   try {
-    const response = await Investor.investorChangePassword(validOldPassword1,validOldPassword2,newPassword)
+    const response = await investorFunctions.investorChangePassword(validOldPassword1,validOldPassword2,newPassword)
   } catch (e) {
-    //console.log(e.response.data)
+    console.log(e.response.data)
     expect(e.response.data.error).toMatch('The passwords do not match');
   }
 })  
@@ -1080,7 +1070,7 @@ test ('Updates Password Lawyer with valid ID and valid old password', async () =
   var validOldPassword2 = "oldPassword"
 
   var newPassword = "newPassword"
-  const response = await Lawyer.lawyerChangePassword(validOldPassword1,validOldPassword2,newPassword)
+  const response = await lawyer.lawyerChangePassword(validOldPassword1,validOldPassword2,newPassword)
   expect(response.res.data.message).toEqual('The password was updated')
   expect(response.updatedLawyer.password).toBe(newPassword)
 })
@@ -1093,7 +1083,7 @@ test ('Updates Password Lawyer with valid ID and invalid old password', async ()
   
 
   try {
-    const response = await Lawyer.lawyerChangePassword(validOldPassword1,validOldPassword2,newPassword)
+    const response = await lawyer.lawyerChangePassword(validOldPassword1,validOldPassword2,newPassword)
   } catch (e) {
     //console.log(e.response.data)
     expect(e.response.data.error).toMatch('The passwords do not match');
@@ -1106,7 +1096,7 @@ test ('Updates Password Reviewer with valid ID and valid old password', async ()
   var validOldPassword2 = "oldPassword"
 
   var newPassword = "newPassword"
-  const response = await Reviewer.reviewerChangePassword(validOldPassword1,validOldPassword2,newPassword)
+  const response = await reviewer.reviewerChangePassword(validOldPassword1,validOldPassword2,newPassword)
   expect(response.res.data.msg).toEqual('The password was updated')
   expect(response.updatedReviewer.password).toBe(newPassword)
 })
@@ -1119,7 +1109,7 @@ test ('Updates Password Reviewer with valid ID and invalid old password', async 
   
 
   try {
-    const response = await Reviewer.reviewerChangePassword(validOldPassword1,validOldPassword2,newPassword)
+    const response = await reviewer.reviewerChangePassword(validOldPassword1,validOldPassword2,newPassword)
   } catch (e) {
     //console.log(e.response.data)
     expect(e.response.data.error).toMatch('The passwords do not match');
@@ -1131,7 +1121,7 @@ test ('Updates Password Admin with valid ID and valid old password', async () =>
   var validOldPassword2 = "oldPassword"
 
   var newPassword = "newPassword"
-  const response = await Admin.adminChangePassword(validOldPassword1,validOldPassword2,newPassword)
+  const response = await adminFunctions.adminChangePassword(validOldPassword1,validOldPassword2,newPassword)
   expect(response.res.data.msg).toEqual('The password was updated')
   expect(response.updatedAdmin.password).toBe(newPassword)
 })
@@ -1144,7 +1134,7 @@ test ('Updates Password Admin with valid ID and invalid old password', async () 
   
 
   try {
-    const response = await Admin.adminChangePassword(validOldPassword1,validOldPassword2,newPassword)
+    const response = await adminFunctions.adminChangePassword(validOldPassword1,validOldPassword2,newPassword)
   } catch (e) {
     //console.log(e.response.data)
     expect(e.response.data.error).toMatch('The passwords do not match');
@@ -1155,43 +1145,43 @@ test ('Updates Password Admin with valid ID and invalid old password', async () 
 
 //As an Investor/Staff I should be able to view my notifications
 test ('View notification of an investor with 1 notification', async () => {
-    const response = await Investor.investorMyNotifications(1)
+    const response = await investorFunctions.investorMyNotifications(1)
     expect(response.data.data.length).toEqual(1)
 })
 
 test ('View notification of an investor with 5 notifications', async () => {
-  const response = await Investor.investorMyNotifications(5)
+  const response = await investorFunctions.investorMyNotifications(5)
   expect(response.data.data.length).toEqual(5)
 })
 
 test ('View notification of an lawyer with 1 notification', async () => {
-  const response = await Lawyer.lawyerMyNotifications(1)
+  const response = await lawyer.lawyerMyNotifications(1)
   expect(response.data.data.length).toEqual(1)
 })
 
 test ('View notification of an lawyer with 5 notifications', async () => {
-const response = await Lawyer.lawyerMyNotifications(5)
+const response = await lawyer.lawyerMyNotifications(5)
 expect(response.data.data.length).toEqual(5)
 })
 
 test ('View notification of an reviewer with 1 notification', async () => {
-  const response = await Reviewer.reviewerMyNotifications(1)
+  const response = await reviewer.reviewerMyNotifications(1)
   expect(response.data.data.length).toEqual(1)
 })
 
 test ('View notification of an reviewer with 5 notifications', async () => {
-const response = await Reviewer.reviewerMyNotifications(5)
+const response = await reviewer.reviewerMyNotifications(5)
 expect(response.data.data.length).toEqual(5)
 })
 
 //As an Investor I Should be able to view a list of my companies
 test ('View published companies of a certain investor', async () => {
-  const response = await Investor.viewMyPublishedCompanies()
+  const response = await investorFunctions.viewMyPublishedCompanies()
   expect(response.data.data.length).toEqual(1)
 })
 
 test ('View pending companies of a certain investor', async () => {
-  const response = await Investor.viewMyPendingCompanies()
+  const response = await investorFunctions.viewMyPendingCompanies()
   expect(response.data.data.length).toEqual(1)
 })
 
