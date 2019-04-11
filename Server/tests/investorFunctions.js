@@ -3,16 +3,17 @@ axios.defaults.adapter = require('axios/lib/adapters/http')
 
 const investorFunctions = {
 
-  InvestorPayFees: async (cardnumber, month1, year1, cvc1) => {
+  InvestorPayFees: async (cardnumber, month1, year1, cvc1, caseID1) => {
     const charge = await axios({
       method: 'post',
       url: 'http://localhost:3000/InvestorPayFees',
       headers: {},
       data: { //body
-        name: cardnumber,
+        creditNumber: cardnumber,
         month: month1,
         year: year1,
-        cvc: cvc1
+        cvc: cvc1,
+        caseID: caseID1
       }
     });
     return charge

@@ -44,6 +44,7 @@ router.post('/', async (req, res) => {
     }
 })
 
+//under developement... sign up with jwt
 router.post('/register', async (req, res) => {
     const { firstName ,
             MiddleName,

@@ -21,9 +21,7 @@ const functions = {
                 "equality_capital": 5054641641562,
                 "fees":7776,
                 "managers": []
-        
-
-               
+                       
             }
           });
         return form

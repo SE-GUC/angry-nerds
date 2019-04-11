@@ -15,6 +15,7 @@ const config = require('../../config/mailer')
 const tokenKey = config.tokenKey;
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
+const axios = require('axios')
 
 
 let InvestorController = {
@@ -32,12 +33,13 @@ let InvestorController = {
         const CaseID = req.body.caseID  
         const myCase = await Case.findById(CaseID)
         const inv = await Investor.findOne({ _id: invID })
-        console.log(inv)
         const userEmail = inv.email
         if(!myCase)
-            res.json({msg: 'this case does not exist'})
+           return res.json({message: 'this case does not exist'})
+
+        if(myCase.caseStatus !== 'pending')
+            return res.status(200).json({message: 'company is not ready for payment'})   
             
-        console.log(myCase)
         if (myCase.investorID == invID) {
             stripe.tokens.create({
                 card: {
@@ -47,11 +49,18 @@ let InvestorController = {
                     'cvc': req.body.cvc
                 }
             }, async function (err, token) {
-                if (err) return res.json({ message: 'card declined' })
-                else {    
+                console.log('myError')
+                console.log(err)
+                if (err) return res.json({ message: 'card declined'})
+                else { 
+                        //use axios to get amount
+                        const response = await axios.get('http://127.0.0.1:3000/calculateFees/' + CaseID)
+                        console.log('the response is :', response)
+                        const chargeAmount = response.data.fees * 100
+                        console.log('my charge amount is:   ' + chargeAmount)
                         var charge = stripe.charges.create({
-                        amount: 30000,
-                        currency: 'usd',
+                        amount: chargeAmount,
+                        currency: 'usd', // currency from database case
                         source: token.id
                     }, async function (err) {
                         if (err) {
@@ -153,7 +162,7 @@ let InvestorController = {
       
            
       
-            const newForm = await Case.create(req.body.case);
+            const newForm = await Case.create(req.body);
             const casecreated = await Case.findByIdAndUpdate(newForm._id, {
               investorID: id,
               caseStatus: "lawyer-investor",

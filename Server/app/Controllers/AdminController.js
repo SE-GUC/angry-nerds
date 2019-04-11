@@ -490,7 +490,7 @@ let AdminController = {
                 mongoose.set('useFindAndModify', false)
                 const deletedLawyer = await Lawyer.findByIdAndRemove(LawyerID)
                 if (!deletedLawyer) {
-                    res.json({ message: 'there is not lawyer by this id to remove' })
+                    return res.json({ message: 'there is not lawyer by this id to remove' })
                 }
                 else {
                     const query = { lawyerID: LawyerID }
@@ -502,12 +502,12 @@ let AdminController = {
 
                     }
 
-                    res.json({
-                        message: 'lawyer deleted successfuly'
+                    return res.json({
+                        message: 'lawyer deleted successfully'
                     })
                 }
             }
-            else res.json({ message: 'you are not authorized fir this action' })
+            else return res.json({ message: 'you are not authorized for this action' })
 
 
         }
@@ -560,7 +560,7 @@ let AdminController = {
                 mongoose.set('useFindAndModify', false)
                 const deletedReviewer = await Reviewer.findByIdAndRemove(ReviewerID)
                 if (!deletedReviewer) {
-                    res.json({ message: 'there is not Reviewer by this id to remove' })
+                    return res.json({ message: 'there is not Reviewer by this id to remove' })
                 }
                 else {
                     const query = { reviewerID: ReviewerID }
@@ -572,8 +572,8 @@ let AdminController = {
 
                     }
 
-                    res.json({
-                        message: 'Reviewer deleted successfuly'
+                    return res.json({
+                        message: 'Reviewer deleted successfully'
                     })
                 }
             }
@@ -658,8 +658,8 @@ let AdminController = {
         }
         console.log(fixedFees)
         console.log(percentageFees)
-        const totalfees = fixedFees + percentageFees
-        return res.status(200).json({fees: totalfees, invoice:message})
+        const totalFees = fixedFees + percentageFees
+        return res.status(200).json({fees: totalFees, invoice:message})
         
     },
     /*
