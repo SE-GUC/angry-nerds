@@ -20,7 +20,7 @@ require('../../config/passport')(passport);
 
 let UserController = {
   //write methods here: check InvestorController for example
-  passportauth: passport.authenticate('jwt', { session: false }),
+  authenticate: passport.authenticate('jwt', { session: false }),
 
   UnregisteredViewQuestions: async (req, res) => {
     try {
