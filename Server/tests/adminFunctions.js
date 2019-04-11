@@ -111,18 +111,11 @@ const adminFunctions = {
         "email": "new_emaill@gmail.com",
         "password": "cnjdqqcrjcsjn151215'",
         "gender": "Male",
-
         "Nationality": "Egyptian",
-
         "birthdate": "1980",
-
         "Address": "11 makram",
-
-
         "fax": "125252",
-
         "telephone_number": "151515",
-
         "total_number_of_cases": "588",
         "completed_number_of_cases": "561",
         "number_of_cases": "2",
@@ -219,16 +212,10 @@ const adminFunctions = {
         "gender": "Male",
         "Type": "Admin",
         "Nationality": "Egyptian",
-
         "birthdate": "1980",
-
         "Address": "11 makram",
-
-
         "fax": "125252",
-
         "telephone_number": "151515",
-
         "total_number_of_cases": "588",
         "completed_number_of_cases": "561",
         "number_of_cases": "2",
@@ -254,16 +241,10 @@ const adminFunctions = {
         "gender": "Male",
         "Type": "Super",
         "Nationality": "Egyptian",
-
         "birthdate": "1980",
-
         "Address": "11 makram",
-
-
         "fax": "125252",
-
         "telephone_number": "151515",
-
         "total_number_of_cases": "588",
         "completed_number_of_cases": "561",
         "number_of_cases": "2",
@@ -290,15 +271,36 @@ const adminFunctions = {
   },
   AdminDeleteInvestor: async () => {
     const rev = await axios({
+      method: 'post',
+      url: 'http://localhost:3000/api/Investor/',
+      headers: {},
+      data:
+      {
+        "FirstName": "Romba",
+        "MiddleName": "Ramremo",
+        "LastName": "Gamd",
+        "email": "fady.wasfalla@gmail.com",
+        "password": "Aa123456",
+        "gender": "Male",
+        "ID_type": "Sup",
+        "Type": "Sup",
+        "Nationality": "Egyptian",
+        "birthdate": "1980",
+        "Address": "11 makram",
+        "fax": "125252",
+        "telephone_number": "151515",
+        "SSID": "588"
+      }});
+    const rev1 = await axios({
       method: 'delete',
-      url: 'http://127.0.0.1:3000/AdminDeleteInvestor/5c77e8603fd76231ecbf04ec',
+      url: 'http://127.0.0.1:3000/AdminDeleteInvestor/'+rev.data.data._id,
       headers: {},
       data:
       {
       }
 
     });
-    return rev
+    return rev1
   },
 
 
