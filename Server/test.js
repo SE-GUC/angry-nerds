@@ -2,7 +2,8 @@
 const adminFunctions = require('./tests/adminFunctions')
 const investorFunctions = require('./tests/investorFunctions')
 const userFunctions = require('./tests/userFunctions')
-//const Lawyer = require('./app/models/Lawyer')
+const Lawyer = require('./app/models/Lawyer')
+const Question = require('./app/models/Questions')
 const Reviewer = require('./app/models/Reviewer')
 const axios = require('axios');
 axios.defaults.adapter = require ('axios/lib/adapters/http')
@@ -11,12 +12,16 @@ const axios = require('axios');
 axios.defaults.adapter = require ('axios/lib/adapters/http')
 
 
+<<<<<<< HEAD
 const Admin = require('./app/Functions/Admin.functions');
 const Investor = require('./app/Functions/Investor.functions')
 const Lawyer = require('./app/Functions/Lawyer.functions')
 const Case = require ('./app/models/Cases')
 //const investor = require('./app/models/Investor')
 
+=======
+//Hemaya before tests
+>>>>>>> 5cd04eb2a0bf5bc4226a093a0163f2f88dbcc6b2
 
 
 test('Forgot password with valid mail', async () => {
@@ -94,6 +99,22 @@ test('Reset password with valid token', async () => {
   expect(msg).toEqual('Password reseted succesfully');
 })
 
+
+// test('Forgot password with valid mail', async () => {
+//   jest.setTimeout(30000)
+//   const msg =  await Admin.MailForgotPassword('fady.wasfalla@gmail.com')
+//   expect(msg).toEqual('An email has been sent check your email');
+// });
+
+// test('Forgot password with invalid mail', async () => {
+//   const msg =  await Admin.MailForgotPassword('Wrong_mail@gmail.com')
+//   expect(msg).toEqual('incorrect email');
+// });
+
+// test('Reset password with valid token', async () => {
+//   const msg =  await Admin.MailResetPassword('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJGTmFtZSI6Im1vbmljYSIsImlhdCI6MTU1NDA1Njk4NiwiZXhwIjoxNTU0MDYwNTg2fQ.JbMkTDaIJd4lkkjtxL3tVF9LyuiZw-Xh9KKFDNl5MuM','Fad5y2512')
+//   expect(msg).toEqual('Password reseted succesfully');
+// })
 
 
 
@@ -965,6 +986,235 @@ test(`send attachment with an invalid mail`, async () => {
 // //   ('card declined' )
 // // });
 
+//====================Hemaya tests===========================================================
+test(`View Board of directors`, async () => {
+  const board = await userFunctions.UnregisterViewDirectorsID()
+  expect(board.data.data.managers[0].name).toEqual("Fady")
+
+});
+
+test(`Unregister view questions`, async () => {
+    // adding question to database --before all--
+  const newQuestion = await axios({
+    method: 'post',
+    url: 'http://localhost:3000/api/Questions',
+    headers: {},
+    data:
+    {
+    "senderID":"5c93ac9555b21722fc46eb9b",   
+    "AdminID": "5c9bb1e18308bb316ce15a70",
+    "question" :"what is GAFI?",
+    "answer" :"Yes",
+    "time" :"2019" 
+    }});
+
+
+  const ques = await userFunctions.UnregisterViewQuestions()
+  found = false
+
+  for (let i = 0; i < ques.data.data.length; i += 1) {
+    if (ques.data.data[i].question ==="what is GAFI?") {
+       found = true
+    }
+}
+
+  //Deleting the added question -- after all--
+  await axios({
+  method: 'delete',
+  url: 'http://localhost:3000/api/Questions/'+newQuestion.data.data._id,
+  headers: {},
+  data:
+  {
+  }});
+  expect(found).toEqual(true)
+});
+
+
+test(`Admin register reviewer with email already exists`, async () => {
+  // Adding reviewer with specific email
+  const newRev = await axios({
+    method: 'post',
+    url: 'http://localhost:3000/api/Reviewer',
+    headers: {},
+    data:
+    {
+      "FName": "Romba",
+      "MName": "Ramremo",
+      "LName": "Gamd",
+      "email": "fr@gmail.com",
+      "password": "cnjdqqcrjcsjn151215'",
+      "gender": "Male",
+      "Nationality": "Egyptian",
+      "birthdate": "1980",
+      "Address": "11 makram",
+      "fax": "125252",
+      "telephone_number": "151515",
+      "total_number_of_cases": "588",
+      "completed_number_of_cases": "561",
+      "number_of_cases": "2",
+      "total_time_on_cases": "25",
+      "ssid": "15552"
+    }
+
+  });
+
+  try {
+    const ques = await adminFunctions.AdminRegisterReviewer()
+    expect(ques.data.error).toEqual('Email already exists')
+  }
+  catch (e) {
+    // deleting reviewer
+    await axios({
+      method: 'delete',
+      url: 'http://localhost:3000/api/Reviewer/'+newRev.data.data._id,
+      headers: {},
+      data:
+      {
+      }});
+    expect(e.response.data.error).toEqual("Email already exists")
+  }
+  
+});
+
+test(`Admin register lawyer with email already exists`, async () => {
+  const newLawyer = await axios({
+    method: 'post',
+    url: 'http://localhost:3000/api/Lawyer',
+    headers: {},
+    data:
+    {
+      "FName": "Romba",
+      "MName": "Ramremo",
+      "LName": "Gamd",
+      "email": "fr@gmail.com",
+      "password": "cnjdqqcrjcsjn151215'",
+      "gender": "Male",
+      "Nationality": "Egyptian",
+      "birthdate": "1980",
+      "Address": "11 makram",
+      "fax": "125252",
+      "telephone_number": "151515",
+      "total_number_of_cases": "588",
+      "completed_number_of_cases": "561",
+      "number_of_cases": "2",
+      "total_time_on_cases": "25",
+      "ssid": "15552"
+    }
+
+  });
+
+  try {
+    const ques = await adminFunctions.AdminRegisterLawyer()
+    expect(ques.data.error).toEqual('Email already exists')
+  } catch (e) {
+    await axios({
+      method: 'delete',
+      url: 'http://localhost:3000/api/Reviewer/'+newLawyer.data.data._id,
+      headers: {},
+      data:
+      {
+      }});
+    expect(e.response.data.error).toEqual("Email already exists")
+  }
+});
+
+test(`Admin register reviewer successfully`, async () => {
+
+  const ques = await adminFunctions.AdminRegisterReviewerSuccessfully();
+
+  //deleting the reviewer
+  await axios({
+    method: 'delete',
+    url: 'http://localhost:3000/api/Reviewer/'+ques.data.data._id,
+    headers: {},
+    data:
+    {
+    }});
+
+  expect(ques.data.msg).toEqual('Reviewer was created successfully')
+ 
+});
+
+test(`Admin register lawyer successfully`, async () => {
+
+  const ques = await adminFunctions.AdminRegisterLawyerSuccessfully();
+  expect(ques.data.msg).toEqual('Lawyer was created successfully')
+  await axios({
+    method: 'delete',
+    url: 'http://localhost:3000/api/Lawyer/'+ques.data.data._id,
+    headers: {},
+    data:
+    {
+    }});
+});
+
+test(`Admin register Admin with type not admin`, async () => {
+  // await Lawyer.create(data)
+
+  try {
+    const ques = await adminFunctions.AdminRegisterAdminType()
+    expect(ques.data.error).toEqual('Email already exists')
+  } catch (e) {
+    expect(e.response.data.error).toEqual("Type should be only Admin")
+  }
+})
+
+test(`Admin register Admin with email already exists`, async () => {
+  const rev = await axios({
+    method: 'post',
+    url: 'http://localhost:3000/api/Admin/',
+    headers: {},
+    data:
+    {
+      "FName": "Romba",
+      "MName": "Ramremo",
+      "LName": "Gamd",
+      "email": "fady.wasfalla@gmail.com",
+      "password": "cnjdqqcrjcsjn151215'",
+      "gender": "Male",
+      "Type": "Admin",
+      "Nationality": "Egyptian",
+      "birthdate": "1980",
+      "Address": "11 makram",
+      "fax": "125252",
+      "telephone_number": "151515",
+      "total_number_of_cases": "588",
+      "completed_number_of_cases": "561",
+      "number_of_cases": "2",
+      "total_time_on_cases": "25",
+      "ssid": "15552"
+    }});
+  try {
+    const ques = await adminFunctions.AdminRegisterAdmin()
+    expect(ques.data.error).toEqual('Email already exists')
+  } catch (e) {
+    await axios({
+      method: 'delete',
+      url: 'http://localhost:3000/api/Admin/'+rev.data.data._id,
+      headers: {},
+      data:
+      {
+      }});
+    expect(e.response.data.error).toEqual("Email already exists")
+  }
+})
+
+
+
+test(`Admin register Admin successfully`, async () => {
+  // await Lawyer.create(data)
+
+    const ques = await adminFunctions.AdminRegisterAdminSuccessfully()
+    await axios({
+      method: 'delete',
+      url: 'http://localhost:3000/api/Admin/'+ques.data.data._id,
+      headers: {},
+      data:
+      {
+      }});
+    expect(ques.data.msg).toEqual('Admin was created successfully')
+})
+
 // //====================Hemaya tests===========================================================
 // test(`Unregister view questions`, async () => {
 //   const ques = await userFunctions.UnregisterViewQuestions()
@@ -1002,60 +1252,6 @@ test(`send attachment with an invalid mail`, async () => {
 //   // await Reviewer.findOneAndRemove(query)
 // });
 // test(`Admin register lawyer successfully`, async () => {
-
-//   // await Lawyer.create(data)
-//   const ques = await adminFunctions.AdminRegisterLawyerSuccessfully();
-//   expect(ques.data.msg).toEqual('Lawyer was created successfully')
-//   // var query = { email: "new_emaill@gmail.com" }
-//   // await Lawyer.findOneAndRemove(query)
-// });
-// test(`Admin register Admin with email already exists`, async () => {
-//   // await Lawyer.create(data)
-//   try {
-//     const ques = await adminFunctions.AdminRegisterAdmin()
-//     expect(ques.data.error).toEqual('Email already exists')
-//   } catch (e) {
-//     expect(e.response.data.error).toEqual("Email already exists")
-//   }
-// })
-
-// test(`Admin register Admin with type not admin`, async () => {
-//   // await Lawyer.create(data)
-
-//   try {
-//     const ques = await adminFunctions.AdminRegisterAdminType()
-//     expect(ques.data.error).toEqual('Email already exists')
-//   } catch (e) {
-//     expect(e.response.data.error).toEqual("Type should be only Admin")
-//   }
-// })
-
-// test(`Admin register Admin successfully`, async () => {
-//   // await Lawyer.create(data)
-
-//     const ques = await adminFunctions.AdminRegisterAdminSuccessfully()
-//     expect(ques.data.msg).toEqual('Admin was created successfully')
-// })
-
-
-// test(`Admin delete Investor not exist`, async () => {
-//   // await Lawyer.create(data)
-//   try {
-//     const ques = await adminFunctions.AdminDeleteInvestorNot()
-//     expect(ques.data.error).toEqual('Email already exists')
-//   } catch (e) {
-//     expect(e.response.data.error).toEqual("Can not find Investor")
-//   }
-// })
-
-
-// test(`Admin delete Investor successfully`, async () => {
-//   // await Lawyer.create(data)
-
-//     const ques = await adminFunctions.AdminDeleteInvestor()
-//     expect(ques.data.msg).toEqual('Investor deleted successfully')
-// })
-
 
 // test ('generate a PDF with a valid ID', async () => {
 //   var validCaseID = "5c9cfd1d05f1d42e68b75fb7"
