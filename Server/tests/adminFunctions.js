@@ -4,6 +4,28 @@ jest.setTimeout( 30000);
 
 const adminFunctions = {
 
+  MailForgotPassword : async (mail) => {
+    const t = await axios({
+        method: 'get',
+        url:'http://127.0.0.1:3000/forgotpassword',
+        headers: {}, 
+        data: {
+          email: mail, // This is the body part
+        }
+      });      
+      return t
+},
+MailResetPassword : async (token,password) => {
+  const t = await axios({
+      method: 'post',
+      url:'http://127.0.0.1:3000/resetpassword/'+token,
+      headers: {}, 
+      data: {
+        pass: password, // This is the body part
+      }
+    });
+    return t.data.message
+},
 
   adminChangePricingStrategy: async (lawID) => {
     const Law = await axios({
@@ -40,19 +62,11 @@ const adminFunctions = {
         "email": "fr@gmail.com",
         "password": "cnjdqqcrjcsjn151215'",
         "gender": "Male",
-
-
         "Nationality": "Egyptian",
-
         "birthdate": "1980",
-
         "Address": "11 makram",
-
-
         "fax": "125252",
-
         "telephone_number": "151515",
-
         "total_number_of_cases": "588",
         "completed_number_of_cases": "561",
         "number_of_cases": "2",

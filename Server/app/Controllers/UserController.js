@@ -13,13 +13,15 @@ const Lawyer = require("./../models/Lawyer");
 const tempUser = require("./../models/tempUser");
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const config = require('../../config/mailer')
-const tokenKey = config.tokenKey;
-
+const config = require('../../config/key')
+const tokenKey = config.secretOrKey;
+var passport = require('passport');
+require('../../config/passport')(passport);
 
 let UserController = {
   //write methods here: check InvestorController for example
-  
+  passportauth: passport.authenticate('jwt', { session: false }),
+
   UnregisteredViewQuestions: async (req, res) => {
     try {
       const projection = { _id: 0, question: 1, answer: 1, time: 1 };
@@ -154,7 +156,7 @@ let UserController = {
                 type:'investor'
               };
               const token = jwt.sign(payload, tokenKey, { expiresIn: "1h" });
-              return res.json({ data: token });
+              return res.json({data: `Bearer ${token}`})
             }else return res.status(400).send({ password: "Wrong password" });
       }
       else if (lawyer){
@@ -167,7 +169,7 @@ let UserController = {
                 type:'lawyer'
               };
               const token = jwt.sign(payload, tokenKey, { expiresIn: "1h" });
-              return res.json({ data: token });
+              return res.json({data: `Bearer ${token}`})
             }else return res.status(400).send({ password: "Wrong password" });
       }
       else if (reviewer) {
@@ -180,7 +182,7 @@ let UserController = {
                 type:'reviewer'
               };
               const token = jwt.sign(payload, tokenKey, { expiresIn: "1h" });
-              return res.json({ data: token });
+              return res.json({data: `Bearer ${token}`})
             }else return res.status(400).send({ password: "Wrong password" });
       }
       else if (admin){
@@ -193,7 +195,7 @@ let UserController = {
                 type:'admin'
               };
               const token = jwt.sign(payload, tokenKey, { expiresIn: "1h" });
-              return res.json({ data: token });
+              return res.json({data: `Bearer ${token}`})
             }else return res.status(400).send({ password: "Wrong password" });
       }
 
