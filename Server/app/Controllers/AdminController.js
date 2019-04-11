@@ -88,7 +88,7 @@ let AdminController = {
         }
     },
     AdminRegisterReviewer: async (req, res) => {
-        const AdminId = '5c9bb0dc5185793518ea84fb' //login token
+        const AdminId = '5cae9507646b4841fcd6478f' //login token
         const Admin = await Admins.findById(AdminId)
         if (!Admin)
             return res.status(403).json({ error: 'Only Admins have access' })
@@ -204,7 +204,7 @@ let AdminController = {
         main().catch(console.error);
     },
     AdminRegisterAdmin: async (req, res) => {
-        const AdminId = '5ca1144b4cf5920704aeab7a' //login token
+        const AdminId = '5cae9507646b4841fcd6478f' //login token
         const Admin = await Admins.findById(AdminId)
         if ((!Admin) || (Admin && Admin.Type !== 'Super'))
             return res.status(403).json({ error: 'Only super admins have access' })
@@ -227,7 +227,7 @@ let AdminController = {
         try {
             mongoose.set('useFindAndModify', false)
             const id = req.params.id
-            const AdminId = '5ca1144b4cf5920704aeab7a' //login token
+            const AdminId = '5cae9507646b4841fcd6478f' //login token
             const Admin = await Admins.findById(AdminId)
 
             if ((!Admin) || (Admin && Admin.Type !== 'Super'))
