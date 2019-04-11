@@ -108,6 +108,7 @@ test(`paying fees for a company that is not pending`, async () => {
   );
   //console.log(charge)
   expect(charge.data.message).toEqual("company is not ready for payment");
+});
 
 test('investor fill form', async () => {
     const msg =  await investorFunctions.investorFillForm()
@@ -159,27 +160,19 @@ test('investor fill form', async () => {
     expect(com.data).toEqual({});
   }); 
   
-  test('Admin view lawyerLeaderBoard', async () => {
-    const msg =  await adminFunctions.adminViewLawyersLeaderBoard()
-    expect(msg.data.msg).toEqual('Done');
-  }); 
   
-  test('Admin view ReviewersLeaderBoard', async () => {
-    const msg =  await adminFunctions.adminViewReviewersLeaderBoard()
-    expect(msg.data.msg).toEqual('Done');
-  });
   
-  test('Reviewer view lawyersLeaderBoard', async () => {
-    const msg =  await reviewer.reviewerViewLawyersLeaderBoard()
-    expect(msg.data.msg).toEqual('Done');
-  });
+  // test('Reviewer view lawyersLeaderBoard', async () => {
+  //   const msg =  await reviewer.reviewerViewLawyersLeaderBoard()
+  //   expect(msg.data.msg).toEqual('Done');
+  // });
   
   
   test('Reviewer view reviewersLeaderBoard', async () => {
   const msg =  await reviewer.reviewerViewReviewersLeaderBoard()
   expect(msg.data.msg).toEqual('Done');
   });
-});
+
 
 
 test(`case disaproves at reviewer and casestatus should be lawyer`, async () => {

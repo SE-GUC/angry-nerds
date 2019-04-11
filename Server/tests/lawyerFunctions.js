@@ -118,7 +118,7 @@ LawyerViewing: async (id) => {
       
       
         return {res: response, updatedLawyer: updatedLawyer.data.data};
-      }
+      },
     
 
     lawyerUpdateForm:  async (id) => {
