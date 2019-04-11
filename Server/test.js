@@ -8,8 +8,6 @@ const Reviewer = require('./app/models/Reviewer')
 const axios = require('axios');
 axios.defaults.adapter = require ('axios/lib/adapters/http')
 jest.setTimeout(30000)
-const axios = require('axios');
-axios.defaults.adapter = require ('axios/lib/adapters/http')
 
 
 //Hemaya before tests
