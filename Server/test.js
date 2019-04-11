@@ -605,7 +605,7 @@ test('Reset password with valid token', async () => {
 // // });
 
 //====================Hemaya tests===========================================================
-test(`View Board of directors with id`, async () => {
+test(`View Board of directors`, async () => {
   const board = await userFunctions.UnregisterViewDirectorsID()
   expect(board.data.data.managers[0].name).toEqual("Fady")
 
