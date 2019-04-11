@@ -16,6 +16,9 @@ router.post('/InvestorPayFees', InvestorController.InvestorPayFees)
 router.post('/InvestorFillForm',InvestorController.investorFillForm)
 router.put('/InvestorUpdateForm/:id', InvestorController.investorUpdateForm)
 router.put('/InvestorEditProfile',InvestorController.InvestorEditProfile)
+router.get('/InvestorViewComment',InvestorController.investorViewComment)
+router.get('/InvestorViewProfile',InvestorController.investorViewProfile)
+
 
 //this endpoint allows investor to view his company fees
 router.get('/InvestorViewFees', InvestorController.InvestorViewFees)
@@ -43,7 +46,6 @@ router.delete('/AdminDeleteAdmin/:id', AdminController.AdminDeleteAdmin)
 router.get('/forgotpassword', AdminController.forgotpassword)
 router.post('/resetpassword/:token', AdminController.resetpassword)
 router.put('/AdminChangePricingStrategy/:id', AdminController.AdminChangePricingStrategy)
-
 router.get('/AdminViewingPublishedCompanies', AdminController.AdminViewingPublishedCompanies)
 router.get('/AdminViewingCompany/:id', AdminController.AdminViewingCompany)
 router.get('/AdminViewing/:id', AdminController.AdminViewing)
@@ -103,6 +105,7 @@ router.get('/ReviewerCloseCase/:id', ReviewerController.ReviewerCloseCase)
 router.put('/caseAproveedAtReviewer/:idCase', ReviewerController.caseAproveedAtreviewer)// fix this
 router.put('/caseDisAproveedAtReviewer/:idCase', ReviewerController.caseDisAproveedAtReviewer)
 router.get('/viewCasesReviewer/', ReviewerController.viewCasesReviewer)
+router.get('/ReviewerViewReviewersLeaderBoard',ReviewerController.reviewerViewReviewersLeaderBoard)
 
 
 

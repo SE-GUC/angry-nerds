@@ -177,7 +177,7 @@ let ReviewerController = {
   //ask paul about performance...
   reviewerViewLawyersLeaderBoard: async (req, res) => {
     try {
-      const reviewerid = "5c9e48bb3f08ad4ea807ea10"; //get from token
+      const reviewerid = "5caedcb44452700f484617ac"; //get from token
       const reviewer = await Reviewer.findById(reviewerid);
       if (!reviewer)
         return res
@@ -188,12 +188,34 @@ let ReviewerController = {
       });
       // console.log(Lawyer)
       //console.log(leaderboard)
-      return res.json({ data: leaderboard });
+      return res.status(200).send({ data: leaderboard , msg:"Done" });
     } catch (error) {
       //console.log(error)
       return res.status(404).send({ error: "LeaderBoard cant be viewed" });
     }
   },
+
+  reviewerViewReviewersLeaderBoard: async (req, res) => {
+    try {
+      const reviewerid = "5caedcb44452700f484617ac";
+      const reviewer = await Reviewer.findById(reviewerid);
+      if (!reviewer)
+        return res
+          .status(404)
+          .send({ error: "You are not allowed to view the Leaderboard" });
+      const leaderboard = await Reviewer.find().sort({
+        completed_number_of_cases: 1
+      });
+      //console.log(leaderboard)
+      return res.status(200).send({ data: leaderboard, msg: "Done" });
+    } catch (error) {
+      console.log(error)
+      return res.status(404).send({ error: "LeaderBoard cant be viewed" });
+    }
+  },
+
+
+
 
   //reviewer open a case and lock
   ReviewerOpenCase: async(req,res) => {

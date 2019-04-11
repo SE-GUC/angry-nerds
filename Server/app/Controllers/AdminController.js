@@ -250,8 +250,8 @@ let AdminController = {
 
     adminViewComment: async (req, res) => {
         try {
-            const formid = '5c9cfd1d05f1d42e68b75fb7'
-            const adminid = '5c77e91b3fd76231ecbf04ee'
+            const formid = '5caea6d0656a5b5b52c79e9f'
+            const adminid = '5c9bb0dc5185793518ea84fb'
             const admin = await Admins.findById(adminid)
             const form = await Case.findById(formid)
             if (!form)
@@ -315,13 +315,13 @@ let AdminController = {
 
     adminViewLawyersLeaderBoard: async (req, res) => {
         try {
-            const adminid = '5c9e48bb3f08ad4ea807ea10'
+            const adminid = '5c9bb0dc5185793518ea84fb'
             const admin = await Admin.findById(adminid)
             if (!admin)
                 return res.status(404).send({ error: 'You are not allowed to view the Leaderboard' });
             const leaderboard = await Lawyer.find().sort({ completed_number_of_cases: 1 });
 
-            return res.json({ data: leaderboard });
+            return res.json({ data: leaderboard , msg: "Done"});
 
 
 
@@ -335,13 +335,13 @@ let AdminController = {
 
     adminViewReviewersLeaderBoard: async (req, res) => {
         try {
-            const adminid = '5c9e48bb3f08ad4ea807ea10'
+            const adminid = '5c9bb0dc5185793518ea84fb'
             const admin = await Admin.findById(adminid)
             if (!admin)
                 return res.status(404).send({ error: 'You are not allowed to view the Leaderboard' });
             const leaderboard = await Reviewer.find().sort({ completed_number_of_cases: 1 });
 
-            return res.json({ data: leaderboard });
+            return res.json({ data: leaderboard , msg: "Done" });
 
 
 

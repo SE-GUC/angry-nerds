@@ -156,7 +156,7 @@ let InvestorController = {
     investorFillForm: async (req, res) => {
 
         try {
-            const id = "5c9f69180ec7b72d689dba6d"; //From Token
+            const id = "5c93ac9555b21722fc46eb9b"; //From Token
             const investor = await Investor.findById(id);
       
             if (!investor)
@@ -191,7 +191,7 @@ let InvestorController = {
     investorUpdateForm: async (req,res) => {
         try {
             const id=req.params.id
-            const investorid = '5c77e91b3fd76231ecbf04ee'
+            const investorid = '5c9911dcb757601b7c691fa6'
             const investor = await Investor.findById(investorid)
             const form = await Case.findById(id)
             if (!investor)
@@ -199,7 +199,7 @@ let InvestorController = {
             if (!form)
                 return res.status(404).send({ error: 'The form you are trying to update does not exist' });
             var updatedForm = await Case.findByIdAndUpdate(id, req.body)
-            res.json({ msg: 'Form updated successfully', data: updatedForm })
+            res.json({ msg: 'Form updated successfully'})
 
         }
         catch (error) {
@@ -212,8 +212,8 @@ let InvestorController = {
 
     investorViewComment: async (req, res) => {
         try {
-            const formid = '5c9cfd1d05f1d42e68b75fb7'
-            const investorid = '5c77e91b3fd76231ecbf04ee'
+            const formid = '5caea6d0656a5b5b52c79e9f'
+            const investorid = '5caea6cf656a5b5b52c79e9e'
             const investor = await Investor.findById(investorid)
             const form = await Case.findById(formid)
             /*console.log(form)
@@ -241,6 +241,23 @@ let InvestorController = {
 
 
     },
+    
+    investorViewProfile: async(req,res)=>{
+        try{
+            const investorId='5caea6cf656a5b5b52c79e9e'
+            const investor = await Investor.findById(investorId)
+            if (!investor)
+                return res.status(404).send({ error: 'Investor doesnt exist '});
+            else
+            return res.status(200).json({ msg: 'Done' , data: investor })
+
+        }
+        catch (error) {
+            console.log(error)
+        }
+    },
+
+    
 
     /*
         PUT request to change password of the investor
