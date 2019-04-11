@@ -23,16 +23,14 @@ LawViewing: async (id) => {
     },
 
     caseAproveedAtLawyer:  async (caseID, stafID) => {
-        
         const CASE = await axios({
             method: 'put',
-            url: 'http://localhost:3000/caseAproveedAtLawyer/'+caseID,
+            url: 'http://127.0.0.1:3000/caseAproveedAtLawyer/'+caseID,
             headers: {}, 
             data: { //body
             }
           });
         return CASE
-        
     },
 
     viewCasesLawyer:async () => {

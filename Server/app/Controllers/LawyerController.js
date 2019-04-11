@@ -253,11 +253,9 @@ let LawyerController = {
 
     const CASE = await Case.findById(caseID);
     const lawyer = await Lawyer.findById(staffID);
-
     if (!CASE) {
       return res.status(404).json({ error: "cannot find this case" });
     }
-
     const newLog = CASE.log;
     newLog.push({
       id: staffID,
@@ -265,7 +263,7 @@ let LawyerController = {
       date: new Date()
     });
 
-    await Case.findByIdAndUpdate(caseID, {
+   await Case.findByIdAndUpdate(caseID, {
       caseStatus: "reviewer",
       locked: false,
       log: newLog

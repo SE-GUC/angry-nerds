@@ -5,7 +5,6 @@ const ReviewerController = require('./Controllers/ReviewerController')
 const UserController = require('./Controllers/UserController')
 const express = require('express')
 var router = express.Router();
-var fs = require('fs');
 
 
 
@@ -14,7 +13,7 @@ var fs = require('fs');
 //this endpoint allows the investor to pay fees for a pending company
 router.get('/InvestorSignIn/:email/:password',InvestorController.InvestorSignIn)
 router.post('/InvestorPayFees', InvestorController.InvestorPayFees)
-router.post('/InvestorFillForm', InvestorController.investorFillForm)
+router.post('/InvestorFillForm',InvestorController.investorFillForm)
 router.put('/InvestorUpdateForm/:id', InvestorController.investorUpdateForm)
 router.put('/InvestorEditProfile',InvestorController.InvestorEditProfile)
 
@@ -37,11 +36,11 @@ router.post('/AdminRegisterAdmin', AdminController.AdminRegisterAdmin)
 router.put('/AdminEditCompany/:id', AdminController.AdminEditCompany)
 router.delete('/AdminDeleteInvestor/:id', AdminController.AdminDeleteInvestor)
 router.post('/AdminRegisterLawyer', AdminController.AdminRegisterLawyer)
-router.post('AdminRegisterReviewer', AdminController.AdminRegisterReviewer)
+router.post('/AdminRegisterReviewer', AdminController.AdminRegisterReviewer)
 router.delete('/AdminDeleteLawyer/:id', AdminController.AdminDeleteLawyer)
 router.delete('/AdminDeleteReviewer/:id', AdminController.AdminDeleteReviewer)
 router.delete('/AdminDeleteAdmin/:id', AdminController.AdminDeleteAdmin)
-router.post('/forgotpassword', AdminController.forgotpassword)
+router.get('/forgotpassword', AdminController.forgotpassword)
 router.post('/resetpassword/:token', AdminController.resetpassword)
 router.put('/AdminChangePricingStrategy/:id', AdminController.AdminChangePricingStrategy)
 router.get('/AdmCompListViewing', AdminController.AdmCompListViewing)
@@ -49,8 +48,8 @@ router.get('/AdmCompViewing/:id', AdminController.AdmCompViewing)
 router.get('/AdmViewing/:id', AdminController.AdmViewing)
 router.delete('/AdmDelQuestion/:id', AdminController.AdmDelQuestion)
 router.delete('/AdmDelCase/:id', AdminController.AdmDelCase)
-router.get('AdminViewLawyersLeaderBoard', AdminController.adminViewLawyersLeaderBoard)
-router.get('AdminViewReviewersLeaderBoard', AdminController.adminViewReviewersLeaderBoard)
+router.get('/AdminViewLawyersLeaderBoard', AdminController.adminViewLawyersLeaderBoard)
+router.get('/AdminViewReviewersLeaderBoard', AdminController.adminViewReviewersLeaderBoard)
 router.put('/AdminChangePassword/:id', AdminController.adminChangePassword)
 router.post('/AdminCreateNewLaw', AdminController.AdminCreateNewLaw)
 router.put('/AdminAssignLawyer',AdminController.AdminAssignLawyer)

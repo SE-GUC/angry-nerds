@@ -66,11 +66,13 @@ let ReviewerController = {
         date: new Date()
     })
 
-    console.log(newLog)
 
     const newCase = await Case.findByIdAndUpdate(caseID, 
     {caseStatus: 'pending', locked:false, log: newLog})
-    return res.status(200).json({ msg: "Case approved, awaiting payment", data: CASE }); 
+    console.log('here')
+    console.log(newCase)
+
+    return res.status(200).json({ msg: "Case approved, awaiting payment", data: newCase }); 
     }
   },
 

@@ -14,12 +14,13 @@ const fun = require('./AdminController')
 const jwt = require('jsonwebtoken');
 var nodemailer = require('nodemailer');
 var bcrypt = require('bcryptjs');
+const config = require('../../config/mailer')
+const tokenKey = config.tokenKey;
 
 "use strict";
 
 const dotenv = require("dotenv");
 const mailer = require('./../../misc/mailer')
-const config = require('./../../config/mailer')
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 
 var InvestorController = require('./InvestorController')
@@ -87,7 +88,7 @@ let AdminController = {
         }
     },
     AdminRegisterReviewer: async (req, res) => {
-        const AdminId = '5c9bb0dc5185793518ea84fb' //login token
+        const AdminId = '5cae9507646b4841fcd6478f' //login token
         const Admin = await Admins.findById(AdminId)
         if (!Admin)
             return res.status(403).json({ error: 'Only Admins have access' })
@@ -203,7 +204,7 @@ let AdminController = {
         main().catch(console.error);
     },
     AdminRegisterAdmin: async (req, res) => {
-        const AdminId = '5ca1144b4cf5920704aeab7a' //login token
+        const AdminId = '5cae9507646b4841fcd6478f' //login token
         const Admin = await Admins.findById(AdminId)
         if ((!Admin) || (Admin && Admin.Type !== 'Super'))
             return res.status(403).json({ error: 'Only super admins have access' })
@@ -226,7 +227,7 @@ let AdminController = {
         try {
             mongoose.set('useFindAndModify', false)
             const id = req.params.id
-            const AdminId = '5ca1144b4cf5920704aeab7a' //login token
+            const AdminId = '5cae9507646b4841fcd6478f' //login token
             const Admin = await Admins.findById(AdminId)
 
             if ((!Admin) || (Admin && Admin.Type !== 'Super'))
@@ -414,7 +415,7 @@ let AdminController = {
                 var token = jwt.sign({
                     _id: Admins._id,
                     FName: user.FName
-                }, 'secret', { expiresIn: 60*60 }); //seconds
+                }, tokenKey, { expiresIn: 60*60 }); //seconds
 
                 let transporter = nodemailer.createTransport({
                     service: 'gmail',

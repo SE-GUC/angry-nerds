@@ -4,6 +4,28 @@ jest.setTimeout( 30000);
 
 const adminFunctions = {
 
+  MailForgotPassword : async (mail) => {
+    const t = await axios({
+        method: 'get',
+        url:'http://127.0.0.1:3000/forgotpassword',
+        headers: {}, 
+        data: {
+          email: mail, // This is the body part
+        }
+      });      
+      return t
+},
+MailResetPassword : async (token,password) => {
+  const t = await axios({
+      method: 'post',
+      url:'http://127.0.0.1:3000/resetpassword/'+token,
+      headers: {}, 
+      data: {
+        pass: password, // This is the body part
+      }
+    });
+    return t.data.message
+},
 
   adminChangePricingStrategy: async (lawID) => {
     const Law = await axios({
@@ -40,19 +62,11 @@ const adminFunctions = {
         "email": "fr@gmail.com",
         "password": "cnjdqqcrjcsjn151215'",
         "gender": "Male",
-
-
         "Nationality": "Egyptian",
-
         "birthdate": "1980",
-
         "Address": "11 makram",
-
-
         "fax": "125252",
-
         "telephone_number": "151515",
-
         "total_number_of_cases": "588",
         "completed_number_of_cases": "561",
         "number_of_cases": "2",
@@ -111,18 +125,11 @@ const adminFunctions = {
         "email": "new_emaill@gmail.com",
         "password": "cnjdqqcrjcsjn151215'",
         "gender": "Male",
-
         "Nationality": "Egyptian",
-
         "birthdate": "1980",
-
         "Address": "11 makram",
-
-
         "fax": "125252",
-
         "telephone_number": "151515",
-
         "total_number_of_cases": "588",
         "completed_number_of_cases": "561",
         "number_of_cases": "2",
@@ -219,16 +226,10 @@ const adminFunctions = {
         "gender": "Male",
         "Type": "Admin",
         "Nationality": "Egyptian",
-
         "birthdate": "1980",
-
         "Address": "11 makram",
-
-
         "fax": "125252",
-
         "telephone_number": "151515",
-
         "total_number_of_cases": "588",
         "completed_number_of_cases": "561",
         "number_of_cases": "2",
@@ -254,16 +255,10 @@ const adminFunctions = {
         "gender": "Male",
         "Type": "Super",
         "Nationality": "Egyptian",
-
         "birthdate": "1980",
-
         "Address": "11 makram",
-
-
         "fax": "125252",
-
         "telephone_number": "151515",
-
         "total_number_of_cases": "588",
         "completed_number_of_cases": "561",
         "number_of_cases": "2",
@@ -290,15 +285,36 @@ const adminFunctions = {
   },
   AdminDeleteInvestor: async () => {
     const rev = await axios({
+      method: 'post',
+      url: 'http://localhost:3000/api/Investor/',
+      headers: {},
+      data:
+      {
+        "FirstName": "Romba",
+        "MiddleName": "Ramremo",
+        "LastName": "Gamd",
+        "email": "fady.wasfalla@gmail.com",
+        "password": "Aa123456",
+        "gender": "Male",
+        "ID_type": "Sup",
+        "Type": "Sup",
+        "Nationality": "Egyptian",
+        "birthdate": "1980",
+        "Address": "11 makram",
+        "fax": "125252",
+        "telephone_number": "151515",
+        "SSID": "588"
+      }});
+    const rev1 = await axios({
       method: 'delete',
-      url: 'http://127.0.0.1:3000/AdminDeleteInvestor/5c77e8603fd76231ecbf04ec',
+      url: 'http://127.0.0.1:3000/AdminDeleteInvestor/'+rev.data.data._id,
       headers: {},
       data:
       {
       }
 
     });
-    return rev
+    return rev1
   },
 
 
@@ -326,14 +342,14 @@ const adminFunctions = {
     });
     return cases.data.msg
   },
-  CheckFroms: async () => {
-    const form = await axios({
-      method: 'put',
+  CheckForms: async (data) => {
+    const form = await axios({      
+      method: 'post',
       url: 'http://localhost:3000/api/Cases',
       headers: {},
       data: {
-        investorId: "5c77c2b0c5973856f492f33e",
-        form_type: "SSC"
+        // investorId: "5c77c2b0c5973856f492f33e",
+        // form_type: "SSC"
       }
     });
     return form
