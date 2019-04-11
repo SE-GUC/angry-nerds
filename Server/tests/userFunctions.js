@@ -8,7 +8,8 @@ UnregisterViewing: async (id) => {
     return views
     },
 
-    
+    //===============Hemaya Tests===================================================
+
     UnregisterViewQuestions:  async () => {
         const ques = await axios({
             method: 'get',
@@ -29,6 +30,19 @@ UnregisterViewing: async (id) => {
           const viewC= await axios.get('http://localhost:3000/UnregisterViewingCompany/'+id)
           return viewC
           },
+    UnregisterViewDirectorsID: async() =>{
+            const board = await axios({
+                method: 'get',
+                url: 'http://localhost:3000/api/Cases/ViewBoardOfDirectorsID/5c966104f876b95140121bd6',
+                headers: {}, 
+                data: { //body
+                }
+            });
+            return board
+    },
+
+
+
     
 }
 module.exports = UserFunctions

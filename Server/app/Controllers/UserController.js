@@ -1,38 +1,44 @@
-const validator = require('../../validations/caseValidations')
-const stripe = require('stripe')('sk_test_Tc2FlJG0ovXrM6Zt7zuK1O6f002jC3hcT0')
-const Case = require('./../models/Cases')
-const Questions = require('./../models/Questions')
-const express = require('express')
-const router = express.Router()
-const mongoose = require('mongoose')
-const Lawyer = require('./../models/Lawyer')
-const Laws= require('./../models/Laws')
-const Investor = require('./../models/Investor')
-const Admins = require('./../models/Admin')
-const Reviewer = require('./../models/Reviewer')
-
-
+const validator = require("../../validations/caseValidations");
+const stripe = require("stripe")("sk_test_Tc2FlJG0ovXrM6Zt7zuK1O6f002jC3hcT0");
+const Case = require("./../models/Cases");
+const Questions = require("./../models/Questions");
+const express = require("express");
+const router = express.Router();
+const mongoose = require("mongoose");
+const Laws = require("./../models/Laws");
+const Investor = require("./../models/Investor");
+const Admin = require("./../models/Admin");
+const Reviewer = require("./../models/Reviewer");
+const Lawyer = require("./../models/Lawyer");
+const tempUser = require("./../models/tempUser");
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+const config = require('../../config/key')
+const tokenKey = config.secretOrKey;
+var passport = require('passport');
+require('../../config/passport')(passport);
 
 let UserController = {
-//write methods here: check InvestorController for example
+  //write methods here: check InvestorController for example
+  passportauth: passport.authenticate('jwt', { session: false }),
 
-UnregisteredViewQuestions: async (req,res) =>{
+  UnregisteredViewQuestions: async (req, res) => {
     try {
-        const projection = { _id: 0, question: 1, answer: 1, time: 1 }
-        const ques = await Questions.find({}, projection)
-        res.status(200).json({ data: ques })
+      const projection = { _id: 0, question: 1, answer: 1, time: 1 };
+      const ques = await Questions.find({}, projection);
+      res.status(200).json({ data: ques });
     } catch (err) {
-        return next(err);
+      return next(err);
     }
-},
+  },
 
-viewLawyers: async (req,res) =>{
+  viewLawyers: async (req, res) => {
     try {
-       // const projection = { _id: 1, password: 0 }
-        const lawyers = await Lawyer.find()
-        res.json({ data: lawyers })
+      // const projection = { _id: 1, password: 0 }
+      const lawyers = await Lawyer.find();
+      res.json({ data: lawyers });
     } catch (err) {
-        return next(err);
+      return next(err);
     }
 },
 UserViewLaws: async function(req, res){
@@ -120,8 +126,83 @@ console.log(error)
 
 
 
+  Login: async (req, res) => {
+    try {
 
+      const { email, password } = req.body;
+
+      const investor = await Investor.findOne({ email });
+      const lawyer = await Lawyer.findOne({ email });
+      const reviewer = await Reviewer.findOne({ email });
+      const admin = await Admin.findOne({ email });
+      const tempo = await tempUser.findOne({email});
+      console.log(tempo , lawyer)
+      if (tempo) return res.status(400).json({ error : 'You are already registered with this email , You need to verify it ' });
+
+      if ( (!investor) && (!lawyer) && (!reviewer) && (!admin) && (!tempo) ) return res.status(404).json({ error : "Email does not exist" });
+      
+      console.log('testt')
+
+      if (investor){
+        console.log('1')
+        const match = bcrypt.compareSync(password, investor.password);
+        if (match) {
+            const payload = {
+                id: investor._id,
+                email: investor.email,
+                type:'investor'
+              };
+              const token = jwt.sign(payload, tokenKey, { expiresIn: "1h" });
+              return res.json({data: `Bearer ${token}`})
+            }else return res.status(400).send({ password: "Wrong password" });
+      }
+      else if (lawyer){
+        console.log('2')
+        const match = bcrypt.compareSync(password, lawyer.password);
+        if (match) {
+            const payload = {
+                id: lawyer._id,
+                email: lawyer.email,
+                type:'lawyer'
+              };
+              const token = jwt.sign(payload, tokenKey, { expiresIn: "1h" });
+              return res.json({data: `Bearer ${token}`})
+            }else return res.status(400).send({ password: "Wrong password" });
+      }
+      else if (reviewer) {
+        console.log('3')
+        const match = bcrypt.compareSync(password, reviewer.password);
+        if (match) {
+            const payload = {
+                id: reviewer._id,
+                email: reviewer.email,
+                type:'reviewer'
+              };
+              const token = jwt.sign(payload, tokenKey, { expiresIn: "1h" });
+              return res.json({data: `Bearer ${token}`})
+            }else return res.status(400).send({ password: "Wrong password" });
+      }
+      else if (admin){
+        console.log('4')
+        const match = bcrypt.compareSync(password, admin.password);
+        if (match) {
+            const payload = {
+                id: admin._id,
+                email: admin.email,
+                type:'admin'
+              };
+              const token = jwt.sign(payload, tokenKey, { expiresIn: "1h" });
+              return res.json({data: `Bearer ${token}`})
+            }else return res.status(400).send({ password: "Wrong password" });
+      }
+
+    } 
+    catch (e) {
+        console.log(e)
     }
+  }
 
 
-module.exports = UserController
+};
+
+module.exports = UserController;

@@ -1,130 +1,117 @@
-const validator = require('../../validations/caseValidations')
-const stripe = require('stripe')('sk_test_Tc2FlJG0ovXrM6Zt7zuK1O6f002jC3hcT0')
-const Case = require('./../models/Cases')
-const Reviewer = require('./../models/Reviewer')
-const express = require('express')
-const Admins = require('./../models/Admin')
-const Investor = require('./../models/Investor')
-const router = express.Router()
-const mongoose = require('mongoose')
-const Lawyer = require('./../models/Lawyer')
-
-
+const validator = require("../../validations/caseValidations");
+const stripe = require("stripe")("sk_test_Tc2FlJG0ovXrM6Zt7zuK1O6f002jC3hcT0");
+const Case = require("./../models/Cases");
+const Reviewer = require("./../models/Reviewer");
+const express = require("express");
+const Admins = require("./../models/Admin");
+const Investor = require("./../models/Investor");
+const router = express.Router();
+const mongoose = require("mongoose");
+const Lawyer = require("./../models/Lawyer");
 
 let ReviewerController = {
-//write methods here: check InvestorController for example
+  //write methods here: check InvestorController for example
 
+  // the case will go baack to the lawyer to fix his mistake
+  // will resume timer for lawer's work on case
 
-// the case will go baack to the lawyer to fix his mistake
-// will resume timer for lawer's work on case
+  caseDisAproveedAtReviewer: async function(req, res) {
+    /// /:idCase
+    // var CASE = new Case(req.body);
+    //call comment from frontend
 
-caseDisAproveedAtReviewer: async function (req, res) {     /// :idStaff/:idCase'  routs
+    const caseID = req.params.idCase;
+    const staffID = "5caa2473a17f105039d06afb"; //get from token
+    const CASE = await Case.findById(caseID);
+    console.log(CASE)
+    if (!CASE) {
+      return res.status(404).json({ message: "error, case not found" });
+    } 
+    else {
+
+    const newLog = CASE.log
+    newLog.push({
+        id: staffID,
+        destination: 'lawyer',
+        date: new Date()
+    })
+
+    console.log(newLog)
+
+    const newCase = await Case.findByIdAndUpdate(caseID, 
+    {caseStatus: 'lawyer-reviewer', locked:false, log: newLog})
+    ReviewerController.reviewerWriteComment(caseID, req.body.comment, staffID)
+    return res.status(200).json({ msg: "Case disaproved", data: CASE }); 
+    }
+    
+  },
+
+  caseAproveedAtreviewer: async function(req, res) {
     // var CASE = new Case(req.body);
     // const staff= await Staff.findById(id)
 
-     const caseID = req.params.idCase
-     const staffID = req.params.idStaff
-     const comment = req.body.Comment
+    const caseID = req.params.idCase;
+    const staffID = "5caa2473a17f105039d06afb"; //get from token
+    const CASE = await Case.findById(caseID);
+    console.log(CASE)
+    if (!CASE) {
+      return res.status(404).json({ message: "error, case not found" });
+    } 
+    else {
 
-     const reviewer= await Reviewer.findById(staffID)
-     const CASE =   await Case.findById(caseID)
+    const newLog = CASE.log
+    newLog.push({
+        id: staffID,
+        destination: 'pending',
+        date: new Date()
+    })
 
-     if (CASE.caseStatus==reviewer){
-     if (reviewer._id==CASE.reviewerID) {  /// test if this if function is valid
-        await Case.updateOne({_id:req.params.idCase}, {$set: {caseStatus:"lawyer"}}) // updates case with _id matching Case and sets caseStatus to null  
-         res.send(Cases)
 
-         var ReviewerEndTime = new Date();                  
-         var ReviewerStartTime = CASE.body.reviewerStartTime             
-         var ReviewerHours =Math.abs(ReviewerEndTime-ReviewerStartTime)/36e5           
-         var ReviewerTotalTimeATCase =CASE.body.reviewerTotalTime + ReviewerHours
-         var RevieweTotalTime = reviewer.body.total_time_on_cases + ReviewerTotalTimeATCase
+    const newCase = await Case.findByIdAndUpdate(caseID, 
+    {caseStatus: 'pending', locked:false, log: newLog})
+    console.log('here')
+    console.log(newCase)
 
-         var LawyerStartTime = new Date()
+    return res.status(200).json({ msg: "Case approved, awaiting payment", data: newCase }); 
+    }
+  },
 
-        await Case.findByIdAndUpdate(id, { 'lawyerStartTime': LawyerStartTime,})     
-        await Case.findByIdAndUpdate(id, { 'reviewerTotalTime': ReviewerTotalTimeATCase,})     
-        await  Reviewer.findByIdAndUpdate(staffID, { 'total_number_of_cases':RevieweTotalTime})       
   
-         
-         ReviewerController.reviewrWriteComment(casID,comment)
-                       
+    reviewerWriteComment: async function(caseID, comment, lawyerID) {
+        //   Only  called in caseDisAproveedAtReviwer !! and takes caseID and comment as inputs
+        const CASE = Case.findById(caseID);
+    
+        const newComment = {
+            text: comment,
+            date: new Date(),
+            Lawyer: lawyerID
+        }
+    
+        const writecomment = await Case.findByIdAndUpdate(caseID, {
+          comment : newComment
+        });
+        return writecomment;
+      
+  },
 
-         return res.status(200).json({ msg: 'Case disaproved', data: CASE })     // in test check that caseStatus is lawyer  
-
-
-     }}
-   }   ,
-
-   caseAproveedAtreviewer: async function (req, res) {
-    // var CASE = new Case(req.body);
-    // const staff= await Staff.findById(id)
-
-    const staffID = req.params.idStaff
-    const caseID = req.params.idCase
-
-
-    const reviewer= await Reviewer.findById(staffID)
-    const CASE =await Case.findById(caseID)
-
-    if (CASE.caseStatus==reviewer){
-     if (reviewer._id==CASE.reviewerID) {  /// test if this if function is valid
-       await Case.updateOne({_id:req.params.idCase}, {$set: {caseStatus:"pending"}}) // updates case with _id matching Case and sets caseStatus to null  
-         res.send(Cases)
-
-         var ReviewerEndTime = new Date();                  
-         var ReviewerStartTime = CASE.body.reviewerStartTime             
-         var ReviewerHours =Math.abs(ReviewerEndTime-ReviewerStartTime)/36e5           
-         var ReviewerTotalTimeATCase =CASE.body.reviewerTotalTime + ReviewerHours
-         var RevieweTotalTime = reviewer.body.total_time_on_cases + ReviewerTotalTimeATCase
-
-        await Case.findByIdAndUpdate(id, { 'reviewerTotalTime': ReviewerTotalTimeATCase})  
-        await Reviewer.findByIdAndUpdate(staffID, { 'total_number_of_cases':RevieweTotalTime})       
-   
-        return res.status(200).json({ msg: 'Case approved', data: CASE })     // in test check that caseStatus is pending  
-
-     }
-    }
-   }   ,
-
-   reviewrWriteComment: async function (caseID,comment) {  //   Only  called in case(Dis)AproveedAtReviewer!! and takes caseID and comment as inputs
-    const CASE = Case.findById(caseID)
-    // const comment = req.params.comment
-    // const comment = req.params.Comment
-
-
-    const writecomment = await Case.findByIdAndUpdate(id, { 'comment.text': comment,})
-    return res.status(200).json({ msg: 'comment sent', data: writecomment })
-
-   }   ,
-
-   viewCasesReviewer: async function (req, res) {         // req contain the lawyer id 
+  viewCasesReviewer: async function(req, res) {
+    // req contain the lawyer id
     try {
-        const id = req.params.id
-        let reviewer = await Lawyer.findById(id)
-        if (!reviewer) {
-            return res.status(404).json({ error: 'error' })
+        
+        let cases = await Case.find({ caseStatus: 'reviewer', locked:false });
+        if (!cases) {
+          return res.status(200).json({ message: "Cannot find cases" });
         }
-        else {
-            let cases = await Case.find({'reviewerID': id })
-                if(!cases){
-                    return res.status(404).json({ error: 'Cannot find cases' })
-
-            }
-            return res.status(200).json({ data: cases })
-        }
-
+        
+        return res.status(200).json({ data: cases , msg: "Done"  });
+      }
+     catch (error) {
+      console.log(error);
+      return res.status(400).json({ error: "Error processing query." });
     }
-    catch (error) {
-        console.log(error)
-        return res.status(400).json({ error: 'Error processing query.' })
-    }
+  },
 
-   }   ,
-
-
-
-     /*
+  /*
         PUT request to change password of the reviewer
         PARAMS:{ adminID: String }
         BODY:{   oldPassword: String,
@@ -136,30 +123,31 @@ caseDisAproveedAtReviewer: async function (req, res) {     /// :idStaff/:idCase'
                 403 FORBIDDEN: if the old password does not match the password in the database.
                 200 OK: if the password is updated.
         */
-       reviewerChangePassword: async function(req,res) {
-        const id = req.params.id
-        const oldPassword = req.body.oldPassword
-        const newPassword = req.body.newPassword
-        let reviewer = await Reviewer.findById(id)
-        if(!reviewer){
-            return res.status(404).json({error: 'Cannot find an admin account with this ID'})
-        }
-        else{
-            if(oldPassword != reviewer.password){
-                return res.status(403).json({error: 'The passwords do not match'})
-            }
-            else{
-                const updatedReviewer = await Reviewer.findByIdAndUpdate(id, {
-                    'password': newPassword,
-                })
-                reviewer = await Reviewer.findById(id)
-                return res.status(200).json({ msg: 'The password was updated' , data: reviewer})
-            }
-        }
+  reviewerChangePassword: async function(req, res) {
+    const id = req.params.id;
+    const oldPassword = req.body.oldPassword;
+    const newPassword = req.body.newPassword;
+    let reviewer = await Reviewer.findById(id);
+    if (!reviewer) {
+      return res
+        .status(404)
+        .json({ error: "Cannot find an admin account with this ID" });
+    } else {
+      if (oldPassword != reviewer.password) {
+        return res.status(403).json({ error: "The passwords do not match" });
+      } else {
+        const updatedReviewer = await Reviewer.findByIdAndUpdate(id, {
+          password: newPassword
+        });
+        reviewer = await Reviewer.findById(id);
+        return res
+          .status(200)
+          .json({ msg: "The password was updated", data: reviewer });
+      }
+    }
+  },
 
-    },
-
-    /*
+  /*
         GET request to view the notifications of the reviewer.
         PARAMS:{ adminID: String }
         * Checks if the reviewer is in the database,
@@ -168,43 +156,93 @@ caseDisAproveedAtReviewer: async function (req, res) {     /// :idStaff/:idCase'
                 200 OK: if it pereforms the query.
                 400 BAD REQUEST: if an exception is thrown.   
     */
-   reviewerMyNotifications: async function(req,res) {
+  reviewerMyNotifications: async function(req, res) {
+    try {
+      const id = req.params.id;
+      let reviewer = await Reviewer.findById(id);
+      if (!reviewer) {
+        return res
+          .status(404)
+          .json({ error: "Cannot find an reviewer account with this ID" });
+      } else {
+        let notifications = reviewer.notifications
+        return res.status(200).json({ data: notifications });
+      }
+    } catch (error) {
+      console.log(error);
+      return res.status(400).json({ error: "Error processing query." });
+    }
+  },
+  
+  //ask paul about performance...
+  reviewerViewLawyersLeaderBoard: async (req, res) => {
+    try {
+      const reviewerid = "5c9e48bb3f08ad4ea807ea10"; //get from token
+      const reviewer = await Reviewer.findById(reviewerid);
+      if (!reviewer)
+        return res
+          .status(404)
+          .send({ error: "You are not allowed to view the Leaderboard" });
+      const leaderboard = await Lawyer.find().sort({
+        completed_number_of_cases: 1
+      });
+      // console.log(Lawyer)
+      //console.log(leaderboard)
+      return res.json({ data: leaderboard });
+    } catch (error) {
+      //console.log(error)
+      return res.status(404).send({ error: "LeaderBoard cant be viewed" });
+    }
+  },
+
+  //reviewer open a case and lock
+  ReviewerOpenCase: async(req,res) => {
+
+    reviewerID = '5cab9295d6ad9731d0149d43' //get from token
+    caseID = req.params.id
     try{
-    const id = req.params.id
-    let reviewer = await Reviewer.findById(id)
-    if(!reviewer){
-        return res.status(404).json({error: 'Cannot find an reviewer account with this ID'})
-    }
-    else{
-        let notifications = await Notification.find({'receiverReviewer':id})
-        return res.status(200).json({ data: notifications})
-    }
-    
+        c = await Case.findById(caseID)
+        lock = c.locked
+        if(lock){
+            return res.status(403).json({message: 'this case is already opened by another employee'})
+        }
+        else{
+            caseLog = c.log
+            newLog = {
+                id: reviewerID, 
+                date: new Date(),
+                destination: 'open'
+            }
+            caseLog.push(newLog)
+            c = await Case.findByIdAndUpdate(caseID, {locked:true, log: caseLog})
+            return res.status(200).json({message: 'case opened by reviewer', data: c})
+        }
     }
     catch(error){
         console.log(error)
-        return res.status(400).json({ error:'Error processing query.'})
+        res.status(400).json({message: error})
     }
+  },
 
-},
-reviewerViewLawyersLeaderBoard: async(req,res)=>{
+  //reviewer close a case and unlock
+  ReviewerCloseCase: async(req,res) => {
+
+    reviewerID = '5cab9295d6ad9731d0149d43' //get from token
+    caseID = req.params.id
+    c = await Case.findById(caseID)
     try{
-        const reviewerid = '5c9e48bb3f08ad4ea807ea10'
-        const reviewer = await Reviewer.findById(reviewerid)
-        if (!reviewer)
-            return res.status(404).send({ error: 'You are not allowed to view the Leaderboard' });
-        const leaderboard= await Lawyer.find().sort({completed_number_of_cases: 1});
-       // console.log(Lawyer)
-        //console.log(leaderboard)
-        return res.json({ data: leaderboard});
-
-
-
+        caseLog = c.log
+            newLog = {
+                id: reviewerID, 
+                date: new Date(),
+                destination: 'close'
+            }
+            caseLog.push(newLog)
+        c = await Case.findByIdAndUpdate(caseID, {locked:false, log: caseLog})
+        res.status(200).json({data: c})
     }
     catch(error){
-        //console.log(error)
-        return res.status(404).send({ error: 'LeaderBoard cant be viewed' })
-
+        res.status(400).json({message: error})
     }
 },
 
@@ -269,23 +307,14 @@ try {
             res.json({message: 'User does not exist'})
 
         }
+      }
+      catch(e){
+        console.log(e)
+      }
     }
-catch (error) {
-console.log(error)
-}
-},
+  //    reviewerComment: async function (req, res) {
 
+  //    }   ,
+};
 
-
-
-   //    reviewerComment: async function (req, res) {    
-       
-    
-   
-
-//    }   ,
-
-
-}
-
-module.exports = ReviewerController
+module.exports = ReviewerController;
