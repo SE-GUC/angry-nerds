@@ -367,21 +367,21 @@ MailResetPassword : async (token,password) => {
     return m.data.message;
   },
 
-  adminCreateNewLaw: async () => {
-    const law = await axios({
-      method: "post",
-      url: "http://127.0.0.1:3000/adminCreateNewLaw",
-      data: {
-        LawNumber: "Law test",
-        LawEntity: "Malak",
-        LawValue: 0,
-        LawCalc: 0,
-        min: 0,
-        max: 0
-      }
-    });
-    return law;
-  },
+  // adminCreateNewLaw: async () => {
+  //   const law = await axios({
+  //     method: "post",
+  //     url: "http://127.0.0.1:3000/adminCreateNewLaw",
+  //     data: {
+  //       LawNumber: "Law test",
+  //       LawEntity: "Malak",
+  //       LawValue: 0,
+  //       LawCalc: 0,
+  //       min: 0,
+  //       max: 0
+  //     }
+  //   });
+  //   return law;
+  // },
 
   InvestorViewFees: async () => {
     const Case = await axios({
