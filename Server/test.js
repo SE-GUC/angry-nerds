@@ -213,58 +213,7 @@ test('Reset password with valid token', async () => {
 // });
 
 
-<<<<<<< HEAD
-  test('view as Lawyer neither', async()=>{
-    jest.setTimeout(50000)
-    const id = await adminFunctions.LawViewing('5c77f15454789a2ec800e532')
-    console.log('view')
-    expect(id.data.message).toEqual('User does not exist')
-  });
-  test ('Editing lawEntity to Malak', async () => {
-    let law = await adminFunctions.adminChangePricingStrategy('5c9e4b6c4edad508b45adac6')
-    expect(law.data.msg).toEqual('Laws updated successfully')
-  })
 
-  test ('Editing law that does not exist', async () => {
-    let law= await adminFunctions.adminChangePricingStrategy('5c9e4b6c4edad508b45ada')
-    expect(law.data.msg).toEqual('Law does not exist')
-
-  })
-
-
-  /*
-  either this test works or the previous two work
-  they are contradicting due hardcoding admin id in my function which is not of type super
-  */
-  test ('Non-superAdmin tries to change law', async () => {
-    let law= await adminFunctions.adminChangePricingStrategy('5c9e4b6c4edad508b45adac6')
-    expect(law.data.data.message).toEqual('Only super admins have access')
-  })
-
-  test ('Creating a new Law', async () =>{
-    jest.setTimeout(30000)
-    let law= await adminFunctions.adminCreateNewLaw()
-    expect(law.data.msg).toEqual('Law was created successfully')
-  })
-
-  /*
-  either this test works or the previous one work
-  they are contradicting due hardcoding admin id in my function which is not of type super
-  */
-  test ('Non-superAdmin create new law', async() =>{
-    let law= await adminFunctions.adminCreateNewLaw()
-    expect(law.data.msg).toEqual('Only super admins have access')
-  })
- 
-  test(`Case assigned to lawyer successfully`, async() =>{
-   
-    const cases = await adminFunctions.AdminAssignLawyer()
-    console.log(cases)
-    expect(cases.data.lawyerID).toBe('5c9e4dc353415c34a0f35cd1')
-   
-  })
-=======
-// ///////////////////
 
 
 
@@ -522,7 +471,6 @@ test('Reset password with valid token', async () => {
 //   //   expect(cases.data.lawyerID).toBe('5c9e4dc353415c34a0f35cd1')
    
 //   // })
->>>>>>> 10665d5ff439a3ed8ebcf068c62db4252e5a15b0
 
   
  //==========================MONICA==========================
@@ -715,7 +663,6 @@ console.log(cr1)
   
   
 
-<<<<<<< HEAD
 //    const newL = await axios({
 //            method:'post',
 //            url: 'http://localhost:3000/api/Lawyer',
@@ -937,45 +884,6 @@ test(`send attachment with an invalid mail`, async () => {
  
   expect(msg).toEqual('Incorrect Mail')
 });
-=======
-// test('Admin assign lawyer' ,async() => {
-//   const msg = await adminFunctions.AdminAssignLawyer('5c93e4ae5b66b31668f0e28c','5c9e4dc353415c34a0f35cd1')
-//     expect(msg).toEqual('Case updated successfully')
-
-// });
-
-// test('Admin assign lawyer' ,async() => {
-//   const msg = await adminFunctions.AdminAssignLawyer('5c93e4ae5b66b31668f0e28c','5c9e4dc358415c34a0f35cd1')
-//     expect(msg).toEqual('Please select a valid lawyer')
-
-// });
-
-// test('Admin assign Reviewer' ,async() => {
-//   const msg = await adminFunctions.AdminAssignReviewer('5c93e4ae5b66b31668f0e28c','5ca1144729dfee2fd0a6033a')
-//     expect(msg).toEqual('Case updated successfully')
-
-// });
-
-// test('Admin assign Reviewer' ,async() => {
-//   const msg = await adminFunctions.AdminAssignReviewer('5c93e4ae5b66b31668f0e28c','5c9e4dc35841545c34a0f35cd1')
-//     expect(msg).toEqual('Please select a valid Reviewer')
-
-// });
-
-
-// test(`send attachment with a valid mail`, async () => {
-//   const msg = await adminFunctions.SendAttachmentMail('monica.achraff@gmail.com')
-//   expect(msg).toEqual('Please check your email')
-// });
-
-
-
-// test(`send attachment with an invalid mail`, async () => {
-//   const msg = await adminFunctions.SendAttachmentMail('wrong_mail@gmail.com')
-//   console.log(msg)
-//   expect(msg).toEqual('Incorrect Mail')
-// });
->>>>>>> 10665d5ff439a3ed8ebcf068c62db4252e5a15b0
 
 //====================================================================================
 

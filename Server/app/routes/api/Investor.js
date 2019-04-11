@@ -58,24 +58,6 @@ router.post('/register', async (req, res) => {
         return res.status(400).json({ error: 'Email already exists' })
     }
     else{
-<<<<<<< HEAD
-        const tempoUser = await tempUser.findOne({ email })
-        if (tempoUser){
-            return res.status(400).json({ error: 'You are already registered with this email , You need to verify it' })
-        }
-        else{
-        const secretToken = randomstring.generate()
-        req.body.secretToken = secretToken
-        const newTempUser = await tempUser.create(req.body)
-        
-        res.json({ msg: 'tempUser was created successfully', data: newTempUser })
-
-        const html = 'Hi there, <br/> Thank you for registering <br/><br/> Please verify your email by clicking on the following page:<a href= "http://localhost:3000/api/Investor/verify/' + secretToken + ' ">http://localhost:3000/api/Investor/verify</a> </br></br> '
-        await mailer.sendEmail(config.user, req.body.email, 'Please verify your email', html)
-        }
-    }
-     
-=======
         const salt = bcrypt.genSaltSync(10); 
 		         const hashPass = bcrypt.hashSync(password, salt); // hashing the password which is already saved in tempUser before saved in investor table
             const investor1 = await Investor.create({
@@ -96,7 +78,6 @@ router.post('/register', async (req, res) => {
                 photoID: photoID
             })
             res.json({ msg: 'tempUser was created successfully', data: investor1 })
->>>>>>> 10665d5ff439a3ed8ebcf068c62db4252e5a15b0
 
             const html = 'Hi there, <br/> Thank you for registering <br/><br/> Please verify your email by clicking on the following page:<a href= "http://localhost:3000/api/Investor/verify/' + secretToken + ' ">http://localhost:3000/api/Investor/verify</a> </br></br> '
             await mailer.sendEmail(config.user, req.body.email, 'Please verify your email', html)
