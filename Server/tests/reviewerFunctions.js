@@ -9,30 +9,42 @@ const reviewerFunctions = {
     return views
     },
 
-    caseAproveedAtReviewer:  async (caseID, stafID) => {
+    caseAproveedAtReviewer:  async (caseID) => {
         
         const CASE = await axios({
             method: 'put',
-            url: 'http://127.0.0.1:3000/caseAproveedAtReviewer/'+stafID+'/'+caseID,
+            url: 'http://127.0.0.1:3000/caseAproveedAtReviewer/'+caseID,
             headers: {}, 
             data: { //body
             }
           });
-        return CASE.data.message
+        return CASE
         
     },
 
-    caseDisAproveedAtReviewer:  async (caseID, stafID) => {
+    caseDisAproveedAtReviewer:  async (caseID) => {
         
         const CASE = await axios({
             method: 'put',
-            url: 'http://localhost:3000/caseDisAproveedAtReviewer/'+stafID+'/'+caseID,
+            url: 'http://localhost:3000/caseDisAproveedAtReviewer/'+caseID,
             headers: {}, 
             data: { //body
             }
           });
-        return CASE.data.message
+        return CASE
         
+    },
+
+    viewCasesReviewer:async () => {
+        const CASE = await axios({
+            method: 'get',
+            url: 'http://localhost:3000/viewCasesReviewer',
+            headers: {}, 
+            data: { //body
+               
+            }
+          });
+        return CASE
     },
 
     reviewerMyNotifications: async (len) => {

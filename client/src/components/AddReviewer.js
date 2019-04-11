@@ -8,7 +8,7 @@ import axios from 'axios';
 
 export class AddReviewer extends Component {
 
-  state = {
+  setstate = {
     FName: '',
     MName: '',
     LName: '',
@@ -19,11 +19,11 @@ export class AddReviewer extends Component {
     birthdate: '',
     Address: '',
     telephone_number: '',
-    fax:'',
     completed_number_of_cases :'0',
-    total_time_on_cases: '0',
+    number_of_cases: '0' ,
+    total_time_on_cases: '0' ,
+    fax: '',
     ssid:''
-
   }
 
   handleChangeFName = event => {
@@ -85,6 +85,8 @@ export class AddReviewer extends Component {
      telephone_number: this.state.telephone_number,
      fax:this.state.fax,
      completed_number_of_cases: '0',
+     number_of_cases: '0',
+     total_time_on_cases :"0",
      ssid: this.state.ssid,
 
      
@@ -147,7 +149,7 @@ export class AddReviewer extends Component {
 
   <Form.Group as={Col} controlId="formGridAddress1">
     <Form.Label>Phone Number</Form.Label>
-    <Form.Control  onChange={this.telephone_number} />
+    <Form.Control  onChange={this.handleChangegtelephone_number} />
   </Form.Group>
   </Form.Row>
 

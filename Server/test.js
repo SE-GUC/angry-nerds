@@ -1,3 +1,5 @@
+const lawyer = require('./tests/lawyerFunctions');
+const reviewer = require('./tests/reviewerFunctions');
 //const lawyer = require('./tests/lawyerFunctions');
 
 const adminFunctions = require('./tests/adminFunctions')
@@ -8,10 +10,7 @@ const userFunctions = require('./tests/userFunctions')
 jest.setTimeout(5000)
 const axios = require('axios')
 
-const Admin = require('./tests/adminFunctions')
-const Investor = require('./tests/investorFunctions')
-const Lawyer = require('./tests/lawyerFunctions')
-const Reviewer = require('./tests/reviewerFunctions')
+
 
 const InvestorModel = require('./app/models/Investor')
 
@@ -130,6 +129,20 @@ test(`paying fees for a company that is not pending`, async () => {
 //   const msg =  await Lawyer.lawyerViewComment()
 //   expect(msg.data.msg).toEqual('Done');
 // });
+
+
+//edit dany 
+
+
+test(`case disaproves at reviewer and casestatus should be lawyer`, async () => {
+  const CASE =  await reviewer.caseDisAproveedAtReviewer('5c9512ba8aba002578c01ad6')    
+  expect(CASE.data.data.caseStatus).toEqual('pending')
+});
+
+test(`case aproved at reviewer and casestatus should be pending`, async () => {
+  const CASE =  await reviewer.caseAproveedAtReviewer('5c9512ba8aba002578c01ad6')   
+  expect(CASE.data.data.caseStatus).toEqual('lawyer-reviewer')
+});
 
 //Hemaya before tests
 
@@ -283,6 +296,14 @@ test('Reset password with expired token', async () => {
   expect(msg).toEqual('Token is expired please try again');
 });
 
+  // test('lawyer view reviewerLeaderBoard', async () => {
+  //   const msg =  await lawyer.lawyerViewReviewersLeaderBoard()
+  //   expect(msg.data.msg).toEqual('Done');
+  // });
+  
+
+
+  
 test('Reset password with valid token', async () => {
   const t1 = await axios({
     method: 'post',
@@ -308,7 +329,7 @@ test('Reset password with valid token', async () => {
     }
   });
   const x = await adminFunctions.MailForgotPassword(t1.data.data.email)
-  console.log('One',t1.data.data._id)
+  console.log(x.data.data , 'OOOOOOOOOOOne',t1.data.data._id)
   const tok = await axios.get('http://127.0.0.1:3000/api/admin/'+t1.data.data._id)
   console.log('TWo', tok.data.data )
   console.log('Three',t1.data.data.token)
@@ -317,6 +338,21 @@ test('Reset password with valid token', async () => {
   expect(msg).toEqual('Password reseted succesfully');
 })
 
+
+                  ///////          ////////      //////////
+
+test(`case disaproves at lawyer and casestatus should be investor`, async () => {
+  const CASE =  await lawyer.caseDisAproveedAtLawyer('5c95121386ba314a882d8d7f')    
+  expect(CASE.data.data.caseStatus).toEqual('investor')
+});
+
+
+
+//small problem
+// test(`case aproved at lawyer and casestatus should be reviewer`, async () => {
+//   const CASE =  await lawyer.caseAproveedAtLawyer('5c9512ba8aba002578c01ad6')    
+//   expect(CASE.data.data.caseStatus).toEqual('reviewer')
+// });
 
   
  //==========================MONICA==========================
@@ -375,28 +411,35 @@ test('successful form' , async() => {
   })
  const cr1 = newC.data.data._id
 console.log(cr1)
+expect(newC.data.msg).toEqual('Case was created successfully')
+  console.log('done testc')
+});
+
+  test('lawyer views all cases', async () => {
+    const CASE =  await lawyer.viewCasesLawyer( )
+    expect(CASE.data.msg).toEqual('Done');
+//console.log(newC)
   
 
+  });
 
-//console.log(newC)
-  expect(newC.data.msg).toEqual('Case was created successfully')
-  console.log('done testc')
+  test('Reviewer views all cases', async () => {
+    const CASE =  await reviewer.viewCasesReviewer( )
+    expect(CASE.data.msg).toEqual('Done');
 
-
-  const delC = await axios({
-    method:'delete',
-    url: 'http://localhost:3000/api/Cases/'+ cr1,
-   
-  })
-
-  const delInvestor = await axios({
-    method:'delete',
-    url: 'http://localhost:3000/api/Investor/'+ idI,
-    
-  })
+  });
 
 
-})
+///////////////////   ///////          ////////      ////////// ///////          ////////      //////////
+
+
+
+// //Admin tests
+// test('lawyer fill form', async () => {
+//   const msg =  await Lawyer.lawyerFillForm()
+//   expect(msg.data.msg).toEqual('The form was created successfully');
+// });
+
   //either this test works or the previous two work
   //they are contradicting due hardcoding admin id in my function which is not of type super
   
@@ -941,7 +984,7 @@ test(`Admin register Admin successfully`, async () => {
 //The system should be able to generate a PDF format contract and store it 
 //The system should be able to generate a PDF format Decision and store it 
 test ('generate a PDF with a valid ID', async () => {
-  const response = await Investor.generatePdf('')
+  const response = await investorFunctions.generatePdf('')
   expect(response.res.data.msg).toEqual('Done')
   expect(response.newCase.pdfString).toBeDefined()
   expect(response.newCase.pdfString.length).not.toBe(0)
@@ -950,7 +993,7 @@ test ('generate a PDF with a valid ID', async () => {
 
 test ('generate a PDF with an invalid ID', async () => {
   try {
-        const response = await Investor.generatePdf('wrong_case_id')
+        const response = await investorFunctions.generatePdf('wrong_case_id')
       } catch (e) {
         expect(e.response.data.error).toMatch('Error processing query.');
       }
@@ -962,7 +1005,7 @@ test ('Updates Password Investor with valid ID and valid old password', async ()
   var validOldPassword2 = "oldPassword"
 
   var newPassword = "newPassword"
-  const response = await Investor.investorChangePassword(validOldPassword1,validOldPassword2,newPassword)
+  const response = await investorFunctions.investorChangePassword(validOldPassword1,validOldPassword2,newPassword)
   expect(response.res.data.msg).toEqual('The password was updated')
   expect(response.updatedInvestor.password).toBe(newPassword)
 })
@@ -975,9 +1018,9 @@ test ('Updates Password Investor with valid ID and invalid old password', async 
   
 
   try {
-    const response = await Investor.investorChangePassword(validOldPassword1,validOldPassword2,newPassword)
+    const response = await investorFunctions.investorChangePassword(validOldPassword1,validOldPassword2,newPassword)
   } catch (e) {
-    //console.log(e.response.data)
+    console.log(e.response.data)
     expect(e.response.data.error).toMatch('The passwords do not match');
   }
 })  
@@ -1027,7 +1070,7 @@ test ('Updates Password Lawyer with valid ID and valid old password', async () =
   var validOldPassword2 = "oldPassword"
 
   var newPassword = "newPassword"
-  const response = await Lawyer.lawyerChangePassword(validOldPassword1,validOldPassword2,newPassword)
+  const response = await lawyer.lawyerChangePassword(validOldPassword1,validOldPassword2,newPassword)
   expect(response.res.data.message).toEqual('The password was updated')
   expect(response.updatedLawyer.password).toBe(newPassword)
 })
@@ -1040,7 +1083,7 @@ test ('Updates Password Lawyer with valid ID and invalid old password', async ()
   
 
   try {
-    const response = await Lawyer.lawyerChangePassword(validOldPassword1,validOldPassword2,newPassword)
+    const response = await lawyer.lawyerChangePassword(validOldPassword1,validOldPassword2,newPassword)
   } catch (e) {
     //console.log(e.response.data)
     expect(e.response.data.error).toMatch('The passwords do not match');
@@ -1053,7 +1096,7 @@ test ('Updates Password Reviewer with valid ID and valid old password', async ()
   var validOldPassword2 = "oldPassword"
 
   var newPassword = "newPassword"
-  const response = await Reviewer.reviewerChangePassword(validOldPassword1,validOldPassword2,newPassword)
+  const response = await reviewer.reviewerChangePassword(validOldPassword1,validOldPassword2,newPassword)
   expect(response.res.data.msg).toEqual('The password was updated')
   expect(response.updatedReviewer.password).toBe(newPassword)
 })
@@ -1066,7 +1109,7 @@ test ('Updates Password Reviewer with valid ID and invalid old password', async 
   
 
   try {
-    const response = await Reviewer.reviewerChangePassword(validOldPassword1,validOldPassword2,newPassword)
+    const response = await reviewer.reviewerChangePassword(validOldPassword1,validOldPassword2,newPassword)
   } catch (e) {
     //console.log(e.response.data)
     expect(e.response.data.error).toMatch('The passwords do not match');
@@ -1078,7 +1121,7 @@ test ('Updates Password Admin with valid ID and valid old password', async () =>
   var validOldPassword2 = "oldPassword"
 
   var newPassword = "newPassword"
-  const response = await Admin.adminChangePassword(validOldPassword1,validOldPassword2,newPassword)
+  const response = await adminFunctions.adminChangePassword(validOldPassword1,validOldPassword2,newPassword)
   expect(response.res.data.msg).toEqual('The password was updated')
   expect(response.updatedAdmin.password).toBe(newPassword)
 })
@@ -1091,7 +1134,7 @@ test ('Updates Password Admin with valid ID and invalid old password', async () 
   
 
   try {
-    const response = await Admin.adminChangePassword(validOldPassword1,validOldPassword2,newPassword)
+    const response = await adminFunctions.adminChangePassword(validOldPassword1,validOldPassword2,newPassword)
   } catch (e) {
     //console.log(e.response.data)
     expect(e.response.data.error).toMatch('The passwords do not match');
@@ -1102,43 +1145,43 @@ test ('Updates Password Admin with valid ID and invalid old password', async () 
 
 //As an Investor/Staff I should be able to view my notifications
 test ('View notification of an investor with 1 notification', async () => {
-    const response = await Investor.investorMyNotifications(1)
+    const response = await investorFunctions.investorMyNotifications(1)
     expect(response.data.data.length).toEqual(1)
 })
 
 test ('View notification of an investor with 5 notifications', async () => {
-  const response = await Investor.investorMyNotifications(5)
+  const response = await investorFunctions.investorMyNotifications(5)
   expect(response.data.data.length).toEqual(5)
 })
 
 test ('View notification of an lawyer with 1 notification', async () => {
-  const response = await Lawyer.lawyerMyNotifications(1)
+  const response = await lawyer.lawyerMyNotifications(1)
   expect(response.data.data.length).toEqual(1)
 })
 
 test ('View notification of an lawyer with 5 notifications', async () => {
-const response = await Lawyer.lawyerMyNotifications(5)
+const response = await lawyer.lawyerMyNotifications(5)
 expect(response.data.data.length).toEqual(5)
 })
 
 test ('View notification of an reviewer with 1 notification', async () => {
-  const response = await Reviewer.reviewerMyNotifications(1)
+  const response = await reviewer.reviewerMyNotifications(1)
   expect(response.data.data.length).toEqual(1)
 })
 
 test ('View notification of an reviewer with 5 notifications', async () => {
-const response = await Reviewer.reviewerMyNotifications(5)
+const response = await reviewer.reviewerMyNotifications(5)
 expect(response.data.data.length).toEqual(5)
 })
 
 //As an Investor I Should be able to view a list of my companies
 test ('View published companies of a certain investor', async () => {
-  const response = await Investor.viewMyPublishedCompanies()
+  const response = await investorFunctions.viewMyPublishedCompanies()
   expect(response.data.data.length).toEqual(1)
 })
 
 test ('View pending companies of a certain investor', async () => {
-  const response = await Investor.viewMyPendingCompanies()
+  const response = await investorFunctions.viewMyPendingCompanies()
   expect(response.data.data.length).toEqual(1)
 })
 
@@ -1541,22 +1584,11 @@ test ('View pending companies of a certain investor', async () => {
 //   expect(msg).toEqual('Incorrect Mail')
 // });
 
-//   test('Investor view his fees', async () => {
-//     const Case= await investorFunctions.InvestorViewFees('5c9512ba8aba002578c01ad6')
-//     expect(Case.data.msg).toEqual('This is your fees')
-//   })
-
-//   test(`paying fees for a company with expired card`, async () => {
-//     const charge =  await investorFunctions.InvestorPayFees(4242424242424242,1,19,121)
-//     //console.log(charge)
-//     expect(charge.data.message).toEqual
-//     ('card declined' )
-//   });
-
-//   test('Investor view his fees', async () => {
-//     const Case= await investorFunctions.InvestorViewFees('5c9512ba8aba002578c01ad6')
-//     expect(Case.data.msg).toEqual('This is your fees')
-//   })
+// //====================Hemaya tests===========================================================
+// test(`Unregister view questions`, async () => {
+//   const ques = await userFunctions.UnregisterViewQuestions()
+//   expect(ques.data.data[0].question).toEqual('do you?')
+// });
 
 //   test('Investor view his fees giving a wrong id', async () => {
 //     const Case= await investorFunctions.InvestorViewFees('5c9512ba8aba002578c01a')

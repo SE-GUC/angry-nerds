@@ -102,8 +102,8 @@ class App extends Component {
           <Route  exact path = "/home" component = {home}  />
             <Route exact path="/signUp" component={signup} />
             <Route exact path="/signin" component= {signin} />
-            <Route exact path="/lawyer" component={AddLawyer} />
-          <Route exact path="/reviewer" component={AddReviewer} /> 
+            <Route exact path="/AddLawyer" component={AddLawyer} />
+          <Route exact path="/AddReviewer" component={AddReviewer} /> 
           <Route  exact path="/testing" component={testing} />
           <Route exact path = "/LawyerHome" component={LawyerHome} />
         <Route exact path = "/ChangePricing" component={ChangePricing} />

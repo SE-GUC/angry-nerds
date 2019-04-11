@@ -66,11 +66,13 @@ let ReviewerController = {
         date: new Date()
     })
 
-    console.log(newLog)
 
     const newCase = await Case.findByIdAndUpdate(caseID, 
     {caseStatus: 'pending', locked:false, log: newLog})
-    return res.status(200).json({ msg: "Case approved, awaiting payment", data: CASE }); 
+    console.log('here')
+    console.log(newCase)
+
+    return res.status(200).json({ msg: "Case approved, awaiting payment", data: newCase }); 
     }
   },
 
@@ -100,7 +102,8 @@ let ReviewerController = {
         if (!cases) {
           return res.status(200).json({ message: "Cannot find cases" });
         }
-        return res.status(200).json({ data: cases });
+        
+        return res.status(200).json({ data: cases , msg: "Done"  });
       }
      catch (error) {
       console.log(error);

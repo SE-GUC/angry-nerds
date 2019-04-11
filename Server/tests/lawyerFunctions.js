@@ -9,30 +9,40 @@ LawViewing: async (id) => {
     },
 
 
-    caseDisAproveedAtLawyer:  async (caseID, stafID) => {
+    caseDisAproveedAtLawyer:  async (caseID) => {
         
         const CASE = await axios({
             method: 'put',
-            url: 'http://127.0.0.1:3000/caseDisAproveedAtLawyer/'+stafID+'/'+caseID,
+            url: 'http://127.0.0.1:3000/caseDisAproveedAtLawyer/'+caseID,
             headers: {}, 
             data: { //body
             }
           });
-        return CASE.data.message
+        return CASE
         
     },
 
     caseAproveedAtLawyer:  async (caseID, stafID) => {
-        
         const CASE = await axios({
             method: 'put',
-            url: 'http://localhost:3000/caseAproveedAtLawyer/'+stafID+'/'+caseID,
+            url: 'http://127.0.0.1:3000/caseAproveedAtLawyer/'+caseID,
             headers: {}, 
             data: { //body
             }
           });
-        return CASE.data.message
-        
+        return CASE
+    },
+
+    viewCasesLawyer:async () => {
+        const CASE = await axios({
+            method: 'get',
+            url: 'http://localhost:3000/viewCasesLawyer',
+            headers: {}, 
+            data: { //body
+               
+            }
+          });
+        return CASE
     },
 
     lawyerMyNotifications: async (len) => {
