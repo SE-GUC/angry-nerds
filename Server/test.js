@@ -12,16 +12,7 @@ const axios = require('axios');
 axios.defaults.adapter = require ('axios/lib/adapters/http')
 
 
-<<<<<<< HEAD
-const Admin = require('./app/Functions/Admin.functions');
-const Investor = require('./app/Functions/Investor.functions')
-const Lawyer = require('./app/Functions/Lawyer.functions')
-const Case = require ('./app/models/Cases')
-//const investor = require('./app/models/Investor')
-
-=======
 //Hemaya before tests
->>>>>>> 5cd04eb2a0bf5bc4226a093a0163f2f88dbcc6b2
 
 
 test('Forgot password with valid mail', async () => {
