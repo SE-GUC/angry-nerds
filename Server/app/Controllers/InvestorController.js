@@ -11,7 +11,10 @@ const mongoose = require('mongoose')
 const pdfMakePrinter = require('pdfmake/src/printer')
 const Reviewer = require('./../models/Reviewer')
 const Lawyer = require('./../models/Lawyer')
-
+const config = require('../../config/mailer')
+const tokenKey = config.tokenKey;
+const bcrypt = require('bcryptjs')
+const jwt = require('jsonwebtoken')
 
 
 let InvestorController = {
@@ -22,12 +25,14 @@ let InvestorController = {
     when the payment is successfully complete the case status is changed to published
     */
     InvestorPayFees: async function (req, res) {
+        console.log(req.body)
         const id = req.params.id
-        const invID = '5c77c2b0c5973856f492f33e' //get this from login token
-        const CaseID = '5c93dd90806ede138da94bda' //get this from frontend 
-
+        const invID = '5ca772654d70710fa843bd5f' //get this from login token
+        
+        const CaseID = req.body.caseID  
         const myCase = await Case.findById(CaseID)
-        const inv = await Case.findOne({ _id: myCase.investorID })
+        const inv = await Investor.findOne({ _id: invID })
+        console.log(inv)
         const userEmail = inv.email
         if(!myCase)
             res.json({msg: 'this case does not exist'})
@@ -36,49 +41,52 @@ let InvestorController = {
         if (myCase.investorID == invID) {
             stripe.tokens.create({
                 card: {
-                    'number': req.body.name,
+                    'number': req.body.creditNumber,
                     'exp_month': req.body.month,
                     'exp_year': req.body.year,
                     'cvc': req.body.cvc
                 }
-            }, function (err, token) {
+            }, async function (err, token) {
                 if (err) return res.json({ message: 'card declined' })
                 else {
-                    //console.log(token)
-                    var chargeAmount = AdminController.SystemCalcFees(CaseID)
-                    var charge = stripe.charges.create({
-                        amount: chargeAmount,
+                    //console.log(token)     
+                        var charge = stripe.charges.create({
+                        amount: 30000,
                         currency: 'usd',
                         source: token.id
                     }, async function (err) {
                        // console.log(err)
                         if (err) {
-                            return res.json({ message: 'your card is declined, try again!' })
+                            return res.json({ message: 'your card is declined, try again!' + err})
                         }
                         else {
-                            const casecreated = await Case.findByIdAndUpdate(CaseID, { 'caseStatus': 'published' })
-                            let transporter = nodemailer.createTransport({
-                                service: 'gmail',
-                                auth: {
-                                    user: 'angry.nerds2019@gmail.com',
-                                    pass: 'Angry1234'
-                                }
+                            // const casecreated = await Case.findByIdAndUpdate(CaseID, { 'caseStatus': 'published' })
+                            // let transporter = nodemailer.createTransport({
+                            //     service: 'gmail',
+                            //     auth: {
+                            //         user: 'angry.nerds2019@gmail.com',
+                            //         pass: 'Angry1234'
+                            //     }
                  
-                            });
-                            let mailOptions = {
-                                from: '"Angry Nerds 👻" <angry.nerds2019@gmail.com>', // sender address
-                                to: userEmail, // list of receivers
-                                subject: 'Invoice', // Subject line
-                                text: 'you now have a company', // plain text body
-                                html: '<h3>The code expires within an hour</h3> '
-                                // html body
-                            };
-                            transporter.sendMail(mailOptions, (error, info) => {
-                                if (error) {
-                                    return console.log(error);
-                                }
-                                res.json({ success: true, message: 'An email has been sent check your email' });
-                            });
+                            // });
+                            // let mailOptions = {
+                            //     from: '"Angry Nerds 👻" <angry.nerds2019@gmail.com>', // sender address
+                            //     to: userEmail, // list of receivers
+                            //     subject: 'Invoice', // Subject line
+                            //     text: 'you now have a company', // plain text body
+                            //     html: '<h3>The code expires within an hour</h3> '
+                            //     // html body
+                            // };
+                            // transporter.sendMail(mailOptions, (error, info) => {
+                            //     if (error) {
+                            //         return console.log(error);
+                            //     }
+                            //     res.json({ success: true, message: 'An email has been sent check your email' });
+                            // });
+                            console.log('token')
+                            console.log(token)
+                            console.log('charge')
+                            console.log(charge)
                             return res.json({ message: 'your payment has been made; you will receive an invoice via your mail' })
                         }
 
@@ -141,28 +149,35 @@ let InvestorController = {
     investorFillForm: async (req, res) => {
 
         try {
-            const id = '5c77e91b3fd76231ecbf04ee'
-            const investor = await Investor.findById(id)
-
-
+            const id = "5c9f69180ec7b72d689dba6d"; //From Token
+            const investor = await Investor.findById(id);
+      
             if (!investor)
-                return res.status(404).send({ error: 'You are not allowed to fill this form' });
-
-            const newForm = await Case.create(req.body)
-            const casecreated = await Case.findByIdAndUpdate(newForm.id, {
-                'caseStatus': 'lawyer-investor',
-                'caseOpenSince': new Date(),
-                'lawyerStartDate': new Date(),
-                'investorID': investor
-            })
-            res.json({ msg: 'The form was created successfully' })
-
-        }
-        catch (error) {
-            console.log(error)
-            return res.status(404).send({ error: 'Form cant be created' })
-        }
-
+              return res
+                .status(404)
+                .send({ error: "You are not allowed to fill this form" });
+      
+           
+      
+            const newForm = await Case.create(req.body.case);
+            const casecreated = await Case.findByIdAndUpdate(newForm._id, {
+              investorID: id,
+              caseStatus: "lawyer-investor",
+              walk_in: false,
+              locked: false,
+              log: [
+                {
+                  id: id,
+                  destination: "lawyer",
+                  date: new Date()
+                }
+              ]
+            });
+            res.json({ msg: "The form was created successfully" });
+          } catch (error) {
+            console.log(error);
+            return res.status(404).send({ error: "Form cant be created" });
+          }
     },
 
 
@@ -279,7 +294,7 @@ let InvestorController = {
                 return res.status(404).json({ error: 'Cannot find an investor account with this ID' })
             }
             else {
-                let notifications = await Notification.find({ 'receiverInvestor': id })
+                let notifications = investor.notifications
                 return res.status(200).json({ msg: 'Done' , data: notifications })
             }
 
@@ -303,7 +318,7 @@ let InvestorController = {
     viewMyPublishedCompanies: async function (req, res) {
         try {
             // const id = req.params.id
-            const ids = '5ca772654d70710fa843bd5f' //will take from login
+            const ids = '5c78e4a73ba5f854b86f9058' //will take from login
             let investor = await Investor.findById(ids)
             if (!investor) {
                 return res.status(404).json({ error: 'Cannot find an investor account with this ID' })
@@ -332,7 +347,7 @@ let InvestorController = {
     viewMyPendingCompanies: async function (req, res) {
         try {
             // const id = req.params.id
-            const ids = '5ca772654d70710fa843bd5f' // will take from login
+            const ids = '5c78e4a73ba5f854b86f9058' // will take from login
             let investor = await Investor.findById(ids)
             if (!investor) {
                 return res.status(404).json({ error: 'Cannot find an investor account with this ID' })
@@ -375,7 +390,7 @@ let InvestorController = {
                 const docDefinition = {
                     content: [
                         c.form_type,
-                        c.regulated_law,
+                        c. ulated_law,
                         //c.arabic_name,
                         c.english_name,
                         c.city,
@@ -567,7 +582,81 @@ let InvestorController = {
         else 
             return res.status(400).json({ erroe: 'Incorrect email or password' })
         //To be continued ....  
-      }
+      },
+
+      forgotpassword: async (req, res) => {
+        var userEmail = req.body.email;
+        Investor.findOne({ email: userEmail }, function (err, user) {
+            if (err) {
+                res.json({ success: false, message: err.message });
+            }
+            else if (!user) {
+                res.json({ success: false, message: "incorrect email" });
+            
+            }
+            else {
+                var token = jwt.sign({
+                    _id: Investor._id,
+                    firstname : user.firstname,
+                    Type:'Investor'
+                }, tokenKey, { expiresIn: '1h' }); 
+
+                let transporter = nodemailer.createTransport({
+                    service: 'gmail',
+                    auth: {
+                        user: config.user,
+                        pass: config.pass
+                    }
+
+                });
+                let mailOptions = {
+                    from: '"Angry Nerds 👻" <angry.nerds2019@gmail.com>', // sender address
+                    to: userEmail, // list of receivers
+                    subject: 'Resetting Password', // Subject line
+                    text: 'reset Link expires in 24 hours', // plain text body
+                    html: '<h3>The code expires within an hour</h3> <br> <p>Click <a href="http://localhost:3000//resetpass/' + token + '">here</a> to reset your password</p>'
+                    // html body
+                };
+                transporter.sendMail(mailOptions, (error, info) => {
+                    if (error) {
+                        return console.log(error);
+                    }
+                    user.token = token;
+                    user.token_date = Date.now()
+                    user.save();
+                    res.json({ success: true, message: 'An email has been sent check your email' });
+                
+                });
+            }
+            
+        });
+    },
+
+    resetpassword: function (req, res) {
+        var userToken = req.params.token;
+        var newPassword = req.body.password;
+        Investor.findOne({ token: userToken }, function (err, user) {
+            if (err) {
+                res.json({ success: false, message: "Token is expired please try again" });
+            }
+            else {
+                bcrypt.genSalt(10, function (err, salt) {
+                    bcrypt.hash(newPassword, salt, function (err, hash) {
+                        user.password = hash;
+                        user.save(function (err) {
+                            if (err) {
+                                res.json({ success: false, message: err.message });
+                                console.log(err);
+                            }
+                            else {
+                                res.json({ success: true, message: "Password reseted succesfully" });
+                            }
+                        });
+                    });
+                });
+            }
+        });
+    },
 
 
 }

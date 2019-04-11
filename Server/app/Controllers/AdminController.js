@@ -401,7 +401,6 @@ let AdminController = {
 
     forgotpassword: async (req, res) => {
         var userEmail = req.body.email;
-        //var userEmail = req.params.email;
         Admins.findOne({ email: userEmail }, function (err, user) {
             if (err) {
                 res.json({ success: false, message: err.message });
@@ -618,6 +617,7 @@ let AdminController = {
 
 
     SystemCalcFees: async function (id) {
+        console.log('haaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa')
         var Fees = 0
         const newCase = await Case.findById(id)
         const regLaw = await newCase.regulated_law
@@ -642,8 +642,9 @@ let AdminController = {
             Fees = Fees + LawArray[i].LawValue
             console.log("plues el damgha" + Fees)
         }
-        console.log(Fees)
-        newCase.fees= Fees
+        console.log(Fees+'hoooooooo')
+        await Case.findByIdAndUpdate(id, {fees: Fees})
+        return ('hiiiiiiii')
     },
 
     AdminCreateNewLaw: async function (req, res) {

@@ -6,15 +6,18 @@
     "axios": "^0.18.0",
     "react-datepicker": "^2.3.0",
     "bootstrap": "^4.3.1",
+    "eslint": "5.12.0",
     "react": "^16.8.6",
     "react-bootstrap": "^1.0.0-beta.6",
+    "react-datepicker": "^2.3.0",
     "react-dom": "^16.8.6",
     "react-popup": "^0.10.0",
-    "react-router-dom": "^5.0.0",
-    "reactstrap": "^8.0.0",
-
+    "react-progress-bar": "^0.1.0",
     "react-router": "^5.0.0",
-    "react-scripts": "2.1.8"
+    "react-router-dom": "^5.0.0",
+    "react-scripts": "2.1.8",
+    "react-step-progress-bar": "^1.0.3",
+    "reactstrap": "^8.0.0"
   },
   "scripts": {
     "start": "set PORT=3001 && react-scripts start",

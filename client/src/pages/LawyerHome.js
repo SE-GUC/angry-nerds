@@ -54,7 +54,7 @@ class LawyerHome extends Component {
          break;     
 
          case 'Fees':
-         this.setState({allCases: this.state.allCases.sort(function(a,b){ console.log(a.fees - b.fees); return a.equality_capital - b.equality_capital})});
+         this.setState({allCases: this.state.allCases.sort(function(a,b){ console.log(a.fees - b.fees); return a.fees - b.fees})});
         break;
 
         default: break; 

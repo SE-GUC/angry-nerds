@@ -64,11 +64,23 @@ InvestorSchema = new Schema({
     active: {
         type: Boolean
     },
-
     //dany
     photoID: {
         type: String
-    }
+    },
+    notifications:{
+        type : [
+            {
+               text: {
+                   type: String
+               },
+               time:{
+                   type: Date,
+                   default: Date.now
+               }
+            }
+         ]
+     }
 })
 
 //CaseSchema.plugin(uniqueValidator)

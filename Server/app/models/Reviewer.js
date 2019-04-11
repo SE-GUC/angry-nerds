@@ -78,7 +78,20 @@ const ReviewerSchema = new Schema({
      //dany
      photoID: {
         type: String
-    }
+    },
+    notifications:{
+        type : [
+            {
+               text: {
+                   type: String
+               },
+               time:{
+                   type: Date,
+                   default: Date.now
+               }
+            }
+         ]
+     }
 
 })
 
