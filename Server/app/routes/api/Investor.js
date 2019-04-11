@@ -12,12 +12,12 @@ const config = require('../../../config/mailer')
 const tempUser = require('../../models/tempUser')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
+const passport = require('passport')
 
-
-router.get('/',  async (req, res) => {
-    const Investors = await  Investor.find()
-    res.json({ data: Investors })
-})
+// router.get('/',  async (req, res) => {
+//     const Investors = await  Investor.find()
+//     res.json({ data: Investors })
+// })
 
 router.get('/:id', async (req, res) => {
     try {
@@ -32,8 +32,8 @@ router.get('/:id', async (req, res) => {
 
 router.post('/', async (req, res) => {
     try {
-        const isValidated = validator.createValidation(req.body)
-        if (isValidated.error) return res.status(400).send({ error: isValidated.error.details[0].message })
+        // const isValidated = validator.createValidation(req.body)
+        // if (isValidated.error) return res.status(400).send({ error: isValidated.error.details[0].message })
         const newInvestor = await Investor.create(req.body)
         res.json({ msg: 'Investor was created successfully', data: newInvestor })
     }
@@ -44,45 +44,44 @@ router.post('/', async (req, res) => {
     }
 })
 
+//under developement... sign up with jwt
 router.post('/register', async (req, res) => {
-    const { firstName ,
-            MiddleName,
-            LastName,
-            email,
-            password,
-            ID_type,
-            SSID,
-            Nationality,
-            Type,
-            Address,
-            birthdate,
-            telephone_number,
-            gender,
-            secretToken,
-            active,
-            photoID
-          } = req.body
-    const user = await Investor.findOne({ email })
-    if (user)
-        return res.status(400).json({ error: 'Email already exists' })
-    else{
-        const tempoUser = await tempUser.findOne({ email })
-        if (tempoUser){
-            return res.status(400).json({ error: 'You are already registered with this email , You need to verify it' })
-        }
-        else{
-        const secretToken = randomstring.generate()
-        req.body.secretToken = secretToken
-        const newTempUser = await tempUser.create(req.body)
-        res.json({ msg: 'tempUser was created successfully', data: newTempUser })
-
-        const html = 'Hi there, <br/> Thank you for registering <br/><br/> Please verify your email by clicking on the following page:<a href= "http://localhost:3000/api/Investor/verify/' + secretToken + ' ">http://localhost:3000/api/Investor/verify</a> </br></br> '
-        await mailer.sendEmail(config.user, req.body.email, 'Please verify your email', html)
-        }
-    }
-     
-
+    const { firstName ,MiddleName,LastName,email,password,
+            ID_type,SSID, Nationality,Type,Address, birthdate,
+            telephone_number, gender, photoID } = req.body
     
+    const user = await Investor.findOne({ email })
+    console.log(user)
+    if (user)
+    {
+        console.log('error')
+        return res.status(400).json({ error: 'Email already exists' })
+    }
+    else{
+        const salt = bcrypt.genSaltSync(10); 
+		         const hashPass = bcrypt.hashSync(password, salt); // hashing the password which is already saved in tempUser before saved in investor table
+            const investor1 = await Investor.create({
+                firstName : firstName ,
+                MiddleName : MiddleName ,
+                LastName : LastName ,
+                email : email,
+                password : hashPass ,
+                ID_type : ID_type,
+                SSID : SSID,
+                Nationality : Nationality,
+                Type : Type,
+                Address : Address,
+                birthdate : birthdate,
+                telephone_number : telephone_number,
+                gender : gender,
+                active : 'false',
+                photoID: photoID
+            })
+            res.json({ msg: 'tempUser was created successfully', data: investor1 })
+
+            const html = 'Hi there, <br/> Thank you for registering <br/><br/> Please verify your email by clicking on the following page:<a href= "http://localhost:3000/api/Investor/verify/' + secretToken + ' ">http://localhost:3000/api/Investor/verify</a> </br></br> '
+            await mailer.sendEmail(config.user, req.body.email, 'Please verify your email', html)
+    }
 })  
 
 
@@ -140,6 +139,17 @@ router.put('/:id', async (req, res) => {
     }
 })
 
+router.get('/',passport.authenticate('jwt', {session: false}) ,async (req,res) => {
+        // You can access the logged in user through req.user
+        // Add your authorization rules accordingly
+        //const books = await Book.find()
+        //return res.json({books: books})
+        if (req.user.type==="investor"){
+            console.log('DID it xD')
+        }
+         return res.json({data: req.user})
+       
+})
 
 
 router.delete('/:id', async (req, res) => {

@@ -15,29 +15,35 @@ const config = require('../../config/mailer')
 const tokenKey = config.tokenKey;
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
+const axios = require('axios')
+var passport = require('passport');
+require('../../config/passport')(passport);
 
 
 let InvestorController = {
+
+    passportauth: passport.authenticate('jwt', { session: false }),
 
     /* 
     this is a function that takes a request body that contains credit card info
     it creates a token of this info and then it creates a charge
     when the payment is successfully complete the case status is changed to published
     */
+
     InvestorPayFees: async function (req, res) {
         console.log(req.body)
-        const id = req.params.id
         const invID = '5ca772654d70710fa843bd5f' //get this from login token
         
         const CaseID = req.body.caseID  
         const myCase = await Case.findById(CaseID)
         const inv = await Investor.findOne({ _id: invID })
-        console.log(inv)
         const userEmail = inv.email
         if(!myCase)
-            res.json({msg: 'this case does not exist'})
+           return res.json({message: 'this case does not exist'})
+
+        if(myCase.caseStatus !== 'pending')
+            return res.status(200).json({message: 'company is not ready for payment'})   
             
-        console.log(myCase)
         if (myCase.investorID == invID) {
             stripe.tokens.create({
                 card: {
@@ -47,20 +53,25 @@ let InvestorController = {
                     'cvc': req.body.cvc
                 }
             }, async function (err, token) {
-                if (err) return res.json({ message: 'card declined' })
-                else {
-                    //console.log(token)     
+                console.log('myError')
+                console.log(err)
+                if (err) return res.json({ message: 'card declined'})
+                else { 
+                        //use axios to get amount
+                        const response = await axios.get('http://127.0.0.1:3000/calculateFees/' + CaseID)
+                        console.log('the response is :', response)
+                        const chargeAmount = response.data.fees * 100
+                        console.log('my charge amount is:   ' + chargeAmount)
                         var charge = stripe.charges.create({
-                        amount: 30000,
-                        currency: 'usd',
+                        amount: chargeAmount,
+                        currency: 'usd', // currency from database case
                         source: token.id
                     }, async function (err) {
-                       // console.log(err)
                         if (err) {
                             return res.json({ message: 'your card is declined, try again!' + err})
                         }
                         else {
-                            // const casecreated = await Case.findByIdAndUpdate(CaseID, { 'caseStatus': 'published' })
+                            const casecreated = await Case.findByIdAndUpdate(CaseID, { 'caseStatus': 'published' })
                             // let transporter = nodemailer.createTransport({
                             //     service: 'gmail',
                             //     auth: {
@@ -83,11 +94,7 @@ let InvestorController = {
                             //     }
                             //     res.json({ success: true, message: 'An email has been sent check your email' });
                             // });
-                            console.log('token')
-                            console.log(token)
-                            console.log('charge')
-                            console.log(charge)
-                            return res.json({ message: 'your payment has been made; you will receive an invoice via your mail' })
+                            return res.json({ message: 'your payment has been made; you will receive an invoice via your mail', data: casecreated })
                         }
 
                     })
@@ -334,14 +341,13 @@ let InvestorController = {
     */
     viewMyPublishedCompanies: async function (req, res) {
         try {
-            // const id = req.params.id
-            const ids = '5c78e4a73ba5f854b86f9058' //will take from login
-            let investor = await Investor.findById(ids)
+            const id = req.params.id
+            let investor = await Investor.findById(id)
             if (!investor) {
                 return res.status(404).json({ error: 'Cannot find an investor account with this ID' })
             }
             else {
-                let cases = await Case.find({ 'caseStatus': 'published', 'investorID': ids })
+                let cases = await Case.find({ 'caseStatus': 'published', 'investorID': id })
                 return res.status(200).json({ msg:'Done',data: cases })
             }
 
@@ -363,14 +369,14 @@ let InvestorController = {
    */
     viewMyPendingCompanies: async function (req, res) {
         try {
-            // const id = req.params.id
-            const ids = '5c78e4a73ba5f854b86f9058' // will take from login
-            let investor = await Investor.findById(ids)
+             const id = req.params.id
+            //const ids = '5c78e4a73ba5f854b86f9058' // will take from login
+            let investor = await Investor.findById(id)
             if (!investor) {
                 return res.status(404).json({ error: 'Cannot find an investor account with this ID' })
             }
             else {
-                let cases = await Case.find({ 'caseStatus': { $ne: 'published' }, 'investorID': ids})
+                let cases = await Case.find({ 'caseStatus': { $ne: 'published' }, 'investorID': id})
                 return res.status(200).json({ msg: 'Done', data: cases })
             }
 
@@ -383,7 +389,7 @@ let InvestorController = {
 
 
     /*
-        GET method to generate a pdf contract based on the case object.
+        GET method to generate a   contract based on the case object.
         PARAMS:{ caseID: String }
         * Checks if the case is in the database,
         then constructs the docDefinition constant based on the data in the c object (case),
@@ -457,44 +463,48 @@ let InvestorController = {
         }
     },
 
-
-    InvCompListViewing: async (res) => {
-
-        try {
-            var Cas = await Case.find({ caseStatus: 'published' }, projx)
-    
-            for (var i = 0; i < Cas.length; i++) {
-             var projx = { '_id': 0, 'reviewerID': 0, 'lawyerID': 0, 'investorID': 0 ,  'equality_capital': 0, 'currency': 0, 'fees':0}
-            }
-             Cas = await Case.find({ caseStatus: 'published' }, projx)
-             res.json({ data: Cas })
-         }
-         catch (error) {
-            console.log(error)
-        }
-    },
-
-    InvCompViewing: async (req, res)=> {
-
-        const id = req.params.id
-        var Cas = await Case.findById(id)
+    //Displaying a List of all published companies
+    InvestorViewingPublishedCompanies: async (req,res) => {
         
         try {
-            if (Cas.caseStatus === 'published') {
-                var proj1 = {  '_id': 0, 'reviewerID': 0, 'lawyerID': 0, 'investorID': 0 ,  'equality_capital': 0, 'currency': 0, 'fees':0}
-                Cas = await Case.findById(id, proj1)
-                res.json({ data: Cas }) 
-            } else {
-                res.json({ msg: 'Case was not published' })
-    
+            var Cas = await Case.find({ caseStatus: 'published' }, projx)
+            
+            for (var i = 0; i < Cas.length; i++) {
+                var projx = { '_id': 0, 'reviewerID': 0, 'lawyerID': 0, 'investorID': 0 ,  'equality_capital': 0, 'currency': 0, 'fees':0}
             }
+            Cas = await Case.find({ caseStatus: 'published' }, projx)
+
+            res.json({ message:'Cases',data: Cas })
         }
         catch (error) {
             console.log(error)
         }
     },
     
-    InvViewing: async (req, res)=> {
+//Viewing One specific Company
+InvestorViewingCompany: async (req, res)=> {
+    
+    const id = req.params.id
+    var Cas = await Case.findById(id)
+    
+    try {
+        if (Cas.caseStatus == 'published') {
+            var proj1 = {  '_id': 0, 'reviewerID': 0, 'lawyerID': 0, 'investorID': 0 ,  'equality_capital': 0, 'currency': 0, 'fees':0}
+            Cas = await Case.findById(id, proj1)
+            res.json({message:'case' , data: Cas }) 
+        } else {
+            res.json({ message: 'Case was not published' })
+            
+        }
+    }
+    catch (error) {
+        console.log(error)
+    }
+},
+
+//Viewing a specific User of any type 
+    
+    InvestorViewing: async (req, res)=> {
         
     var proj = { '_id': 0, 'password': 0}
     var projy = {'_id': 0, 'password': 0 , 'ratings': 0}
@@ -523,19 +533,28 @@ let InvestorController = {
     },
     InvestorRateLawyer: async function (req, res) {
         const id = req.params.id // Lawyer ID
-        const invID = '5c77c2b0c5973856f492f33e' //get this from login token
-        const CasID = '5c94dfa63c95ff18c8866d56' //get this from frontend 
+        const invID = '5c78e4a73ba5f854b86f9058' //get this from login token
+        const CasID = '5c9517dff65058663c3010d7' //get this from frontend 
         const Ratin = req.body.rating
         const Comm = req.body.Comment
         const aCase = await Case.findById(CasID)
         const Lawy = await Lawyer.findById(id)
-       
         try{
             
             if(!aCase)
             res.json({msg: 'this case does not exist'})
-            if(!Lawy)  {
-            res.json({msg: 'not a lawyer, try again'})}
+            if(!Lawy)  
+                res.json({msg: 'not a lawyer, try again'})
+            else{
+            console.log('heeeerreeee')
+
+            console.log(Lawy.ratings)
+            for (let i = 1; i < rat.length; i ++) {
+                    if (rat[i].CaseID == CasID)
+                    res.json({message: 'already rated the lawyer'})
+            
+                }
+            }
             
             if(aCase.investorID == invID&&aCase.lawyerID == id){
                 var newrate = [{'investorID': invID, 'CaseID':CasID, 'rating': Ratin , 'Comment': Comm}]
