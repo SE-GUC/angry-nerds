@@ -14,12 +14,13 @@ const fun = require('./AdminController')
 const jwt = require('jsonwebtoken');
 var nodemailer = require('nodemailer');
 var bcrypt = require('bcryptjs');
+const config = require('../../config/mailer')
+const tokenKey = config.tokenKey;
 
 "use strict";
 
 const dotenv = require("dotenv");
 const mailer = require('./../../misc/mailer')
-const config = require('./../../config/mailer')
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 
 var InvestorController = require('./InvestorController')
@@ -414,7 +415,7 @@ let AdminController = {
                 var token = jwt.sign({
                     _id: Admins._id,
                     FName: user.FName
-                }, 'secret', { expiresIn: 60*60 }); //seconds
+                }, tokenKey, { expiresIn: 60*60 }); //seconds
 
                 let transporter = nodemailer.createTransport({
                     service: 'gmail',
