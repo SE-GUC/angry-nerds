@@ -413,6 +413,44 @@ AdmViewing: async (id) => {
   const views= await axios.get('http://127.0.0.1:3000/AdmViewing/'+id)
   return views
   },
+  
+  adminViewComment:  async () => {
+    const comment = await axios({
+        method: 'get',
+        url: 'http://localhost:3000/AdminViewComment',
+        headers: {}, 
+        data: { //body
+           
+        }
+      });
+    return comment
+},
+
+adminViewLawyersLeaderBoard:async () => {
+  const lead = await axios({
+      method: 'get',
+      url: 'http://localhost:3000/AdminViewLawyersLeaderBoard',
+      headers: {}, 
+      data: { //body
+         
+      }
+    });
+  return lead
+},
+
+adminViewReviewersLeaderBoard:async () => {
+  const lead = await axios({
+      method: 'get',
+      url: 'http://localhost:3000/AdminViewReviewersLeaderBoard',
+      headers: {}, 
+      data: { //body
+         
+      }
+    });
+  return lead
+},
+
+
 
 
 

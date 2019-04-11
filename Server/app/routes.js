@@ -17,6 +17,9 @@ router.post('/InvestorPayFees', InvestorController.InvestorPayFees)
 router.post('/InvestorFillForm', InvestorController.investorFillForm)
 router.put('/InvestorUpdateForm/:id', InvestorController.investorUpdateForm)
 router.put('/InvestorEditProfile',InvestorController.InvestorEditProfile)
+router.get('/InvestorViewComment',InvestorController.investorViewComment)
+router.get('/InvestorViewProfile',InvestorController.investorViewProfile)
+
 
 //this endpoint allows investor to view his company fees
 router.get('/InvestorViewFees', InvestorController.InvestorViewFees)
@@ -37,7 +40,7 @@ router.post('/AdminRegisterAdmin', AdminController.AdminRegisterAdmin)
 router.put('/AdminEditCompany/:id', AdminController.AdminEditCompany)
 router.delete('/AdminDeleteInvestor/:id', AdminController.AdminDeleteInvestor)
 router.post('/AdminRegisterLawyer', AdminController.AdminRegisterLawyer)
-router.post('AdminRegisterReviewer', AdminController.AdminRegisterReviewer)
+router.post('/AdminRegisterReviewer', AdminController.AdminRegisterReviewer)
 router.delete('/AdminDeleteLawyer/:id', AdminController.AdminDeleteLawyer)
 router.delete('/AdminDeleteReviewer/:id', AdminController.AdminDeleteReviewer)
 router.delete('/AdminDeleteAdmin/:id', AdminController.AdminDeleteAdmin)
@@ -49,8 +52,8 @@ router.get('/AdmCompViewing/:id', AdminController.AdmCompViewing)
 router.get('/AdmViewing/:id', AdminController.AdmViewing)
 router.delete('/AdmDelQuestion/:id', AdminController.AdmDelQuestion)
 router.delete('/AdmDelCase/:id', AdminController.AdmDelCase)
-router.get('AdminViewLawyersLeaderBoard', AdminController.adminViewLawyersLeaderBoard)
-router.get('AdminViewReviewersLeaderBoard', AdminController.adminViewReviewersLeaderBoard)
+router.get('/AdminViewLawyersLeaderBoard', AdminController.adminViewLawyersLeaderBoard)
+router.get('/AdminViewReviewersLeaderBoard', AdminController.adminViewReviewersLeaderBoard)
 router.put('/AdminChangePassword/:id', AdminController.adminChangePassword)
 router.post('/AdminCreateNewLaw', AdminController.AdminCreateNewLaw)
 router.put('/AdminAssignLawyer',AdminController.AdminAssignLawyer)
@@ -89,6 +92,7 @@ router.get('/ReviewerCloseCase/:id', ReviewerController.ReviewerCloseCase)
 router.put('/caseAproveedAtReviewer/:idCase', ReviewerController.caseAproveedAtreviewer)// fix this
 router.put('/caseDisAproveedAtReviewer/:idCase', ReviewerController.caseDisAproveedAtReviewer)
 router.get('/viewCasesReviewer/', ReviewerController.viewCasesReviewer)
+router.get('/ReviewerViewReviewersLeaderBoard',ReviewerController.reviewerViewReviewersLeaderBoard)
 
 
 

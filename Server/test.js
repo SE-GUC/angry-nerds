@@ -1,10 +1,11 @@
 const lawyer = require('./tests/lawyerFunctions');
+const reviewer = require('./tests/reviewerFunctions');
 const adminFunctions = require('./tests/adminFunctions')
 const investorFunctions = require('./tests/investorFunctions')
 const userFunctions = require('./tests/userFunctions')
-const Lawyer = require('./app/models/Lawyer')
+//const Lawyer = require('./app/models/Lawyer')
 const Reviewer = require('./app/models/Reviewer')
-jest.setTimeout(30000)
+//jest.setTimeout(30000)
 
 const Admin = require('./app/Functions/Admin.functions');
 const Investor = require('./app/Functions/Investor.functions')
@@ -29,47 +30,104 @@ test('Reset password with valid token', async () => {
 
 
 
+////--------------------------------SARA-------------------------------------------;)
 
 test('investor fill form', async () => {
-  const msg =  await Investor.investorFillForm()
+  const msg =  await investorFunctions.investorFillForm()
   expect(msg.data.msg).toEqual('The form was created successfully');
-});
+});   
+
 test('investor update form', async () => {
-  const msg =  await Investor.investorFillForm()
-  expect(msg.data.msg).toEqual('The form was created successfully');
+  const msg =  await investorFunctions.investorUpdateForm('5c9501b04f707b3968c9275e')
+  expect(msg.data.msg).toEqual('Form updated successfully');
 });
+
 test('investor view comment', async () => {
-  const msg =  await Investor.investorFillForm()
-  expect(msg.data.msg).toEqual('The form was created successfully');
-});
+  const com =  await investorFunctions.investorViewComment()
+  expect(com.data).toEqual({});
+}); 
 
-
-test('lawyer fill form', async () => {
-  const msg =  await Lawyer.lawyerFillForm()
-  expect(msg.data.msg).toEqual('The form was created successfully');
+test('investor view profile', async () => {
+  const prof=  await investorFunctions.investorViewProfile()
+  expect(prof.data.msg).toEqual('Done');
 });
 
 test('lawyer update form', async () => {
-  const msg =  await Lawyer.lawyerFillForm()
+  const msg =  await lawyer.lawyerUpdateForm('5c950069f2380140941b74f0')
+  expect(msg.data.msg).toEqual('Form updated successfully');
+});
+
+test('lawyer fill form', async () => {
+  const msg =  await lawyer.lawyerFillForm()
   expect(msg.data.msg).toEqual('The form was created successfully');
 });
 
-/*test('lawyer view comment', async () => {
-  const msg =  await Lawyer.lawyerViewComment()
-  expect(msg.data.msg).toEqual('Done');
-});*/
-
-test('lawyer view lawyerLeaderBoard', async () => {
-  const msg =  await Lawyer.lawyerViewLawyersLeaderBoard()
-  expect(msg.data.msg).toEqual('Done');
+test('lawyer view comment', async () => {
+  const comment =  await lawyer.lawyerViewComment()
+  expect(comment.data).toEqual({});
 });
 
   test('lawyer view reviewerLeaderBoard', async () => {
-    const msg =  await Lawyer.lawyerViewReviewersLeaderBoard()
+    const msg =  await lawyer.lawyerViewReviewersLeaderBoard()
     expect(msg.data.msg).toEqual('Done');
   });
 
-  
+  test('lawyer view lawyerLeaderBoard', async () => {
+  const msg =  await lawyer.lawyerViewLawyersLeaderBoard()
+  expect(msg.data.msg).toEqual('Done');
+});
+
+test('admin view comment', async () => {
+  const com =  await adminFunctions.adminViewComment()
+  expect(com.data).toEqual({});
+}); 
+
+test('Admin view lawyerLeaderBoard', async () => {
+  const msg =  await adminFunctions.adminViewLawyersLeaderBoard()
+  expect(msg.data.msg).toEqual('Done');
+}); 
+
+test('Admin view ReviewersLeaderBoard', async () => {
+  const msg =  await adminFunctions.adminViewReviewersLeaderBoard()
+  expect(msg.data.msg).toEqual('Done');
+});
+
+test('Reviewer view lawyersLeaderBoard', async () => {
+  const msg =  await reviewer.reviewerViewLawyersLeaderBoard()
+  expect(msg.data.msg).toEqual('Done');
+});
+
+
+test('Reviewer view reviewersLeaderBoard', async () => {
+const msg =  await reviewer.reviewerViewReviewersLeaderBoard()
+expect(msg.data.msg).toEqual('Done');
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   test('Reset password with expired token', async () => {
     const msg =  await Admin.MailResetPassword('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJGTmFtZSI6IkZhZHkiLCJpYXQiOjE1NTQwNTg5MzYsImV4cCI6MTU1NDA2MjUzNn0.bl8zUKTgZAOfUe9nHZvchDkhQniKUK0cMWz4mwHWPgw','Fady2512')
     expect(msg).toEqual('Token is expired please try again');
@@ -377,7 +435,7 @@ test(`Editing company city to Alex`, async () => {
   /*
   either this test works or the previous two work
   they are contradicting due hardcoding admin id in my function which is not of type super
-  */
+  
   //test ('Non-superAdmin tries to change law', async () => {
     //let law= await adminFunctions.adminChangePricingStrategy('5c9e4b6c4edad508b45adac6')
     //expect(law.data.data.message).toEqual('Only super admins have access')
@@ -408,7 +466,7 @@ test(`Editing company city to Alex`, async () => {
 
 
 
-
+/*
 
 test('Admin assign lawyer' ,async() => {
   const msg = await adminFunctions.AdminAssignLawyer('5c93e4ae5b66b31668f0e28c','5c9e4dc353415c34a0f35cd1')
@@ -641,4 +699,4 @@ test ('generate a PDF with a invalid ID', async () => {
     expect(e.response.data.error).toMatch('Error processing query.');
   }
   
-})
+})*/

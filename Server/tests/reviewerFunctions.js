@@ -35,6 +35,29 @@ const reviewerFunctions = {
         
     },
 
+    reviewerViewLawyersLeaderBoard:async () => {
+      const lead = await axios({
+          method: 'get',
+          url: 'http://localhost:3000/ReviewerViewLawyersLeaderBoard',
+          headers: {}, 
+          data: { //body
+             
+          }
+        });
+      return lead
+    },
+    reviewerViewReviewersLeaderBoard:async () => {
+      const lead = await axios({
+          method: 'get',
+          url: 'http://localhost:3000/ReviewerViewReviewersLeaderBoard',
+          headers: {}, 
+          data: { //body
+             
+          }
+        });
+      return lead
+    }
+
 
     
 
