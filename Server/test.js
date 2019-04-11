@@ -1,4 +1,4 @@
-const lawyer = require('./tests/lawyerFunctions');
+//const lawyer = require('./tests/lawyerFunctions');
 const adminFunctions = require('./tests/adminFunctions')
 const investorFunctions = require('./tests/investorFunctions')
 const userFunctions = require('./tests/userFunctions')
@@ -7,12 +7,86 @@ const Question = require('./app/models/Questions')
 const Reviewer = require('./app/models/Reviewer')
 jest.setTimeout(30000)
 const axios = require('axios');
+axios.defaults.adapter = require ('axios/lib/adapters/http')
+
 
 //Hemaya before tests
 
-// const Admin = require('./app/Functions/Admin.functions');
-// const Investor = require('./app/Functions/Investor.functions')
-// const Lawyer = require('./app/Functions/Lawyer.functions')
+
+test('Forgot password with valid mail', async () => {
+  jest.setTimeout(30000)
+  const t1 = await axios({
+    method: 'post',
+    url:'http://127.0.0.1:3000/api/admin',
+    headers: {}, 
+    data: {
+      "FName": "FoFu",
+      "MName": "Ramremo",
+      "LName": "Gamd",
+      "email": "modyjack71@gmail.com",
+      "password": "cnjdqqcrjcsjn151215'",
+      "gender": "Male",
+      "Nationality": "Egyptian",
+      "birthdate": "1980",
+      "Address": "11 makram",
+      "fax": "125252",
+      "telephone_number": "151515",
+      "total_number_of_cases": "588",
+      "completed_number_of_cases": "561",
+      "number_of_cases": "2",
+      "total_time_on_cases": "25",
+      "ssid": "15552"
+    }
+  });
+  const msg =  await adminFunctions.MailForgotPassword(t1.data.data.email)
+  await axios.delete('http://127.0.0.1:3000/api/admin/'+t1.data.data._id)
+  expect(msg.data.message).toEqual('An email has been sent check your email');
+
+});
+
+test('Forgot password with invalid mail', async () => {
+  const msg =  await adminFunctions.MailForgotPassword('Wrong_mail@gmail.com')
+  expect(msg.data.message).toEqual('incorrect email');
+});
+
+test('Reset password with expired token', async () => {
+  const msg =  await adminFunctions.MailResetPassword('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJGTmFtZSI6IkZhZHkiLCJpYXQiOjE1NTQwNjU1MjMsImV4cCI6MTU1NDA2OTEyM30.ByMt8yx_wNQGwhxH00LD_2xAjJpzkS7SlaX3rOUB2nE','Fady2512')
+  expect(msg).toEqual('Token is expired please try again');
+});
+
+test('Reset password with valid token', async () => {
+  const t1 = await axios({
+    method: 'post',
+    url:'http://127.0.0.1:3000/api/admin',
+    headers: {}, 
+    data: {
+      "FName": "Romba",
+      "MName": "Ramremo",
+      "LName": "Gamd",
+      "email": "charbil.wasfalla@gmail.com",
+      "password": "cnjdqqcrjcsjn151215'",
+      "gender": "Male",
+      "Nationality": "Egyptian",
+      "birthdate": "1980",
+      "Address": "11 makram",
+      "fax": "125252",
+      "telephone_number": "151515",
+      "total_number_of_cases": "588",
+      "completed_number_of_cases": "561",
+      "number_of_cases": "2",
+      "total_time_on_cases": "25",
+      "ssid": "15552"
+    }
+  });
+  const x = await adminFunctions.MailForgotPassword(t1.data.data.email)
+  console.log('One',t1.data.data._id)
+  const tok = await axios.get('http://127.0.0.1:3000/api/admin/'+t1.data.data._id)
+  console.log('TWo', tok.data.data )
+  console.log('Three',t1.data.data.token)
+  const msg =  await adminFunctions.MailResetPassword(tok.data.data.token,'Fady22551122')
+  await axios.delete('http://127.0.0.1:3000/api/admin/'+t1.data.data._id)
+  expect(msg).toEqual('Password reseted succesfully');
+})
 
 
 // test('Forgot password with valid mail', async () => {
@@ -30,6 +104,8 @@ const axios = require('axios');
 //   const msg =  await Admin.MailResetPassword('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJGTmFtZSI6Im1vbmljYSIsImlhdCI6MTU1NDA1Njk4NiwiZXhwIjoxNTU0MDYwNTg2fQ.JbMkTDaIJd4lkkjtxL3tVF9LyuiZw-Xh9KKFDNl5MuM','Fad5y2512')
 //   expect(msg).toEqual('Password reseted succesfully');
 // })
+
+
 
 
 
@@ -74,11 +150,7 @@ const axios = require('axios');
 //   });
 
   
-//   test('Reset password with expired token', async () => {
-//     const msg =  await Admin.MailResetPassword('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJGTmFtZSI6IkZhZHkiLCJpYXQiOjE1NTQwNTg5MzYsImV4cCI6MTU1NDA2MjUzNn0.bl8zUKTgZAOfUe9nHZvchDkhQniKUK0cMWz4mwHWPgw','Fady2512')
-//     expect(msg).toEqual('Token is expired please try again');
-//   });
-
+  
 // test ('Updates Password Investor with valid ID and valid old password', async () => {
 //   var validInvestorID = "5c7a9b46470a360ac8b0d412"
 //   var validOldPassword = "newPass"
@@ -761,25 +833,43 @@ test(`Admin register Admin successfully`, async () => {
     expect(ques.data.msg).toEqual('Admin was created successfully')
 })
 
-
-test(`Admin delete Investor not exist`, async () => {
-  // await Lawyer.create(data)
-  try {
-    const ques = await adminFunctions.AdminDeleteInvestorNot()
-    expect(ques.data.error).toEqual('Email already exists')
-  } catch (e) {
-    expect(e.response.data.error).toEqual("Can not find Investor")
-  }
-})
+// //====================Hemaya tests===========================================================
+// test(`Unregister view questions`, async () => {
+//   const ques = await userFunctions.UnregisterViewQuestions()
+//   expect(ques.data.data[0].question).toEqual('do you?')
+// });
 
 
-test(`Admin delete Investor successfully`, async () => {
-  // await Lawyer.create(data)
+// test(`Admin register reviewer with email already exists`, async () => {
+//   // await Lawyer.create(data)
+//   try {
+//     const ques = await adminFunctions.AdminRegisterReviewer()
+//     expect(ques.data.error).toEqual('Email already exists')
+//   }
+//   catch (e) {
+//     expect(e.response.data.error).toEqual("Email already exists")
+//   }
+// });
 
-    const ques = await adminFunctions.AdminDeleteInvestor()
-    expect(ques.data.msg).toEqual('Investor deleted successfully')
-})
+// test(`Admin register lawyer with email already exists`, async () => {
+//   // await Lawyer.create(data)
+//   try {
+//     const ques = await adminFunctions.AdminRegisterLawyer()
+//     expect(ques.data.error).toEqual('Email already exists')
+//   } catch (e) {
+//     expect(e.response.data.error).toEqual("Email already exists")
+//   }
+// });
 
+// test(`Admin register reviewer successfully`, async () => {
+
+//   // await Lawyer.create(data)
+//   const ques = await adminFunctions.AdminRegisterReviewerSuccessfully();
+//   expect(ques.data.msg).toEqual('Reviewer was created successfully')
+//   // var query = { email: "new_emaill@gmail.com" }
+//   // await Reviewer.findOneAndRemove(query)
+// });
+// test(`Admin register lawyer successfully`, async () => {
 
 // test ('generate a PDF with a valid ID', async () => {
 //   var validCaseID = "5c9cfd1d05f1d42e68b75fb7"

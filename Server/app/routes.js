@@ -5,7 +5,6 @@ const ReviewerController = require('./Controllers/ReviewerController')
 const UserController = require('./Controllers/UserController')
 const express = require('express')
 var router = express.Router();
-var fs = require('fs');
 
 
 
@@ -14,7 +13,7 @@ var fs = require('fs');
 //this endpoint allows the investor to pay fees for a pending company
 router.get('/InvestorSignIn/:email/:password',InvestorController.InvestorSignIn)
 router.post('/InvestorPayFees', InvestorController.InvestorPayFees)
-router.post('/InvestorFillForm', InvestorController.investorFillForm)
+router.post('/InvestorFillForm',InvestorController.investorFillForm)
 router.put('/InvestorUpdateForm/:id', InvestorController.investorUpdateForm)
 router.put('/InvestorEditProfile',InvestorController.InvestorEditProfile)
 
@@ -41,7 +40,7 @@ router.post('/AdminRegisterReviewer', AdminController.AdminRegisterReviewer)
 router.delete('/AdminDeleteLawyer/:id', AdminController.AdminDeleteLawyer)
 router.delete('/AdminDeleteReviewer/:id', AdminController.AdminDeleteReviewer)
 router.delete('/AdminDeleteAdmin/:id', AdminController.AdminDeleteAdmin)
-router.post('/forgotpassword', AdminController.forgotpassword)
+router.get('/forgotpassword', AdminController.forgotpassword)
 router.post('/resetpassword/:token', AdminController.resetpassword)
 router.put('/AdminChangePricingStrategy/:id', AdminController.AdminChangePricingStrategy)
 router.get('/AdmCompListViewing', AdminController.AdmCompListViewing)
