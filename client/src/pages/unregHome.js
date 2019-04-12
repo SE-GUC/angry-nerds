@@ -43,7 +43,7 @@ const image4 =
       </div>
     </Parallax>
     <h1>| | |</h1>
-    <Parallax bgImage={image3} blur={{ min: -1, max: 3 }}>
+    <Parallax bgImage={image3} blur={{ min: -1, max: 6 }}>
       <div style={{ height: 500 }}>
       <div style={insideStyles}>
         <Button variant="primary" className = 'btn btn-primary btn-lg' type="submit" href='/ViewMyCompanies'>
