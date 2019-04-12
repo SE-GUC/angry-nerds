@@ -51,14 +51,6 @@ class App extends Component {
     }
   }
 
-  componentDidMount() {
-    setInterval(() => axios.get('http://localhost:3000/investorMyNotifications/5ca772654d70710fa843bd5f')
-    .then(res =>{
-      this.setState({ notifications: res.data.data })
-    } ), 1000)
-    
-      
-  }
 
  
    componentWillUnmount() {
