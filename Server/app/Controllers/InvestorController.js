@@ -22,7 +22,7 @@ require('../../config/passport')(passport);
 
 let InvestorController = {
 
-    passportauth: passport.authenticate('jwt', { session: false }),
+    authenticate: passport.authenticate('jwt', { session: false }),
 
     /* 
     this is a function that takes a request body that contains credit card info

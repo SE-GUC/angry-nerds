@@ -8,10 +8,13 @@ const Investor = require("./../models/Investor");
 const router = express.Router();
 const mongoose = require("mongoose");
 const Lawyer = require("./../models/Lawyer");
+const passport = require('passport')
+
 
 let ReviewerController = {
   //write methods here: check InvestorController for example
 
+  authenticate: passport.authenticate('jwt', { session: false }),  
   // the case will go baack to the lawyer to fix his mistake
   // will resume timer for lawer's work on case
 

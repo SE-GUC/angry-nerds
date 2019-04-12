@@ -8,10 +8,13 @@ const router = express.Router();
 const mongoose = require("mongoose");
 const PasswordGenerator = require("secure-random-password");
 const Lawyer = require("../models/Lawyer");
+const passport = require('passport')
 
 const Reviewer = require("./../models/Reviewer");
 
 let LawyerController = {
+
+   authenticate : passport.authenticate('jwt', {session: false}) ,
   //write methods here: check InvestorController for example
   lawyerRegisterInvestor: async body => {
     const email = body.email;

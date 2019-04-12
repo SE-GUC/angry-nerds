@@ -16,6 +16,7 @@ const jwt = require('jsonwebtoken');
 var nodemailer = require('nodemailer');
 var bcrypt = require('bcryptjs')
 const config = require('../../config/mailer')
+const passport = require('passport')
 const tokenKey = config.tokenKey;
 "use strict";
 
@@ -26,8 +27,12 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 var InvestorController = require('./InvestorController')
 
 let AdminController = {
-    //write your methods here: check investorController for example
 
+    
+    authenticate : passport.authenticate('jwt', {session: false}) ,
+    
+    //write your methods here: check investorController for example
+    
 
     /* Malak
     this is a method that takes nothing as an input and calculates time
