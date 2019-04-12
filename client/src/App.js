@@ -20,7 +20,7 @@ import AddReviewer from './components/AddReviewer';
 import testing from './components/testing';
 import mainNavBar from './components/mainNavBar'
 import Footer from './components/Footer'
-
+import unregiteredHome from './pages/unregHome'
 
 
 
@@ -71,7 +71,8 @@ class App extends Component {
     return (
       <Router>
         <Route component = {mainNavBar} />
-        <Route exact path= "/Companies" component = {Companies}/> 
+        <Route exact path= "/Companies" component = {Companies}/>
+        <Route  exact path = "/home" component = {unregiteredHome}  /> 
         <div className="container">
 
           <Route exact path= "/trackMyCase" component = {TrackMyCase} />
@@ -94,7 +95,6 @@ class App extends Component {
 
 
           <Route exact path = '/ViewMyCompanies' component =  {Companies}/>
-          <Route  exact path = "/home" component = {home}  />
             <Route exact path="/signUp" component={signup} />
             <Route exact path="/signin" component= {signin} />
             <Route exact path="/AddLawyer" component={AddLawyer} />
