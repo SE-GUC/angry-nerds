@@ -7,7 +7,15 @@
   height: 40vmin;
   pointer-events: none;
 }
-
+.footer {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  background-color:#007CFF;
+  color: white;
+  text-align: center;
+}
 .App-header {
   background-color: #282c34;
   min-height: 100vh;
