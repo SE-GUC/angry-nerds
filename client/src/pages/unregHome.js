@@ -18,7 +18,7 @@ const insideStyles = {
 const image1 =require('../Images/Egypt.jpg')
 const image2 ="https://brightcove04pmdo-a.akamaihd.net/5104226627001/5104226627001_5297440765001_5280261645001-vs.jpg?pubId=5104226627001&videoId=5280261645001";
 const image3 =
-require('../Images/companies.jpg')
+require('../Images/chair.jpg')
 const image4 =
   "https://images.fineartamerica.com/images/artworkimages/mediumlarge/1/empire-state-building-black-and-white-square-format-john-farnan.jpg";
 
@@ -43,7 +43,7 @@ const image4 =
       </div>
     </Parallax>
     <h1>| | |</h1>
-    <Parallax bgImage={image3} blur={{ min: -1, max: 6 }}>
+    <Parallax bgImage={image3} blur={{ min: -1, max: 5 }}>
       <div style={{ height: 500 }}>
       <div style={insideStyles}>
         <Button variant="primary" className = 'btn btn-primary btn-lg' type="submit" href='/ViewMyCompanies'>
