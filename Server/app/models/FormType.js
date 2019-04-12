@@ -8,7 +8,7 @@ const FormTypeSchema = new Schema( {
         type: String
     },
 
-    format: {
+    model: {
         type: Object
         /**
          * example:

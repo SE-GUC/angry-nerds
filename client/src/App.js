@@ -18,6 +18,7 @@ import AdminViewLaws from './pages/AdminViewLaws'
 import AddLawyer from './components/AddLawyer';
 import AddReviewer from './components/AddReviewer';
 import testing from './components/testing';
+import CreateCase from './pages/CreateCase'
 
 
 
@@ -27,36 +28,8 @@ class App extends Component {
   
   //states & functions
   state = {
-      notifications: [],
-      case:
-      {
-        _id: "5c95094155f85f30d82dcfeb",
-        form_type: "SSCP",
-        regulated_law: "masr",
-        arabic_name: "تتتت",
-        english_name: "Hello6",
-        government: "ENG",
-        city: "Cairo",
-        hq_address: "gftfy",
-        hq_city: "yes",
-        main_center_phone: 123515,
-        main_center_fax: 518563,
-        currency: "541",
-        equality_capital: 5054641641562,
-        caseStatus: "published",
-        investorID: "5ca772654d70710fa843bd5f",
-    }
+      notifications: []
   }
-
-  componentDidMount() {
-    setInterval(() => axios.get('http://localhost:3000/investorMyNotifications/5ca772654d70710fa843bd5f')
-    .then(res =>{
-      this.setState({ notifications: res.data.data })
-    } ), 1000)
-    
-      
-  }
-
  
    componentWillUnmount() {
      clearInterval(this.state)
@@ -88,13 +61,11 @@ class App extends Component {
               <h2> my name is romba! </h2>
             </React.Fragment>
           )} />
-          <Route exact path="/payment" render={props => (
-            <React.Fragment>
-              <Payment case = {this.state.case} />
-            </React.Fragment>
-          )} />
 
-        
+          
+          <Route exact path= "/payment" component = {Payment} />
+          <Route exact path= "/createCase" component = {CreateCase} />  
+
           <Route exact path = "/InvestorForm" component={InvestorForm} />
           <Route exact path = "/LawyerForm" component={LawyerForm} />
 
