@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route } from 'react-router-dom'
+import { BrowserRouter as Router, Route , Switch} from 'react-router-dom'
 import Payment from './pages/payment'
 import Notification from './components/notification'
 import './App.css';
@@ -67,13 +67,9 @@ class App extends Component {
     
     return (
       <Router>
-      <Route exact path= "/Companies" component = {Companies}/> }
         <div className="App">
-        <div className="row">
-          <div className="col-sm-2">
-          <SideNav />
-          </div>
-          <div className="col-sm-10">
+        <Switch>
+          <Route exact path= "/Companies" component = {Companies}/>           
           <Route exact path="/" render={props => (
             <React.Fragment>
               <h1>Hello World!</h1>
@@ -81,7 +77,6 @@ class App extends Component {
             </React.Fragment>
           )} />
           <Route exact path= "/trackMyCase" component = {TrackMyCase} />
-
           <Route exact path="/about" render={props => (
             <React.Fragment>
               <h1>Hello World!</h1>
@@ -93,12 +88,8 @@ class App extends Component {
               <Payment case = {this.state.case} />
             </React.Fragment>
           )} />
-
-        
           <Route exact path = "/InvestorForm" component={InvestorForm} />
           <Route exact path = "/LawyerForm" component={LawyerForm} />
-
-
           <Route exact path = '/ViewMyCompanies' component =  {Companies}/>
           <Route  exact path = "/home" component = {home}  />
             <Route exact path="/signUp" component={signup} />
@@ -109,19 +100,15 @@ class App extends Component {
           <Route exact path = "/LawyerHome" component={LawyerHome} />
         <Route exact path = "/ChangePricing" component={ChangePricing} />
         <Route exact path = "/AdminViewLaws" component={AdminViewLaws} /> 
-
-
           <Route exact path="/notification" render={props => (
             <React.Fragment>
               <Notification notif={this.state.notifications} />
             </React.Fragment>
           )} />
+        <Route exact path = "*"  component={() => "404 NOT FOUND"}  />       
+        </Switch>
         </div>
         
-        </div>
-        
-        
-        </div>
       </Router>
      );
    }
