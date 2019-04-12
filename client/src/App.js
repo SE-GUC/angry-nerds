@@ -18,6 +18,9 @@ import AdminViewLaws from './pages/AdminViewLaws'
 import AddLawyer from './components/AddLawyer';
 import AddReviewer from './components/AddReviewer';
 import testing from './components/testing';
+import mainNavBar from './components/mainNavBar'
+import Footer from './components/Footer'
+
 
 
 
@@ -67,19 +70,10 @@ class App extends Component {
     
     return (
       <Router>
-      <Route exact path= "/Companies" component = {Companies}/> }
-        <div className="App">
-        <div className="row">
-          <div className="col-sm-2">
-          <SideNav />
-          </div>
-          <div className="col-sm-10">
-          <Route exact path="/" render={props => (
-            <React.Fragment>
-              <h1>Hello World!</h1>
-              <h2> my name is Ramy! </h2>
-            </React.Fragment>
-          )} />
+        <Route component = {mainNavBar} />
+        <Route exact path= "/Companies" component = {Companies}/> 
+        <div className="container">
+
           <Route exact path= "/trackMyCase" component = {TrackMyCase} />
 
           <Route exact path="/about" render={props => (
@@ -118,10 +112,10 @@ class App extends Component {
           )} />
         </div>
         
-        </div>
         
         
-        </div>
+        {/*  <Route component ={Footer} /> */}
+
       </Router>
      );
    }
@@ -130,4 +124,3 @@ class App extends Component {
 
 
 export default App;
-//export default navBar;
