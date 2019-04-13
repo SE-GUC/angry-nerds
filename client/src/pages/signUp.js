@@ -98,7 +98,8 @@ console.log(error)
             <p> 
                <div className= "FormField">
                  <label className= "FormField__Label" htmlFor="name">Middle Name</label> <br/>
-                 <input type="text" id="middleName" className="FormField__Input" placeholder="Enter your middle name" name="MiddleName" onChange = {this.handleChange.bind(this)}/>
+                 <span class="fas fa-clock"></span> 
+                 <input type="text" id="middleName" className="FormField__Input" placeholder="Enter your middle name" name="MiddleName" onChange = {this.handleChange.bind(this)} />
                </div>
              </p> 
 
@@ -201,6 +202,7 @@ console.log(error)
 
 
                <p>
+                
                    <div className= "FormField">
                  <label className= "FormField__Label" htmlFor="name">Gender</label> <br/>
                  <input type="text" id="Nationality" className="FormField__Input" placeholder="Male/Female" name="gender" onChange = {this.handleChange.bind(this)}/>
@@ -231,8 +233,10 @@ console.log(error)
     }
   
 
-
 }
   
 
 export default SignUp;
+
+
+

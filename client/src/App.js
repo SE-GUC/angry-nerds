@@ -21,6 +21,12 @@ import testing from './components/testing';
 import mainNavBar from './components/mainNavBar'
 import Footer from './components/Footer'
 import unregiteredHome from './pages/unregHome'
+import AdminSideNavbar from './components/AdminSideNavbar';
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faStroopwafel } from '@fortawesome/free-solid-svg-icons'
+
+library.add(faStroopwafel)
 
 
 
@@ -95,6 +101,7 @@ class App extends Component {
           <Route exact path = "/LawyerHome" component={LawyerHome} />
         <Route exact path = "/ChangePricing" component={ChangePricing} />
         <Route exact path = "/AdminViewLaws" component={AdminViewLaws} /> 
+        <Route exact path ="/AdminPage" component= {AdminSideNavbar}/>
 
 
           <Route exact path="/notification" render={props => (
