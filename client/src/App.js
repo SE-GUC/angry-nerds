@@ -21,6 +21,8 @@ import testing from './components/testing';
 import mainNavBar from './components/mainNavBar'
 import Footer from './components/Footer'
 import unregiteredHome from './pages/unregHome'
+import NotFound from './pages/NotFound'
+
 
 
 
@@ -65,6 +67,7 @@ class App extends Component {
         <Route component = {mainNavBar} />
         <Route exact path= "/Companies" component = {Companies}/>
         <Route  exact path = "/home" component = {unregiteredHome}  /> 
+        <Route  exact path = "/error" component = {NotFound}  />
         <div className="container">
 
           <Route exact path= "/trackMyCase" component = {TrackMyCase} />

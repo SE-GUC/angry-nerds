@@ -1,7 +1,5 @@
 import React from "react";
-import { render } from "react-dom";
 import { Parallax } from "react-parallax";
-import Form from 'react-bootstrap/Form'; 
 import Button from 'react-bootstrap/Button'; 
 
 const styles = {
@@ -17,8 +15,7 @@ const insideStyles = {
 };
 const image1 =require('../Images/Egypt.jpg')
 const image2 ="https://brightcove04pmdo-a.akamaihd.net/5104226627001/5104226627001_5297440765001_5280261645001-vs.jpg?pubId=5104226627001&videoId=5280261645001";
-const image3 =
-require('../Images/chair.jpg')
+const image3 =require('../Images/chair.jpg')
 const image4 =
   "https://images.fineartamerica.com/images/artworkimages/mediumlarge/1/empire-state-building-black-and-white-square-format-john-farnan.jpg";
 
@@ -43,7 +40,7 @@ const image4 =
       </div>
     </Parallax>
     <h1>| | |</h1>
-    <Parallax bgImage={image3} blur={{ min: -1, max: 5 }}>
+    <Parallax bgImage={image3} blur={{ min: -2, max: 6 }}>
       <div style={{ height: 500 }}>
       <div style={insideStyles}>
         <Button variant="primary" className = 'btn btn-primary btn-lg' type="submit" href='/ViewMyCompanies'>
@@ -67,7 +64,7 @@ const image4 =
           <div
             style={{
               position: "absolute",
-              background: `rgba(255, 125, 0, ${percentage * 1})`,
+              background: `rgba(40, 96, 144 , ${percentage * 1})`,
               left: "50%",
               top: "50%",
               borderRadius: "50%",

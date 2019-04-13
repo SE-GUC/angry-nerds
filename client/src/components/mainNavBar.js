@@ -25,10 +25,11 @@ class mainNavBar extends Component  {
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
        <Navbar bg={navbar} variant="dark" style ={navbar}>
     <Navbar.Brand href="/home">Angry Nerds</Navbar.Brand>
+
     <Nav className="mr-auto">
       <Nav.Link href="/home">Home</Nav.Link>
       <Nav.Link href="#features">Features</Nav.Link>
-      <Nav.Link href="#pricing">Pricing</Nav.Link>
+      <Nav.Link href="#pricing">Laws and Fees</Nav.Link>
     </Nav>
     <Form inline>
       <Button href="/signin"  variant='outline-light'>Sign in</Button>
