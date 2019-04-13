@@ -1021,7 +1021,39 @@ AdminDeleteCase: async (req, res) => {
 
         return res.status(200).json({data: result})
 
-    }
+    },
+
+    AdminAnswerQuestions: async function (req, res) {
+
+        const AdminID = '5c9bb0dc5185793518ea84fb' 
+        const questionId = req.params.id 
+
+        const admin = await Admins.findById(AdminID).catch((err) => {
+            res.json({ message: 'you are not authorized' })
+        })
+
+        const question = await Question.findById(id).catch((err) => {
+            res.json({ message: 'This is not a valid question ID' })
+        })
+
+        if (question) {
+            if (admin) {
+                const answered = await Question.findByIdAndUpdate(questionId, req.body)
+                return res.json({
+                    message: 'you have answered the required question successfully', data: answered
+                })
+            }
+            else {
+                res.json({ message: 'you are not authorized for this action' })
+            }
+        }
+        else {
+            return res.json({
+                message: 'the question you are trying to answer does not exist'
+            })
+        }
+
+    },
 
 }
 

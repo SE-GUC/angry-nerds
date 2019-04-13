@@ -28,7 +28,11 @@ const QuestionsSchema = new Schema( {
     time :{
         type:Date,
         require:true
-        } 
+        },
+    email:{
+        type:String,
+        require:true
+    } 
     })
 module.exports= Questions=mongoose.model('Questions',QuestionsSchema)
 
