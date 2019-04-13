@@ -173,6 +173,16 @@ let InvestorController = {
       }
     
       console.log(req.body)
+      req.body.investorID = id
+      
+      const check = await caseFunctions.CheckForms(req.body)
+      console.log('check')
+      console.log(check)
+      
+      if(check !== 'done'){
+        return res.json(check)
+      }
+
       const newForm = await Case.create(req.body);
       const casecreated = await Case.findByIdAndUpdate(newForm._id, {
         investorID: id,

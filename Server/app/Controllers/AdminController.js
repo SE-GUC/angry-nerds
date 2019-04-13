@@ -19,7 +19,6 @@ const config = require('../../config/mailer')
 const passport = require('passport')
 const tokenKey = config.tokenKey;
 "use strict";
-
 const dotenv = require("dotenv");
 const mailer = require('./../../misc/mailer')
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
