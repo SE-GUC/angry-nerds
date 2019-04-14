@@ -321,6 +321,7 @@ let InvestorController = {
             return res.status(400).json({ error: 'Error processing query.' })
 
         }
+      
     
   },
 
