@@ -139,18 +139,23 @@ router.put('/:id', async (req, res) => {
     }
 })
 
-router.get('/',passport.authenticate('jwt', {session: false}) ,async (req,res) => {
-        // You can access the logged in user through req.user
-        // Add your authorization rules accordingly
-        //const books = await Book.find()
-        //return res.json({books: books})
-        if (req.user.type==="investor"){
-            console.log('DID it xD')
-        }
-         return res.json({data: req.user})
+// router.get('/',passport.authenticate('jwt', {session: false}) ,async (req,res) => {
+//         // You can access the logged in user through req.user
+//         // Add your authorization rules accordingly
+//         //const books = await Book.find()
+//         //return res.json({books: books})
+//         if (req.user.type==="investor"){
+//             console.log('DID it xD')
+//         }
+//          return res.json({data: req.user})
        
-})
+// })
 
+
+router.get('/', async(req,res)=>{
+    const investors = await Investor.find()
+    res.json(investors)
+})
 
 router.delete('/:id', async (req, res) => {
     try {
