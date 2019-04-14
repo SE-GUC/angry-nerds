@@ -26,7 +26,8 @@ import AdminSideNavbar from './components/AdminSideNavbar';
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faStroopwafel } from '@fortawesome/free-solid-svg-icons'
-import InvViewEditProfile from './pages/InvViewEditProfile';
+import InvEditProfile from './pages/InvEditProfile';
+import InvViewProfile from './pages/InvViewProfile'
 
 library.add(faStroopwafel)
 
@@ -110,8 +111,8 @@ class App extends Component {
         <Route exact path = "/ChangePricing" component={ChangePricing} />
         <Route exact path = "/AdminViewLaws" component={AdminViewLaws} /> 
         <Route exact path ="/AdminPage" component= {AdminSideNavbar}/>
-        <Route exact path ="/InvViewEditProfile" component= {InvViewEditProfile}/>
-
+        <Route exact path ="/InvEditProfile" component= {InvEditProfile}/>
+        <Route exact path ="/InvViewProfile" component= {InvViewProfile}/>
 
           <Route exact path="/notification" render={props => (
             <React.Fragment>
