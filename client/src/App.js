@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route } from 'react-router-dom'
+import { BrowserRouter as Router, Route , Switch} from 'react-router-dom'
 import Payment from './pages/payment'
 import Notification from './components/notification'
 // import './App.css';
@@ -13,6 +13,7 @@ import Companies from './pages/Companies';
 import signin from './pages/signin'
 import home from './pages/home'
 import LawyerHome from './pages/LawyerHome'
+import ResetPass from './pages/resetPaassword'
 import ChangePricing from './pages/ChangePricing'
 import AdminViewLaws from './pages/AdminViewLaws'
 import LawyerOpenCase from './pages/LawyerOpenCase'
@@ -22,6 +23,8 @@ import AdminAddReviewer from './components/AdminAddReviewer';
 import AdminAddAdmin from './components/AdminAddAdmin';
 import AddReviewer from './components/AddReviewer';
 import testing from './components/testing';
+import PrivateRoute from './privateRoute'
+import resetPass from './pages/resetPaassword';
 import test from './components/test';
 
 import mainNavBar from './components/mainNavBar'
@@ -40,64 +43,42 @@ library.add(faStroopwafel)
 
 class App extends Component {
 
-  
-  //states & functions
   state = {
-  
+    
   }
- 
+
 
 
   render() {
     
     return (
+
       <Router>
-
-
-
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-        
-        <Route component = {mainNavBar} />
-        <Route  exact path = "/home" component = {unregiteredHome}  /> 
+        <div className="App">
         <div className="container">
-
-      <Route exact path= "/Companies" component = {Companies}/> 
-        
-          
-          <div className="col-sm-10">
+        <Switch>
+          <Route exact path= "/Companies" component = {Companies}/>
+          <Route exact path= "/resetPassword" component = {resetPass}/>           
           <Route exact path="/" render={props => (
             <React.Fragment>
               <h1>Hello World!</h1>
               <h2> my name is Ramy! </h2>
             </React.Fragment>
           )} />
+          <PrivateRoute exact path= "/trackMyCase" allowedUsers={['lawyer','reviewer','admin']} component = {TrackMyCase} />
+          <PrivateRoute exact path = "/InvestorForm" component={InvestorForm} />
+        <Route component = {mainNavBar} />
+        <Route  exact path = "/home" component = {unregiteredHome}  /> 
+      <Route exact path= "/Companies" component = {Companies}/> 
           <Route exact path= "/trackMyCase" component = {TrackMyCase} />
-
-          <Route exact path="/about" render={props => (
-            <React.Fragment>
-              <h1>Hello World!</h1>
-              <h2> my name is romba! </h2>
-            </React.Fragment>
-          )} />
-
-          
           <Route exact path= "/payment" component = {Payment} />
           <Route exact path= "/createCase" component = {CreateCase} />  
-
           <Route exact path = "/InvestorForm" component={InvestorForm} />
           <Route exact path = "/LawyerForm" component={LawyerForm} />
-
-
-          <Route exact path = '/ViewMyCompanies' component =  {Companies}/>
-          <Route  exact path = "/home" component = {home}  />
-          {/* <Route exact path="/signUp" component={signup} /> */}
           <Route exact path = "/AdminAddLawyer" component={AdminAddLawyer} /> 
           <Route exact path = "/AdminAddReviewer" component={AdminAddReviewer} /> 
           <Route exact path = "/AdminAddAdmin" component={AdminAddAdmin} /> 
-
-
-
-
             <Route exact path="/signUp" component={signup} />
             <Route exact path="/signin" component= {signin} />
             <Route exact path="/AddLawyer" component={AddLawyer} />
@@ -106,25 +87,17 @@ class App extends Component {
           <Route exact path = "/LawyerHome" component={LawyerHome} />
           <Route exact path = "/LawyerOpenCase/:id" component={LawyerOpenCase} />
         <Route exact path = "/ChangePricing" component={ChangePricing} />
-        <Route exact path = "/AdminViewLaws" component={AdminViewLaws} /> 
         <Route exact path ="/AdminPage" component= {AdminSideNavbar}/>
-
+        <Route exact path = "/AdminViewLaws" component={AdminViewLaws} /> 
+        <Route exact path = "/test" component={test} /> 
         <Route exact path = "/InvestorList" component={InvestorsList} /> 
-
-          <Route exact path="/notification" render={props => (
-            <React.Fragment>
-              <Notification notif={this.state.notifications} />
-            </React.Fragment>
-          )} />
+        <Route exact path = "*"  component={() => "404 NOT FOUND"}  />
+        </Switch>
         </div>
          </div>
-        
-        
-      </Router>
+         </Router>   
      );
    }
-  
 }
-
 
 export default App;
