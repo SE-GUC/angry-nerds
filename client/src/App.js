@@ -13,6 +13,8 @@ import Companies from './pages/Companies';
 import signin from './pages/signin'
 import home from './pages/home'
 import LawyerHome from './pages/LawyerHome'
+import ReviewerHome from './pages/ReviewerHome'
+
 import ResetPass from './pages/resetPaassword'
 import ChangePricing from './pages/ChangePricing'
 import AdminViewLaws from './pages/AdminViewLaws'
@@ -49,31 +51,21 @@ class App extends Component {
 
 
 
-  render() {
-    
+  render() { 
     return (
-
       <Router>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
         <div className="App">
         <div className="container">
-        {/* <Route component = {mainNavBar} /> */}
-
+        <Route component = {mainNavBar} />
         <Switch>
-          <Route exact path= "/Companies" component = {Companies}/>
+        <Route exact path= "/payment" component = {Payment} />
+        <Route exact path = "/LawyerHome" component={LawyerHome} />
+
           <Route exact path= "/resetPassword" component = {resetPass}/>           
-          <Route exact path="/" render={props => (
-            <React.Fragment>
-              <h1>Hello World!</h1>
-              <h2> my name is Ramy! </h2>
-            </React.Fragment>
-          )} />
           <PrivateRoute exact path= "/trackMyCase" allowedUsers={['lawyer','reviewer','admin']} component = {TrackMyCase} />
-          <PrivateRoute exact path = "/InvestorForm" component={InvestorForm} />
         <Route  exact path = "/home" component = {unregiteredHome}  /> 
       <Route exact path= "/Companies" component = {Companies}/> 
-          <Route exact path= "/trackMyCase" component = {TrackMyCase} />
-          <Route exact path= "/payment" component = {Payment} />
           <Route exact path= "/createCase" component = {CreateCase} />  
           <Route exact path = "/InvestorForm" component={InvestorForm} />
           <Route exact path = "/LawyerForm" component={LawyerForm} />
@@ -85,7 +77,8 @@ class App extends Component {
             <Route exact path="/AddLawyer" component={AddLawyer} />
           <Route exact path="/AddReviewer" component={AddReviewer} /> 
           <Route  exact path="/testing" component={testing} />
-          <Route exact path = "/LawyerHome" component={LawyerHome} />
+          <Route exact path = "/reviewerHome" component={ReviewerHome} />
+
           <Route exact path = "/LawyerOpenCase/:id" component={LawyerOpenCase} />
         <Route exact path = "/ChangePricing" component={ChangePricing} />
         <Route exact path ="/AdminPage" component= {AdminSideNavbar}/>
@@ -94,10 +87,10 @@ class App extends Component {
         <Route exact path = "/InvestorList" component={InvestorsList} /> 
         <Route exact path = "*"  component={() => "404 NOT FOUND"}  />
         </Switch>
-        </div>
+         </div>
          </div>
          </Router>   
-     );
+     )
    }
 }
 
