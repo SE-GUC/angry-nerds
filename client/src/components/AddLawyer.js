@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import {Button,Form,Col} from 'react-bootstrap';
 // import { Button,Row,Form,Col,Label,Input,FormGroup ,FormFeedback,FormText} from 'reactstrap';
- import './AddLawyer.css'
 import axios from 'axios';
 import Iframe from 'react-iframe'
 

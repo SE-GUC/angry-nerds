@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import {Button,Form,Col,Modal,InputGroup} from 'react-bootstrap';
-import './AddLawyer.css'
 import axios from 'axios';
 
 export class AdminAddLawyer extends Component {

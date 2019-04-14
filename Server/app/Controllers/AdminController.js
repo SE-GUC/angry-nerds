@@ -1026,6 +1026,58 @@ AdminDeleteCase: async (req, res) => {
 
         return res.status(200).json({data: result})
 
+    },
+
+    AdminCreateFormType: async function (req,res){
+
+        try{
+            
+            const formType = await FormType.create(req.body)
+            res.status(200).json({message: 'Form type is created successfully', data: formType})   
+        }
+        catch(error){
+            console.log(error)
+            res.status(400).json({message: error})
+        }
+
+    },
+
+
+    AdminDeleteFormType: async function(req,res){
+
+        try{
+            id = req.params.id
+            const formType = await FormType.findByIdAndRemove(id)
+            res.status(200).json({message: 'Form type is deleted successfully', data: formType})   
+        }
+        catch(error){
+            console.log(error)
+            res.status(400).json({message: error})
+        }
+
+    },
+
+    AdminFindFormType: async function(req,res){
+        try{
+            const forms = await FormType.find()
+            res.status(200).json({message:'form types', data: forms})
+        }
+        catch(error){
+            console.log(error)
+            res.status(400).json({message: error})
+        }
+    },
+
+    AdminFindFormTypeID: async function(req,res){
+        try{
+            const id = req.params.id
+            const form = await FormType.findById(id)
+            res.status(200).json({message:'form types', data: form})
+        }
+        catch(error){
+            console.log(error)
+            res.status(400).json({message: error})
+        }
     }
 
 }

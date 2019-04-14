@@ -9,12 +9,13 @@ import axios from 'axios'
 import SideNav from './layout/sideNav'
 import TrackMyCase from './pages/trackMyCase'
 import Companies from './pages/Companies';
-// import signup from './pages/signUp'
+ import signup from './pages/signUp'
 import signin from './pages/signin'
 import home from './pages/home'
 import LawyerHome from './pages/LawyerHome'
 import ChangePricing from './pages/ChangePricing'
 import AdminViewLaws from './pages/AdminViewLaws'
+import LawyerOpenCase from './pages/LawyerOpenCase'
 import AddLawyer from './components/AddLawyer';
 import AdminAddLawyer from './components/AdminAddLawyer';
 import AdminAddReviewer from './components/AdminAddReviewer';
@@ -23,6 +24,15 @@ import AddReviewer from './components/AddReviewer';
 import testing from './components/testing';
 import test from './components/test';
 
+import mainNavBar from './components/mainNavBar'
+import Footer from './components/Footer'
+import unregiteredHome from './pages/unregHome'
+import AdminSideNavbar from './components/AdminSideNavbar';
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faStroopwafel } from '@fortawesome/free-solid-svg-icons'
+
+library.add(faStroopwafel)
 
 
 
@@ -38,19 +48,16 @@ class App extends Component {
     
     return (
       <Router>
-      <Route exact path= "/Companies" component = {Companies}/> }
-        <div className="App">
-        <div className="row">
-          <div className="col-sm-2">
-          <SideNav />
-          </div>
-          <div className="col-sm-10">
-          <Route exact path="/" render={props => (
-            <React.Fragment>
-              <h1>Hello World!</h1>
-              <h2> my name is Ramy! </h2>
-            </React.Fragment>
-          )} />
+
+
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        
+        <Route component = {mainNavBar} />
+        <Route exact path= "/Companies" component = {Companies}/>
+        <Route  exact path = "/home" component = {unregiteredHome}  /> 
+        <div className="container">
+
           <Route exact path= "/trackMyCase" component = {TrackMyCase} />
 
           <Route exact path="/about" render={props => (
@@ -73,13 +80,6 @@ class App extends Component {
           <Route exact path = '/ViewMyCompanies' component =  {Companies}/>
           <Route  exact path = "/home" component = {home}  />
           {/* <Route exact path="/signUp" component={signup} /> */}
-          <Route exact path="/signin" component= {signin} />
-          <Route exact path="/AddLawyer" component={AddLawyer} />
-          <Route exact path="/AddReviewer" component={AddReviewer} /> 
-          <Route  exact path="/testing" component={testing} />
-          <Route exact path = "/LawyerHome" component={LawyerHome} />
-          <Route exact path = "/ChangePricing" component={ChangePricing} />
-          <Route exact path = "/AdminViewLaws" component={AdminViewLaws} /> 
           <Route exact path = "/AdminAddLawyer" component={AdminAddLawyer} /> 
           <Route exact path = "/AdminAddReviewer" component={AdminAddReviewer} /> 
           <Route exact path = "/AdminAddAdmin" component={AdminAddAdmin} /> 
@@ -87,6 +87,16 @@ class App extends Component {
 
 
 
+            <Route exact path="/signUp" component={signup} />
+            <Route exact path="/signin" component= {signin} />
+            <Route exact path="/AddLawyer" component={AddLawyer} />
+          <Route exact path="/AddReviewer" component={AddReviewer} /> 
+          <Route  exact path="/testing" component={testing} />
+          <Route exact path = "/LawyerHome" component={LawyerHome} />
+          <Route exact path = "/LawyerOpenCase/:id" component={LawyerOpenCase} />
+        <Route exact path = "/ChangePricing" component={ChangePricing} />
+        <Route exact path = "/AdminViewLaws" component={AdminViewLaws} /> 
+        <Route exact path ="/AdminPage" component= {AdminSideNavbar}/>
 
 
           <Route exact path="/notification" render={props => (
@@ -96,10 +106,8 @@ class App extends Component {
           )} />
         </div>
         
-        </div>
         
         
-        </div>
         <Route exact path = "/test" component={test} /> 
 
       </Router>
@@ -110,4 +118,3 @@ class App extends Component {
 
 
 export default App;
-//export default navBar;
