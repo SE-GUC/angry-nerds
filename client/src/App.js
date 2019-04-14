@@ -26,6 +26,11 @@ import AdminAddReviewer from './components/AdminAddReviewer';
 import AdminAddAdmin from './components/AdminAddAdmin';
 import AddReviewer from './components/AddReviewer';
 import testing from './components/testing';
+import Questions from './pages/Questions'
+
+import electronicJournal from './pages/electronicJournal'
+
+
 import PrivateRoute from './privateRoute'
 import resetPass from './pages/resetPaassword';
 import stocks from'./components/stocks';
@@ -107,6 +112,12 @@ class App extends Component {
         <Route exact path = "/ChangePricing" component={ChangePricing} />
         <Route exact path ="/AdminPage" component= {AdminSideNavbar}/>
         <Route exact path = "/AdminViewLaws" component={AdminViewLaws} /> 
+        <Route exact path='/Questions' component={Questions}/>
+      
+        <Route exact path='/electronicjournal' component={electronicJournal}/>
+
+
+
         <Route exact path = "/notificat" component = {notificat}/>
 
         

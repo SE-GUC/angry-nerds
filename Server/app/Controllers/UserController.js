@@ -19,6 +19,7 @@ var passport = require('passport');
 require('../../config/passport')(passport);
 
 let UserController = {
+
   //write methods here: check InvestorController for example
   authenticate: passport.authenticate('jwt', { session: false }),
 
@@ -119,6 +120,17 @@ console.log(error)
 }
 
 
+},
+
+makeQuestion:async (req, res) => {
+  try {
+    const newQuestion = await Questions.create(req.body)
+    const createdQuestion= await Questions.findByIdAndUpdate(newQuestion.id,{"time":new Date()})
+    res.json({ msg: 'Question created successfully', data: newQuestion })
+}
+catch (error) {
+    console.log(error)
+}
 },
 
 
