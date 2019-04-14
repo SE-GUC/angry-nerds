@@ -1077,7 +1077,7 @@ AdminDeleteCase: async (req, res) => {
             console.log(error)
             res.status(400).json({message: error})
         }
-    }
+    },
 
     AdminCreateFormType: async function (req,res){
 
