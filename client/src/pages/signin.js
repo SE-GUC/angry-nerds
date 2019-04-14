@@ -3,13 +3,10 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form'; 
 import jwt from 'jsonwebtoken'
 import axios from 'axios';
-<<<<<<< HEAD
 import { Row } from 'react-bootstrap';
 import '../App.css'
-=======
 import { Route, Redirect } from 'react-router-dom'
 import setAuthToken from '../helpers/setAuthToken';
->>>>>>> react_dev
 const padding = {margin: '20'};
 const image1 =require('../Images/logo.png')
 
@@ -81,16 +78,20 @@ class signin extends Component  {
 <div className="container">
 <Row >
 <div className="col-xs-4">
+<Row>
+<h4>  <label className="label label-primary" for="ex2">Email</label> </h4>
+</Row>
   <Form.Group controlId="formBasicEmail">
-    <label className="label label-primary" for="ex2">Email</label>
     <input class="form-control" type="email" placeholder="Enter email"  id="email"/>
   </Form.Group>
   </div>
   </Row>
   <Row>
+  <h4><label className="label label-primary" for="ex2">Password</label></h4>
+  </Row>
+  <Row>
   <div className="col-xs-4">
   <Form.Group controlId="formBasicPassword">
-    <label className="label label-primary" for="ex2">Password</label>
     <input class="form-control" type="password" placeholder="Enter password"  id="password"/>
 
  

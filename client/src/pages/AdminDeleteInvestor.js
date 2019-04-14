@@ -2,8 +2,9 @@ import React, { Component } from "react";
 import Axios from "axios";
 import InvestorItem from '../components/InvestorItem'
 import {Input, Form, Label, Button} from 'reactstrap'
+import AdminDeleteInvestorItem from '../components/AdminDeleteInvestorItem'
 
-export class InvestorsList extends Component {
+export class AdminDeleteInvestor extends Component {
   state = {
     investors: [],
     filteredInvestors:[],
@@ -80,7 +81,7 @@ export class InvestorsList extends Component {
         </div>
         {this.state.filteredInvestors.map(Investor => {
           return (<div>
-            <InvestorItem inv={Investor}/>
+            <AdminDeleteInvestorItem inv={Investor}/>
             <br/>
             </div>)
 
@@ -90,4 +91,4 @@ export class InvestorsList extends Component {
   }
 }
 
-export default InvestorsList;
+export default AdminDeleteInvestor;

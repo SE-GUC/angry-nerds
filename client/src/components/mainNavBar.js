@@ -42,9 +42,7 @@ class mainNavBar extends Component  {
     <Nav className="mr-auto">
       <Nav.Link href="/home">Home</Nav.Link>
       <Nav.Link href="#features">Features</Nav.Link>
-<<<<<<< HEAD
       <Nav.Link href="#pricing">Laws and Fees</Nav.Link>
-=======
       <Nav.Link href="#pricing">Pricing</Nav.Link>
     {/* =============REDUX TEST============================== */}
     {/* <div>
@@ -53,7 +51,6 @@ class mainNavBar extends Component  {
            <button onClick={this.increment}>+</button>
       </div> */}
     {/* =================REDUX TEST========================= */}
->>>>>>> react_dev
     </Nav>
     <Form inline>
       <Button href="/signin"  variant='outline-light'>Sign in</Button>
