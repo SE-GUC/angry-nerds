@@ -40,6 +40,9 @@ import InvEditProfile from './pages/InvEditProfile';
 import InvViewProfile from './pages/InvViewProfile'
 import CreateCase from './pages/CreateCase'
 import InvestorsList from './pages/InvestorsList'
+import about from './pages/About'
+import changePassword from './pages/ChangePassword'
+
 library.add(faStroopwafel)
 
 
@@ -69,6 +72,12 @@ class App extends Component {
         <Route  exact path = "/home" component = {unregiteredHome}  /> 
       <Route exact path= "/Companies" component = {Companies}/> 
           <Route exact path= "/createCase" component = {CreateCase} />  
+          <Route exact path="/ChangeMyPassword" component = {changePassword}/>
+
+          <Route exact path="/about" component = {about} />
+          
+
+        
           <Route exact path = "/InvestorForm" component={InvestorForm} />
           <Route exact path = "/LawyerForm" component={LawyerForm} />
           <Route exact path = "/AdminAddLawyer" component={AdminAddLawyer} /> 
