@@ -25,6 +25,8 @@ import AdminSideNavbar from './components/AdminSideNavbar';
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faStroopwafel } from '@fortawesome/free-solid-svg-icons'
+import about from './pages/About'
+import changePassword from './pages/ChangePassword'
 
 library.add(faStroopwafel)
 
@@ -72,15 +74,10 @@ class App extends Component {
         <Route exact path= "/Companies" component = {Companies}/>
         <Route  exact path = "/home" component = {unregiteredHome}  /> 
         <div className="container">
-
+          <Route exact path="/ChangeMyPassword" component = {changePassword}/>
           <Route exact path= "/trackMyCase" component = {TrackMyCase} />
 
-          <Route exact path="/about" render={props => (
-            <React.Fragment>
-              <h1>Hello World!</h1>
-              <h2> my name is romba! </h2>
-            </React.Fragment>
-          )} />
+          <Route exact path="/about" component = {about} />
           <Route exact path="/payment" render={props => (
             <React.Fragment>
               <Payment case = {this.state.case} />
