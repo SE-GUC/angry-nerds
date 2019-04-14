@@ -30,6 +30,7 @@ let InvestorController = {
     */
 
   InvestorPayFees: async function(req, res) {
+    
     console.log(req.body);
     const invID = "5ca772654d70710fa843bd5f"; //get this from login token
 

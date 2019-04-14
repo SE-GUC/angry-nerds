@@ -22,7 +22,10 @@ class LawyerHome extends Component {
 
     console.log(this.state.allCases)
     try{
-    axios.get('http://localhost:3000/viewCasesLawyer',{headers: {"Authorization":localStorage.getItem('jwtToken')}}).then(
+    axios({
+      method: "get",
+      url: 'http://localhost:3000/viewCasesLawyer' ,
+      }).then(
           res => this.setState(
             {
             allCases: res.data.data.filter((oneCase) => 
