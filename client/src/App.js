@@ -26,9 +26,9 @@ import AdminSideNavbar from './components/AdminSideNavbar';
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faStroopwafel } from '@fortawesome/free-solid-svg-icons'
-library.add(faStroopwafel)
 import CreateCase from './pages/CreateCase'
 import InvestorsList from './pages/InvestorsList'
+library.add(faStroopwafel)
 
 
 
@@ -56,7 +56,6 @@ class App extends Component {
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
         
         <Route component = {mainNavBar} />
-        <Route exact path= "/Companies" component = {Companies}/>
         <Route  exact path = "/home" component = {unregiteredHome}  /> 
         <div className="container">
 

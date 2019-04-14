@@ -54,7 +54,7 @@ export class CreateCase extends Component {
 
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js" />
         <h1> {this.state.form_type} Form </h1>
-        <div class="w-25 p-3">
+      <div class="w-25 p-3" > 
           <Label for="exampleSelectMulti">Select Company Type</Label>
           <Input
             type="select"
@@ -62,8 +62,10 @@ export class CreateCase extends Component {
             id="exampleSelectMulti"
             onChange={this.handleChangeForm.bind(this)}
           >
+         
             {this.remap()}
           </Input>
+          
         </div>
         <br />
         <br />

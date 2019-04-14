@@ -120,7 +120,7 @@ export class DynamicForm extends Component {
       
       <div>
         <fieldset class="the-fieldset">
-   <legend  className="the-legend" >Ramy</legend>
+   <legend  className="the-legend" >{this.props.form_type}</legend>
         <Form onSubmit={this.handleSubmit.bind(this)}>
           {this.renderForm()}
           <Button style={{ backgroundColor: "#286090", float:"right", padding:"10px" }}>Submit Form</Button>
