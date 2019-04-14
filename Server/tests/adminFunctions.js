@@ -562,7 +562,39 @@ adminViewReviewersLeaderBoard:async () => {
   AdmViewing: async id => {
     const views = await axios.get("http://127.0.0.1:3000/AdmViewing/" + id);
     return views;
+  },
+
+  ////MALAK
+
+  adminCreateNewLaw: async () => {
+    const law = await axios({
+      method: 'post',
+      url: 'http://127.0.0.1:3000/adminCreateNewLaw',
+      data: {
+        LawNumber: "Law test",
+        LawEntity: "Malak",
+        LawValue: 0,
+        LawCalc: 0,
+        min: 0,
+        max: 0
+      }
+    })
+    return law
+  },
+adminChangePricingStrategy: async (lawID) => {
+    const Law = await axios({
+      method: 'put',
+      url: 'http://127.0.0.1:3000/adminChangePricingStrategy/' + lawID,
+      headers: {},
+      data: {
+        LawEntity: 'Malak'
+      }
+    })
+    return Law
   }
+
+
+
 };
 
 module.exports = adminFunctions;

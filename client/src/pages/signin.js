@@ -1,74 +1,81 @@
 import React ,{ Component } from 'react'
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form'; 
-import Alert from 'react-bootstrap/Alert'; 
+import jwt from 'jsonwebtoken'
 import axios from 'axios';
+import { Route, Redirect } from 'react-router-dom'
+import setAuthToken from '../helpers/setAuthToken';
+const padding = {margin: '20'};
 class signin extends Component  {
+  state={
+    toHome : false
+  }
     async submit (event){
-        event.preventDefault();
-        var semail = document.getElementById("email").value
-        var spassword = document.getElementById("password").value
-        try{
-        await axios.get( 'http://localhost:3000/InvestorSignIn/'+semail+'/'+spassword)
-        //document.getElementById("email").value = 'Successfully'
-        alert("Successfully")
-        //document.getElementById("status").value = 'Successfully'
-         // document.getElementById("status").variant = 'success'
+      event.preventDefault();
+      var semail = document.getElementById("email").value
+      var spassword = document.getElementById("password").value
+      console.log(semail)
+      console.log(spassword)
+      try{
+
+        const user = await axios({
+            method: "post",
+            url: "http://localhost:3000/login" ,
+            data: {
+              email : semail,
+              password : spassword
+            }
+          })
+          if (user){
+            alert("Successfully")  
+          }
+        //setAuthToken(user.data.data)
+        localStorage.setItem('jwtToken',user.data.data)
+        axios.defaults.headers.common['Authorization'] = user.data.data
+        const tok = localStorage.getItem('jwtToken').replace('Bearer ','')
+        const decoded = jwt.decode(tok)
+        alert(axios.defaults.headers.common['Authorization'])
+        this.setState({toHome: true})
+        
+
         }
         catch(error)
         {
-         // document.getElementById("email").value = 'Incorrect email or password'
-          alert("Incorrect email or password")
-          //document.getElementById("status").value = 'Incorrect email or password'
-         // document.getElementById("status").variant = 'danger'
+          alert(error)
         }
-        //console.log(company)
     }
     render(){
+      if (this.state.toHome===true){
+        return (<Redirect to={{pathname:'/LawyerHome'}} />)
+        }else{
     return (
         <React.Fragment>
-       <div className="App"/>
-       <script src="https://unpkg.com/react/umd/react.production.js" crossorigin />
+     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css"/>
 
-<script
-  src="https://unpkg.com/react-dom/umd/react-dom.production.js"
-  crossorigin
-/>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
-<script
-  src="https://unpkg.com/react-bootstrap@next/dist/react-bootstrap.min.js"
-  crossorigin
-/>
-
-<script>var Alert = ReactBootstrap.Alert;</script>
-<link
-  rel="stylesheet"
-  href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-  integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
-  crossorigin="anonymous"
-/>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
 <Form>
   <Form.Group controlId="formBasicEmail">
-    <Form.Label>Email</Form.Label>
+    <Form.Label className="label label-primary">Email</Form.Label>
     <Form.Control type="email" placeholder="Enter email"  id="email"/>
     <Form.Text className="text-muted">
     </Form.Text>
   </Form.Group>
 
   <Form.Group controlId="formBasicPassword">
-    <Form.Label>Password</Form.Label>
+    <Form.Label className="label label-primary">Password</Form.Label>
     <Form.Control type="password" placeholder="Password"  id="password"/>
   </Form.Group>
   <Button variant="primary" type="submit" onClick={this.submit.bind(this)}>
     Submit
   </Button>
 </Form>
-</React.Fragment>
-
-        
+</React.Fragment>        
   )
   
     }
+  }
 }
 
 

@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const mongoose = require('mongoose')
-
+const FormTypes = require('../models/FormType')
 const Admins = require('./../models/Admin')
 const Reviewer = require('./../models/Reviewer')
 const Investor = require('./../models/Investor')
@@ -16,9 +16,9 @@ const jwt = require('jsonwebtoken');
 var nodemailer = require('nodemailer');
 var bcrypt = require('bcryptjs')
 const config = require('../../config/mailer')
+const passport = require('passport')
 const tokenKey = config.tokenKey;
 "use strict";
-
 const dotenv = require("dotenv");
 const mailer = require('./../../misc/mailer')
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
@@ -26,8 +26,12 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 var InvestorController = require('./InvestorController')
 
 let AdminController = {
-    //write your methods here: check investorController for example
 
+    
+    authenticate : passport.authenticate('jwt', {session: false}) ,
+    
+    //write your methods here: check investorController for example
+    
 
     /* Malak
     this is a method that takes nothing as an input and calculates time
@@ -290,16 +294,22 @@ let AdminController = {
             const oldPassword = req.body.oldPassword
             const newPassword = req.body.newPassword
             let admin = await Admins.findById(id)
+            
             if (!admin) {
                 return res.status(404).json({ error: 'Cannot find an admin account with this ID' })
             }
             else {
-                if (oldPassword != admin.password) {
-                    return res.status(403).json({ error: 'The passwords do not match' })
+                
+            const match = bcrypt.compareSync(oldPassword, admin.password);
+                if (!match) {
+                    return res.status(403).json({ error: 'Incorrect old password' })
                 }
                 else {
+                    const salt = bcrypt.genSaltSync(10); 
+                    const hashPass = bcrypt.hashSync(newPassword, salt); // hashing the password which is already saved in tempUser before saved in investor table
+              
                     const updatedAdmin = await Admins.findByIdAndUpdate(id, {
-                        'password': newPassword,
+                        'password': hashPass,
                     })
                     admin = await Admin.findById(id)
                     return res.status(200).json({ msg: 'The password was updated', data: admin })
@@ -1055,8 +1065,114 @@ AdminDeleteCase: async (req, res) => {
 
     },
 
-}
+    AdminCreateFormType: async function (req,res){
 
+        try{
+            
+            const formType = await FormType.create(req.body)
+            res.status(200).json({message: 'Form type is created successfully', data: formType})   
+        }
+        catch(error){
+            console.log(error)
+            res.status(400).json({message: error})
+        }
+
+    },
+
+
+    AdminDeleteFormType: async function(req,res){
+
+        try{
+            id = req.params.id
+            const formType = await FormType.findByIdAndRemove(id)
+            res.status(200).json({message: 'Form type is deleted successfully', data: formType})   
+        }
+        catch(error){
+            console.log(error)
+            res.status(400).json({message: error})
+        }
+
+    },
+
+    AdminFindFormType: async function(req,res){
+        try{
+            const forms = await FormType.find()
+            res.status(200).json({message:'form types', data: forms})
+        }
+        catch(error){
+            console.log(error)
+            res.status(400).json({message: error})
+        }
+    },
+
+    AdminFindFormTypeID: async function(req,res){
+        try{
+            const id = req.params.id
+            const form = await FormType.findById(id)
+            res.status(200).json({message:'form types', data: form})
+        }
+        catch(error){
+            console.log(error)
+            res.status(400).json({message: error})
+        }
+    },
+
+    AdminCreateFormType: async function (req,res){
+
+        try{
+
+            const form = findOne({formName: req.formName})
+            if(form)
+               return res.json({message: 'form already exists'})
+            
+            const formType = await FormTypes.create(req.body)
+            res.status(200).json({message: 'Form type is created successfully', data: formType})   
+        }
+        catch(error){
+            console.log(error)
+            res.status(400).json({message: error})
+        }
+
+    },
+
+
+    AdminDeleteFormType: async function(req,res){
+
+        try{
+            id = req.params.id
+            const formType = await FormTypes.findByIdAndRemove(id)
+            res.status(200).json({message: 'Form type is deleted successfully', data: formType})   
+        }
+        catch(error){
+            console.log(error)
+            res.status(400).json({message: error})
+        }
+
+    },
+
+    AdminFindFormType: async function(req,res){
+        try{
+            const forms = await FormTypes.find()
+            res.status(200).json({message:'form types', data: forms})
+        }
+        catch(error){
+            console.log(error)
+            res.status(400).json({message: error})
+        }
+    },
+
+    AdminFindFormTypeID: async function(req,res){
+        try{
+            const id = req.params.id
+            const form = await FormTypes.findById(id)
+            res.status(200).json({message:'form types', data: form})
+        }
+        catch(error){
+            console.log(error)
+            res.status(400).json({message: error})
+        }
+    }
+}
 
 
 module.exports = AdminController

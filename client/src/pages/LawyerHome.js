@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import CaseCard from '../components/CaseCard'
 import LawyerToolbar from '../components/LawyerToolbar'
+import Spinner from 'react-bootstrap/Spinner'
+import CardDeck from 'react-bootstrap/CardDeck'
 
 import axios from 'axios'
 
@@ -10,20 +12,35 @@ class LawyerHome extends Component {
 
   state = {
       allCases: [],
+      filteredCases: [],
       searchTerm: "",
-      sortTerm: "Name"
+      totalCases: 0,
+      pressed: ''
   }
 
   componentDidMount() {
+
+    console.log(this.state.allCases)
     try{
-    axios.get('http://localhost:3000/api/Cases').then(
-          res => this.setState({allCases: res.data.data.sort(function(a,b){var x = a.english_name.toLowerCase();
-                                                                            var y = b.english_name.toLowerCase();
-                                                                            if (x < y) {return -1;}
-                                                                            if (x > y) {return 1;}
-                                                                            return 0;})})
+    axios({
+      method: "get",
+      url: 'http://localhost:3000/viewCasesLawyer' ,
+      }).then(
+          res => this.setState(
+            {
+            allCases: res.data.data.filter((oneCase) => 
+            {console.log(oneCase)
+              if(oneCase.english_name && oneCase.fees && oneCase.equality_capital && oneCase.log.length !== 0){
+              return oneCase
+            }}), 
+            
+            totalCases: res.data.data.filter((oneCase) => 
+            {console.log(oneCase)
+              if(oneCase.english_name && oneCase.fees && oneCase.equality_capital && oneCase.log.length !== 0){
+              return oneCase
+            }}).length
+          })
     )
-    
     }catch(error){
         console.log(error)
     }  
@@ -46,15 +63,15 @@ class LawyerHome extends Component {
           break;
           
           case 'Date':
-          this.setState({allCases: this.state.allCases.sort(function(a,b){ return new Date(a.caseOpenSince).getTime() - new Date(b.caseOpenSince).getTime()})});
+          this.setState({allCases: this.state.allCases.sort(function(a,b){ return - new Date(a.log[0].date).getTime() + new Date(b.log[0].date).getTime()})});
           break;  
 
           case 'Capital':  
-          this.setState({allCases: this.state.allCases.sort(function(a,b){ console.log(a.fees - b.fees); return a.equality_capital - b.equality_capital})});
+          this.setState({allCases: this.state.allCases.sort(function(a,b){return a.equality_capital - b.equality_capital})});
          break;     
 
          case 'Fees':
-         this.setState({allCases: this.state.allCases.sort(function(a,b){ console.log(a.fees - b.fees); return a.fees - b.fees})});
+         this.setState({allCases: this.state.allCases.sort(function(a,b){return a.fees - b.fees})});
         break;
 
         default: break; 
@@ -62,34 +79,78 @@ class LawyerHome extends Component {
       }
   };
 
-  reMap(){
-      return this.state.allCases.map( (oneCase) => 
-        ( <CaseCard key={oneCase._id} case={oneCase}/>) )
+  reMap(cases,filteredCases){
+    if(this.state.searchTerm.length === 0){
+      console.log('cases ===> ',cases)
+      return cases.map( (oneCase) => 
+         ( <CaseCard key={oneCase._id} case={oneCase} pressed={this.state.pressed} caseButton={this.caseButton.bind(this)} type='lawyer'/> ))
+    }
+    else{
+      console.log('filter')
+      return filteredCases.map( (filteredCase) => 
+      ( <CaseCard key={filteredCase._id} case={filteredCase} pressed={this.state.pressed} caseButton={this.caseButton.bind(this)} type='lawyer'/>) )
+    }    
+  }
+
+  caseButton(caseID){
+    console.log('inside case button, with caseID => ', caseID )
+    this.setState({pressed: caseID})
+    console.log('pressed::: ',this.state.pressed)
   }
 
   filter = (e) => {
       const original = this.state.allCases
       console.log(e.target.value)
+      this.setState({searchTerm: e.target.value})
       if (e.target.value !== "") {
-      this.setState({allCases: this.state.allCases.filter(oneCase => {
-      const lc = oneCase.english_name.toLowerCase();
-      const filter = e.target.value.toLowerCase();
-      return lc.includes(filter);
-      })})
-    }
+        this.setState({filteredCases: original.filter(oneCase => {
+          if(oneCase.english_name){  
+            const lc = oneCase.english_name.toLowerCase();
+            const filter = e.target.value.toLowerCase();
+            return lc.includes(filter);
+          }
+          else{
+            return oneCase;
+          }  
+        })})
+      }
     else{
         this.setState({allCases: original})
     }
-}
+} 
 
   render() {
+
+    
+    if(this.state.allCases.length !== 0){
     return (
         <div>
-            <LawyerToolbar searchTerm={this.state.searchTerm} sortCards={this.sortCards} filter={this.filter}/>    
-            {this.reMap()}
+            <LawyerToolbar searchTerm={this.state.searchTerm} sortCards={this.sortCards} filter={this.filter} totalCases={this.state.totalCases}/>    
+            {this.reMap(this.state.allCases,this.state.filteredCases)}
         </div>
-    );
+    )
+    }
+    else{
+      return(
+        <div className="d-flex justify-content-center">
+          <div className="spinner-border" role="status">
+            <Spinner  />
+          </div>
+        </div>
+      )
+    }
   }
 }
 
+
+
+// const styleCenterSpinner = {
+//   position: "fixed",
+//   width: 100,
+//   height:100,
+//   display: "flex",
+//   alignItems: "center",
+//   top: 0,
+//   margin: 0
+// }
 export default LawyerHome;
