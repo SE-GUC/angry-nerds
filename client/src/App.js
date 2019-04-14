@@ -19,6 +19,7 @@ import AddLawyer from './components/AddLawyer';
 import AddReviewer from './components/AddReviewer';
 import testing from './components/testing';
 import CreateCase from './pages/CreateCase'
+import InvestorsList from './pages/InvestorsList'
 
 
 
@@ -28,7 +29,7 @@ class App extends Component {
   
   //states & functions
   state = {
-      notifications: []
+  
   }
  
    componentWillUnmount() {
@@ -40,12 +41,9 @@ class App extends Component {
     
     return (
       <Router>
-      <Route exact path= "/Companies" component = {Companies}/> }
-        <div className="App">
-        <div className="row">
-          <div className="col-sm-2">
-          <SideNav />
-          </div>
+      <Route exact path= "/Companies" component = {Companies}/> 
+        
+          
           <div className="col-sm-10">
           <Route exact path="/" render={props => (
             <React.Fragment>
@@ -80,7 +78,7 @@ class App extends Component {
           <Route exact path = "/LawyerHome" component={LawyerHome} />
         <Route exact path = "/ChangePricing" component={ChangePricing} />
         <Route exact path = "/AdminViewLaws" component={AdminViewLaws} /> 
-
+        <Route exact path = "/InvestorList" component={InvestorsList} /> 
 
           <Route exact path="/notification" render={props => (
             <React.Fragment>
@@ -89,10 +87,7 @@ class App extends Component {
           )} />
         </div>
         
-        </div>
         
-        
-        </div>
       </Router>
      );
    }
