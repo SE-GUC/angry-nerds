@@ -1,6 +1,9 @@
 import axios from "axios";
 import React, { Component } from "react";
-import { Button, Form, FormGroup, Label, Input } from "reactstrap";
+import { Button, Form, FormGroup, Label, Input, Card, CardBody, CardTitle, CardSubtitle,
+  CardText, 
+ } from "reactstrap";
+ const img = require('../Images/payment.png')
 
 export class paymentForm extends Component {
   constructor(props) {
@@ -60,7 +63,33 @@ export class paymentForm extends Component {
     const { cvc } = this.state.cvc;
 
     return (
+      <div>
+        <br></br>
+        <br></br>
+      
+      <Card
+      body
+      inverse
+      style={{ backgroundColor: "#444", borderColor: "#444" }}
+    >
+      <CardBody>
+        <CardTitle>Establishment Fees</CardTitle>
+        <CardSubtitle>Fees due</CardSubtitle>
+        <CardText>
+          Amount due is {this.props.fees}. You can pay securely via stripe.
+        </CardText>
+        <Button color="primary">Stripe</Button>
+      </CardBody>
+    </Card>
+      
+      
+      
+      
       <Form onSubmit={this.handleSubmit.bind(this)}>
+
+
+
+
         <FormGroup>
           <Label for="creditNumber">Credit Card Number</Label>
           <Input
@@ -107,6 +136,7 @@ export class paymentForm extends Component {
         </FormGroup>
         <Button>Pay now</Button>
       </Form>
+      </div>
     );
   }
 }
