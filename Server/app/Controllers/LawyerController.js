@@ -219,8 +219,8 @@ let LawyerController = {
     // const staff= await Staff.findById(id)
 
     const caseID = req.params.idCase;
-    const staffID = "5c9f69180ec7b72d689dba6d";
-
+    // const staffID = "5c9f69180ec7b72d689dba6d";
+    const staffID = req.user.id
     const CASE = await Case.findById(caseID);
     const lawyer = await Lawyer.findById(staffID);
 
@@ -252,10 +252,15 @@ let LawyerController = {
     /// :idStaff/:idCase'  routs
 
     const caseID = req.params.idCase;
-    const staffID = "5c9f69180ec7b72d689dba6d";
+    //const staffID = "5c9f69180ec7b72d689dba6d";
+    const staffID = req.user.id
+    console.log(req.user)
+    // const token = localStorage.getItem('jwToken').replace('Bearer ','')
+    // const decoded = jwt.decode(token)
+    // const staffID =
 
     const CASE = await Case.findById(caseID);
-    const lawyer = await Lawyer.findById(staffID);
+    //const lawyer = await Lawyer.findById(staffID);
     if (!CASE) {
       return res.status(404).json({ error: "cannot find this case" });
     }
@@ -294,6 +299,7 @@ let LawyerController = {
 
   viewCasesLawyer: async function(req, res) {
     try {
+
       let cases = await Case.find({
         $or: [
           { caseStatus: "lawyer-investor" },

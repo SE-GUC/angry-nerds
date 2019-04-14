@@ -384,7 +384,7 @@ router.post('/', async (req, res) => {
  //   const isValidated = validator.createValidation(req.body)
   //  if (isValidated.error) return res.status(400).send({ error: isValidated.error.details[0].message })
 
-  var i = await CheckForms(req.body)
+  var i = await router.CheckForms(req.body)
     console.log(i)
     if (i !== 'Done') {
         res.json({ msg: 'Could not create case', data: i })
@@ -420,7 +420,8 @@ router.put('/:id', async (req, res) => {
      if (!Cases) return res.status(404).send({ error: 'Cases does not exist' });
   //   const isValidated = validator.updateValidation(req.body)
    //  if (isValidated.error) return res.status(400).send({ error: isValidated.error.details[0].message })
-   var i = CheckForms(req.body)
+   var i = router.CheckForms(req.body)
+   console.log('>>>  ',i)
    if (i !== 'Done') {
        res.json({ msg: 'Could not create case', data: i })
      }
@@ -676,7 +677,7 @@ router.put('/system_assign_lawyer/:caseId', async (req, res) => {
     }
 
 })
-CheckForms = async function (data) {
+router.CheckForms = async function (data) {
     console.log('Im heree')
     var query = { $and: [ { investorID : data.investorID }, { form_type: 'SSC' } ] }
     
@@ -723,35 +724,46 @@ CheckForms = async function (data) {
        
     }
 
-    else {
+    else if (data.form_type === 'SPC') {
         
        // console.log(inv)
-       if (inv.Nationality != 'Egyptian') {
-            //console.log(data.investorID)
-            if (data.equality_capital < 100000) {
-                console.log('Capital must be greater than 100000')
-                error.equality_capital = 'Capital must be greater than 100000'
+       if (inv.Nationality != "Egyptian") {
+         //console.log(data.investorID)
+         if (data.equality_capital < 100000) {
+           console.log("Capital must be greater than 100000");
+           error.equality_capital =
+             "Capital must be greater than 100000";
 
-                //return -1;
-            }
-    
-            if (data.managers.length > 0) {
-            //console.log(data.managers.length)
-            console.log('SPC Companies should not have any managers')
-            error.managers = 'SPC Companies should not have any managers'
-            //return -1;
-        }
-        
-    }
+           //return -1;
+         }
+         try {
+           if (data.managers.length > 0) {
+             //console.log(data.managers.length)
+             console.log("SPC Companies should not have any managers");
+             error.managers =
+               "SPC Companies should not have any managers";
+             //return -1;
+           }
+         } catch (error) {
+           console.log("no managers");
+         }
+       }
      
-    if(Object.keys(error).length !== 0)
-            return error;
-        else    
-            return 'Done' 
+    }
+    console.log('my errors', error)
+    console.log('my errors number', Object.keys(error).length)
+
+    if(Object.keys(error).length !== 0){
+        console.log('error')
+        return error;
+    }
+    else{
+        console.log('Done')
+        return 'Done' 
+    }
+            
 }
 
-
-}
    
 router.put('/system_assign_reviewer/:caseId', async (req, res) => {
     try {

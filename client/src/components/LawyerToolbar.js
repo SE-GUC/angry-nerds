@@ -17,8 +17,9 @@ class LawyerToolbar extends Component {
 
   render() {
     return (
+
         <Navbar sticky="top" bg="light" expand="sm">
-        <Navbar.Brand>All Cases</Navbar.Brand>
+        <Navbar.Brand>All Cases ({this.props.totalCases})</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="mr-auto">
@@ -31,7 +32,7 @@ class LawyerToolbar extends Component {
             </select>
           </Nav>
           <Form inline>
-            <FormControl type="text" placeholder="Search" className="mr-sm-2" onChange={this.props.filter} />
+            <FormControl type="text" placeholder="Search" className="mr-sm-2" style={{}} onChange={this.props.filter} />
           </Form>
         </Navbar.Collapse>
       </Navbar>
@@ -40,3 +41,17 @@ class LawyerToolbar extends Component {
 }
 
 export default LawyerToolbar;
+
+
+/**
+ *   <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      Dropdown link
+    </a>
+
+    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+      <a class="dropdown-item" href="#">Action</a>
+      <a class="dropdown-item" href="#">Another action</a>
+      <a class="dropdown-item" href="#">Something else here</a>
+    </div>
+  </div>
+ */
