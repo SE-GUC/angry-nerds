@@ -375,7 +375,7 @@ export class AdminSideNavbar extends Component {
  <DropdownToggle bg={ddButton} variant="dark" style ={ddButton}>SETTINGS</DropdownToggle>
       
         <DropdownMenu>
-          <DropdownItem   bg={ddItem} variant="dark" style ={ddItem} href="#changePassword" >Change Password</DropdownItem>
+          <DropdownItem   bg={ddItem} variant="dark" style ={ddItem} href="/AdminChangePassword" >Change Password</DropdownItem>
           <DropdownItem   bg={ddItem} variant="dark" style ={ddItem} href="#resetPassword">Reset Password</DropdownItem>
           <DropdownItem  bg={ddItem} variant="dark" style ={ddItem} href="#forgotPassword" >Forgot Password</DropdownItem>
         </DropdownMenu>
