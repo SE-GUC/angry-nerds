@@ -295,16 +295,22 @@ let AdminController = {
             const oldPassword = req.body.oldPassword
             const newPassword = req.body.newPassword
             let admin = await Admins.findById(id)
+            
             if (!admin) {
                 return res.status(404).json({ error: 'Cannot find an admin account with this ID' })
             }
             else {
-                if (oldPassword != admin.password) {
-                    return res.status(403).json({ error: 'The passwords do not match' })
+                
+            const match = bcrypt.compareSync(oldPassword, admin.password);
+                if (!match) {
+                    return res.status(403).json({ error: 'Incorrect old password' })
                 }
                 else {
+                    const salt = bcrypt.genSaltSync(10); 
+                    const hashPass = bcrypt.hashSync(newPassword, salt); // hashing the password which is already saved in tempUser before saved in investor table
+              
                     const updatedAdmin = await Admins.findByIdAndUpdate(id, {
-                        'password': newPassword,
+                        'password': hashPass,
                     })
                     admin = await Admin.findById(id)
                     return res.status(200).json({ msg: 'The password was updated', data: admin })

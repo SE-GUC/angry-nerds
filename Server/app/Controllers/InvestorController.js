@@ -283,7 +283,7 @@ let InvestorController = {
             }
             else {
                 if (oldPassword != investor.password) {
-                    return res.status(403).json({ error: 'The passwords do not match' })
+                    return res.status(403).json({ error: 'Incorrect old password' })
                 }
                 else {
                     const updatedInvestor = await Investor.findByIdAndUpdate(id, {
