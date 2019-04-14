@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import CaseCard from '../components/CaseCard'
 import LawyerToolbar from '../components/LawyerToolbar'
 import Spinner from 'react-bootstrap/Spinner'
-
 import axios from 'axios'
 
 

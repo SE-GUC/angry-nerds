@@ -13,7 +13,7 @@ const methodOverride = require('method-override'); //
 const router = express.Router()
 
 
-///// TEST MESSAGE "ON DEV"
+/// TEST MESSAGE "ON DEV 3.o"
 
 
 
@@ -158,6 +158,7 @@ conn.once('open', () => {
 app.get('/', (req, res) => res.send(`<h1>Hello World!</h1>`))
 app.get('/Ramy', (req, res) => res.send('<h1>Ramy test page</h1>'))
 app.get('/test', (req, res) => res.sendFile(__dirname + '/views/test.html'))
+app.get('/stocks', (req, res) => res.sendFile(__dirname + '/views/stocks.html'))
 //app.post('/upload', upload.single('file'), InvestorController.uploadFile);
 
 

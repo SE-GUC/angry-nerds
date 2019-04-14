@@ -299,6 +299,7 @@ let LawyerController = {
 
   viewCasesLawyer: async function(req, res) {
     try {
+
       let cases = await Case.find({
         $or: [
           { caseStatus: "lawyer-investor" },

@@ -11,8 +11,10 @@ class Companies extends Component {
         try{
         axios.get('http://localhost:3000/ViewPublishedCompanies').then(
         res => this.setState({pubCases: res.data.data}))
-        axios.get('http://localhost:3000/ViewPendingCompanies').then(
-        res => this.setState({pendCases: res.data.data}))
+        axios.get('http://localhost:3000/ViewPendingCompanies').then(res =>{
+             this.setState({pendCases: res.data.data})
+            console.log(res)
+        })
         
         } 
         catch(error){
@@ -29,17 +31,22 @@ class Companies extends Component {
     )))
 }
 render() {
-    return ( this.state.pubCases.map((aCase) => 
-        ( <div>
+    
+    return ( 
+        
+        this.state.pubCases.map((aCase) => {
+            return  <div>
             <h1>Published companies</h1>
         <a href=' '> {aCase.english_name}</a> 
         <h2>Pending companies</h2>
             {this.reMap()}
             </div>
 
-        )))
+        
+        }))
+        
 
-
+            
       }
 }
 
