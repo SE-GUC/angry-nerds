@@ -71,7 +71,7 @@ const CaseSchema = new Schema({
         type: Number, 
     },
     main_center_fax: {
-        type: Number,
+        type: String,
     },
     currency: {
         type: String,
@@ -157,7 +157,8 @@ const CaseSchema = new Schema({
 
     }
 
-})
+},
+{ strict: false })
 
 module.exports = Cases = mongoose.model('Cases', CaseSchema)
 

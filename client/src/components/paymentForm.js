@@ -61,7 +61,6 @@ export class paymentForm extends Component {
 
     return (
       <Form onSubmit={this.handleSubmit.bind(this)}>
-        <h1>{creditNumber}</h1>
         <FormGroup>
           <Label for="creditNumber">Credit Card Number</Label>
           <Input

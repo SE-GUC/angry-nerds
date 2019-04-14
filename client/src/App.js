@@ -34,7 +34,8 @@ import AdminSideNavbar from './components/AdminSideNavbar';
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faStroopwafel } from '@fortawesome/free-solid-svg-icons'
-
+import CreateCase from './pages/CreateCase'
+import InvestorsList from './pages/InvestorsList'
 library.add(faStroopwafel)
 
 
@@ -51,7 +52,8 @@ class App extends Component {
   render() {
     
     return (
-      <Router>      
+
+      <Router>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
         <div className="App">
         <div className="container">
@@ -67,15 +69,11 @@ class App extends Component {
           <PrivateRoute exact path= "/trackMyCase" allowedUsers={['lawyer','reviewer','admin']} component = {TrackMyCase} />
           <PrivateRoute exact path = "/InvestorForm" component={InvestorForm} />
         <Route component = {mainNavBar} />
-        <Route exact path= "/Companies" component = {Companies}/>
         <Route  exact path = "/home" component = {unregiteredHome}  /> 
+      <Route exact path= "/Companies" component = {Companies}/> 
           <Route exact path= "/trackMyCase" component = {TrackMyCase} />
-          <Route exact path="/about" render={props => (
-            <React.Fragment>
-              <h1>Hello World!</h1>
-              <h2> my name is romba! </h2>
-            </React.Fragment>
-          )} />
+          <Route exact path= "/payment" component = {Payment} />
+          <Route exact path= "/createCase" component = {CreateCase} />  
           <Route exact path = "/InvestorForm" component={InvestorForm} />
           <Route exact path = "/LawyerForm" component={LawyerForm} />
           <Route exact path = "/AdminAddLawyer" component={AdminAddLawyer} /> 
@@ -92,19 +90,14 @@ class App extends Component {
         <Route exact path ="/AdminPage" component= {AdminSideNavbar}/>
         <Route exact path = "/AdminViewLaws" component={AdminViewLaws} /> 
         <Route exact path = "/test" component={test} /> 
+        <Route exact path = "/InvestorList" component={InvestorsList} /> 
         <Route exact path = "*"  component={() => "404 NOT FOUND"}  />
-            
         </Switch>
         </div>
-        </div>
-        
-        
-        
-        </Router>
+         </div>
+         </Router>   
      );
    }
-  
 }
-
 
 export default App;
