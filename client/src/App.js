@@ -40,6 +40,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faStroopwafel } from '@fortawesome/free-solid-svg-icons'
 import CreateCase from './pages/CreateCase'
 import InvestorsList from './pages/InvestorsList'
+import AdminDeleteInvestor from './pages/AdminDeleteInvestor'
 library.add(faStroopwafel)
 
 
@@ -61,17 +62,16 @@ class App extends Component {
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
         <div className="App">
         <Route component = {mainNavBar} />
-        <Route exact path= "/Companies" component = {Companies}/>
-        <Route  exact path = "/home" component = {unregiteredHome}  /> 
-        <Route  exact path = "/error" component = {NotFound}  />
-        <div className="container">
+      
 
         <Switch>
         <Route exact path= "/payment" component = {Payment} />
         <Route exact path = "/LawyerHome" component={LawyerHome} />
-
+        <Route  exact path = "/home" component = {unregiteredHome}  /> 
+        <Route  exact path = "/error" component = {NotFound}  />
           <Route exact path= "/Companies" component = {Companies}/>
-          <Route exact path= "/resetPassword" component = {resetPass}/>           
+          <Route exact path= "/resetPassword" component = {resetPass}/>  
+          <Route exact path= "/AdminDeleteInvestor" component = {AdminDeleteInvestor}/>         
           <Route exact path="/" render={props => (
             <React.Fragment>
               <h1>Hello World!</h1>
@@ -79,12 +79,9 @@ class App extends Component {
             </React.Fragment>
           )} />
           <PrivateRoute exact path= "/trackMyCase" allowedUsers={['lawyer','reviewer','admin']} component = {TrackMyCase} />
-          <PrivateRoute exact path = "/InvestorForm" component={InvestorForm} />
-        <Route  exact path = "/home" component = {unregiteredHome}  /> 
+          <PrivateRoute exact path = "/InvestorForm" component={InvestorForm} /> 
       <Route exact path= "/Companies" component = {Companies}/> 
-          <Route exact path= "/trackMyCase" component = {TrackMyCase} />
           <Route exact path= "/createCase" component = {CreateCase} />  
-          <Route exact path = "/InvestorForm" component={InvestorForm} />
           <Route exact path = "/LawyerForm" component={LawyerForm} />
           <Route exact path = "/AdminAddLawyer" component={AdminAddLawyer} /> 
           <Route exact path = "/AdminAddReviewer" component={AdminAddReviewer} /> 
@@ -104,7 +101,6 @@ class App extends Component {
         <Route exact path = "/InvestorList" component={InvestorsList} /> 
         <Route exact path = "*"  component={() => "404 NOT FOUND"}  />
         </Switch>
-         </div>
          </div>
          </Router>   
      );
