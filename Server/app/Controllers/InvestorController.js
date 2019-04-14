@@ -321,97 +321,97 @@ let InvestorController = {
             return res.status(400).json({ error: 'Error processing query.' })
 
         }
-      
+    },
+
+    /*
+        GET request to view the notifications of the investor.
+        PARAMS:{ investorID: String }
+        * Checks if the investor is in the database,
+        then checks gets thier notifications.   
+        RETURNS 404 NOT FOUND: if the ID is not in the database.
+                200 OK: if it pereforms the query.
+                400 BAD REQUEST: if an exception is thrown.   
+    */
+    investorMyNotifications: async function (req, res) {
+        try {
+            const id = '5cabaf8dd20243280c5c96f0'
+            let investor = await Investor.findById(id)
+            if (!investor) {
+                return res.status(404).json({ error: 'Cannot find an investor account with this ID' })
+            }
+            else {
+                let notifications = investor.notifications
+                return res.status(200).json({ msg: 'Done' , data: notifications })
+            }
+
+        }
+        catch (error) {
+            console.log(error)
+            return res.status(400).json({ error: 'Error processing query.' })
+        }
+    }, 
+
+
     
-  },
 
-/*
-      GET request to view the notifications of the investor.
-      PARAMS:{ investorID: String }
-      * Checks if the investor is in the database,
-      then checks gets thier notifications.   
-      RETURNS 404 NOT FOUND: if the ID is not in the database.
-              200 OK: if it pereforms the query.
-              400 BAD REQUEST: if an exception is thrown.   
-  */
-investorMyNotifications: async function(req, res) {
-    try {
-        const id = req.params.id;
-        let investor = await Investor.findById(id);
-        if (!investor) {
-            return res
-                .status(404)
-                .json({ error: "Cannot find an investor account with this ID" });
-        } else {
-            let notifications = investor.notifications;
-            return res.status(200).json({ msg: "Done", data: notifications });
-        }
-    } catch (error) {
-        console.log(error);
-        return res.status(400).json({ error: "Error processing query." });
-    }
-},
+    /*
+        GET request to view the published companies of the investor.
+        PARAMS:{ investorID: String }
+        * Checks if the investor is in the database,
+        then checks gets thier published cases.   
+        RETURNS 404 NOT FOUND: if the ID is not in the database.
+                200 OK: if it pereforms the query.
+                400 BAD REQUEST: if an exception is thrown.   
+    */
+    viewMyPublishedCompanies: async function (req, res) {
+        try {
+            // const id = req.params.id
+            const ids = '5cabaf8dd20243280c5c96f0' // will take from login
+            let investor = await Investor.findById(ids)
+            if (!investor) {
+                return res.status(404).json({ error: 'Cannot find an investor account with this ID' })
+            }
+            else {
+                let cases = await Case.find({ 'caseStatus': 'published', 'investorID': ids })
+                return res.status(200).json({ msg:'Done',data: cases })
+            }
 
-/*
-      GET request to view the published companies of the investor.
-      PARAMS:{ investorID: String }
-      * Checks if the investor is in the database,
-      then checks gets thier published cases.   
-      RETURNS 404 NOT FOUND: if the ID is not in the database.
-              200 OK: if it pereforms the query.
-              400 BAD REQUEST: if an exception is thrown.   
-  */
-viewMyPublishedCompanies: async function(req, res) {
-    try {
-        const id = req.params.id;
-        let investor = await Investor.findById(id);
-        if (!investor) {
-            return res
-                .status(404)
-                .json({ error: "Cannot find an investor account with this ID" });
-        } else {
-            let cases = await Case.find({
-                caseStatus: "published",
-                investorID: id
-            });
-            return res.status(200).json({ msg: "Done", data: cases });
         }
-    } catch (error) {
-        console.log(error);
-        return res.status(400).json({ error: "Error processing query." });
-    }
-},
+        catch (error) {
+            console.log(error)
+            return res.status(400).json({ error: 'Error processing query.' })
+        }
+    },
 
-/*
-     GET request to view the published companies of the investor.
-     PARAMS:{ investorID: String }
-     * Checks if the investor is in the database,
-     then checks if the caseStatus != 'published'.   
-     RETURNS 404 NOT FOUND: if the ID is not in the database.
-             200 OK: if it pereforms the query.
-             400 BAD REQUEST: if an exception is thrown.   
- */
-viewMyPendingCompanies: async function(req, res) {
-    try {
-        const id = req.params.id;
-        //const ids = '5c78e4a73ba5f854b86f9058' // will take from login
-        let investor = await Investor.findById(id);
-        if (!investor) {
-            return res
-                .status(404)
-                .json({ error: "Cannot find an investor account with this ID" });
-        } else {
-            let cases = await Case.find({
-                caseStatus: { $ne: "published" },
-                investorID: id
-            });
-            return res.status(200).json({ msg: "Done", data: cases });
+    /*
+       GET request to view the published companies of the investor.
+       PARAMS:{ investorID: String }
+       * Checks if the investor is in the database,
+       then checks if the caseStatus != 'published'.   
+       RETURNS 404 NOT FOUND: if the ID is not in the database.
+               200 OK: if it pereforms the query.
+               400 BAD REQUEST: if an exception is thrown.   
+   */
+    viewMyPendingCompanies: async function (req, res) {
+        try {
+            //  const id = req.params.id
+            const ids = '5cabaf8dd20243280c5c96f0' // will take from login
+            let investor = await Investor.findById(ids)
+            if (!investor) {
+                return res.status(404).json({ error: 'Cannot find an investor account with this ID' })
+            }
+            else {
+                let cases = await Case.find({ 'caseStatus': { $ne: 'published' }, 'investorID': ids})
+                return res.status(200).json({ msg: 'Done', data: cases })
+            }
+        } catch (error) {
+            console.log(error);
+            return res.status(400).json({ error: "Error processing query." });
         }
-    } catch (error) {
-        console.log(error);
-        return res.status(400).json({ error: "Error processing query." });
-    }
-},
+        },
+
+
+
 
 /*
       GET method to generate a   contract based on the case object.

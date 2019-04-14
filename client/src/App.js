@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route , Switch} from 'react-router-dom'
 import Payment from './pages/payment'
-import Notification from './components/notification'
+import notificat from './components/notificat'
+import './App.css';
 // import './App.css';
 import LawyerForm from './pages/LawyerForm'
 import InvestorForm from './pages/InvestorForm'
@@ -32,6 +33,9 @@ import stocks from'./components/stocks';
 import mainNavBar from './components/mainNavBar'
 import Footer from './components/Footer'
 import unregiteredHome from './pages/unregHome'
+import notificationItem from './components/notificationItem';
+import Noti from './pages/Noti';
+import Notification from "./components/Notification"
 import AdminSideNavbar from './components/AdminSideNavbar';
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -59,7 +63,10 @@ class App extends Component {
   render() { 
     return (
       <Router>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+        <Route component = {mainNavBar} />
+        <Route  exact path = "/home" component = {unregiteredHome}  /> 
         <div className="App">
         <div className="container">
         <Route component = {mainNavBar} />
@@ -82,6 +89,8 @@ class App extends Component {
         
           <Route exact path = "/InvestorForm" component={InvestorForm} />
           <Route exact path = "/LawyerForm" component={LawyerForm} />
+
+          <Route exact path = "/Companies" component = {Companies}/>
           <Route exact path = "/AdminAddLawyer" component={AdminAddLawyer} /> 
           <Route exact path = "/AdminAddReviewer" component={AdminAddReviewer} /> 
           <Route exact path = "/AdminAddAdmin" component={AdminAddAdmin} /> 
@@ -98,6 +107,9 @@ class App extends Component {
         <Route exact path = "/ChangePricing" component={ChangePricing} />
         <Route exact path ="/AdminPage" component= {AdminSideNavbar}/>
         <Route exact path = "/AdminViewLaws" component={AdminViewLaws} /> 
+        <Route exact path = "/notificat" component = {notificat}/>
+
+        
         <Route exact path = "/stocks" component={stocks} /> 
         <Route exact path = "/InvestorList" component={InvestorsList} /> 
         <Route exact path = "*"  component={() => "404 NOT FOUND"}  />
