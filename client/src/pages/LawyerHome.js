@@ -22,7 +22,10 @@ class LawyerHome extends Component {
 
     console.log(this.state.allCases)
     try{
-    axios.get('http://localhost:3000/viewCasesLawyer',{headers: {"Authorization":localStorage.getItem('jwtToken')}}).then(
+    axios({
+      method: "get",
+      url: 'http://localhost:3000/viewCasesLawyer' ,
+      }).then(
           res => this.setState(
             {
             allCases: res.data.data.filter((oneCase) => 
@@ -80,12 +83,12 @@ class LawyerHome extends Component {
     if(this.state.searchTerm.length === 0){
       console.log('cases ===> ',cases)
       return cases.map( (oneCase) => 
-         ( <CaseCard key={oneCase._id} case={oneCase} pressed={this.state.pressed} caseButton={this.caseButton.bind(this)}/> ))
+         ( <CaseCard key={oneCase._id} case={oneCase} pressed={this.state.pressed} caseButton={this.caseButton.bind(this)} type='lawyer'/> ))
     }
     else{
       console.log('filter')
       return filteredCases.map( (filteredCase) => 
-      ( <CaseCard key={filteredCase._id} case={filteredCase} pressed={this.state.pressed} caseButton={this.caseButton.bind(this)}/>) )
+      ( <CaseCard key={filteredCase._id} case={filteredCase} pressed={this.state.pressed} caseButton={this.caseButton.bind(this)} type='lawyer'/>) )
     }    
   }
 
