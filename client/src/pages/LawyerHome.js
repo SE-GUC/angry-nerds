@@ -20,7 +20,10 @@ class LawyerHome extends Component {
 
     console.log(this.state.allCases)
     try{
-    axios.get('http://localhost:3000/viewCasesLawyer').then(
+    axios({
+      method: "get",
+      url: 'http://localhost:3000/viewCasesLawyer' ,
+      }).then(
           res => this.setState(
             {
             allCases: res.data.data.filter((oneCase) => 

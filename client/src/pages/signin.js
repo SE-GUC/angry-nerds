@@ -30,12 +30,13 @@ class signin extends Component  {
           if (user){
             alert("Successfully")  
           }
-        setAuthToken(user.data.data)
+        //setAuthToken(user.data.data)
         localStorage.setItem('jwtToken',user.data.data)
+        axios.defaults.headers.common['Authorization'] = user.data.data
         const tok = localStorage.getItem('jwtToken').replace('Bearer ','')
         const decoded = jwt.decode(tok)
         alert(axios.defaults.headers.common['Authorization'])
-          this.setState({toHome: true})
+        this.setState({toHome: true})
         
         //document.getElementById("email").value = 'Successfully'
         //document.getElementById("status").value = 'Successfully'

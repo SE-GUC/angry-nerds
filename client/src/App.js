@@ -57,6 +57,8 @@ class App extends Component {
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
         <div className="App">
         <div className="container">
+        <Route component = {mainNavBar} />
+
         <Switch>
           <Route exact path= "/Companies" component = {Companies}/>
           <Route exact path= "/resetPassword" component = {resetPass}/>           
@@ -68,7 +70,6 @@ class App extends Component {
           )} />
           <PrivateRoute exact path= "/trackMyCase" allowedUsers={['lawyer','reviewer','admin']} component = {TrackMyCase} />
           <PrivateRoute exact path = "/InvestorForm" component={InvestorForm} />
-        <Route component = {mainNavBar} />
         <Route  exact path = "/home" component = {unregiteredHome}  /> 
       <Route exact path= "/Companies" component = {Companies}/> 
           <Route exact path= "/trackMyCase" component = {TrackMyCase} />
