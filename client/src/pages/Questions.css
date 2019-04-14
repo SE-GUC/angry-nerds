@@ -1,0 +1,27 @@
+body {
+    background-color: white;
+    
+  }
+
+.listGroup{
+      text-align: start;
+      
+      
+  }
+
+  .cardHeader{
+    background-color: #286090;
+    
+  }
+  .navText{
+    color: white;
+    font-size: x-large
+  }
+  .listItem{
+    background-color: #e6f3ff;
+    font-size: large
+
+
+  }
+  
+

@@ -50,8 +50,11 @@ router.get('/AdminViewingCompany/:id', AdminController.AdminViewingCompany)
 router.get('/AdminViewing/:id', AdminController.AdminViewing)
 router.delete('/AdminDeleteQuestion/:id', AdminController.AdminDeleteQuestion)
 router.delete('/AdminDeleteCase/:id', AdminController.AdminDeleteCase)
-router.get('AdminViewLawyersLeaderBoard', AdminController.adminViewLawyersLeaderBoard)
-router.get('AdminViewReviewersLeaderBoard', AdminController.adminViewReviewersLeaderBoard)
+router.get('/AdminViewLawyersLeaderBoard', AdminController.adminViewLawyersLeaderBoard)
+router.get('/AdminViewReviewersLeaderBoard', AdminController.adminViewReviewersLeaderBoard)
+router.put('/AdminAnswerQuestions',AdminController.AdminAnswerQuestions)
+
+
 router.put('/AdminChangePassword/:id', AdminController.adminChangePassword)
 router.post('/AdminCreateNewLaw', AdminController.AdminCreateNewLaw)
 router.put('/AdminAssignLawyer',AdminController.AdminAssignLawyer)
@@ -122,6 +125,7 @@ router.get('/UnregisterViewingCompany/:id', UserController.UnregisterViewingComp
 router.get('/UnregisterViewing/:id', UserController.UnregisterViewing)
 router.post('/login', UserController.Login)
 router.get('/UserViewLaws', UserController.UserViewLaws)
+router.post('/MakeQuestion',UserController.makeQuestion)
 
 
 
