@@ -2,14 +2,14 @@ import React, { Component } from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom'
 import Payment from './pages/payment'
 import Notification from './components/notification'
-import './App.css';
+// import './App.css';
 import LawyerForm from './pages/LawyerForm'
 import InvestorForm from './pages/InvestorForm'
 import axios from 'axios'
 import SideNav from './layout/sideNav'
 import TrackMyCase from './pages/trackMyCase'
 import Companies from './pages/Companies';
-import signup from './pages/signUp'
+ import signup from './pages/signUp'
 import signin from './pages/signin'
 import home from './pages/home'
 import LawyerHome from './pages/LawyerHome'
@@ -17,8 +17,13 @@ import ChangePricing from './pages/ChangePricing'
 import AdminViewLaws from './pages/AdminViewLaws'
 import LawyerOpenCase from './pages/LawyerOpenCase'
 import AddLawyer from './components/AddLawyer';
+import AdminAddLawyer from './components/AdminAddLawyer';
+import AdminAddReviewer from './components/AdminAddReviewer';
+import AdminAddAdmin from './components/AdminAddAdmin';
 import AddReviewer from './components/AddReviewer';
 import testing from './components/testing';
+import test from './components/test';
+
 import mainNavBar from './components/mainNavBar'
 import Footer from './components/Footer'
 import unregiteredHome from './pages/unregHome'
@@ -41,9 +46,6 @@ class App extends Component {
   
   }
  
-   componentWillUnmount() {
-     clearInterval(this.state)
-   }
 
 
   render() {
@@ -87,6 +89,15 @@ class App extends Component {
 
 
           <Route exact path = '/ViewMyCompanies' component =  {Companies}/>
+          <Route  exact path = "/home" component = {home}  />
+          {/* <Route exact path="/signUp" component={signup} /> */}
+          <Route exact path = "/AdminAddLawyer" component={AdminAddLawyer} /> 
+          <Route exact path = "/AdminAddReviewer" component={AdminAddReviewer} /> 
+          <Route exact path = "/AdminAddAdmin" component={AdminAddAdmin} /> 
+
+
+
+
             <Route exact path="/signUp" component={signup} />
             <Route exact path="/signin" component= {signin} />
             <Route exact path="/AddLawyer" component={AddLawyer} />
@@ -106,8 +117,9 @@ class App extends Component {
             </React.Fragment>
           )} />
         </div>
+         </div>
         
-        </div>
+        
       </Router>
      );
    }
