@@ -36,6 +36,8 @@ import AdminSideNavbar from './components/AdminSideNavbar';
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faStroopwafel } from '@fortawesome/free-solid-svg-icons'
+import InvEditProfile from './pages/InvEditProfile';
+import InvViewProfile from './pages/InvViewProfile'
 import CreateCase from './pages/CreateCase'
 import InvestorsList from './pages/InvestorsList'
 library.add(faStroopwafel)
@@ -82,10 +84,20 @@ class App extends Component {
           <Route exact path = "/LawyerOpenCase/:id" component={LawyerOpenCase} />
         <Route exact path = "/ChangePricing" component={ChangePricing} />
         <Route exact path ="/AdminPage" component= {AdminSideNavbar}/>
-        <Route exact path = "/AdminViewLaws" component={AdminViewLaws} /> 
-        <Route exact path = "/test" component={test} /> 
-        <Route exact path = "/InvestorList" component={InvestorsList} /> 
-        <Route exact path = "*"  component={() => "404 NOT FOUND"}  />
+        <Route exact path ="/InvEditProfile" component= {InvEditProfile}/>
+        <Route exact path ="/InvViewProfile" component= {InvViewProfile}/>
+
+          <Route exact path="/notification" render={props => (
+            <React.Fragment>
+              <Notification notif={this.state.notifications} />
+            </React.Fragment>
+          )} />
+
+              <Route exact path="/AdminViewLaws" component={AdminViewLaws} />
+              <Route exact path="/test" component={test} />
+              <Route exact path="/InvestorList" component={InvestorsList} />
+              <Route exact path="*" component={() => "404 NOT FOUND"} />
+        
         </Switch>
          </div>
          </div>
