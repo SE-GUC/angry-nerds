@@ -12,6 +12,7 @@ import {FaLockOpen} from "react-icons/fa";
 class CaseCard extends Component {
 
   state = {
+    basket: '',
     toCasePage: false
   }
 
@@ -21,7 +22,13 @@ class CaseCard extends Component {
     console.log('before  ==> ',this.props.pressed)
     this.props.caseButton(this.props.case._id)
     console.log('after  ==> ',this.props.pressed)
-    let path = 'http://localhost:3000/lawyerOpenCase/' + this.props.case._id 
+    let path
+    if(this.props.type === 'lawyer'){
+      path = 'http://localhost:3000/lawyerOpenCase/' + this.props.case._id }
+    else{
+      if(this.props.type === 'reviewer'){
+        path = 'http://localhost:3000/reviewerOpenCase/' + this.props.case._id }
+      }
     try{
       console.log('get')
     axios.get(path).then(res => console.log(res))}
@@ -110,10 +117,18 @@ class CaseCard extends Component {
   render() {
 
     if(this.state.toCasePage){
-      console.log('REDIRECT')
+      if(this.props.type === 'lawyer'){
       return (
         <Redirect to={'/LawyerOpenCase/' + this.props.case._id} />
       )
+      }
+      else{
+        if(this.props.type === 'reviewer') {
+          return(
+          <Redirect to={'/ReviewerOpenCase/' + this.props.case._id} />
+          )
+        }
+      }
     }
     else{
     let now = new Date();

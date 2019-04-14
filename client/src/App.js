@@ -14,11 +14,11 @@ import signin from './pages/signin'
 import home from './pages/home'
 import LawyerHome from './pages/LawyerHome'
 import ReviewerHome from './pages/ReviewerHome'
-
 import ResetPass from './pages/resetPaassword'
 import ChangePricing from './pages/ChangePricing'
 import AdminViewLaws from './pages/AdminViewLaws'
 import LawyerOpenCase from './pages/LawyerOpenCase'
+import ReviewerOpenCase from './pages/ReviewerOpenCase'
 import AddLawyer from './components/AddLawyer';
 import AdminAddLawyer from './components/AdminAddLawyer';
 import AdminAddReviewer from './components/AdminAddReviewer';
@@ -27,7 +27,7 @@ import AddReviewer from './components/AddReviewer';
 import testing from './components/testing';
 import PrivateRoute from './privateRoute'
 import resetPass from './pages/resetPaassword';
-import test from './components/test';
+import stocks from'./components/stocks';
 
 import mainNavBar from './components/mainNavBar'
 import Footer from './components/Footer'
@@ -63,6 +63,8 @@ class App extends Component {
         <Switch>
         <Route exact path= "/payment" component = {Payment} />
         <Route exact path = "/LawyerHome" component={LawyerHome} />
+        <Route exact path = "/ReviewerHome" component={ReviewerHome} />
+
 
           <Route exact path= "/resetPassword" component = {resetPass}/>           
           <PrivateRoute exact path= "/trackMyCase" allowedUsers={['lawyer','reviewer','admin']} component = {TrackMyCase} />
@@ -82,8 +84,14 @@ class App extends Component {
           <Route exact path = "/reviewerHome" component={ReviewerHome} />
 
           <Route exact path = "/LawyerOpenCase/:id" component={LawyerOpenCase} />
+          <Route exact path = "/ReviewerOpenCase/:id" component={ReviewerOpenCase} />
+
         <Route exact path = "/ChangePricing" component={ChangePricing} />
         <Route exact path ="/AdminPage" component= {AdminSideNavbar}/>
+        <Route exact path = "/AdminViewLaws" component={AdminViewLaws} /> 
+        <Route exact path = "/stocks" component={stocks} /> 
+        <Route exact path = "/InvestorList" component={InvestorsList} /> 
+        <Route exact path = "*"  component={() => "404 NOT FOUND"}  />
         <Route exact path ="/InvEditProfile" component= {InvEditProfile}/>
         <Route exact path ="/InvViewProfile" component= {InvViewProfile}/>
 
@@ -94,7 +102,7 @@ class App extends Component {
           )} />
 
               <Route exact path="/AdminViewLaws" component={AdminViewLaws} />
-              <Route exact path="/test" component={test} />
+              <Route exact path="/stocks" component={stocks} />
               <Route exact path="/InvestorList" component={InvestorsList} />
               <Route exact path="*" component={() => "404 NOT FOUND"} />
         
