@@ -11,8 +11,7 @@ var router = express.Router();
 //--------------------------------Investor Routes----------------------------------------------------------
 
 //this endpoint allows the investor to pay fees for a pending company
-router.get('/InvestorSignIn/:email/:password',InvestorController.InvestorSignIn)
-router.post('/InvestorPayFees', InvestorController.InvestorPayFees)
+router.post('/InvestorPayFees' , InvestorController.InvestorPayFees)
 router.post('/InvestorFillForm',InvestorController.investorFillForm)
 router.put('/InvestorUpdateForm/:id', InvestorController.investorUpdateForm)
 router.put('/InvestorEditProfile',InvestorController.InvestorEditProfile)
@@ -53,20 +52,26 @@ router.delete('/AdminDeleteQuestion/:id', AdminController.AdminDeleteQuestion)
 router.delete('/AdminDeleteCase/:id', AdminController.AdminDeleteCase)
 router.get('AdminViewLawyersLeaderBoard', AdminController.adminViewLawyersLeaderBoard)
 router.get('AdminViewReviewersLeaderBoard', AdminController.adminViewReviewersLeaderBoard)
-
-
 router.put('/AdminChangePassword/:id', AdminController.adminChangePassword)
 router.post('/AdminCreateNewLaw', AdminController.AdminCreateNewLaw)
 router.put('/AdminAssignLawyer',AdminController.AdminAssignLawyer)
 router.put('/AdminAssignReviewer',AdminController.AdminAssignReviewer)
 router.post('/SendAttachmentMail', AdminController.SendAttachmentMail)
-
 router.post('/addFormType', AdminController.addFormType)
 router.get('/getFormType/:formName', AdminController.getFormType)
 router.get('/getAllFormTypes', AdminController.getAllFormTypes)
 router.delete('/deleteFormType/:formName', AdminController.deleteFormType)
 
+router.post('/AdminCreateFormType', AdminController.AdminCreateFormType)
+router.delete('/AdminDeleteFormType/:id', AdminController.AdminDeleteFormType)
+router.get('/AdminFindFormType', AdminController.AdminFindFormType)
+router.get('/AdminFindFormType/:id', AdminController.AdminFindFormTypeID)
+
 router.get('/calculateFees/:id', AdminController.SystemCalcFees)
+router.post('/AdminCreateFormType', AdminController.AdminCreateFormType)
+router.delete('/AdminDeleteFormType/:id', AdminController.AdminDeleteFormType)
+router.get('/AdminFindFormType', AdminController.AdminFindFormType)
+router.get('/AdminFindFormType/:id', AdminController.AdminFindFormTypeID)
 
 //------------------------------------Lawyer Routes----------------------------------------------------
 router.post('/LawyerFillForm', LawyerController.lawyerFillForm)
@@ -82,9 +87,9 @@ router.get('/LawyerMyNotifications/:id', LawyerController.lawyerMyNotifications)
 //------------------------------------Lawyer Routes----------------------------------------------------
 
 
-router.put('/caseDisAproveedAtLawyer/:idCase', LawyerController.caseDisAproveedAtLawyer)
-router.put('/caseAproveedAtLawyer/:idCase', LawyerController.caseAproveedAtLawyer)
-router.get('/viewCasesLawyer', LawyerController.viewCasesLawyer)
+router.put('/caseDisAproveedAtLawyer/:idCase', LawyerController.authenticate ,LawyerController.caseDisAproveedAtLawyer)
+router.put('/caseAproveedAtLawyer/:idCase',LawyerController.authenticate ,LawyerController.caseAproveedAtLawyer)
+router.get('/viewCasesLawyer', LawyerController.authenticate , LawyerController.viewCasesLawyer)
 router.get('/LawyerViewingPublishedCompanies', LawyerController.LawyerViewingPublishedCompanies)
 router.get('/lawyerOpenCase/:id', LawyerController.lawyerOpenCase)
 router.get('/lawyerCloseCase/:id', LawyerController.lawyerCloseCase)
@@ -115,7 +120,7 @@ router.get('/UnregisteredViewLawyers',UserController.viewLawyers)
 router.get('/UnregisterViewingPublishedCompanies', UserController.UnregisterViewingPublishedCompanies)
 router.get('/UnregisterViewingCompany/:id', UserController.UnregisterViewingCompany)
 router.get('/UnregisterViewing/:id', UserController.UnregisterViewing)
-router.get('/login', UserController.Login)
+router.post('/login', UserController.Login)
 router.get('/UserViewLaws', UserController.UserViewLaws)
 
 
