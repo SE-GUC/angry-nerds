@@ -161,7 +161,7 @@ let ReviewerController = {
     */
   reviewerMyNotifications: async function(req, res) {
     try {
-      const id = req.params.id;
+      const id = "5cae949a70fe6265f034aa23";
       let reviewer = await Reviewer.findById(id);
       if (!reviewer) {
         return res

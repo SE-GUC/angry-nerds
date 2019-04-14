@@ -4,6 +4,8 @@ import FormControl from 'react-bootstrap/FormControl';
 import Button from 'react-bootstrap/Button'; 
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar'; 
+import notificat from './notificat';
+import DropdownButton from 'react-bootstrap/DropdownButton'
 const navbar = {backgroundColor: '#286090'};
 
 
@@ -29,6 +31,8 @@ class mainNavBar extends Component  {
       <Nav.Link href="/home">Home</Nav.Link>
       <Nav.Link href="#features">Features</Nav.Link>
       <Nav.Link href="#pricing">Pricing</Nav.Link>
+      <Nav.Link href = "/notificat">Notifications</Nav.Link>
+     
     </Nav>
     <Form inline>
       <Button href="/signin"  variant='outline-light'>Sign in</Button>

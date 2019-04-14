@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom'
 import Payment from './pages/payment'
-import Notification from './components/notification'
+import notificat from './components/notificat'
 import './App.css';
 import LawyerForm from './pages/LawyerForm'
 import InvestorForm from './pages/InvestorForm'
@@ -21,7 +21,9 @@ import testing from './components/testing';
 import mainNavBar from './components/mainNavBar'
 import Footer from './components/Footer'
 import unregiteredHome from './pages/unregHome'
-
+import notificationItem from './components/notificationItem';
+import Noti from './pages/Noti';
+import Notification from "./components/Notification"
 
 
 
@@ -30,7 +32,7 @@ class App extends Component {
   
   //states & functions
   state = {
-      notifications: [],
+    
       case:
       {
         _id: "5c95094155f85f30d82dcfeb",
@@ -63,7 +65,7 @@ class App extends Component {
     return (
       <Router>
         <Route component = {mainNavBar} />
-        <Route exact path= "/Companies" component = {Companies}/>
+        {/* <Route exact path= "/Companies" component = {Companies}/> */}
         <Route  exact path = "/home" component = {unregiteredHome}  /> 
         <div className="container">
 
@@ -84,9 +86,9 @@ class App extends Component {
         
           <Route exact path = "/InvestorForm" component={InvestorForm} />
           <Route exact path = "/LawyerForm" component={LawyerForm} />
+<Route exact path = "/Noti" component = {Noti}/>
 
-
-          <Route exact path = '/ViewMyCompanies' component =  {Companies}/>
+          <Route exact path = "/Companies" component = {Companies}/>
             <Route exact path="/signUp" component={signup} />
             <Route exact path="/signin" component= {signin} />
             <Route exact path="/AddLawyer" component={AddLawyer} />
@@ -95,13 +97,13 @@ class App extends Component {
           <Route exact path = "/LawyerHome" component={LawyerHome} />
         <Route exact path = "/ChangePricing" component={ChangePricing} />
         <Route exact path = "/AdminViewLaws" component={AdminViewLaws} /> 
+        <Route exact path = "/notificat" component = {notificat}/>
 
-
-          <Route exact path="/notification" render={props => (
+          {/* <Route exact path="/notification" render={props => (
             <React.Fragment>
               <Notification notif={this.state.notifications} />
             </React.Fragment>
-          )} />
+          )} /> */}
         </div>
         
         
