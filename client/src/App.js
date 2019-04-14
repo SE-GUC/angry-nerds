@@ -57,7 +57,7 @@ class App extends Component {
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
         <div className="App">
         <div className="container">
-        <Route component = {mainNavBar} />
+        {/* <Route component = {mainNavBar} /> */}
 
         <Switch>
           <Route exact path= "/Companies" component = {Companies}/>
