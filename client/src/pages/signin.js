@@ -5,6 +5,7 @@ import jwt from 'jsonwebtoken'
 import axios from 'axios';
 import { Route, Redirect } from 'react-router-dom'
 import setAuthToken from '../helpers/setAuthToken';
+const padding = {margin: '20'};
 class signin extends Component  {
   state={
     toHome : false
@@ -55,37 +56,21 @@ class signin extends Component  {
         }else{
     return (
         <React.Fragment>
-         
-       <div className="App"/>
-       <script src="https://unpkg.com/react/umd/react.production.js" crossorigin />
+     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css"/>
 
-<script
-  src="https://unpkg.com/react-dom/umd/react-dom.production.js"
-  crossorigin
-/>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
-<script
-  src="https://unpkg.com/react-bootstrap@next/dist/react-bootstrap.min.js"
-  crossorigin
-/>
-
-<script>var Alert = ReactBootstrap.Alert;</script>
-<link
-  rel="stylesheet"
-  href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-  integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
-  crossorigin="anonymous"
-/>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
 <Form>
   <Form.Group controlId="formBasicEmail">
-    <Form.Label>Email</Form.Label>
+    <Form.Label className="label label-primary">Email</Form.Label>
     <Form.Control type="email" placeholder="Enter email"  id="email"/>
     <Form.Text className="text-muted">
     </Form.Text>
   </Form.Group>
 
   <Form.Group controlId="formBasicPassword">
-    <Form.Label>Password</Form.Label>
+    <Form.Label className="label label-primary">Password</Form.Label>
     <Form.Control type="password" placeholder="Password"  id="password"/>
   </Form.Group>
   <Button variant="primary" type="submit" onClick={this.submit.bind(this)}>
