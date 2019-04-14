@@ -195,7 +195,7 @@ let LawyerController = {
           .json({ error: "Cannot find an admin account with this ID" });
       } else {
         if (oldPassword != lawyer.password) {
-          return res.status(403).json({ error: "The passwords do not match" });
+          return res.status(403).json({ error: "Incorrect old password" });
         } else {
           const updatedLawyer = await Lawyer.findByIdAndUpdate(id, {
             ////////////
@@ -219,8 +219,8 @@ let LawyerController = {
     // const staff= await Staff.findById(id)
 
     const caseID = req.params.idCase;
-    const staffID = "5c9f69180ec7b72d689dba6d";
-
+    // const staffID = "5c9f69180ec7b72d689dba6d";
+    const staffID = req.user.id
     const CASE = await Case.findById(caseID);
     const lawyer = await Lawyer.findById(staffID);
 
@@ -252,10 +252,15 @@ let LawyerController = {
     /// :idStaff/:idCase'  routs
 
     const caseID = req.params.idCase;
-    const staffID = "5c9f69180ec7b72d689dba6d";
+    //const staffID = "5c9f69180ec7b72d689dba6d";
+    const staffID = req.user.id
+    console.log(req.user)
+    // const token = localStorage.getItem('jwToken').replace('Bearer ','')
+    // const decoded = jwt.decode(token)
+    // const staffID =
 
     const CASE = await Case.findById(caseID);
-    const lawyer = await Lawyer.findById(staffID);
+    //const lawyer = await Lawyer.findById(staffID);
     if (!CASE) {
       return res.status(404).json({ error: "cannot find this case" });
     }
@@ -294,6 +299,7 @@ let LawyerController = {
 
   viewCasesLawyer: async function(req, res) {
     try {
+
       let cases = await Case.find({
         $or: [
           { caseStatus: "lawyer-investor" },
@@ -321,7 +327,7 @@ let LawyerController = {
     */
   lawyerMyNotifications: async function(req, res) {
     try {
-      const id = req.params.id;
+      const id = "5cade37fad14590482dfcd14";
       let lawyer = await Lawyer.findById(id);
       if (!lawyer) {
         return res

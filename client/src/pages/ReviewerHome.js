@@ -2,13 +2,12 @@ import React, { Component } from 'react';
 import CaseCard from '../components/CaseCard'
 import LawyerToolbar from '../components/LawyerToolbar'
 import Spinner from 'react-bootstrap/Spinner'
-import CardDeck from 'react-bootstrap/CardDeck'
 
 import axios from 'axios'
 
 
 
-class LawyerHome extends Component {
+class ReviewerHome extends Component {
 
   state = {
       allCases: [],
@@ -22,10 +21,7 @@ class LawyerHome extends Component {
 
     console.log(this.state.allCases)
     try{
-    axios({
-      method: "get",
-      url: 'http://localhost:3000/viewCasesLawyer' ,
-      }).then(
+    axios.get('http://localhost:3000/viewCasesReviewer').then(
           res => this.setState(
             {
             allCases: res.data.data.filter((oneCase) => 
@@ -83,12 +79,12 @@ class LawyerHome extends Component {
     if(this.state.searchTerm.length === 0){
       console.log('cases ===> ',cases)
       return cases.map( (oneCase) => 
-         ( <CaseCard key={oneCase._id} case={oneCase} pressed={this.state.pressed} caseButton={this.caseButton.bind(this)} type='lawyer'/> ))
+         ( <CaseCard key={oneCase._id} case={oneCase} pressed={this.state.pressed} caseButton={this.caseButton.bind(this)} type='reviewer'/> ))
     }
     else{
       console.log('filter')
       return filteredCases.map( (filteredCase) => 
-      ( <CaseCard key={filteredCase._id} case={filteredCase} pressed={this.state.pressed} caseButton={this.caseButton.bind(this)} type='lawyer'/>) )
+      ( <CaseCard key={filteredCase._id} case={filteredCase} pressed={this.state.pressed} caseButton={this.caseButton.bind(this)} type='reviewer'/>) )
     }    
   }
 
@@ -153,4 +149,4 @@ class LawyerHome extends Component {
 //   top: 0,
 //   margin: 0
 // }
-export default LawyerHome;
+export default ReviewerHome;

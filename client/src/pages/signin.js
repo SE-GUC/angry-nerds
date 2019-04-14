@@ -1,31 +1,53 @@
 import React ,{ Component } from 'react'
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form'; 
-import Alert from 'react-bootstrap/Alert'; 
+import jwt from 'jsonwebtoken'
 import axios from 'axios';
+import { Route, Redirect } from 'react-router-dom'
+import setAuthToken from '../helpers/setAuthToken';
 const padding = {margin: '20'};
 class signin extends Component  {
+  state={
+    toHome : false
+  }
     async submit (event){
-        event.preventDefault();
-        var semail = document.getElementById("email").value
-        var spassword = document.getElementById("password").value
-        try{
-        await axios.get( 'http://localhost:3000/InvestorSignIn/'+semail+'/'+spassword)
-        //document.getElementById("email").value = 'Successfully'
-        alert("Successfully")
-        //document.getElementById("status").value = 'Successfully'
-         // document.getElementById("status").variant = 'success'
+      event.preventDefault();
+      var semail = document.getElementById("email").value
+      var spassword = document.getElementById("password").value
+      console.log(semail)
+      console.log(spassword)
+      try{
+
+        const user = await axios({
+            method: "post",
+            url: "http://localhost:3000/login" ,
+            data: {
+              email : semail,
+              password : spassword
+            }
+          })
+          if (user){
+            alert("Successfully")  
+          }
+        //setAuthToken(user.data.data)
+        localStorage.setItem('jwtToken',user.data.data)
+        axios.defaults.headers.common['Authorization'] = user.data.data
+        const tok = localStorage.getItem('jwtToken').replace('Bearer ','')
+        const decoded = jwt.decode(tok)
+        alert(axios.defaults.headers.common['Authorization'])
+        this.setState({toHome: true})
+        
+
         }
         catch(error)
         {
-         // document.getElementById("email").value = 'Incorrect email or password'
-          alert("Incorrect email or password")
-          //document.getElementById("status").value = 'Incorrect email or password'
-         // document.getElementById("status").variant = 'danger'
+          alert(error)
         }
-        //console.log(company)
     }
     render(){
+      if (this.state.toHome===true){
+        return (<Redirect to={{pathname:'/LawyerHome'}} />)
+        }else{
     return (
         <React.Fragment>
      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css"/>
@@ -49,12 +71,11 @@ class signin extends Component  {
     Submit
   </Button>
 </Form>
-</React.Fragment>
-
-        
+</React.Fragment>        
   )
   
     }
+  }
 }
 
 

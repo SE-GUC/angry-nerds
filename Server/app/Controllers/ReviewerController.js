@@ -137,7 +137,7 @@ let ReviewerController = {
         .json({ error: "Cannot find an admin account with this ID" });
     } else {
       if (oldPassword != reviewer.password) {
-        return res.status(403).json({ error: "The passwords do not match" });
+        return res.status(403).json({ error: "Incorrect old password" });
       } else {
         const updatedReviewer = await Reviewer.findByIdAndUpdate(id, {
           password: newPassword
@@ -161,7 +161,7 @@ let ReviewerController = {
     */
   reviewerMyNotifications: async function(req, res) {
     try {
-      const id = req.params.id;
+      const id = "5cae949a70fe6265f034aa23";
       let reviewer = await Reviewer.findById(id);
       if (!reviewer) {
         return res

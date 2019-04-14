@@ -45,25 +45,7 @@ test(`paying fees for a company with valid card`, async () => {
 });
 
 test(`paying fees for a company with expired card`, async () => {
-    const myCase = await axios.post("http://localhost:3000/api/cases", {
-    form_type: "SSCP",
-    regulated_law: "44",
-    arabic_name: "تتتت",
-    english_name: "Hello6",
-    government: "ENG",
-    city: "Cairo",
-    hq_address: "gftfy",
-    hq_city: "yes",
-    main_center_phone: 123515,
-    main_center_fax: 518563,
-    currency: "541",
-    equality_capital: 5054641641562,
-    managers: [],
-    __v: 0,
-    caseStatus: "pending",
-    investorID: "5ca772654d70710fa843bd5f",
-    log: []
-  });
+  
   const charge = await investorFunctions.InvestorPayFees(
     4242424242424242,
     1,

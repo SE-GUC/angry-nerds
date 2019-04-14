@@ -22,18 +22,37 @@ import AdminAddReviewer from "./components/AdminAddReviewer";
 import AdminAddAdmin from "./components/AdminAddAdmin";
 import AddReviewer from "./components/AddReviewer";
 import testing from "./components/testing";
-import test from "./components/test";
 import InvestorEditForm from './pages/InvestorEditForm'
 import mainNavBar from "./components/mainNavBar";
 import Footer from "./components/Footer";
 import unregiteredHome from "./pages/unregHome";
 import AdminSideNavbar from "./components/AdminSideNavbar";
+
+import CreateCase from "./pages/CreateCase";
+import InvestorsList from "./pages/InvestorsList";
+
+import notificat from './components/notificat'
+import './App.css';
+import ReviewerHome from './pages/ReviewerHome'
+import ResetPass from './pages/resetPaassword'
+import ReviewerOpenCase from './pages/ReviewerOpenCase'
+import Questions from './pages/Questions'
+import electronicJournal from './pages/electronicJournal'
+import PrivateRoute from './privateRoute'
+import resetPass from './pages/resetPaassword';
+import stocks from'./components/stocks';
+import notificationItem from './components/notificationItem';
+import Noti from './pages/Noti';
+import about from './pages/About'
+import changePassword from './pages/ChangePassword'
+import InvEditProfile from './pages/InvEditProfile';
+import InvViewProfile from './pages/InvViewProfile'
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStroopwafel } from "@fortawesome/free-solid-svg-icons";
-import CreateCase from "./pages/CreateCase";
-import InvestorsList from "./pages/InvestorsList";
+import {Switch }from 'react-router-dom'
 library.add(faStroopwafel);
+
 
 class App extends Component {
   //states & functions
@@ -42,9 +61,11 @@ class App extends Component {
   render() {
     return (
       <Router>
+        
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" />
-
+        
         <Route component={mainNavBar} />
+        <Switch>
         <Route exact path="/home" component={unregiteredHome} />
         <div className="container">
           <Route exact path="/Companies" component={Companies} />
@@ -61,17 +82,17 @@ class App extends Component {
               )}
             />
             <Route exact path="/trackMyCase" component={TrackMyCase} />
+            <Route exact path = "/LawyerHome" component={LawyerHome} />
 
-            <Route
-              exact
-              path="/about"
-              render={props => (
-                <React.Fragment>
-                  <h1>Hello World!</h1>
-                  <h2> my name is romba! </h2>
-                </React.Fragment>
-              )}
-            />
+            <Route exact path= "/Companies" component = {Companies}/> 
+
+<Route exact path="/about" component = {about} />
+
+<Route exact path = "/ReviewerHome" component={ReviewerHome} />
+
+            
+            <Route exact path="/ChangeMyPassword" component = {changePassword}/>
+            <Route exact path= "/resetPassword" component = {resetPass}/>           
 
             <Route exact path="/payment/:id" component={Payment} />
             <Route exact path="/createCase" component={CreateCase} />
@@ -99,11 +120,18 @@ class App extends Component {
               path="/LawyerOpenCase/:id"
               component={LawyerOpenCase}
             />
+          <Route exact path = "/reviewerHome" component={ReviewerHome} />
+          <Route exact path = "/LawyerOpenCase/:id" component={LawyerOpenCase} />
+          <Route exact path = "/ReviewerOpenCase/:id" component={ReviewerOpenCase} />
+          <Route exact path = "/ChangePricing" component={ChangePricing} />
+
             <Route exact path="/ChangePricing" component={ChangePricing} />
             <Route exact path="/AdminViewLaws" component={AdminViewLaws} />
             <Route exact path="/AdminPage" component={AdminSideNavbar} />
+            <Route exact path='/Questions' component={Questions}/>
+            <Route exact path = "/notificat" component = {notificat}/>
 
-            <Route exact path="/InvestorList" component={InvestorsList} />
+            <Route exact path='/electronicjournal' component={electronicJournal}/>
 
             <Route
               exact
@@ -114,11 +142,18 @@ class App extends Component {
                 </React.Fragment>
               )}
             />
+            <Route exact path = "/stocks" component={stocks} /> 
+        <Route exact path = "/InvestorList" component={InvestorsList} /> 
+        <Route exact path ="/InvEditProfile" component= {InvEditProfile}/>
+        <Route exact path ="/InvViewProfile" component= {InvViewProfile}/>
+              <Route exact path="*" component={() => "404 NOT FOUND"} />
+        
+        
           </div>
         </div>
+        </Switch>
       </Router>
     );
   }
 }
-
 export default App;

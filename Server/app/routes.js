@@ -11,8 +11,7 @@ var router = express.Router();
 //--------------------------------Investor Routes----------------------------------------------------------
 
 //this endpoint allows the investor to pay fees for a pending company
-router.get('/InvestorSignIn/:email/:password',InvestorController.InvestorSignIn)
-router.post('/InvestorPayFees', InvestorController.InvestorPayFees)
+router.post('/InvestorPayFees' , InvestorController.InvestorPayFees)
 router.post('/InvestorFillForm',InvestorController.investorFillForm)
 router.put('/InvestorUpdateForm/:id', InvestorController.investorUpdateForm)
 router.put('/InvestorEditProfile',InvestorController.InvestorEditProfile)
@@ -23,9 +22,9 @@ router.get('/InvestorViewProfile',InvestorController.investorViewProfile)
 //this endpoint allows investor to view his company fees
 router.get('/InvestorViewFees', InvestorController.InvestorViewFees)
 router.put('/InvestorChangePassword/:id',InvestorController.investorChangePassword)
-router.get('/InvestorMyNotifications/:id',InvestorController.investorMyNotifications)
-router.get('/ViewPublishedCompanies/:id',InvestorController.viewMyPublishedCompanies)
-router.get('/ViewPendingCompanies/:id',InvestorController.viewMyPendingCompanies)
+router.get('/InvestorMyNotifications',InvestorController.investorMyNotifications)
+router.get('/viewMyPublishedCompanies',InvestorController.viewMyPublishedCompanies)
+router.get('/viewMyPendingCompanies',InvestorController.viewMyPendingCompanies)
 router.get('/generatePdf/:id',InvestorController.generatePdf)
 router.get('/InvestorViewingPublishedCompanies', InvestorController.InvestorViewingPublishedCompanies)
 router.get('/InvestorViewingCompany/:id', InvestorController.InvestorViewingCompany)
@@ -51,8 +50,11 @@ router.get('/AdminViewingCompany/:id', AdminController.AdminViewingCompany)
 router.get('/AdminViewing/:id', AdminController.AdminViewing)
 router.delete('/AdminDeleteQuestion/:id', AdminController.AdminDeleteQuestion)
 router.delete('/AdminDeleteCase/:id', AdminController.AdminDeleteCase)
-router.get('AdminViewLawyersLeaderBoard', AdminController.adminViewLawyersLeaderBoard)
-router.get('AdminViewReviewersLeaderBoard', AdminController.adminViewReviewersLeaderBoard)
+router.get('/AdminViewLawyersLeaderBoard', AdminController.adminViewLawyersLeaderBoard)
+router.get('/AdminViewReviewersLeaderBoard', AdminController.adminViewReviewersLeaderBoard)
+router.put('/AdminAnswerQuestions',AdminController.AdminAnswerQuestions)
+
+
 router.put('/AdminChangePassword/:id', AdminController.adminChangePassword)
 router.post('/AdminCreateNewLaw', AdminController.AdminCreateNewLaw)
 router.put('/AdminAssignLawyer',AdminController.AdminAssignLawyer)
@@ -81,16 +83,16 @@ router.get('/LawyerViewComment', LawyerController.lawyerViewComment)
 router.get('/LawyerViewLawyersLeaderBoard', LawyerController.lawyerViewLawyersLeaderBoard)
 router.get('/LawyerViewReviewersLeaderBoard', LawyerController.lawyerViewReviewersLeaderBoard)
 router.put('/LawyerChangePassword/:id', LawyerController.lawyerChangePassword)
-router.get('/LawyerMyNotifications/:id', LawyerController.lawyerMyNotifications)
+router.get('/LawyerMyNotifications', LawyerController.lawyerMyNotifications)
 
 // router.post('/lawyerWriteComment',LawyerController.lawyerComment)
 
 //------------------------------------Lawyer Routes----------------------------------------------------
 
 
-router.put('/caseDisAproveedAtLawyer/:idCase', LawyerController.caseDisAproveedAtLawyer)
-router.put('/caseAproveedAtLawyer/:idCase', LawyerController.caseAproveedAtLawyer)
-router.get('/viewCasesLawyer', LawyerController.viewCasesLawyer)
+router.put('/caseDisAproveedAtLawyer/:idCase', LawyerController.authenticate ,LawyerController.caseDisAproveedAtLawyer)
+router.put('/caseAproveedAtLawyer/:idCase',LawyerController.authenticate ,LawyerController.caseAproveedAtLawyer)
+router.get('/viewCasesLawyer', LawyerController.authenticate , LawyerController.viewCasesLawyer)
 router.get('/LawyerViewingPublishedCompanies', LawyerController.LawyerViewingPublishedCompanies)
 router.get('/lawyerOpenCase/:id', LawyerController.lawyerOpenCase)
 router.get('/lawyerCloseCase/:id', LawyerController.lawyerCloseCase)
@@ -101,7 +103,7 @@ router.get('/LawyerViewingCompany/:id', LawyerController.LawyerViewingCompany)
 
 //----------------------------------------------Reviewer Routes-----------------------------------------
 router.put('/ReviewerChangePassword/:id',ReviewerController.reviewerChangePassword)
-router.get('/ReviewerMyNotifications/:id',ReviewerController.reviewerMyNotifications)
+router.get('/ReviewerMyNotifications',ReviewerController.reviewerMyNotifications)
 router.get('/ReviewerViewLawyersLeaderBoard',ReviewerController.reviewerViewLawyersLeaderBoard)
 router.get('/ReviewerViewingPublishedCompanies', ReviewerController.ReviewerViewingPublishedCompanies)
 router.get('/ReviewerViewingCompany/:id', ReviewerController.ReviewerViewingCompany)
@@ -121,8 +123,9 @@ router.get('/UnregisteredViewLawyers',UserController.viewLawyers)
 router.get('/UnregisterViewingPublishedCompanies', UserController.UnregisterViewingPublishedCompanies)
 router.get('/UnregisterViewingCompany/:id', UserController.UnregisterViewingCompany)
 router.get('/UnregisterViewing/:id', UserController.UnregisterViewing)
-router.get('/login', UserController.Login)
+router.post('/login', UserController.Login)
 router.get('/UserViewLaws', UserController.UserViewLaws)
+router.post('/MakeQuestion',UserController.makeQuestion)
 
 
 

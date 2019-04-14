@@ -421,6 +421,7 @@ router.put('/:id', async (req, res) => {
   //   const isValidated = validator.updateValidation(req.body)
    //  if (isValidated.error) return res.status(400).send({ error: isValidated.error.details[0].message })
    var i = router.CheckForms(req.body)
+   console.log('>>>  ',i)
    if (i !== 'Done') {
        res.json({ msg: 'Could not create case', data: i })
      }
@@ -748,16 +749,21 @@ router.CheckForms = async function (data) {
          }
        }
      
+    }
+    console.log('my errors', error)
+    console.log('my errors number', Object.keys(error).length)
 
-       console.log('my errors', error)
-    if(Object.keys(error).length !== 0)
-            return error;
-        else    
-            return 'Done' 
+    if(Object.keys(error).length !== 0){
+        console.log('error')
+        return error;
+    }
+    else{
+        console.log('Done')
+        return 'Done' 
+    }
+            
 }
 
-
-}
    
 router.put('/system_assign_reviewer/:caseId', async (req, res) => {
     try {

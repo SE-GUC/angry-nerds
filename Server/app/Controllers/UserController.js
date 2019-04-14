@@ -19,6 +19,7 @@ var passport = require('passport');
 require('../../config/passport')(passport);
 
 let UserController = {
+
   //write methods here: check InvestorController for example
   authenticate: passport.authenticate('jwt', { session: false }),
 
@@ -121,6 +122,17 @@ console.log(error)
 
 },
 
+makeQuestion:async (req, res) => {
+  try {
+    const newQuestion = await Questions.create(req.body)
+    const createdQuestion= await Questions.findByIdAndUpdate(newQuestion.id,{"time":new Date()})
+    res.json({ msg: 'Question created successfully', data: newQuestion })
+}
+catch (error) {
+    console.log(error)
+}
+},
+
 
 
 
@@ -135,11 +147,8 @@ console.log(error)
       const lawyer = await Lawyer.findOne({ email });
       const reviewer = await Reviewer.findOne({ email });
       const admin = await Admin.findOne({ email });
-      const tempo = await tempUser.findOne({email});
-      console.log(tempo , lawyer)
-      if (tempo) return res.status(400).json({ error : 'You are already registered with this email , You need to verify it ' });
-
-      if ( (!investor) && (!lawyer) && (!reviewer) && (!admin) && (!tempo) ) return res.status(404).json({ error : "Email does not exist" });
+      
+      if ( (!investor) && (!lawyer) && (!reviewer) && (!admin) ) return res.status(400).json({ error : "Email does not exist" });
       
       console.log('testt')
 
@@ -154,7 +163,7 @@ console.log(error)
               };
               const token = jwt.sign(payload, tokenKey, { expiresIn: "1h" });
               return res.json({data: `Bearer ${token}`})
-            }else return res.status(400).send({ password: "Wrong password" });
+            }else return res.status(400).send({ error: "Wrong password" });
       }
       else if (lawyer){
         console.log('2')
@@ -167,7 +176,7 @@ console.log(error)
               };
               const token = jwt.sign(payload, tokenKey, { expiresIn: "1h" });
               return res.json({data: `Bearer ${token}`})
-            }else return res.status(400).send({ password: "Wrong password" });
+            }else return res.status(400).send({ error: "Wrong password" });
       }
       else if (reviewer) {
         console.log('3')
@@ -180,7 +189,7 @@ console.log(error)
               };
               const token = jwt.sign(payload, tokenKey, { expiresIn: "1h" });
               return res.json({data: `Bearer ${token}`})
-            }else return res.status(400).send({ password: "Wrong password" });
+            }else return res.status(400).send({ error: "Wrong password" });
       }
       else if (admin){
         console.log('4')
@@ -193,8 +202,10 @@ console.log(error)
               };
               const token = jwt.sign(payload, tokenKey, { expiresIn: "1h" });
               return res.json({data: `Bearer ${token}`})
-            }else return res.status(400).send({ password: "Wrong password" });
+            }else return res.status(400).send({ error: "Wrong password" });
       }
+
+      
 
     } 
     catch (e) {

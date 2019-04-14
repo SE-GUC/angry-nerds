@@ -294,16 +294,22 @@ let AdminController = {
             const oldPassword = req.body.oldPassword
             const newPassword = req.body.newPassword
             let admin = await Admins.findById(id)
+            
             if (!admin) {
                 return res.status(404).json({ error: 'Cannot find an admin account with this ID' })
             }
             else {
-                if (oldPassword != admin.password) {
-                    return res.status(403).json({ error: 'The passwords do not match' })
+                
+            const match = bcrypt.compareSync(oldPassword, admin.password);
+                if (!match) {
+                    return res.status(403).json({ error: 'Incorrect old password' })
                 }
                 else {
+                    const salt = bcrypt.genSaltSync(10); 
+                    const hashPass = bcrypt.hashSync(newPassword, salt); // hashing the password which is already saved in tempUser before saved in investor table
+              
                     const updatedAdmin = await Admins.findByIdAndUpdate(id, {
-                        'password': newPassword,
+                        'password': hashPass,
                     })
                     admin = await Admin.findById(id)
                     return res.status(200).json({ msg: 'The password was updated', data: admin })
@@ -1024,6 +1030,38 @@ AdminDeleteCase: async (req, res) => {
         }
 
         return res.status(200).json({data: result})
+
+    },
+
+    AdminAnswerQuestions: async function (req, res) {
+
+        const AdminID = '5c9bb0dc5185793518ea84fb' 
+        const questionId = req.params.id 
+
+        const admin = await Admins.findById(AdminID).catch((err) => {
+            res.json({ message: 'you are not authorized' })
+        })
+
+        const question = await Question.findById(id).catch((err) => {
+            res.json({ message: 'This is not a valid question ID' })
+        })
+
+        if (question) {
+            if (admin) {
+                const answered = await Question.findByIdAndUpdate(questionId, req.body)
+                return res.json({
+                    message: 'you have answered the required question successfully', data: answered
+                })
+            }
+            else {
+                res.json({ message: 'you are not authorized for this action' })
+            }
+        }
+        else {
+            return res.json({
+                message: 'the question you are trying to answer does not exist'
+            })
+        }
 
     },
 
