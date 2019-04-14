@@ -58,8 +58,12 @@ class App extends Component {
       <Router>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
         <div className="App">
-        <div className="container">
+        <Route component = {mainNavBar} />
+
         <Switch>
+        <Route exact path= "/payment" component = {Payment} />
+        <Route exact path = "/LawyerHome" component={LawyerHome} />
+
           <Route exact path= "/Companies" component = {Companies}/>
           <Route exact path= "/resetPassword" component = {resetPass}/>           
           <Route exact path="/" render={props => (
@@ -70,11 +74,9 @@ class App extends Component {
           )} />
           <PrivateRoute exact path= "/trackMyCase" allowedUsers={['lawyer','reviewer','admin']} component = {TrackMyCase} />
           <PrivateRoute exact path = "/InvestorForm" component={InvestorForm} />
-        <Route component = {mainNavBar} />
         <Route  exact path = "/home" component = {unregiteredHome}  /> 
       <Route exact path= "/Companies" component = {Companies}/> 
           <Route exact path= "/trackMyCase" component = {TrackMyCase} />
-          <Route exact path= "/payment" component = {Payment} />
           <Route exact path= "/createCase" component = {CreateCase} />  
           <Route exact path = "/InvestorForm" component={InvestorForm} />
           <Route exact path = "/LawyerForm" component={LawyerForm} />
@@ -86,7 +88,6 @@ class App extends Component {
             <Route exact path="/AddLawyer" component={AddLawyer} />
           <Route exact path="/AddReviewer" component={AddReviewer} /> 
           <Route  exact path="/testing" component={testing} />
-          <Route exact path = "/LawyerHome" component={LawyerHome} />
           <Route exact path = "/reviewerHome" component={ReviewerHome} />
 
           <Route exact path = "/LawyerOpenCase/:id" component={LawyerOpenCase} />
@@ -97,7 +98,6 @@ class App extends Component {
         <Route exact path = "/InvestorList" component={InvestorsList} /> 
         <Route exact path = "*"  component={() => "404 NOT FOUND"}  />
         </Switch>
-        </div>
          </div>
          </Router>   
      );

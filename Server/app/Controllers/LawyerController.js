@@ -260,7 +260,7 @@ let LawyerController = {
     // const staffID =
 
     const CASE = await Case.findById(caseID);
-    const lawyer = await Lawyer.findById(staffID);
+    //const lawyer = await Lawyer.findById(staffID);
     if (!CASE) {
       return res.status(404).json({ error: "cannot find this case" });
     }

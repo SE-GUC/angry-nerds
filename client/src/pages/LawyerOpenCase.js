@@ -7,6 +7,12 @@ import FormControl from 'react-bootstrap/FormControl'
 import Button from 'react-bootstrap/Button'
 import Collapse from 'react-bootstrap/Collapse'
 import { Redirect } from 'react-router'
+import { IoIosCloseCircleOutline } from "react-icons/io";
+import { IoIosCheckmarkCircleOutline } from "react-icons/io";
+import { IconContext } from "react-icons";
+ 
+
+
 import axios from 'axios'
 
 export class LawyerOpenCase extends Component {
@@ -81,11 +87,34 @@ export class LawyerOpenCase extends Component {
     console.log('APPROVE')
     e.preventDefault()
     console.log(localStorage.getItem('jwtToken'))
-    axios.put('http://localhost:3000/caseAproveedAtLawyer/'+ this.state.oneCase._id,{headers: {"Authorization":localStorage.getItem('jwToken')}}).then(res => console.log(res))
+    
+    axios({
+      method: 'PUT',
+      url: 'http://localhost:3000/caseAproveedAtLawyer/'+ this.state.oneCase._id ,
+      headers: {
+        'Authorization':localStorage.getItem('jwtToken'),
+        'Content-Type' : 'application/json',
+        'Accept' : 'application/json' 
+      },
+      }).then(res => console.log('OKAYYY',res))
+        .catch(error => console.log(error))
   }
 
   reject(e){
     e.preventDefault()
+    axios({
+    method: 'PUT',
+    url: 'http://localhost:3000/caseDisAproveedAtLawyer/'+ this.state.oneCase._id ,
+    headers: {
+      'Authorization':localStorage.getItem('jwtToken'),
+      'Content-Type' : 'application/json',
+      'Accept' : 'application/json' 
+    },
+    data: {
+      comment : this.state.comment
+    }
+    }).then(res => console.log('OKAYYY',res))
+      .catch(error => console.log(error))
   }
 
   render() {
@@ -127,9 +156,19 @@ export class LawyerOpenCase extends Component {
         </Form>
 
           <ButtonToolbar className="d-flex bd-highlight">
-            <Button variant="success" onClick={this.approve.bind(this)} className="p-2 flex-fill bd-highlight">Approve</Button>
+      <Button variant="success" onClick={this.approve.bind(this)} className="p-2 flex-fill bd-highlight">
+      <IconContext.Provider value={{ color: "blue", className: "float-left", size: "1.5em" , color:"white"}}>
+        <div><IoIosCheckmarkCircleOutline /></div>
+      </IconContext.Provider>
+      Approve
+      </Button>
             <div> &nbsp;&nbsp;</div> 
-            <Button variant="danger" className="p-2 flex-fill bd-highlight" onClick={this.reject.bind(this)} >Reject</Button>
+            <Button variant="danger" className="p-2 flex-fill bd-highlight" onClick={this.reject.bind(this)} >
+            <IconContext.Provider value={{ color: "blue", className: "float-left", size: "1.5em" ,color:"white"}}>
+        <div><IoIosCloseCircleOutline /></div>
+      </IconContext.Provider>
+      Reject
+      </Button>
             <div> &nbsp;&nbsp;</div> 
             <Button variant="secondary"  className="p-2 flex-fill bd-highlight" onClick={this.closeCase.bind(this)}>Close</Button>
 

@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import CaseCard from '../components/CaseCard'
 import LawyerToolbar from '../components/LawyerToolbar'
 import Spinner from 'react-bootstrap/Spinner'
+import CardDeck from 'react-bootstrap/CardDeck'
+
 import axios from 'axios'
 
 
@@ -20,7 +22,7 @@ class LawyerHome extends Component {
 
     console.log(this.state.allCases)
     try{
-    axios.get('http://localhost:3000/viewCasesLawyer').then(
+    axios.get('http://localhost:3000/viewCasesLawyer',{headers: {"Authorization":localStorage.getItem('jwtToken')}}).then(
           res => this.setState(
             {
             allCases: res.data.data.filter((oneCase) => 

@@ -125,9 +125,9 @@ class CaseCard extends Component {
     //     : "red";    
 
     return (
-      <div className="p-1">
-      
-        <Card bg={bg} text={text} style={{}}>
+
+      <div className="p-1" >
+        <Card bg={bg} text={text} >
           <Card.Header>
           <div className="float-left">{this.props.case.english_name}</div>
           {this.iconSetter(this.props.case)}        
@@ -135,10 +135,12 @@ class CaseCard extends Component {
 
           <Card.Body>
             <div className="ml-auto p-2 bd-highlight">
-              <Card.Text className="float-left">
+              <Card.Text className="float-left" style ={{textAlign:"left"}}>
                 Case ID: <samp>{this.props.case._id} </samp>
                 <br />
                 Capital: {this.props.case.equality_capital}$
+                <br />
+                Case Type: {this.props.case.form_type}$
                 </Card.Text>
                 {this.buttonSetter(this.props.case)}
             </div>

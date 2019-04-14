@@ -30,7 +30,7 @@ class signin extends Component  {
           if (user){
             alert("Successfully")  
           }
-        setAuthToken(user.data.data)
+        //setAuthToken(user.data.data)
         localStorage.setItem('jwtToken',user.data.data)
         const tok = localStorage.getItem('jwtToken').replace('Bearer ','')
         const decoded = jwt.decode(tok)
