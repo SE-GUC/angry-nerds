@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import Payment from "./pages/payment";
 import Notification from "./components/notification";
-// import './App.css';
+import './App.css';
 import LawyerForm from "./pages/LawyerForm";
 import InvestorForm from "./pages/InvestorForm";
 import axios from "axios";
@@ -32,7 +32,6 @@ import CreateCase from "./pages/CreateCase";
 import InvestorsList from "./pages/InvestorsList";
 
 import notificat from './components/notificat'
-import './App.css';
 import ReviewerHome from './pages/ReviewerHome'
 import ResetPass from './pages/resetPaassword'
 import ReviewerOpenCase from './pages/ReviewerOpenCase'
@@ -42,7 +41,7 @@ import PrivateRoute from './privateRoute'
 import resetPass from './pages/resetPaassword';
 import stocks from'./components/stocks';
 import notificationItem from './components/notificationItem';
-import Noti from './pages/Noti';
+//import Noti from './pages/Noti';
 import about from './pages/About'
 import changePassword from './pages/ChangePassword'
 import InvEditProfile from './pages/InvEditProfile';
