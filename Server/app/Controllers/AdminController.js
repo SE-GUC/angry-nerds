@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const mongoose = require('mongoose')
-
+const FormTypes = require('../models/FormType')
 const Admins = require('./../models/Admin')
 const Reviewer = require('./../models/Reviewer')
 const Investor = require('./../models/Investor')
@@ -10,23 +10,28 @@ const Question = require('./../models/Questions')
 const validator = require('../../validations/AdminValidations')
 const Case = require('../models/Cases')
 const Lawyer = require('../models/Lawyer')
+const FormType = require('../models/FormType')
 const fun = require('./AdminController')
 const jwt = require('jsonwebtoken');
 var nodemailer = require('nodemailer');
-var bcrypt = require('bcryptjs');
-
+var bcrypt = require('bcryptjs')
+const config = require('../../config/mailer')
+const passport = require('passport')
+const tokenKey = config.tokenKey;
 "use strict";
-
 const dotenv = require("dotenv");
 const mailer = require('./../../misc/mailer')
-const config = require('./../../config/mailer')
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 
 var InvestorController = require('./InvestorController')
 
 let AdminController = {
-    //write your methods here: check investorController for example
 
+    
+    authenticate : passport.authenticate('jwt', {session: false}) ,
+    
+    //write your methods here: check investorController for example
+    
 
     /* Malak
     this is a method that takes nothing as an input and calculates time
@@ -87,7 +92,7 @@ let AdminController = {
         }
     },
     AdminRegisterReviewer: async (req, res) => {
-        const AdminId = '5c9bb0dc5185793518ea84fb' //login token
+        const AdminId = '5cae9507646b4841fcd6478f' //login token
         const Admin = await Admins.findById(AdminId)
         if (!Admin)
             return res.status(403).json({ error: 'Only Admins have access' })
@@ -203,7 +208,7 @@ let AdminController = {
         main().catch(console.error);
     },
     AdminRegisterAdmin: async (req, res) => {
-        const AdminId = '5ca1144b4cf5920704aeab7a' //login token
+        const AdminId = '5cae9507646b4841fcd6478f' //login token
         const Admin = await Admins.findById(AdminId)
         if ((!Admin) || (Admin && Admin.Type !== 'Super'))
             return res.status(403).json({ error: 'Only super admins have access' })
@@ -226,7 +231,7 @@ let AdminController = {
         try {
             mongoose.set('useFindAndModify', false)
             const id = req.params.id
-            const AdminId = '5ca1144b4cf5920704aeab7a' //login token
+            const AdminId = '5cae9507646b4841fcd6478f' //login token
             const Admin = await Admins.findById(AdminId)
 
             if ((!Admin) || (Admin && Admin.Type !== 'Super'))
@@ -249,8 +254,8 @@ let AdminController = {
 
     adminViewComment: async (req, res) => {
         try {
-            const formid = '5c9cfd1d05f1d42e68b75fb7'
-            const adminid = '5c77e91b3fd76231ecbf04ee'
+            const formid = '5caea6d0656a5b5b52c79e9f'
+            const adminid = '5c9bb0dc5185793518ea84fb'
             const admin = await Admins.findById(adminid)
             const form = await Case.findById(formid)
             if (!form)
@@ -314,13 +319,13 @@ let AdminController = {
 
     adminViewLawyersLeaderBoard: async (req, res) => {
         try {
-            const adminid = '5c9e48bb3f08ad4ea807ea10'
+            const adminid = '5c9bb0dc5185793518ea84fb'
             const admin = await Admin.findById(adminid)
             if (!admin)
                 return res.status(404).send({ error: 'You are not allowed to view the Leaderboard' });
             const leaderboard = await Lawyer.find().sort({ completed_number_of_cases: 1 });
 
-            return res.json({ data: leaderboard });
+            return res.json({ data: leaderboard , msg: "Done"});
 
 
 
@@ -334,13 +339,13 @@ let AdminController = {
 
     adminViewReviewersLeaderBoard: async (req, res) => {
         try {
-            const adminid = '5c9e48bb3f08ad4ea807ea10'
+            const adminid = '5c9bb0dc5185793518ea84fb'
             const admin = await Admin.findById(adminid)
             if (!admin)
                 return res.status(404).send({ error: 'You are not allowed to view the Leaderboard' });
             const leaderboard = await Reviewer.find().sort({ completed_number_of_cases: 1 });
 
-            return res.json({ data: leaderboard });
+            return res.json({ data: leaderboard , msg: "Done" });
 
 
 
@@ -401,7 +406,6 @@ let AdminController = {
 
     forgotpassword: async (req, res) => {
         var userEmail = req.body.email;
-        //var userEmail = req.params.email;
         Admins.findOne({ email: userEmail }, function (err, user) {
             if (err) {
                 res.json({ success: false, message: err.message });
@@ -415,7 +419,7 @@ let AdminController = {
                 var token = jwt.sign({
                     _id: Admins._id,
                     FName: user.FName
-                }, 'secret', { expiresIn: 60*60 }); //seconds
+                }, tokenKey, { expiresIn: 60*60 }); //seconds
 
                 let transporter = nodemailer.createTransport({
                     service: 'gmail',
@@ -489,7 +493,7 @@ let AdminController = {
                 mongoose.set('useFindAndModify', false)
                 const deletedLawyer = await Lawyer.findByIdAndRemove(LawyerID)
                 if (!deletedLawyer) {
-                    res.json({ message: 'there is not lawyer by this id to remove' })
+                    return res.json({ message: 'there is not lawyer by this id to remove' })
                 }
                 else {
                     const query = { lawyerID: LawyerID }
@@ -501,12 +505,12 @@ let AdminController = {
 
                     }
 
-                    res.json({
-                        message: 'lawyer deleted successfuly'
+                    return res.json({
+                        message: 'lawyer deleted successfully'
                     })
                 }
             }
-            else res.json({ message: 'you are not authorized fir this action' })
+            else return res.json({ message: 'you are not authorized for this action' })
 
 
         }
@@ -559,7 +563,7 @@ let AdminController = {
                 mongoose.set('useFindAndModify', false)
                 const deletedReviewer = await Reviewer.findByIdAndRemove(ReviewerID)
                 if (!deletedReviewer) {
-                    res.json({ message: 'there is not Reviewer by this id to remove' })
+                    return res.json({ message: 'there is not Reviewer by this id to remove' })
                 }
                 else {
                     const query = { reviewerID: ReviewerID }
@@ -571,8 +575,8 @@ let AdminController = {
 
                     }
 
-                    res.json({
-                        message: 'Reviewer deleted successfuly'
+                    return res.json({
+                        message: 'Reviewer deleted successfully'
                     })
                 }
             }
@@ -617,124 +621,145 @@ let AdminController = {
 
 
 
-    SystemCalcFees: async function (id) {
-        console.log('haaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa')
-        var Fees = 0
+    SystemCalcFees: async function (req,res) {
+        id = req.params.id
+        console.log('entered function')
+        var fees = 0
         const newCase = await Case.findById(id)
         const regLaw = await newCase.regulated_law
-        const capital = await newCase.equality_capital
-        const lawArray = await Laws.find({ lawNumber: regLaw.toString() })
-        console.log(lawArray)
-        for (var i = 0; i < lawArray.length; i++) {
-            var newVal = capital * lawArray[i].lawCalc
-            console.log("newVal is" + newVal)
-            if (newVal < LawArray[i].min) {
-                Fees = Fees + LawArray[i].min
-                console.log("newVal<min"+Fees)
-            }
-            else if (newVal > LawArray[i].max) {
-                Fees = Fees + LawArray[i].max
-                console.log("newVal>max"+Fees)
-            }
-            else {
-                Fees = Fees + newVal
-                console.log("newVal in range"+fees)
-            }
-            Fees = Fees + LawArray[i].LawValue
-            console.log("plues el damgha" + Fees)
+        const law = await Laws.findOne({ LawNumber: regLaw })
+        const capital = newCase.equality_capital
+        var fixedFees = 0
+        var percentageFees = 0
+        var message = ''
+        for (var i = 0; i < law.fixedValues.length; i++) {
+            console.log('values are' + law.fixedValues[i])
+            fixedFees = fixedFees + law.fixedValues[i].value
+            message = message + law.fixedValues[i].description + ': ' + law.fixedValues[i].value + ','
         }
-        console.log(Fees+'hoooooooo')
-        await Case.findByIdAndUpdate(id, {fees: Fees})
-        return ('hiiiiiiii')
-    },
+        var temp
+        for (var i = 0; i < law.percentages.length; i++) {
+            console.log('values are' + law.percentages[i])
+            if(law.percentages[i].max < law.percentages[i].value/100 * capital){
+                temp = law.percentages[i].max
+                percentageFees = percentageFees + law.percentages[i].max
+            }
+            else{
+                if(law.percentages[i].min > law.percentages[i].value/100 * capital){
+                    temp = law.percentages[i].min
+                    percentageFees = percentageFees + law.percentages[i].min
+                }
+                else{
+                    temp = law.percentages[i].value/100 * capital
+                    percentageFees = percentageFees + law.percentages[i].value/100 * capital
+                }
+                    
 
+            }
+            message = message + law.percentages[i].description + ':' + temp + '\n'
+            console.log(percentageFees + '  percentage fee')
+        }
+        console.log(fixedFees)
+        console.log(percentageFees)
+        const totalFees = fixedFees + percentageFees
+        return res.status(200).json({fees: totalFees, invoice:message})
+        
+    },
+    /*
+    allows the admin to create new laws that define 
+    new pricing strategies. 
+    each law contains an array of fixed values 
+    and an array of percentages from capital 
+    */
     AdminCreateNewLaw: async function (req, res) {
         try {
-            // const isValidated = validator.createValidation(req.body)
-            // if (isValidated.error) return res.status(400).send({ error: isValidated.error.details[0].message })
-            const AdminId = '5c9bb0dc5185793518ea84fb' //login token
-            const Admin = await Admins.findById(AdminId)
-            //if ((!Admin) || (Admin && Admin.Type !== 'Super')) {                  //commented for the sake of the tests
-             //   return res.json({ msg: 'Only super admins have access' })         //only super admins can create a new law
-            //}
-            //else {
-                const newLaw = await Laws.create(req.body)
-                res.json({ msg: 'Law was created successfully', data: newLaw })
-            //}
+                const law = await Laws.findOne({LawNumber: req.body.LawNumber})
+                console.log(law)
+                if(law){
+                    return res.status(403).json({message:'error, there exists a law with this number'})
+                }
+                else{
+                    const newLaw = await Laws.create(req.body)
+                    return res.json({ msg: 'Law was created successfully', data: newLaw })
+                }
+                
         }
         catch (error) {
-            res.json({ msg: 'Only super admins have access' })
+            console.log(error)
+            res.json({ msg: 'error creating new law' })
         }
     },
 
     AdminChangePricingStrategy: async function (req, res) {
         try {
-            const AdminId = '5c9bb0dc5185793518ea84fb' //login token
-            const Admin = await Admins.findById(AdminId)
-            //if ((!Admin) || (Admin && Admin.Type !== 'Super')) {               //commented for the sake of tests
-              //  return res.json({ msg: 'Only super admins have access' })      // only super admins can change a law
-            //}
-            //else {
-                const id = req.params.id
-                const Law = await Laws.findById(id)
-                if (!Law)
-                    return res.json({ msg: 'Law does not exist' });
-                //  const isValidated = validator.updateValidation(req.body)
-                //  if (isValidated.error)  
-                //return res.status(400).send({ error: isValidated.error.details[0].message })
-                const updatedLaw = await Law.updateOne(req.body)
-                res.json({ msg: 'Laws updated successfully', data: updatedLaw })
-            //}
-        }
+              //authorization using passport
+              const id = req.params.id;
+              const Law = await Laws.findById(id);
+              if (!Law)
+                return res.json({ msg: "Law does not exist" });
+              else {
+                const updatedLaw = await Laws.findByIdAndUpdate(id,req.body);
+                res.json({
+                  msg: "Laws updated successfully",
+                  data: updatedLaw
+                });
+              }
+
+              //}
+            }
         catch (error) {
+            console.log(error)
             // We will be handling the error later
-            res.json({ msg: 'Law does not exist' })
+            res.json({ msg: 'error editing law' })
         }
     },
 
+//Displaying a List of all published companies
 
-
- AdmCompListViewing: async (req,res) => {
-
+AdminViewingPublishedCompanies: async (req,res) => {
+    
     try {
         var Cas = await Case.find({ caseStatus: 'published' }, projx)
-
-    for (var i = 0; i < Cas.length; i++) {
-     var projx = { '_id': 0, 'reviewerID': 0, 'lawyerID': 0, 'investorID': 0 }
+        
+        for (var i = 0; i < Cas.length; i++) {
+            var projx = { '_id': 0, 'reviewerID': 0, 'lawyerID': 0, 'investorID': 0 }
+        }
+        Cas = await Case.find({ caseStatus: 'published' }, projx)
+        
+        return res.json({ message: 'Cases', data: Cas })
     }
-     Cas = await Case.find({ caseStatus: 'published' }, projx)
-
-     return res.json({ message: 'Cases', data: Cas })
- }
-     catch (error) {
+    catch (error) {
         console.log(error)
     }
 },
 
-AdmCompViewing: async (req, res)=> {
-
+//Viewing One specific Company
+AdminViewingCompany: async (req, res)=> {
+    
     const id = req.params.id
     var Cas = await Case.findById(id)
     
     try {
-        if (Cas.caseStatus === 'published') {
+        if (Cas.caseStatus == 'published') {
             var proj1 = { '_id': 0, 'reviewerID': 0, 'lawyerID': 0, 'InvestorID': 0 }
             Cas = await Case.findById(id, proj1)
-           return res.json({ message: 'case ahe' ,data: Cas }) 
+            return res.json({ message: 'case' ,data: Cas }) 
         } else {
-           return res.json({ message: 'Case was not published' })
-
+            return res.json({ message: 'Case was not published' })
+            
         }
     }
     catch (error) {
         console.log(error)
     }
 },
-AdmViewing: async (req, res)=> {
+
+//Viewing a specific User of any type 
+AdminViewing: async (req, res)=> {
     var proj = { '_id': 0, 'password': 0 }
-        try {
-            const id = req.params.id
-            const Inv = await Investor.findById(id, proj)
+    try {
+        const id = req.params.id
+        const Inv = await Investor.findById(id, proj)
             const Revs = await Reviewer.findById(id, proj)
             const Adm = await Admins.findById(id,proj)
             const Lawy = await Lawyer.findById(id, proj)
@@ -756,7 +781,7 @@ AdmViewing: async (req, res)=> {
     }
 },
 
-AdmDelQuestion: async (req, res) => {
+AdminDeleteQuestion: async (req, res) => {
    try {
         mongoose.set('useFindAndModify', false)
         const id = req.params.id
@@ -778,7 +803,7 @@ AdmDelQuestion: async (req, res) => {
     }
 },    
 
-AdmDelCase: async (req, res) => {
+AdminDeleteCase: async (req, res) => {
     try {
         mongoose.set('useFindAndModify', false)
         const id = req.params.id
@@ -918,9 +943,198 @@ AdmDelCase: async (req, res) => {
             res.json({ message: 'Incorrect Mail' })
         }
 
+    },
+
+    /**
+     * POST method to add a form to the FormType table
+     * the body should be in this form:
+     * {
+     *      formName: "SPC",
+     *      format: {
+     *                  "name":"String",
+     *                  "SSN":"Number"
+     *              }
+     * }
+     */
+    addFormType: async function (req, res) {
+        const createdForm = await FormType.create(req.body)
+        res.status(200).json({msg: 'Form Created.', data: createdForm})
+    },
+
+    /**
+     * GET method to get the format of this form from the FormType table.
+     */
+    getFormType: async function (req, res) {
+        const form = await FormType.findOne({formName: req.params.formName})
+        if(!form){
+            res.status(404).json({error: 'Form not found'})
+        }
+        else{
+            res.status(200).json({msg: 'Form found.', data: form.format})
+        }
+        
+    },
+
+    /**
+     * GET method to get all the formats of the forms in the FormType table.
+     */
+    getAllFormTypes: async function (req, res) {
+        const form = await FormType.find()
+        res.status(200).json({data: form.format})
+        
+        
+    },
+
+    /**
+     * DELTE method to delete this form from the FormType table.
+     */
+    deleteFormType: async function (req, res) {
+        const form = await FormType.deleteOne({formName: req.params.formName})
+        if(!form){
+            res.status(404).json({error: 'Form not found'})
+        }
+        else{
+            res.status(200).json({msg: 'Form deleted.'})
+        }
+        
+    },
+
+    calculateAverageMinsLawyer: async function(req,res) {
+        var num = 0
+        var total = 0
+        const lawyerID = req.params.id
+        const AllCases = await Case.find()
+        for(let i = 0;i < AllCases.length;i++){
+            if(AllCases[i].log){
+                for(let j = 0;j<AllCases[i].log.length-1;j++){
+                    if(AllCases[i].log[j].id === id && AllCases[i].log[j].destination === 'open' ){
+                        let mins = AllCases[i].log[j].date.getTime() - AllCases[i].log[j+1].date.getTime() 
+                        mins = mins/1000*60
+                        total = total + mins
+                        num = num + 1
+                    }
+
+                }
+            }
+        }
+
+        var result = 0
+        if(num !== 0){
+            result = total/num
+        }
+
+        return res.status(200).json({data: result})
+
+    },
+
+    AdminCreateFormType: async function (req,res){
+
+        try{
+            
+            const formType = await FormType.create(req.body)
+            res.status(200).json({message: 'Form type is created successfully', data: formType})   
+        }
+        catch(error){
+            console.log(error)
+            res.status(400).json({message: error})
+        }
+
+    },
+
+
+    AdminDeleteFormType: async function(req,res){
+
+        try{
+            id = req.params.id
+            const formType = await FormType.findByIdAndRemove(id)
+            res.status(200).json({message: 'Form type is deleted successfully', data: formType})   
+        }
+        catch(error){
+            console.log(error)
+            res.status(400).json({message: error})
+        }
+
+    },
+
+    AdminFindFormType: async function(req,res){
+        try{
+            const forms = await FormType.find()
+            res.status(200).json({message:'form types', data: forms})
+        }
+        catch(error){
+            console.log(error)
+            res.status(400).json({message: error})
+        }
+    },
+
+    AdminFindFormTypeID: async function(req,res){
+        try{
+            const id = req.params.id
+            const form = await FormType.findById(id)
+            res.status(200).json({message:'form types', data: form})
+        }
+        catch(error){
+            console.log(error)
+            res.status(400).json({message: error})
+        }
+    },
+
+    AdminCreateFormType: async function (req,res){
+
+        try{
+
+            const form = findOne({formName: req.formName})
+            if(form)
+               return res.json({message: 'form already exists'})
+            
+            const formType = await FormTypes.create(req.body)
+            res.status(200).json({message: 'Form type is created successfully', data: formType})   
+        }
+        catch(error){
+            console.log(error)
+            res.status(400).json({message: error})
+        }
+
+    },
+
+
+    AdminDeleteFormType: async function(req,res){
+
+        try{
+            id = req.params.id
+            const formType = await FormTypes.findByIdAndRemove(id)
+            res.status(200).json({message: 'Form type is deleted successfully', data: formType})   
+        }
+        catch(error){
+            console.log(error)
+            res.status(400).json({message: error})
+        }
+
+    },
+
+    AdminFindFormType: async function(req,res){
+        try{
+            const forms = await FormTypes.find()
+            res.status(200).json({message:'form types', data: forms})
+        }
+        catch(error){
+            console.log(error)
+            res.status(400).json({message: error})
+        }
+    },
+
+    AdminFindFormTypeID: async function(req,res){
+        try{
+            const id = req.params.id
+            const form = await FormTypes.findById(id)
+            res.status(200).json({message:'form types', data: form})
+        }
+        catch(error){
+            console.log(error)
+            res.status(400).json({message: error})
+        }
     }
 }
-
 
 
 module.exports = AdminController
