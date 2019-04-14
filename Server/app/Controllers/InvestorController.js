@@ -179,8 +179,8 @@ let InvestorController = {
       console.log('check')
       console.log(check)
       
-      if(check !== 'done'){
-        return res.json(check)
+      if(check !== 'Done'){
+        return res.status(400).json(check)
       }
 
       const newForm = await Case.create(req.body);

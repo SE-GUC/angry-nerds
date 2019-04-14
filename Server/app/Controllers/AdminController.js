@@ -1030,6 +1030,10 @@ AdminDeleteCase: async (req, res) => {
     AdminCreateFormType: async function (req,res){
 
         try{
+
+            const form = findOne({formName: req.formName})
+            if(form)
+               return res.json({message: 'form already exists'})
             
             const formType = await FormTypes.create(req.body)
             res.status(200).json({message: 'Form type is created successfully', data: formType})   
