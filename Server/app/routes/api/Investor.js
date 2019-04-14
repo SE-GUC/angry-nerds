@@ -49,17 +49,15 @@ router.post('/register', async (req, res) => {
     const { firstName ,MiddleName,LastName,email,password,
             ID_type,SSID, Nationality,Type,Address, birthdate,
             telephone_number, gender, photoID } = req.body
-    
+
     const user = await Investor.findOne({ email })
-    console.log(user)
     if (user)
     {
-        console.log('error')
         return res.status(400).json({ error: 'Email already exists' })
     }
     else{
         const salt = bcrypt.genSaltSync(10); 
-		         const hashPass = bcrypt.hashSync(password, salt); // hashing the password which is already saved in tempUser before saved in investor table
+		const hashPass = bcrypt.hashSync(password, salt); // hashing the password which is already saved in tempUser before saved in investor table
             const investor1 = await Investor.create({
                 firstName : firstName ,
                 MiddleName : MiddleName ,
@@ -77,12 +75,28 @@ router.post('/register', async (req, res) => {
                 active : 'false',
                 photoID: photoID
             })
-            res.json({ msg: 'tempUser was created successfully', data: investor1 })
+            res.json({ msg: 'registered succefully , please check your mail for verification', data: investor1 })
 
             const html = 'Hi there, <br/> Thank you for registering <br/><br/> Please verify your email by clicking on the following page:<a href= "http://localhost:3000/api/Investor/verify/' + secretToken + ' ">http://localhost:3000/api/Investor/verify</a> </br></br> '
             await mailer.sendEmail(config.user, req.body.email, 'Please verify your email', html)
     }
 })  
+
+
+router.get('/verify/:secretToken', async (req,res) => {
+    try{
+        const secretToken1 = req.params.secretToken
+        const user = await Investor.findOne({'secretToken': secretToken1},{__v:0,secretToken:0})
+        if(user){
+            await Investor.findByIdAndUpdate(user._id,{active : 'true'})
+            res.json({ msg:'Done ya babe' , data:investor1 })
+        }
+    }
+    catch(error){
+        console.log(error)
+        res.json({message:'error'})
+    }
+})
 
 
 router.get('/verify/:secretToken', async (req,res) => {
