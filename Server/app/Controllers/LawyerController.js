@@ -195,7 +195,7 @@ let LawyerController = {
           .json({ error: "Cannot find an admin account with this ID" });
       } else {
         if (oldPassword != lawyer.password) {
-          return res.status(403).json({ error: "The passwords do not match" });
+          return res.status(403).json({ error: "Incorrect old password" });
         } else {
           const updatedLawyer = await Lawyer.findByIdAndUpdate(id, {
             ////////////

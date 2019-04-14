@@ -36,6 +36,9 @@ import AdminSideNavbar from './components/AdminSideNavbar';
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faStroopwafel } from '@fortawesome/free-solid-svg-icons'
+import about from './pages/About'
+import changePassword from './pages/ChangePassword'
+
 import InvEditProfile from './pages/InvEditProfile';
 import InvViewProfile from './pages/InvViewProfile'
 import CreateCase from './pages/CreateCase'
@@ -63,14 +66,20 @@ class App extends Component {
         <Switch>
         <Route exact path= "/payment" component = {Payment} />
         <Route exact path = "/LawyerHome" component={LawyerHome} />
-        <Route exact path = "/ReviewerHome" component={ReviewerHome} />
-
 
           <Route exact path= "/resetPassword" component = {resetPass}/>           
           <PrivateRoute exact path= "/trackMyCase" allowedUsers={['lawyer','reviewer','admin']} component = {TrackMyCase} />
         <Route  exact path = "/home" component = {unregiteredHome}  /> 
       <Route exact path= "/Companies" component = {Companies}/> 
           <Route exact path= "/createCase" component = {CreateCase} />  
+          <Route exact path="/ChangeMyPassword" component = {changePassword}/>
+
+          <Route exact path="/about" component = {about} />
+          
+        <Route exact path = "/ReviewerHome" component={ReviewerHome} />
+          
+
+        
           <Route exact path = "/InvestorForm" component={InvestorForm} />
           <Route exact path = "/LawyerForm" component={LawyerForm} />
           <Route exact path = "/AdminAddLawyer" component={AdminAddLawyer} /> 
