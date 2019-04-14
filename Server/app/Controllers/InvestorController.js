@@ -562,46 +562,6 @@ let InvestorController = {
       console.log(error);
     }
   },
-  InvestorRateLawyer: async function(req, res) {
-    const id = req.params.id; // Lawyer ID
-    const invID = "5c78e4a73ba5f854b86f9058"; //get this from login token
-    const CasID = "5c9517dff65058663c3010d7"; //get this from frontend
-    const Ratin = req.body.rating;
-    const Comm = req.body.Comment;
-    const aCase = await Case.findById(CasID);
-    const Lawy = await Lawyer.findById(id);
-    try {
-      if (!aCase) res.json({ msg: "this case does not exist" });
-      if (!Lawy) res.json({ msg: "not a lawyer, try again" });
-      else {
-        console.log("heeeerreeee");
-
-        console.log(Lawy.ratings);
-        for (let i = 1; i < rat.length; i++) {
-          if (rat[i].CaseID == CasID)
-            res.json({ message: "already rated the lawyer" });
-        }
-      }
-
-      if (aCase.investorID == invID && aCase.lawyerID == id) {
-        var newrate = [
-          { investorID: invID, CaseID: CasID, rating: Ratin, Comment: Comm }
-        ];
-        console.log(newrate);
-        const updat = await Lawyer.findOneAndUpdate(id, {
-          $push: { ratings: newrate }
-        });
-        res.json({ msg: "Rating placed", Data: updat });
-      } else {
-        res.json({
-          msg:
-            "you are trying to access a case that is not yours or has a lawyer who did not work with you"
-        });
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  },
 
   uploadFile: (req, res, next) => {
     const file = req.file;
@@ -612,40 +572,67 @@ let InvestorController = {
     }
     res.send(file);
   },
-  InvestorEditProfile: async (req, res) => {
-    const InvestorID = "5c7aee579c27c860c43d54b9"; //login token
-    const newInvestor = await Investor.findById(InvestorID);
-    if (!newInvestor) return res.status(400).json({ error: "Not an investor" });
-    const email = req.body.email;
-    const Investors = await Investor.findOne({ email });
-    if (Investors)
-      return res.status(400).json({ error: "Email already exists" });
-    else {
-      const newInv = await Investor.findByIdAndUpdate(InvestorID, req.body);
-      return res
-        .status(200)
-        .json({ msg: "Investor was updated successfully", data: newInv });
-      //  .catch(err => res.json('There was an error ,Try again later'))
-    }
-  },
-  InvestorSignIn: async (req, res) => {
-    const email = req.params.email;
-    const password = req.params.password;
-    const inv = await Investor.find({ email });
-    var x = false;
-    console.log(inv.length);
-    for (let i = 0; i < inv.length; i += 1) {
-      if (inv[i].password === password) {
-        x = true;
-        console.log("hi");
-      }
-    }
+    InvestorRateLawyer: async function (req, res) {
+        const id = req.params.id // Lawyer ID
+        const invID = '5c78e4a73ba5f854b86f9058' //get this from login token
+        const CasID = '5c9517dff65058663c3010d7' //get this from frontend 
+        const Ratin = req.body.rating
+        const Comm = req.body.Comment
+        const aCase = await Case.findById(CasID)
+        const Lawy = await Lawyer.findById(id)
+        try{
+            
+            if(!aCase)
+            res.json({msg: 'this case does not exist'})
+            if(!Lawy)  
+                res.json({msg: 'not a lawyer, try again'})
+            else{
+            console.log('heeeerreeee')
 
-    if (x === true)
-      return res.status(200).json({ msg: "Logged in successfully" });
-    else return res.status(400).json({ erroe: "Incorrect email or password" });
-    //To be continued ....
-  },
+            console.log(Lawy.ratings)
+            for (let i = 1; i < rat.length; i ++) {
+                    if (rat[i].CaseID == CasID)
+                    res.json({message: 'already rated the lawyer'})
+            
+                }
+            }
+            
+            if(aCase.investorID == invID&&aCase.lawyerID == id){
+                var newrate = [{'investorID': invID, 'CaseID':CasID, 'rating': Ratin , 'Comment': Comm}]
+                console.log(newrate)
+                const updat = await Lawyer.findOneAndUpdate(id, {$push: {ratings: newrate}})
+                res.json({msg: 'Rating placed', Data: updat })
+            }else{
+                res.json({msg: 'you are trying to access a case that is not yours or has a lawyer who did not work with you'})
+            }
+            
+        }
+        
+        
+        
+        catch (error) {
+            console.log(error)
+        }
+    },
+    
+    
+      InvestorEditProfile:async(req,res)=>{
+        const InvestorID = '5c7aee579c27c860c43d54b9' //login token
+        const newInvestor = await Investor.findById(InvestorID)
+        if(!newInvestor)
+             return res.status(400).json({ error: 'Not an investor' })
+        const email = req.body.email
+        const Investors = await Investor.findOne({ email })
+        if (Investors)
+            return res.status(400).json({ error: 'Email already exists' })
+        else {
+            const newInv = await Investor.findByIdAndUpdate(InvestorID,req.body)
+            return res.status(200).json({ msg: 'Investor was updated successfully', data: newInv })
+            //  .catch(err => res.json('There was an error ,Try again later'))
+        }
+
+      },
+
 
   forgotpassword: async (req, res) => {
     var userEmail = req.body.email;
