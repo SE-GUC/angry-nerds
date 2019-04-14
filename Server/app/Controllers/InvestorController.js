@@ -616,7 +616,7 @@ InvestorViewingCompany: async (req, res)=> {
         if(x === true)
             return res.status(200).json({ msg: 'Logged in successfully' })
         else 
-            return res.status(400).json({ erroe: 'Incorrect email or password' })
+            return res.status(400).json({ error: 'Incorrect email or password' })
         //To be continued ....  
       },
 

@@ -12,7 +12,7 @@ var router = express.Router();
 
 //this endpoint allows the investor to pay fees for a pending company
 router.get('/InvestorSignIn/:email/:password',InvestorController.InvestorSignIn)
-router.post('/InvestorPayFees', InvestorController.InvestorPayFees)
+router.post('/InvestorPayFees' , InvestorController.InvestorPayFees)
 router.post('/InvestorFillForm',InvestorController.investorFillForm)
 router.put('/InvestorUpdateForm/:id', InvestorController.investorUpdateForm)
 router.put('/InvestorEditProfile',InvestorController.InvestorEditProfile)
@@ -84,7 +84,7 @@ router.get('/LawyerMyNotifications/:id', LawyerController.lawyerMyNotifications)
 
 router.put('/caseDisAproveedAtLawyer/:idCase', LawyerController.caseDisAproveedAtLawyer)
 router.put('/caseAproveedAtLawyer/:idCase', LawyerController.caseAproveedAtLawyer)
-router.get('/viewCasesLawyer', LawyerController.viewCasesLawyer)
+router.get('/viewCasesLawyer', LawyerController.authenticate , LawyerController.viewCasesLawyer)
 router.get('/LawyerViewingPublishedCompanies', LawyerController.LawyerViewingPublishedCompanies)
 router.get('/lawyerOpenCase/:id', LawyerController.lawyerOpenCase)
 router.get('/lawyerCloseCase/:id', LawyerController.lawyerCloseCase)
@@ -115,7 +115,7 @@ router.get('/UnregisteredViewLawyers',UserController.viewLawyers)
 router.get('/UnregisterViewingPublishedCompanies', UserController.UnregisterViewingPublishedCompanies)
 router.get('/UnregisterViewingCompany/:id', UserController.UnregisterViewingCompany)
 router.get('/UnregisterViewing/:id', UserController.UnregisterViewing)
-router.get('/login', UserController.Login)
+router.post('/login', UserController.Login)
 router.get('/UserViewLaws', UserController.UserViewLaws)
 
 
