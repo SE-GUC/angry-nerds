@@ -30,6 +30,7 @@ let InvestorController = {
     */
 
   InvestorPayFees: async function(req, res) {
+    
     console.log(req.body);
     const invID = "5ca772654d70710fa843bd5f"; //get this from login token
 
@@ -263,17 +264,22 @@ let InvestorController = {
     }
   },
 
-  investorViewProfile: async (req, res) => {
-    try {
-      const investorId = "5caea6cf656a5b5b52c79e9e";
-      const investor = await Investor.findById(investorId);
-      if (!investor)
-        return res.status(404).send({ error: "Investor doesnt exist " });
-      else return res.status(200).json({ msg: "Done", data: investor });
-    } catch (error) {
-      console.log(error);
+investorViewProfile: async(req,res)=>{
+    try{
+        const investorId='5cae8d7770fe6265f034a9fe'
+        const investor = await Investor.findById(investorId)
+        if (!investor)
+            return res.status(404).send({ error: 'Investor doesnt exist '});
+        else  
+        console.log('OK')
+        return res.status(200).json({ msg: 'Done' , data: investor })
+      
+
     }
-  },
+    catch (error) {
+        console.log(error)
+    }
+},
 
   /*
         PUT request to change password of the investor
@@ -617,7 +623,7 @@ let InvestorController = {
     
     
       InvestorEditProfile:async(req,res)=>{
-        const InvestorID = '5c7aee579c27c860c43d54b9' //login token
+        const InvestorID = '5cae8d7770fe6265f034a9fe' //login token
         const newInvestor = await Investor.findById(InvestorID)
         if(!newInvestor)
              return res.status(400).json({ error: 'Not an investor' })
@@ -627,6 +633,7 @@ let InvestorController = {
             return res.status(400).json({ error: 'Email already exists' })
         else {
             const newInv = await Investor.findByIdAndUpdate(InvestorID,req.body)
+            console.log('edited')
             return res.status(200).json({ msg: 'Investor was updated successfully', data: newInv })
             //  .catch(err => res.json('There was an error ,Try again later'))
         }

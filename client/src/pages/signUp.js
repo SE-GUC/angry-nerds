@@ -1,12 +1,19 @@
 import React, { Component } from 'react';
-import { Button, ButtonToolbar, ButtonGroup } from 'react-bootstrap'
-import DatePicker from "react-datepicker"
+import { Button, ButtonToolbar, ButtonGroup ,Form} from 'react-bootstrap'
 import "react-datepicker/dist/react-datepicker.css";
 import axios from 'axios'
 
-
 class SignUp extends Component {
-
+  myFunction(event) {
+    console.log('hiiii')
+      var x = document.getElementById("password");
+      if (x.type === "password") {
+        x.type = "text";
+      } else {
+        x.type = "password";
+      }
+    } 
+  
 
 // async submit (event){
 //     event.preventDefault
@@ -66,18 +73,26 @@ console.log(error)
            [event.target.name] : event.target.value
       });
     }
+   
 
     render() {
-  
+   
       
       return (
         <div className="App">
-           <div className=".App__Aside"></div>
+         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css"/>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous"/>
+          {/* <div className=".App__Aside"></div> */}
   
-           <div className="App__Form"></div>
+           {/* <div className="App__Form"></div> */}
   
-            <div className="PageSwitcher"> 
-            </div>  
+            {/* <div className="PageSwitcher">  */}
+            {/* </div>   */}
           
            {/* <div className= "FormTitle">
             
@@ -85,71 +100,77 @@ console.log(error)
            </div> */}
   
          
-           <div className= "FormCenter">
+         <div className= "FormCenter"> 
              <form className= "FormFields"  onSubmit={this.OnClick1.bind(this)}>
+            <h1> <Form.Label className="label label-primary">WELCOME</Form.Label> </h1>
+            <br></br>
              <p> 
-               <div className= "FormField">
-                 <label className= "FormField__Label" htmlFor="name">First Name</label> <br/>
-                 <input type="text" id="firstName" className="FormField__Input" placeholder="Enter your first name" name="firstName" onChange = {this.handleChange.bind(this)} />
-               </div>
-        </p>
+             <div className= "FormCenter">
+                 <label className= "FormField__Label" htmlFor="name"  > <b>First Name  &nbsp;&nbsp; </b></label> 
+                 <input type="text" id="firstName" className="FormField__Input"  name="firstName" onChange = {this.handleChange.bind(this)} /> {/*placeholder="Enter your first name" */}
+                 <span  class="fas fa-pencil-alt" style={{ fontSize: '1.50em' }}></span> </div>
+            </p>
 
 
-            <p> 
-               <div className= "FormField">
-                 <label className= "FormField__Label" htmlFor="name">Middle Name</label> <br/>
-                 <span class="fas fa-clock"></span> 
-                 <input type="text" id="middleName" className="FormField__Input" placeholder="Enter your middle name" name="MiddleName" onChange = {this.handleChange.bind(this)} />
-               </div>
+             <p> 
+             <div className= "FormField">
+                 <label className= "FormField__Label" htmlFor="name"><b>Middle Name  </b> </label>  
+                 <input type="text" id="middleName" className="FormField__Input"  name="MiddleName" onChange = {this.handleChange.bind(this)} /> {/*placeholder="Enter your middle name" */}
+                 <span  class="fas fa-pencil-alt" style={{ fontSize: '1.50em' }}></span></div>
              </p> 
 
+
              <p>
-               <div className= "FormField">
-                 <label className= "FormField__Label" htmlFor="name">Last Name</label> <br/>
-                 <input type="text" id="lastName" className="FormField__Input" placeholder="Enter your last name" name="LastName" onChange = {this.handleChange.bind(this)}/>
-               </div>
+             <div className= "FormField">
+                 <label className= "FormField__Label" htmlFor="name"><b>Last Name &nbsp;&nbsp;&nbsp;</b> </label> 
+                 <input type="text" id="lastName" className="FormField__Input"  name="LastName" onChange = {this.handleChange.bind(this)}/> {/*placeholder="Enter your last name" */}
+                 <span  class="fas fa-pencil-alt" style={{ fontSize: '1.50em' }}></span></div>
             </p>
+
          
             <p> 
-               <div className= "FormField">
-                 <label className= "FormField__Label" htmlFor="name">Email</label> <br/>
-                 <input type="text" id="email" className="FormField__Input" placeholder="Enter your Email Address" name="email" onChange = {this.handleChange.bind(this)}/>
-               </div>
-
-            </p> 
-
-            <p> 
-               <div className= "FormField">
-                 <label className= "FormField__Label" htmlFor="name">Password</label><br/>
-                 <input type="text" id="password" className="FormField__Input" placeholder="Enter your Password" name="password" onChange = {this.handleChange.bind(this)}/>
-               </div>
-
+            <div className= "FormField">
+                 <label className= "FormField__Label" htmlFor="name"><b>E-mail &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </b></label> 
+                 <input type="text" id="email" className="FormField__Input"  name="email" onChange = {this.handleChange.bind(this)}/> {/*placeholder="Enter your Email Address" */}
+                 <span  class="fas fa-envelope" style={{ fontSize: '1.50em' }}></span></div>
             </p> 
 
 
             <p> 
-               <div className= "FormField">
-                 <label className= "FormField__Label" htmlFor="name">SSID</label><br/>
-                 <input type="text" id="SSID" className="FormField__Input" placeholder="Enter your Social Security ID" name="SSID" onChange = {this.handleChange.bind(this)}/>
-               </div>
+            <div className= "FormField">
+                 <label className= "FormField__Label" htmlFor="name"><b>Password &nbsp;&nbsp;&nbsp;&nbsp;</b></label>
+                 <input type="text" id="password" className="FormField__Input"  type="Password"  name="password" onChange = {this.handleChange.bind(this)}/> {/*placeholder="Enter your Password" */}
+                 <span   class="fas fa-key" style={{ fontSize: '1.50em' }}></span> <br/>
+                 
+            </div>
+            
+                 <input type="checkbox" onClick={this.myFunction.bind(this)}/>Show Password
+            </p> 
 
-               </p> 
+          
+
+            <p> 
+            <div className= "FormField">
+                 <label className= "FormField__Label" htmlFor="name"><b>SSID &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b></label>
+                 <input type="text" id="SSID" className="FormField__Input"  name="SSID" onChange = {this.handleChange.bind(this)}/> {/*placeholder="Enter your Social Security ID" */}
+                 <span class="far fa-id-card" style={{ fontSize: '1.50em' }}></span> </div>
+            </p> 
+
 
                <p>
-                   <div className= "FormField">
-                 <label className= "FormField__Label" htmlFor="name">Nationality</label> <br/>
-                 <input type="text" id="Nationality" className="FormField__Input" placeholder="Enter your Nationality" name="Nationality" onChange = {this.handleChange.bind(this)}/> 
-               </div>
+               <div className= "FormField">
+                 <label className= "FormField__Label" htmlFor="name"><b>Nationality &nbsp;&nbsp;</b></label> 
+                 <input type="text" id="Nationality" className="FormField__Input"  name="Nationality" onChange = {this.handleChange.bind(this)}/> {/*placeholder="Enter your Nationality" */}
+                 <span class="fas fa-flag" style={{ fontSize: '1.50em' }}></span> </div>
                </p>
 
 
-
-
                <p>
-                   <div className= "FormField">
-                 <label className= "FormField__Label" htmlFor="name">ID-Type</label> <br/>
-                 <input type="text" id="Nationality" className="FormField__Input" placeholder="Enter your ID-Type" name="Type" onChange = {this.handleChange.bind(this)}/> <br/>
-                 <label className= "FormField__Label" htmlFor="name">Either Passport or National ID</label>
+               <div className= "FormField">
+                 <label className= "FormField__Label" htmlFor="name"><b>ID-Type &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b></label> 
+                 <input type="text" id="Nationality" className="FormField__Input" name="Type" onChange = {this.handleChange.bind(this)}/> <span  class="fas fa-passport" style={{ fontSize: '1.50em' }}></span> <br/> {/* placeholder="Enter your ID-Type" */}
+                  
+                 <label className= "FormField__Label" htmlFor="name"><i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Either Passport or National ID</i></label>
                </div>
                </p>
             
@@ -167,20 +188,21 @@ console.log(error)
                
               </p> */}
                
-               <p> 
-               <div className= "FormField">
-                 <label className= "FormField__Label" htmlFor="name">Address</label> <br/>
-                 <input type="text" id="Address" className="FormField__Input" placeholder="Enter your Address" name="Address"  onChange = {this.handleChange.bind(this)}/> 
-               </div>
-               </p> 
+             <p> 
+             <div className= "FormField">
+                 <label className= "FormField__Label" htmlFor="name"><b>Address &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b></label> 
+                 <input type="text" id="Address" className="FormField__Input"  name="Address"  onChange = {this.handleChange.bind(this)}/> {/*placeholder="Enter your Address" */}
+                 <span class="fas fa-map-marker-alt" style={{ fontSize: '1.50em' }}></span>  </div>
+            </p> 
+
 
                <p>
-                   <div className= "FormField">
-                 <label className= "FormField__Label" htmlFor="name">Birth-Date</label> <br/>
-                 <input type="text" id="Nationality" className="FormField__Input" placeholder="Enter Birth-Date " name="birthdate" onChange = {this.handleChange.bind(this)}/> <br/>
-                 <label className= "FormField__Label" htmlFor="name"> In the format dd-mm-yyyy</label>
-                
-               </div>
+               <div className= "FormField">
+                 <label className= "FormField__Label" htmlFor="name"><b>Birth-Date </b></label> 
+                 <input type="text" id="Nationality" className="FormField__Input" name="birthdate" onChange = {this.handleChange.bind(this)}/> <br/> {/* placeholder="Enter Birth-Date " */}
+                 <label className= "FormField__Label" htmlFor="name"><i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;In the format dd-mm-yyyy</i> </label>
+                 {/* <span  class="fas fa-calendar-week"> style={{ fontSize: '1.50em' }}></span> */}
+                 </div>  
                </p>
 
 
@@ -193,22 +215,24 @@ console.log(error)
                  
                />  
                </div> */}
+
+
               <p> 
-               <div className= "FormField">
-                 <label className= "FormField__Label" htmlFor="name">Telephone Number</label> <br />
-                 <input type="text" id="telephone_number" className="FormField__Input" placeholder="Enter your phone Number " name="telephone_number"  onChange = {this.handleChange.bind(this)}/>
-               </div>
-               </p> 
+              <div className= "FormField">
+                 <label className= "FormField__Label" htmlFor="name"><b>Number &nbsp;&nbsp;</b></label> 
+                  <input type="text" id="telephone_number" className="FormField__Input"  name="telephone_number"  onChange = {this.handleChange.bind(this)}/> {/* placeholder="Enter your phone Number " */}
+                  {/* <span   class="fas fa-phone-square"> style={{ fontSize: '1.50em' }}></span> */}
+            </div> </p> 
 
 
-               <p>
-                
-                   <div className= "FormField">
-                 <label className= "FormField__Label" htmlFor="name">Gender</label> <br/>
-                 <input type="text" id="Nationality" className="FormField__Input" placeholder="Male/Female" name="gender" onChange = {this.handleChange.bind(this)}/>
-                
-               </div>
-               </p>
+             <p>
+             <div className= "FormField">
+                 <label className= "FormField__Label" htmlFor="name"><b>Gender &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b></label> 
+                 <input type="text" id="Nationality" className="FormField__Input" name="gender" onChange = {this.handleChange.bind(this)}/>  {/* placeholder="Male/Female"*/}
+                 <span  class="fas fa-venus-mars" style={{ fontSize: '1.50em' }}></span>
+                </div> 
+            </p>
+
                {/* <div className= "FormField">
                 <label className= "FormField__Label" htmlFor="name">Gender</label>
                 <ButtonGroup>
@@ -233,7 +257,7 @@ console.log(error)
     }
   
 
-}
+} 
   
 
 export default SignUp;
