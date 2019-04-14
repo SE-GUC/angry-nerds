@@ -102,7 +102,7 @@ class App extends Component {
           )} />
 
               <Route exact path="/AdminViewLaws" component={AdminViewLaws} />
-              <Route exact path="/test" component={test} />
+              <Route exact path="/stocks" component={stocks} />
               <Route exact path="/InvestorList" component={InvestorsList} />
               <Route exact path="*" component={() => "404 NOT FOUND"} />
         
