@@ -1,12 +1,31 @@
 import 'bootstrap/dist/css/bootstrap.css';
-import React from 'react';
-import ReactDOM from 'react-dom';
-import 'bootstrap/dist/css/bootstrap.min.css';
+import React from 'react'
+import {createStore} from 'redux'
+import ReactDOM from 'react-dom'
+import 'bootstrap/dist/css/bootstrap.min.css'
+//import store from './globalState/store'
+import { Provider }from'react-redux'
+import reducer from './globalState/reducers/countReducer'
 import './index.css';
 import App from './App';
+import rootReducer from './globalState/reducers/rootReducer';
+
 //import * as serviceWorker from './serviceWorker';
 
-ReactDOM.render(<App />, document.getElementById('root'));
+const initialState = 0
+
+const store = createStore(rootReducer, initialState)
+// store.dispatch({ type: "INCREMENT"})
+// store.dispatch({ type: "DECREMENT"})
+
+ 
+
+ReactDOM.render(
+    <Provider store = {store}>
+    <App />
+    </Provider>,
+
+ document.getElementById('root'));
 
 //Enable CORS on the express server
 
