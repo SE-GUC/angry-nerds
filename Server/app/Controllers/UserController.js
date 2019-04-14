@@ -19,6 +19,7 @@ var passport = require('passport');
 require('../../config/passport')(passport);
 
 let UserController = {
+
   //write methods here: check InvestorController for example
   passportauth: passport.authenticate('jwt', { session: false }),
 

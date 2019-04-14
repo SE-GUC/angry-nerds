@@ -19,7 +19,7 @@ import AddLawyer from './components/AddLawyer';
 import AddReviewer from './components/AddReviewer';
 import testing from './components/testing';
 import Questions from './pages/Questions'
-import miniJournal from './components/miniJournal'
+
 import electronicJournal from './pages/electronicJournal'
 
 
@@ -115,7 +115,7 @@ class App extends Component {
         <Route exact path = "/ChangePricing" component={ChangePricing} />
         <Route exact path = "/AdminViewLaws" component={AdminViewLaws} /> 
         <Route exact path='/Questions' component={Questions}/>
-        <Route exact path='/journal' component={miniJournal}/>
+      
         <Route exact path='/electronicjournal' component={electronicJournal}/>
 
 
