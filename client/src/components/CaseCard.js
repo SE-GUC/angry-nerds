@@ -34,6 +34,7 @@ class CaseCard extends Component {
   buttonSetter = (oneCase) => {
     console.log(this.props.pressed)
     if(this.props.pressed !== null && this.props.pressed === oneCase._id){
+      console.log('LOCK-LOCK-LOCK')
       return(
         <Button className="float-right" disabled>
            <Spinner
