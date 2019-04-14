@@ -4,7 +4,12 @@ const mongoose = require('mongoose')
 const Case = require('../../models/Cases')
 const hbs = require('hbs')
 const validator = require('../../../validations/InvestorValidations')
+//needed in verification
 const Investor = require('../../models/Investor')
+const Lawyer = require('../../models/Investor')
+const Reviewer = require('../../models/Investor')
+const Admin = require('../../models/Investor')
+
 const request = require('request')
 const randomstring = require('randomstring')
 const mailer =require ('../../../misc/mailer')
@@ -72,61 +77,53 @@ router.post('/register', async (req, res) => {
                 birthdate : birthdate,
                 telephone_number : telephone_number,
                 gender : gender,
-                active : 'false',
+                active : false,
                 photoID: photoID
             })
+            const payload = {
+                id: investor1._id,
+                email: investor1.email,
+                type:'investor'
+              };
+            const token = jwt.sign(payload, tokenKey, { expiresIn: "1h" });
+            const tok = token.replace('Bearer ','')
+            
             res.json({ msg: 'registered succefully , please check your mail for verification', data: investor1 })
-
-            const html = 'Hi there, <br/> Thank you for registering <br/><br/> Please verify your email by clicking on the following page:<a href= "http://localhost:3000/api/Investor/verify/' + secretToken + ' ">http://localhost:3000/api/Investor/verify</a> </br></br> '
+            const html = 'Hi there, <br/> Thank you for registering <br/><br/> Please verify your email by clicking on the following page:<a href= "http://localhost:3000/api/Investor/verify/' + tok + ' ">http://localhost:3000/api/Investor/verify</a> </br></br> '
             await mailer.sendEmail(config.user, req.body.email, 'Please verify your email', html)
     }
 })  
 
 
-router.get('/verify/:secretToken', async (req,res) => {
+router.get('/verify/:tok', async (req,res) => {
     try{
-        const secretToken1 = req.params.secretToken
-        const user = await Investor.findOne({'secretToken': secretToken1},{__v:0,secretToken:0})
-        if(user){
-            await Investor.findByIdAndUpdate(user._id,{active : 'true'})
-            res.json({ msg:'Done ya babe' , data:investor1 })
+        const secretToken = req.params.tok
+        const token = jwt.decode(secretToken)
+        if ( (Date.now()- token.exp) < 0 ){
+            switch(token){
+                case ('investor') : 
+                await Investor.findByIdAndUpdate(token.id,{active : true}) ; break ;
+                case ('lawyer') : 
+                await Lawyer.findByIdAndUpdate(token.id,{active : true}) ; break ;
+                case ('reviewer') : 
+                await Reviewer.findByIdAndUpdate(token.id,{active : true}) ; break ;
+                case ('admin') : 
+                await Admin.findByIdAndUpdate(token.id,{active : true}) ; break ;
+            }
+                return res.status(200).json({message:'Email verified succefully'})
         }
-    }
-    catch(error){
-        console.log(error)
-        res.json({message:'error'})
-    }
-})
+        else{
+            const payload = {
+                id: tok.id,
+                email: tok.email,
+                type: tok.type
+              };
+            const token = jwt.sign(payload, tokenKey, { expiresIn: "1h" });
+            const tok = token.replace('Bearer ','')
+            const html = 'Hi there, <br/> Thank you for registering <br/><br/> Please verify your email by clicking on the following page:<a href= "http://localhost:3000/api/Investor/verify/' + tok + ' ">http://localhost:3000/api/Investor/verify</a> </br></br> '
+            await mailer.sendEmail(config.user, req.body.email, 'Please verify your email', html)
+            return res.status(400).json({error:'your session expired , kindly check your mail to verify it one more time'})
 
-
-router.get('/verify/:secretToken', async (req,res) => {
-    try{
-        const secretToken1 = req.params.secretToken
-        const user = await tempUser.findOne({'secretToken': secretToken1},{__v:0,secretToken:0})
-        if(user){
-            const salt = bcrypt.genSaltSync(10); 
-		    const hashPass = bcrypt.hashSync(user.password, salt); // hashing the password which is already saved in tempUser before saved in investor table
-            const investor1 = await Investor.create({
-                firstName : user.firstName ,
-                MiddleName : user.MiddleName ,
-                LastName : user.LastName ,
-                email : user.email,
-                password : hashPass ,
-                ID_type : user.ID_type,
-                SSID : user.SSID,
-                Nationality : user.Nationality,
-                Type : user.Type,
-                Address : user.Address,
-                birthdate : user.birthdate,
-                telephone_number : user.telephone_number,
-                gender : user.gender,
-                secretToken :user.secretToken,
-                active : user.active,
-                photoID: user.photoID
-            })
-            
-            await tempUser.findByIdAndDelete(user._id)
-            res.json({ msg:'Done ya babe' , data:investor1 })
         }
     }
     catch(error){
@@ -153,18 +150,23 @@ router.put('/:id', async (req, res) => {
     }
 })
 
-router.get('/',passport.authenticate('jwt', {session: false}) ,async (req,res) => {
-        // You can access the logged in user through req.user
-        // Add your authorization rules accordingly
-        //const books = await Book.find()
-        //return res.json({books: books})
-        if (req.user.type==="investor"){
-            console.log('DID it xD')
-        }
-         return res.json({data: req.user})
+// router.get('/',passport.authenticate('jwt', {session: false}) ,async (req,res) => {
+//         // You can access the logged in user through req.user
+//         // Add your authorization rules accordingly
+//         //const books = await Book.find()
+//         //return res.json({books: books})
+//         if (req.user.type==="investor"){
+//             console.log('DID it xD')
+//         }
+//          return res.json({data: req.user})
        
-})
+// })
 
+
+router.get('/', async(req,res)=>{
+    const investors = await Investor.find()
+    res.json(investors)
+})
 
 router.delete('/:id', async (req, res) => {
     try {
