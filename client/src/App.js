@@ -15,6 +15,7 @@ import home from './pages/home'
 import LawyerHome from './pages/LawyerHome'
 import ChangePricing from './pages/ChangePricing'
 import AdminViewLaws from './pages/AdminViewLaws'
+import LawyerOpenCase from './pages/LawyerOpenCase'
 import AddLawyer from './components/AddLawyer';
 import AddReviewer from './components/AddReviewer';
 import testing from './components/testing';
@@ -69,6 +70,11 @@ class App extends Component {
     
     return (
       <Router>
+
+
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        
         <Route component = {mainNavBar} />
         <Route exact path= "/Companies" component = {Companies}/>
         <Route  exact path = "/home" component = {unregiteredHome}  /> 
@@ -100,6 +106,7 @@ class App extends Component {
           <Route exact path="/AddReviewer" component={AddReviewer} /> 
           <Route  exact path="/testing" component={testing} />
           <Route exact path = "/LawyerHome" component={LawyerHome} />
+          <Route exact path = "/LawyerOpenCase/:id" component={LawyerOpenCase} />
         <Route exact path = "/ChangePricing" component={ChangePricing} />
         <Route exact path = "/AdminViewLaws" component={AdminViewLaws} /> 
         <Route exact path ="/AdminPage" component= {AdminSideNavbar}/>
