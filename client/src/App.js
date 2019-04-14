@@ -121,6 +121,7 @@ class App extends Component {
 
 
 
+
           <Route exact path="/notification" render={props => (
             <React.Fragment>
               <Notification notif={this.state.notifications} />

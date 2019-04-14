@@ -1,9 +1,10 @@
 import React from 'react';
-import { Table , UncontrolledCollapse, Button, CardBody, Card } from 'reactstrap';
+import { Table , UncontrolledCollapse, Button, CardBody, Card  } from 'reactstrap';
+import Image from 'react-bootstrap/Image'
 import axios from 'axios'
+const inag= require('../Images/enterprise.png')
 
 
-import miniJournal from '../components/miniJournal'
 
 class electronicJournal extends React.Component {
 
@@ -32,26 +33,31 @@ class electronicJournal extends React.Component {
       
       <div>
       <Table bordered>
+      
         
         <tr>
-          <th><Button color="primary" id="toggler" style={{ marginBottom: '1rem' }}>
-    {company.english_name}
+        <td><img src={inag} alt="company pic" style={{borderRadius: "8px",width: "150px"}} /> <br></br>
+        {company.english_name}
+        <br></br>{company.form_type} </td>
+          <td><Button color="primary" id="toggler" style={{ marginBottom: '1rem' }}>
+    View More Info
   </Button>
   <UncontrolledCollapse toggler="#toggler">
     <Card>
       <CardBody>
 
       Also Known as {company.arabic_name}.
-This Company is of type {company.form_type} under {company.regulated_law}. It's in the governorate of {company.governorate}, in {company.city} at {company.address}.
-The main Center Phone is {company.main_center_phone}.
-The main Center Fax is {company.main_center_fax}.
+This Company is under {company.regulated_law}.
+ It's in the governorate of {company.governorate}, in {company.city} at {company.address}.
+The main Center Phone: {company.main_center_phone}.
+The main Center Fax: {company.main_center_fax}.
 It has an Equity Capital of {company.equality_capital} and uses the {company.currency} Currency.
 The company is managed by {company.managers.name}.
 
 
       </CardBody>
     </Card>
-  </UncontrolledCollapse></th></tr></Table>
+  </UncontrolledCollapse></td></tr></Table>
     </div>
 
       
