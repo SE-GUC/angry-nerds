@@ -384,7 +384,7 @@ router.post('/', async (req, res) => {
  //   const isValidated = validator.createValidation(req.body)
   //  if (isValidated.error) return res.status(400).send({ error: isValidated.error.details[0].message })
 
-  var i = await CheckForms(req.body)
+  var i = await router.CheckForms(req.body)
     console.log(i)
     if (i !== 'Done') {
         res.json({ msg: 'Could not create case', data: i })
@@ -420,7 +420,7 @@ router.put('/:id', async (req, res) => {
      if (!Cases) return res.status(404).send({ error: 'Cases does not exist' });
   //   const isValidated = validator.updateValidation(req.body)
    //  if (isValidated.error) return res.status(400).send({ error: isValidated.error.details[0].message })
-   var i = CheckForms(req.body)
+   var i = router.CheckForms(req.body)
    if (i !== 'Done') {
        res.json({ msg: 'Could not create case', data: i })
      }
