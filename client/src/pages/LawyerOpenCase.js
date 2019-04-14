@@ -77,6 +77,17 @@ export class LawyerOpenCase extends Component {
     )
   }
 
+  approve(e){
+    console.log('APPROVE')
+    e.preventDefault()
+    console.log(localStorage.getItem('jwtToken'))
+    axios.put('http://localhost:3000/caseAproveedAtLawyer/'+ this.state.oneCase._id,{headers: {"Authorization":localStorage.getItem('jwToken')}}).then(res => console.log(res))
+  }
+
+  reject(e){
+    e.preventDefault()
+  }
+
   render() {
     console.log('BOOLEAN --> ',this.state.open)
     if(this.state.back){
@@ -116,8 +127,10 @@ export class LawyerOpenCase extends Component {
         </Form>
 
           <ButtonToolbar className="d-flex bd-highlight">
-            <Button variant="success" type="Submit" className="p-2 flex-fill bd-highlight">Approve</Button>
-            <Button variant="danger" className="p-2 flex-fill bd-highlight">Reject</Button>
+            <Button variant="success" onClick={this.approve.bind(this)} className="p-2 flex-fill bd-highlight">Approve</Button>
+            <div> &nbsp;&nbsp;</div> 
+            <Button variant="danger" className="p-2 flex-fill bd-highlight" onClick={this.reject.bind(this)} >Reject</Button>
+            <div> &nbsp;&nbsp;</div> 
             <Button variant="secondary"  className="p-2 flex-fill bd-highlight" onClick={this.closeCase.bind(this)}>Close</Button>
 
           </ButtonToolbar>

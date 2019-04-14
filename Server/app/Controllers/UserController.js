@@ -196,6 +196,8 @@ console.log(error)
             }else return res.status(400).send({ password: "Wrong password" });
       }
 
+      
+
     } 
     catch (e) {
         console.log(e)

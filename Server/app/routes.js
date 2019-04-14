@@ -87,8 +87,8 @@ router.get('/LawyerMyNotifications/:id', LawyerController.lawyerMyNotifications)
 //------------------------------------Lawyer Routes----------------------------------------------------
 
 
-router.put('/caseDisAproveedAtLawyer/:idCase', LawyerController.caseDisAproveedAtLawyer)
-router.put('/caseAproveedAtLawyer/:idCase', LawyerController.caseAproveedAtLawyer)
+router.put('/caseDisAproveedAtLawyer/:idCase', LawyerController.authenticate ,LawyerController.caseDisAproveedAtLawyer)
+router.put('/caseAproveedAtLawyer/:idCase',LawyerController.authenticate ,LawyerController.caseAproveedAtLawyer)
 router.get('/viewCasesLawyer', LawyerController.viewCasesLawyer)
 router.get('/LawyerViewingPublishedCompanies', LawyerController.LawyerViewingPublishedCompanies)
 router.get('/lawyerOpenCase/:id', LawyerController.lawyerOpenCase)
@@ -120,7 +120,7 @@ router.get('/UnregisteredViewLawyers',UserController.viewLawyers)
 router.get('/UnregisterViewingPublishedCompanies', UserController.UnregisterViewingPublishedCompanies)
 router.get('/UnregisterViewingCompany/:id', UserController.UnregisterViewingCompany)
 router.get('/UnregisterViewing/:id', UserController.UnregisterViewing)
-router.get('/login', UserController.Login)
+router.post('/login', UserController.Login)
 router.get('/UserViewLaws', UserController.UserViewLaws)
 
 

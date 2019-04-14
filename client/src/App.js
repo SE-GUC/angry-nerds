@@ -13,6 +13,8 @@ import signup from './pages/signUp'
 import signin from './pages/signin'
 import home from './pages/home'
 import LawyerHome from './pages/LawyerHome'
+import ReviewerHome from './pages/ReviewerHome'
+
 import ChangePricing from './pages/ChangePricing'
 import AdminViewLaws from './pages/AdminViewLaws'
 import LawyerOpenCase from './pages/LawyerOpenCase'
@@ -105,6 +107,8 @@ class App extends Component {
           <Route exact path="/AddReviewer" component={AddReviewer} /> 
           <Route  exact path="/testing" component={testing} />
           <Route exact path = "/LawyerHome" component={LawyerHome} />
+          <Route exact path = "/reviewerHome" component={ReviewerHome} />
+
           <Route exact path = "/LawyerOpenCase/:id" component={LawyerOpenCase} />
         <Route exact path = "/ChangePricing" component={ChangePricing} />
         <Route exact path = "/AdminViewLaws" component={AdminViewLaws} /> 
