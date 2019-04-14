@@ -16,7 +16,7 @@ import { IconContext } from "react-icons";
 
 import axios from 'axios'
 
-export class LawyerOpenCase extends Component {
+export class ReviewerOpenCase extends Component {
 
   state = {
     oneCase: {} ,
@@ -47,18 +47,18 @@ export class LawyerOpenCase extends Component {
           <Modal.Header closeButton>
             <Modal.Title>Case Accepted</Modal.Title>
           </Modal.Header>
-          <Modal.Body>Case accepted and sent to reviewer</Modal.Body>
+          <Modal.Body>Case accepted and pending for payment</Modal.Body>
         </Modal>
     )
   }
     else{
       if(action === 'reject'){
         return(
-          <Modal show={this.state.show} onHide={this.handleClose.bind(this)} style={{backgroundColor: "red"}}>
+          <Modal show={this.state.show} onHide={this.handleClose.bind(this)} style={{forgroundColor: "red"}}>
                 <Modal.Header closeButton>
                   <Modal.Title>Case Rejected</Modal.Title>
                 </Modal.Header>
-                <Modal.Body>Case rejected and sent back to investor</Modal.Body>
+                <Modal.Body>Case rejected and sent back to lawyer</Modal.Body>
               </Modal>
           )
       } 
@@ -101,7 +101,7 @@ export class LawyerOpenCase extends Component {
     console.log('CLOSE CASE')
     e.preventDefault()
     this.setState({back: true})
-    let path = 'http://localhost:3000/lawyerCloseCase/' + this.state.oneCase._id
+    let path = 'http://localhost:3000/reviewerCloseCase/' + this.state.oneCase._id
     try{
       console.log('get')
       axios.get(path).then(res => console.log(res))}
@@ -133,7 +133,7 @@ export class LawyerOpenCase extends Component {
     
     axios({
       method: 'PUT',
-      url: 'http://localhost:3000/caseAproveedAtLawyer/'+ this.state.oneCase._id ,
+      url: 'http://localhost:3000/caseAproveedAtReviewer/'+ this.state.oneCase._id ,
       headers: {
         'Authorization':localStorage.getItem('jwtToken'),
         'Content-Type' : 'application/json',
@@ -142,6 +142,8 @@ export class LawyerOpenCase extends Component {
       }).then(res => console.log('OKAYYY',res))
         .catch(error => console.log(error))
 
+    axios.put('http://localhost:3000/api/Cases/' + this.state.oneCase._id, this.state.oneCase).then(res => console.log('$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$',res))  
+                                                                                                .catch(error => console.log('$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$',error))
       this.setState({action: 'accept'})
       
       
@@ -153,7 +155,7 @@ export class LawyerOpenCase extends Component {
     e.preventDefault()
     axios({
     method: 'PUT',
-    url: 'http://localhost:3000/caseDisAproveedAtLawyer/'+ this.state.oneCase._id ,
+    url: 'http://localhost:3000/caseDisAproveedAtReviewer/'+ this.state.oneCase._id ,
     headers: {
       'Authorization':localStorage.getItem('jwtToken'),
       'Content-Type' : 'application/json',
@@ -165,6 +167,8 @@ export class LawyerOpenCase extends Component {
     }).then(res => console.log('OKAYYY',res))
       .catch(error => console.log(error))
 
+      axios.put('http://localhost:3000/api/Cases/' + this.state.oneCase._id, this.state.oneCase).then(res => console.log(res))    
+
       this.setState({action: 'reject'})
 
   }
@@ -174,7 +178,7 @@ export class LawyerOpenCase extends Component {
     if(this.state.back){
       console.log('REDIRECT')
       return (
-        <Redirect to='/LawyerHome' />
+        <Redirect to='/ReviewerHome' />
       )
     }
     else{
@@ -242,4 +246,4 @@ export class LawyerOpenCase extends Component {
 }
 }
 
-export default LawyerOpenCase
+export default ReviewerOpenCase

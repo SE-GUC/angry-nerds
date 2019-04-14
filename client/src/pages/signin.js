@@ -21,7 +21,6 @@ class signin extends Component  {
       console.log(semail)
       console.log(spassword)
       try{
-        //const x = await axios.get( 'http://localhost:3000/InvestorSignIn/'+semail+'/'+spassword)
 
         const user = await axios({
             method: "post",
@@ -36,23 +35,18 @@ class signin extends Component  {
           }
         //setAuthToken(user.data.data)
         localStorage.setItem('jwtToken',user.data.data)
+        axios.defaults.headers.common['Authorization'] = user.data.data
         const tok = localStorage.getItem('jwtToken').replace('Bearer ','')
         const decoded = jwt.decode(tok)
         alert(axios.defaults.headers.common['Authorization'])
-          this.setState({toHome: true})
+        this.setState({toHome: true})
         
-        //document.getElementById("email").value = 'Successfully'
-        //document.getElementById("status").value = 'Successfully'
-         // document.getElementById("status").variant = 'success'
+
         }
         catch(error)
         {
-         // document.getElementById("email").value = 'Incorrect email or password'
           alert(error)
-          //document.getElementById("status").value = 'Incorrect email or password'
-         // document.getElementById("status").variant = 'danger'
         }
-        //console.log(company)
     }
     render(){
       if (this.state.toHome===true){
@@ -107,9 +101,7 @@ class signin extends Component  {
   </div>
   </fieldset>
 </Form>
-</React.Fragment>
-
-        
+</React.Fragment>        
   )
   
     }

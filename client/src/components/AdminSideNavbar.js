@@ -4,11 +4,73 @@ import { LinkContainer } from 'react-router-bootstrap'
 import SideNav, { Toggle, Nav, NavItem, NavIcon, NavText } from '@trendmicro/react-sidenav';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import DropdownButton from 'react-bootstrap/DropdownButton'
+import Container from 'react-bootstrap/Container'
+
 import Dropdown from 'react-bootstrap/Dropdown'
 import DropdownType from 'react-bootstrap/Dropdown'
 import Form from 'react-bootstrap/Form'; 
 import Button from 'react-bootstrap/Button'
 import Style from'@trendmicro/react-sidenav/dist/react-sidenav.css';
+import { ButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
+
+
+const ddButton ={
+    backgroundColor: '#286090',
+    left:1070,
+    top:-65,
+    width:150,
+    height:40,
+    fontSize:15
+}
+
+
+const ddButton2 ={
+    backgroundColor: '#286090',
+    left:1047,
+    top:-90,
+    width:20,
+    height:5,
+    fontSize:15,
+    
+}
+
+const ddItem={
+    backgroundColor:"white",
+    width:150,
+    fontSize:13,
+    height:40,
+    left:500
+}
+
+const ddItem2={
+    backgroundColor:"white",
+    width:100,
+    fontSize:12,
+    height:40,
+    left:500
+   
+    
+}
+
+const ddItem3={
+    backgroundColor:"white",
+    width:100,
+    fontSize:12,
+    height:40,
+    left:500
+   
+    
+}
+
+
+const ddItem4={
+    backgroundColor:"white",
+    width:100,
+    fontSize:12,
+    height:40,
+   
+    
+}
 
 const SideNavbarStyle = {
     backgroundColor: '#286090',
@@ -28,7 +90,49 @@ const DropdownStyle ={
 
 
 
+// ButtonDropdown.propTypes = {
+//     disabled: false,
+//     backgroundColor: '#286090'
+//     // direction: propTypes.oneOf(['up', 'down', 'left', 'right']),
+//     // group: propTypes.bool,
+//     // isOpen: propTypes.bool,
+//     // tag: propTypes.string,
+//     // toggle: propTypes.func
+//   };
+  
+//   DropdownToggle.propTypes = {
+//     // caret: propTypes.bool,
+//     backgroundColor: '#286090',
+//     disabled: false,
+//     // onClick: PropTypes.func,
+//     // 'data-toggle': PropTypes.string,
+//     // 'aria-haspopup': PropTypes.bool
+//   };
+
+
+
+
 export class AdminSideNavbar extends Component {
+
+    constructor(props) {
+        super(props);
+    
+        this.toggle = this.toggle.bind(this);
+        this.state = {
+          dropdownOpen: false
+        };
+      }
+
+      
+    
+      toggle() {
+        this.setState({
+          dropdownOpen: !this.state.dropdownOpen
+        });
+      }
+
+
+
   render() {
     return (
        
@@ -91,11 +195,6 @@ export class AdminSideNavbar extends Component {
                  <Link to="/AddLawyer"></Link>
             </NavItem>
            
-         
-
-            
-            
-            
             <NavItem eventKey="Register/Reviewer">
                 <NavText>
                     Reviewer
@@ -144,6 +243,7 @@ export class AdminSideNavbar extends Component {
                 </NavItem>
             </NavItem>
 
+ <LinkContainer to="#editCompanies">
             <NavItem eventKey="Edit Companies">
             <NavIcon>
                 <i className="glyphicon glyphicon-pencil" style={{ fontSize: '1.75em' }} font-family= {FontAwesomeIcon} />
@@ -152,8 +252,9 @@ export class AdminSideNavbar extends Component {
                Edit Companies
             </NavText>
          </NavItem>
+         </LinkContainer>
 
-
+         <LinkContainer to="#viewComments">
          <NavItem eventKey="Comments">
          <NavIcon>
             <i class="fa fa-comment"  style={{ fontSize: '1.75em' }} font-family= {FontAwesomeIcon}></i>
@@ -162,7 +263,7 @@ export class AdminSideNavbar extends Component {
                Comments
             </NavText>
          </NavItem>
-        
+        </LinkContainer>
 
 
          <NavItem eventKey="Leader Boards For">
@@ -186,7 +287,7 @@ export class AdminSideNavbar extends Component {
         </NavItem>
 
 
-        
+        <LinkContainer to="#addLaw">
         <NavItem eventKey="Generate New Law">
             <NavIcon>
                 <i className="fa fa-lightbulb-o" style={{ fontSize: '1.75em' }} />
@@ -195,8 +296,9 @@ export class AdminSideNavbar extends Component {
             Generate New Law
             </NavText>
          </NavItem>
+</LinkContainer>
 
-
+<LinkContainer to="#pricingStrategy">
          <NavItem eventKey="Pricing Strategy">
             <NavIcon>
                 <i className="fa fa-credit-card" style={{ fontSize: '1.75em' }} />
@@ -205,8 +307,9 @@ export class AdminSideNavbar extends Component {
             Pricing Strategy
             </NavText>
          </NavItem>
+         </LinkContainer>
 
-
+         <LinkContainer to="#publishedCompanies">
          <NavItem eventKey="Published Companies">
                 <NavIcon>
                     <i className="fa fa-trophy" style={{ fontSize: '1.75em' }} />
@@ -215,6 +318,7 @@ export class AdminSideNavbar extends Component {
             Published Companies
             </NavText>
          </NavItem>
+         </LinkContainer>
 
 
          <NavItem eventKey="Remove">
@@ -237,7 +341,7 @@ export class AdminSideNavbar extends Component {
             </NavItem>
         </NavItem>
 
-
+        <LinkContainer to="#sendMail">
         <NavItem eventKey="Send E-mails">
             <NavIcon>
                 <i className="fa fa-envelope" style={{ fontSize: '1.75em' }} />
@@ -246,7 +350,9 @@ export class AdminSideNavbar extends Component {
             Sends E-mails
             </NavText>
          </NavItem>
+        </LinkContainer>
 
+ <LinkContainer to="#averageMins">
          <NavItem eventKey="Statistics">
             <NavIcon>
                 <i className="glyphicon glyphicon-stats" style={{ fontSize: '1.75em' }} />
@@ -255,30 +361,43 @@ export class AdminSideNavbar extends Component {
             Statistics
             </NavText>
          </NavItem>
+         </LinkContainer>
 
-         
-
-        
-         
-         
-         
+   
     </SideNav.Nav>
     </SideNav>
  </SideNav>
 
- <DropdownButton id="dropdown-basic-button" title="Dropdown button">
- <DropdownType
-        color="grey"
-        size="lg"
-        title="Drop small"
-      > 
-  <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
-  <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
-  <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
-  </DropdownType>
 
-</DropdownButton>
-        
+ <ButtonDropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
+
+
+ <DropdownToggle bg={ddButton} variant="dark" style ={ddButton}>SETTINGS</DropdownToggle>
+      
+        <DropdownMenu>
+          <DropdownItem   bg={ddItem} variant="dark" style ={ddItem} href="/AdminChangePassword" >Change Password</DropdownItem>
+          <DropdownItem   bg={ddItem} variant="dark" style ={ddItem} href="#resetPassword">Reset Password</DropdownItem>
+          <DropdownItem  bg={ddItem} variant="dark" style ={ddItem} href="#forgotPassword" >Forgot Password</DropdownItem>
+        </DropdownMenu>
+
+</ButtonDropdown>
+
+ 
+
+
+
+ <DropdownButton bg={ddButton2} variant="dark" style ={ddButton2}> 
+{/* <Dropdown bg={ddButton2} variant="dark" style ={ddButton2}> FORM TYPE</Dropdown> */}
+       
+         <DropdownItem   bg={ddItem2} variant="dark" style ={ddItem2} href="#addFormType" >Add Form Type</DropdownItem>
+         <DropdownItem   bg={ddItem3} variant="dark" style ={ddItem3}  href="#viewFormType" >View Form Type</DropdownItem>
+         <DropdownItem  bg={ddItem4} variant="dark" style ={ddItem4}   href="#viewAllForms" >View All Forms</DropdownItem>
+      
+ </DropdownButton>
+
+
+
+ 
       </div>
     )
 

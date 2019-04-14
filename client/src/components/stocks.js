@@ -1,7 +1,6 @@
 import React, { Component,Spinner } from 'react'
-import Iframe from 'react-iframe'
 
-class test extends Component {
+class stocks extends Component {
 
     
     
@@ -20,7 +19,7 @@ class test extends Component {
   }
 
 
-export default test
+export default stocks
 
 
 
