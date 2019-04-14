@@ -676,7 +676,7 @@ router.put('/system_assign_lawyer/:caseId', async (req, res) => {
     }
 
 })
-CheckForms = async function (data) {
+router.CheckForms = async function (data) {
     console.log('Im heree')
     var query = { $and: [ { investorID : data.investorID }, { form_type: 'SSC' } ] }
     
@@ -723,27 +723,33 @@ CheckForms = async function (data) {
        
     }
 
-    else {
+    else if (data.form_type === 'SPC') {
         
        // console.log(inv)
-       if (inv.Nationality != 'Egyptian') {
-            //console.log(data.investorID)
-            if (data.equality_capital < 100000) {
-                console.log('Capital must be greater than 100000')
-                error.equality_capital = 'Capital must be greater than 100000'
+       if (inv.Nationality != "Egyptian") {
+         //console.log(data.investorID)
+         if (data.equality_capital < 100000) {
+           console.log("Capital must be greater than 100000");
+           error.equality_capital =
+             "Capital must be greater than 100000";
 
-                //return -1;
-            }
-    
-            if (data.managers.length > 0) {
-            //console.log(data.managers.length)
-            console.log('SPC Companies should not have any managers')
-            error.managers = 'SPC Companies should not have any managers'
-            //return -1;
-        }
-        
-    }
+           //return -1;
+         }
+         try {
+           if (data.managers.length > 0) {
+             //console.log(data.managers.length)
+             console.log("SPC Companies should not have any managers");
+             error.managers =
+               "SPC Companies should not have any managers";
+             //return -1;
+           }
+         } catch (error) {
+           console.log("no managers");
+         }
+       }
      
+
+       console.log('my errors', error)
     if(Object.keys(error).length !== 0)
             return error;
         else    

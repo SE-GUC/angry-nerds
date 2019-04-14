@@ -28,6 +28,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faStroopwafel } from '@fortawesome/free-solid-svg-icons'
 
 library.add(faStroopwafel)
+import CreateCase from './pages/CreateCase'
+import InvestorsList from './pages/InvestorsList'
 
 
 
@@ -37,28 +39,8 @@ class App extends Component {
   
   //states & functions
   state = {
-      notifications: [],
-      case:
-      {
-        _id: "5c95094155f85f30d82dcfeb",
-        form_type: "SSCP",
-        regulated_law: "masr",
-        arabic_name: "تتتت",
-        english_name: "Hello6",
-        government: "ENG",
-        city: "Cairo",
-        hq_address: "gftfy",
-        hq_city: "yes",
-        main_center_phone: 123515,
-        main_center_fax: 518563,
-        currency: "541",
-        equality_capital: 5054641641562,
-        caseStatus: "published",
-        investorID: "5ca772654d70710fa843bd5f",
-    }
+  
   }
-
-
  
    componentWillUnmount() {
      clearInterval(this.state)
@@ -79,6 +61,16 @@ class App extends Component {
         <Route  exact path = "/home" component = {unregiteredHome}  /> 
         <div className="container">
 
+      <Route exact path= "/Companies" component = {Companies}/> 
+        
+          
+          <div className="col-sm-10">
+          <Route exact path="/" render={props => (
+            <React.Fragment>
+              <h1>Hello World!</h1>
+              <h2> my name is Ramy! </h2>
+            </React.Fragment>
+          )} />
           <Route exact path= "/trackMyCase" component = {TrackMyCase} />
 
           <Route exact path="/about" render={props => (
@@ -87,13 +79,11 @@ class App extends Component {
               <h2> my name is romba! </h2>
             </React.Fragment>
           )} />
-          <Route exact path="/payment" render={props => (
-            <React.Fragment>
-              <Payment case = {this.state.case} />
-            </React.Fragment>
-          )} />
 
-        
+          
+          <Route exact path= "/payment" component = {Payment} />
+          <Route exact path= "/createCase" component = {CreateCase} />  
+
           <Route exact path = "/InvestorForm" component={InvestorForm} />
           <Route exact path = "/LawyerForm" component={LawyerForm} />
 
@@ -110,6 +100,7 @@ class App extends Component {
         <Route exact path = "/AdminViewLaws" component={AdminViewLaws} /> 
         <Route exact path ="/AdminPage" component= {AdminSideNavbar}/>
 
+        <Route exact path = "/InvestorList" component={InvestorsList} /> 
 
           <Route exact path="/notification" render={props => (
             <React.Fragment>
@@ -118,10 +109,7 @@ class App extends Component {
           )} />
         </div>
         
-        
-        
-        {/*  <Route component ={Footer} /> */}
-
+        </div>
       </Router>
      );
    }
