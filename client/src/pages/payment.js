@@ -8,49 +8,51 @@ import {
   CardSubtitle,
   Button
 } from "reactstrap";
-import PaymentForm from '../components/paymentForm'
-
+import axios from 'axios'
+import PaymentForm from "../components/paymentForm";
 
 export class payment extends Component {
-
   state = {
-    case:
-    {
-      _id: "5c95094155f85f30d82dcfeb",
-      form_type: "SSCP",
-      regulated_law: "masr",
-      arabic_name: "تتتت",
-      english_name: "Hello6",
-      government: "ENG",
-      city: "Cairo",
-      hq_address: "gftfy",
-      hq_city: "yes",
-      main_center_phone: 123515,
-      main_center_fax: 518563,
-      currency: "541",
-      equality_capital: 5054641641562,
-      caseStatus: "pending",
-      investorID: "5ca772654d70710fa843bd5f",
-  }
+    case: {}
   };
 
+  constructor(props){
+    super(props)
+
+    this.state = {
+      case: {},
+      fees: '',
+      invoice: ''
+    }
+
+    const id = this.props.match.params.id
+
+    axios.get('http://localhost:3000/api/cases/' + id).then(res => {
+      console.log('company =====>>>',res)
+      this.setState({
+        case: res.data.data
+      })
+    })
+
+    axios.get('http://localhost:3000/calculateFees/' + id).then(res=>{
+      console.log('fees =====>', res)
+      this.setState({
+        fees: res.data.fees,
+        invoice: res.data.invoice
+
+      })
+    }).catch((e)=>
+    console.log(e))
+  }
+
+  
+
   render() {
-    const Case = this.state.case;
-    const fees = Case.fees;
     return (
       <div>
-        <Card body inverse style={{ backgroundColor: '#444', borderColor: '#444' }}>
-          <CardBody>
-            <CardTitle>Establishment Fees</CardTitle>
-            <CardSubtitle>Fees due</CardSubtitle>
-            <CardText>
-              Amount due is {fees}. You can pay securely via stripe.
-            </CardText>
-            <Button color="primary" >Stripe</Button>
-          </CardBody>
-        </Card>
-        
-        <PaymentForm case={this.state.case}/>
+       
+
+        <PaymentForm case={this.state.case} fees= {this.state.fees} invoice={this.state.invoice}/>
       </div>
     );
   }
