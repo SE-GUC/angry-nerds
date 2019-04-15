@@ -1,5 +1,9 @@
 import React ,{ Component,percentage } from 'react'
 import Form from 'react-bootstrap/Form'; 
+import '../vendor/bootstrap/css/bootstrap.css'
+import '../vendor/bootstrap/css/bootstrap.css.map'
+import '../vendor/bootstrap/css/bootstrap.min.css'
+import '../vendor/bootstrap/css/bootstrap.min.css.map'
 import Iframe from 'react-iframe'
 
 class home extends Component  {

@@ -266,7 +266,7 @@ let InvestorController = {
 
     investorViewProfile: async (req, res) => {
         try {
-            const investorId = '5cae8d7770fe6265f034a9fe'
+            const investorId = '5cae8dce70fe6265f034aa00'
             const investor = await Investor.findById(investorId)
             if (!investor)
                 return res.status(404).send({ error: 'Investor doesnt exist ' });
@@ -625,7 +625,7 @@ InvestorViewingPublishedCompanies: async (req, res) => {
 
 
 InvestorEditProfile: async (req, res) => {
-    const InvestorID = '5cae8d7770fe6265f034a9fe' //login token
+    const InvestorID = '5cae8dce70fe6265f034aa00' //login token
     const newInvestor = await Investor.findById(InvestorID)
     if (!newInvestor)
         return res.status(400).json({ error: 'Not an investor' })

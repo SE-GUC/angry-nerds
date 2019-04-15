@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import Payment from "./pages/payment";
-import Notification from "./components/notification";
+import Notification from "./components/Notification";
 import "./App.css";
 import LawyerForm from "./pages/LawyerForm";
 import InvestorForm from "./pages/InvestorForm";
@@ -19,6 +19,7 @@ import AdminAddLawyer from "./components/AdminAddLawyer";
 import AdminAddReviewer from "./components/AdminAddReviewer";
 import AdminAddAdmin from "./components/AdminAddAdmin";
 import AddReviewer from "./components/AddReviewer";
+import AdminDeleteInvestor from './pages/AdminDeleteInvestor'
 import testing from "./components/testing";
 import InvestorEditForm from "./pages/InvestorEditForm";
 import mainNavBar from "./components/mainNavBar";
@@ -78,6 +79,7 @@ class App extends Component {
                 <PrivateRoute exact path="/trackMyCase" component={TrackMyCase} />
                 <Route exact path="/Companies" component={Companies} />
                 <Route exact path="/about" component={about} />
+                  <Route exact path = "/AdminDeleteInvestor" component = {AdminDeleteInvestor}/>
 
                 <Route exact path="/ReviewerHome" component={ReviewerHome} />
 

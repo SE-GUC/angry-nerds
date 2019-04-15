@@ -39,6 +39,7 @@ const image4 =
         </div>
       </div>
     </Parallax>
+    <h1> </h1>
     <br></br>
     <Parallax bgImage={image3} blur={{ min: -2, max: 6 }}>
       <div style={{ height: 500 }}>
@@ -55,6 +56,7 @@ const image4 =
         <div style={insideStyles}>RANDOM TEXT </div>
       </div>
     </Parallax>
+    <h1> </h1>
     <br></br>
     <Parallax
       bgImage={image4}

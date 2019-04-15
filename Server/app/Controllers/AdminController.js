@@ -70,7 +70,7 @@ let AdminController = {
         try {
             mongoose.set('useFindAndModify', false)
             const id = req.params.id
-            const AdminId = '5c9bb0dc5185793518ea84fb' //login token
+            const AdminId = '5cae9507646b4841fcd6478f' //login token
             const Investors = await Investor.findById(id)
             const Admin = await Admins.findById(AdminId)
 
