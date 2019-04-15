@@ -17,31 +17,31 @@ const PrivateRoute =  ({
 }) => {
   
 
-  const storedToken = localStorage.getItem('jwtToken')
-  const str = storedToken.replace('Bearer ','')
-  const tok = jwt.decode(str)
+  // const storedToken = localStorage.getItem('jwtToken')
+  // const str = storedToken.replace('Bearer ','')
+  // const tok = jwt.decode(str)
 
-  if (!storedToken){
-    isAuthenticated = false
-  }else if ( (tok.exp-Date.now()) <= 0){
-    isAuthenticated = false
-    localStorage.removeItem('jwtToken')
-    delete axios.defaults.headers.common['Authorization'] 
-  }else{
-    isAuthenticated = true   
-    if (allowed.indexOf(tok.type)<=0){
-      allowedUserFlag=false
-      switch(tok.type){
-        case 'investor' : userHome = '/LawyerHome'; break ;
-        case 'lawyer' : userHome = '/LawyerHome' ; break ;
-        case 'reviewer' : userHome = '/LawyerHome';break ;
-        case 'admin' : userHome = '/AdminViewLaws' ;break ;
-        default : userHome = '/signin'
-      }    
-    }else{
-      allowedUserFlag=true
-    }
-  }
+  // if (!storedToken){
+  //   isAuthenticated = false
+  // }else if ( (tok.exp-Date.now()) <= 0){
+  //   isAuthenticated = false
+  //   localStorage.removeItem('jwtToken')
+  //   delete axios.defaults.headers.common['Authorization'] 
+  // }else{
+  //   isAuthenticated = true   
+  //   if (allowed.indexOf(tok.type)<=0){
+  //     allowedUserFlag=false
+  //     switch(tok.type){
+  //       case 'investor' : userHome = '/LawyerHome'; break ;
+  //       case 'lawyer' : userHome = '/LawyerHome' ; break ;
+  //       case 'reviewer' : userHome = '/LawyerHome';break ;
+  //       case 'admin' : userHome = '/AdminViewLaws' ;break ;
+  //       default : userHome = '/signin'
+  //     }    
+  //   }else{
+  //     allowedUserFlag=true
+  //   }
+  // }
 
   
 
