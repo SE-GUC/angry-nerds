@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import Payment from "./pages/payment";
-import Notification from "./components/Notification";
 import "./App.css";
 import LawyerForm from "./pages/LawyerForm";
 import InvestorForm from "./pages/InvestorForm";
@@ -138,15 +137,6 @@ class App extends Component {
                   exact
                   path="/electronicjournal"
                   component={electronicJournal}
-                />
-                <Route
-                  exact
-                  path="/notification"
-                  render={props => (
-                    <React.Fragment>
-                      <Notification notif={this.state.notifications} />
-                    </React.Fragment>
-                  )}
                 />
                 <Route exact path="/InvestorList" component={InvestorsList} />
                 <Route
