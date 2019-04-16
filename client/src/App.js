@@ -6,7 +6,7 @@ import "./App.css";
 import LawyerForm from "./pages/LawyerForm";
 import InvestorForm from "./pages/InvestorForm";
 import TrackMyCase from "./pages/trackMyCase";
-import Companies from "./pages/Companies";
+import Companies from "./pages/Companies"; 
 import signup from "./pages/signUp";
 import signin from "./pages/signin";
 import home from "./pages/home";
