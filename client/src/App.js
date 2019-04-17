@@ -1,15 +1,13 @@
 import React, { Component } from "react";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import Payment from "./pages/payment";
-import Notification from "./components/Notification";
 import "./App.css";
 import LawyerForm from "./pages/LawyerForm";
 import InvestorForm from "./pages/InvestorForm";
 import TrackMyCase from "./pages/trackMyCase";
-import Companies from "./pages/Companies";
+import Companies from "./pages/Companies"; 
 import signup from "./pages/signUp";
 import signin from "./pages/signin";
-import home from "./pages/home";
 import LawyerHome from "./pages/LawyerHome";
 import ChangePricing from "./pages/ChangePricing";
 import AdminViewLaws from "./pages/AdminViewLaws";
@@ -23,6 +21,7 @@ import AdminDeleteInvestor from './pages/AdminDeleteInvestor'
 import testing from "./components/testing";
 import InvestorEditForm from "./pages/InvestorEditForm";
 import mainNavBar from "./components/mainNavBar";
+import NotFound from './pages/NotFound'
 import unregiteredHome from "./pages/unregHome";
 import AdminSideNavbar from "./components/AdminSideNavbar";
 import CreateCase from "./pages/CreateCase";
@@ -99,7 +98,6 @@ class App extends Component {
                   component={InvestorEditForm}
                 />
                 <Route exact path="/ViewMyCompanies" component={Companies} />
-                <Route exact path="/home" component={home} />
                 {/* <Route exact path="/signUp" component={signup} /> */}
                 <Route
                   exact
@@ -140,15 +138,6 @@ class App extends Component {
                   path="/electronicjournal"
                   component={electronicJournal}
                 />
-                <Route
-                  exact
-                  path="/notification"
-                  render={props => (
-                    <React.Fragment>
-                      <Notification notif={this.state.notifications} />
-                    </React.Fragment>
-                  )}
-                />
                 <Route exact path="/InvestorList" component={InvestorsList} />
                 <Route
                   exact
@@ -160,10 +149,11 @@ class App extends Component {
                   path="/InvViewProfile"
                   component={InvViewProfile}
                 />
+                 <Route exact path="/me" component={NotFound} />
                
               </div>
             </div>
-            <Route exact path="*" component={() => "404 NOT FOUND"} />
+            <Route exact path="*" component={NotFound} />
           </Switch>
       </Router>
     );

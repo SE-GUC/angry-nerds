@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
-import notificationItem from './notificationItem';
 import {FixedSizeList as List} from "react-window";
 import AutoSizer from "react-virtualized-auto-sizer";
 import { Row } from 'react-bootstrap';
-import "./styles.css";
 import {render} from "react-dom" 
 import DropdownButton from 'react-bootstrap/DropdownButton'
 import Dropdown from 'react-bootstrap/Dropdown'
