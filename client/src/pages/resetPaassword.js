@@ -5,6 +5,7 @@ import Alert from 'react-bootstrap/Alert';
 import axios from 'axios';
 import { Row , Col } from 'react-bootstrap';
 import '../App.css'
+import Verifypassword from "../components/password"
 const padding = {margin: '20'};
 
 class Resetpass extends Component  {
@@ -83,6 +84,7 @@ class Resetpass extends Component  {
                 type="password" id="password" name="psw" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" 
                 title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" required></input>
             </Form.Group>
+            <Verifypassword />
             </div></Col>
             </Row>
             <Row>
