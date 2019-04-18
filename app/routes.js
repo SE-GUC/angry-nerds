@@ -124,6 +124,8 @@ router.get('/UnregisterViewingPublishedCompanies', UserController.UnregisterView
 router.get('/UnregisterViewingCompany/:id', UserController.UnregisterViewingCompany)
 router.get('/UnregisterViewing/:id', UserController.UnregisterViewing)
 router.post('/login', UserController.Login)
+router.post('/register', UserController.register)
+router.put('/verify/:tok', UserController.verify)
 router.get('/UserViewLaws', UserController.UserViewLaws)
 router.post('/MakeQuestion',UserController.makeQuestion)
 

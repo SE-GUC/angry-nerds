@@ -133,12 +133,7 @@ export class LawyerOpenCase extends Component {
     
     axios({
       method: 'PUT',
-      url: 'http://localhost:3000/caseAproveedAtLawyer/'+ this.state.oneCase._id ,
-      headers: {
-        'Authorization':localStorage.getItem('jwtToken'),
-        'Content-Type' : 'application/json',
-        'Accept' : 'application/json' 
-      },
+      url: 'http://localhost:3000/caseAproveedAtLawyer/'+ this.state.oneCase._id 
       }).then(res => console.log('OKAYYY',res))
         .catch(error => console.log(error))
 

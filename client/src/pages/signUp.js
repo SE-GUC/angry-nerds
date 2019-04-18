@@ -27,7 +27,7 @@ try{
     
 axios({
     method: 'post',
-    url: 'http://localhost:3000/api/Investor/register',
+    url: 'http://localhost:3000/register',
     headers: {},
     data: {
         firstName : this.state.firstName,
@@ -46,8 +46,7 @@ axios({
 
     }
   }).then(
-  res => {console.log(res)}
-  
+  res => {alert(res)}
  )
 
 

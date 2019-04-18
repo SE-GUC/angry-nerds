@@ -30,18 +30,21 @@ class signin extends Component  {
               password : spassword
             }
           })
-          if (user){
+          console.log('HAHAHAHAHAHA',user.data)
+          if (user.data.data!=='You need to verify the email that is used in registeration'){
             alert("Successfully")  
+            localStorage.setItem('jwtToken',user.data.data)
+            axios.defaults.headers.common['Authorization'] = user.data.data
+            const tok = localStorage.getItem('jwtToken').replace('Bearer ','')
+            const decoded = jwt.decode(tok)
+            alert(axios.defaults.headers.common['Authorization'])
+            this.setState({toHome: true})
+          }else{
+            alert("You need to verify your mail") 
           }
+         
         //setAuthToken(user.data.data)
-        localStorage.setItem('jwtToken',user.data.data)
-        axios.defaults.headers.common['Authorization'] = user.data.data
-        const tok = localStorage.getItem('jwtToken').replace('Bearer ','')
-        const decoded = jwt.decode(tok)
-        alert(axios.defaults.headers.common['Authorization'])
-        this.setState({toHome: true})
         
-
         }
         catch(error)
         {
