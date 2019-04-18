@@ -107,10 +107,10 @@ class App extends Component {
                 <Route
                   exact
                   path="/AdminAddReviewer"
-                  component={AdminAddReviewer}
+                  component={AdminAddReviewer}  
                 />
                 <Route exact path="/AdminAddAdmin" component={AdminAddAdmin} />
-                <Route exact path="/signUp" component={signup} />
+                <Route exact path="/signUp" component={signup} />       
                 <Route exact path="/signin" component={signin} />
                 <Route exact path="/AddLawyer" component={AddLawyer} />
                 <Route exact path="/AddReviewer" component={AddReviewer} />
