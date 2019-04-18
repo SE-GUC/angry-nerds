@@ -434,27 +434,16 @@ generatePdf: async function(req, res) {
                 .status(404)
                 .json({ error: "Cannot find an case with this ID" });
         } else {
+            
             const docDefinition = {
-                content: [
-                    c.form_type,
-                    c.ulated_law,
-                    //c.arabic_name,
-                    c.english_name,
-                    c.city,
-                    c.address,
-                    c.main_center_phone,
-                    c.main_center_fax,
-                    c.currency,
-                    c.equality_capital,
-                    c.fees,
-                    c.caseOpenSince,
-                    c.caseStatus,
-                    c.lawyerStartDate
-                ],
+                content: 
+                    
+                    "اربك تكست هو اول موقع يسمح لالفوتوشوب و "
+
+                ,
 
                 defaultStyle: {
-                    fontSize: 15
-                    //  bold: true
+                    font: "NotoKufiArabic"
                 }
             };
 
@@ -466,7 +455,17 @@ generatePdf: async function(req, res) {
                         ],
                         "base64"
                     )
+                },
+                NotoKufiArabic: {
+                    normal: "fonts/NotoKufiArabic-Regular.ttf"
+                   
+                },
+                DroidKufi: {
+                    normal: "DroidKufi-Regular.ttf"
+                       
                 }
+
+                
             };
             const printer = new pdfMakePrinter(fontDescriptors);
             const doc = printer.createPdfKitDocument(docDefinition);

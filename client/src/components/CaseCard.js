@@ -92,7 +92,7 @@ class CaseCard extends Component {
         )
     }
     else{
-      if(now.getTime() - date.getTime() > 1000 * 60 * 60 * 24 * 3){
+      if(now.getTime() - date.getTime() > 1000 * 60 * 60 * 24 * 30){
         return (
           <IconContext.Provider value={{ color: "red", className: "float-right" ,size: "2em"}}>
             <div>
