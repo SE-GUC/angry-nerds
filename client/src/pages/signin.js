@@ -9,6 +9,8 @@ import { Route, Redirect } from 'react-router-dom'
 import setAuthToken from '../helpers/setAuthToken';
 const padding = {margin: '20'};
 const image1 =require('../Images/logo.png')
+const style = { backgroundImage:" url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABoAAAAaCAYAAACpSkzOAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAALEgAACxIB0t1+/AAAABZ0RVh0Q3JlYXRpb24gVGltZQAxMC8yOS8xMiKqq3kAAAAcdEVYdFNvZnR3YXJlAEFkb2JlIEZpcmV3b3JrcyBDUzVxteM2AAABHklEQVRIib2Vyw6EIAxFW5idr///Qx9sfG3pLEyJ3tAwi5EmBqRo7vHawiEEERHS6x7MTMxMVv6+z3tPMUYSkfTM/R0fEaG2bbMv+Gc4nZzn+dN4HAcREa3r+hi3bcuu68jLskhVIlW073tWaYlQ9+F9IpqmSfq+fwskhdO/AwmUTJXrOuaRQNeRkOd5lq7rXmS5InmERKoER/QMvUAPlZDHcZRhGN4CSeGY+aHMqgcks5RrHv/eeh455x5KrMq2yHQdibDO6ncG/KZWL7M8xDyS1/MIO0NJqdULLS81X6/X6aR0nqBSJcPeZnlZrzN477NKURn2Nus8sjzmEII0TfMiyxUuxphVWjpJkbx0btUnshRihVv70Bv8ItXq6Asoi/ZiCbU6YgAAAABJRU5ErkJggg=="}
+
 
 class signin extends Component  {
   state={
@@ -53,14 +55,14 @@ class signin extends Component  {
         return (<Redirect to={{pathname:'/LawyerHome'}} />)
         }else{
     return (
-        <React.Fragment>
+        <React.Fragment >
      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css"/>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
 <Form>
-<div>
+<div> 
   <div style={{textAlign:"center"}}>
 <img src={image1} class="rounded"/>
 </div>
@@ -73,7 +75,7 @@ class signin extends Component  {
 <Row >
 <div className="col-xs-4">
 <Row>
-<h4>  <label className="label label-primary" for="ex2">Email</label> </h4>
+<h4>  <label className="label label-default" for="ex2">Email</label> </h4>
 </Row>
   <Form.Group controlId="formBasicEmail">
     <input class="form-control" type="email" placeholder="Enter email"  id="email"/>
@@ -81,7 +83,7 @@ class signin extends Component  {
   </div>
   </Row>
   <Row>
-  <h4><label className="label label-primary" for="ex2">Password</label></h4>
+  <h4><label className="label label-default" for="ex2">Password</label></h4>
   </Row>
   <Row>
   <div className="col-xs-4">
