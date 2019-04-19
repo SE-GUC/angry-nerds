@@ -90,11 +90,24 @@ export class LawyerOpenCase extends Component {
   })
   }
 
-  editCase(e,field){
+  editCase(e,field,_field,index){
+    if(!field.multiple){
     console.log('target : ',e.target.value,' field : ',field.key, ' test: ',this.state.oneCase)
     let newCase = this.state.oneCase
     newCase[field.key] = e.target.value
     this.setState({oneCase: newCase})
+    }
+    else{
+      let newCase = this.state.oneCase
+      if(index < newCase[field.key].length){
+      console.log('newwww print>>>> ' + newCase[field.key][index][_field.key] + ' ??? ' + newCase[field.key][index].name)
+      newCase[field.key][index][_field.key] = e.target.value
+      this.setState({oneCase: newCase})
+      }
+      else{
+        newCase[field.key].push({ [_field] : e.target.value})
+      }
+    }
   }
 
   closeCase(e){
@@ -185,6 +198,7 @@ export class LawyerOpenCase extends Component {
       <div>
         <Form>
         {this.state.formType.model.map(field => {
+          if(!field.multiple){
           return (
             <div className="d-flex bd-highlight">
           <div className="p-2 w-100 bd-highlight" >
@@ -203,8 +217,35 @@ export class LawyerOpenCase extends Component {
           aria-expanded={this.state.open[field.key]} >+</Button>
           </div>
           </div>
-          )
-        })}
+          )}
+          else{
+            return(
+              <div>
+              <h3>{field.key}</h3>
+            {this.state.oneCase[field.key].map((manager,index) => {
+              return(
+                <div className="d-flex bd-highlight">
+              
+              {field.fields.map(_field => {
+                return (
+                  <div className="p-2 w-100 bd-highlight" >
+                  <Form.Group>  
+                    <Form.Label>  
+                    {_field.label}
+                  </Form.Label>
+                <Form.Control onChange={(e) => this.editCase(e,field,_field,index)} placeholder={this.state.oneCase[field.key][index][_field.key]} type={_field.type} />
+                </Form.Group>  
+                </div>
+                )
+              })}
+            </div>
+              )
+            })}
+            </div>
+            )
+          }
+        })
+      }
         </Form>
 
           <ButtonToolbar className="d-flex bd-highlight">
