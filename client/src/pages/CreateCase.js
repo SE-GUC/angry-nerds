@@ -4,11 +4,15 @@ import { Form, FormGroup, Label, Input, Container } from "reactstrap";
 import axios from "axios";
 
 export class CreateCase extends Component {
+  
+  
+  
   constructor(props) {
     super(props);
 
     this.state = {
       model: [],
+      formModel:[],
       dropdownOpen: false,
       formTypes: [],
       form_type: ""
@@ -19,6 +23,7 @@ export class CreateCase extends Component {
       this.setState({
         formTypes: formTypes.data.data,
         model: formTypes.data.data[0].model,
+        formModel: formTypes.data.data[0].model,
         dropdownOpen: false,
         form_type: formTypes.data.data[0].formName
       });
@@ -26,12 +31,15 @@ export class CreateCase extends Component {
   }
 
   handleChangeForm = event => {
+    event.preventDefault()
+    console.log("pauuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuullllllll")
     this.state.formTypes.map(form => {
       if (form.formName == event.target.value) {
         this.setState({
+          formModel: JSON.parse(JSON.stringify(form.model)),
           model: form.model,
           form_type: form.formName
-        });
+        })
       }
     });
   };
@@ -42,17 +50,52 @@ export class CreateCase extends Component {
     });
   }
 
+  addField(fieldName){
+    
+    //field format from formModel
+    let array2 = []
+    this.state.formModel.map(field => {
+      if(field.name === fieldName){
+       array2 = field.fields
+      }
+    })
+
+    console.log('array2 ====>>>>>', array2)
+  
+    //append new field to model
+    let array = []
+    let counter = 0
+    this.state.model.map(field => {
+      if(field.name == fieldName){
+        array = field.fields
+        console.log('array1 ====>>>>', array )
+        array = array.concat(array2) 
+
+        console.log('big array ======>>>>', array)
+        let newModel = this.state.model
+        console.log('previous model =====>>>>>', newModel)
+        newModel[counter] = {
+          multiple:"true",
+          name: fieldName,
+          fields: array
+        }
+        console.log(newModel)
+        this.setState({
+          model: newModel
+        })
+      }
+      counter++
+    })
+
+
+  }
+
   render() {
+
+    
+
     return (
       <div>
-        <link
-          rel="stylesheet"
-          href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css"
-        />
-
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js" />
-
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js" />
         <h1> {this.state.form_type} Form </h1>
       <div class="w-25 p-3" > 
           <Label for="exampleSelectMulti">Select Company Type</Label>
@@ -60,8 +103,7 @@ export class CreateCase extends Component {
             type="select"
             name="selectMulti"
             id="exampleSelectMulti"
-            onChange={this.handleChangeForm.bind(this)}
-          >
+            onChange={this.handleChangeForm.bind(this)}>
          
             {this.remap()}
           </Input>
@@ -76,6 +118,7 @@ export class CreateCase extends Component {
               <DynamicForm
                 model={this.state.model}
                 form_type={this.state.form_type}
+                addField = {this.addField.bind(this)} 
               />
             </FormGroup>
           </Form>
