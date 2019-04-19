@@ -101,17 +101,9 @@ var proj = { '_id': 0, 'firstName': 1, 'MiddleName': 1, 'LastName': 1, 'National
 try {
     const id = req.params.id
     const Inv = await Investor.findById(id, proj)
-    const Revs = await Reviewer.findById(id, proj)
-    const Adm = await Admin.findById(id,proj)
-    const Lawy = await Lawyer.findById(id, proj)
+   
     if(Inv)
     res.json({ message:'investor' ,data: Inv})
-        else if(Revs)
-        res.json({message: 'Rev' ,data: Revs})
-        else if(Lawy)
-        res.json({message: 'lawyer',data: Lawy})
-        else if(Adm)
-        res.json({message: 'Admin',data: Adm})
         else {
             res.json({message: 'User does not exist'})
 
@@ -227,6 +219,9 @@ catch (error) {
     const lawyer = await Lawyer.findOne({ email })
     const reviewer = await Reviewer.findOne({ email })
     console.log(user)
+    console.log(admin)
+    console.log(lawyer)
+    console.log(reviewer)
     if (user || admin || lawyer || reviewer)
     {
         console.log('Email Exists')

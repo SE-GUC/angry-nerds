@@ -45,6 +45,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStroopwafel } from "@fortawesome/free-solid-svg-icons";
 import { Switch } from "react-router-dom";
 import setAuthToken from "./helpers/setAuthToken";
+import InvestorPage from "./pages/InvestorPage";
+import ControlledCarousel from './components/ControlledCarousel'
 library.add(faStroopwafel);
 
 if (localStorage.jwtToken){
@@ -127,6 +129,7 @@ class App extends Component {
                 <Route exact path="/ChangePricing" component={ChangePricing} />
                 <Route exact path="/AdminViewLaws" component={AdminViewLaws} />
                 <Route exact path="/AdminPage" component={AdminSideNavbar} />
+                <Route exact path="/InvestorPage" component={ControlledCarousel} />
                 <Route exact path="/Questions" component={Questions} />
                 <Route exact path="/notificat" component={notificat} />
                 <Route

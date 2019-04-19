@@ -1,8 +1,47 @@
 import React, { Component } from 'react'
-import {Form, Button} from 'react-bootstrap'
+import {Form, Button,ButtonGroup,FormControl} from 'react-bootstrap'
+import { RadioGroup, RadioButton } from 'react-radio-buttons'
 import axios from 'axios'
 
+
+  const border ={
+    border: 'dbdbdb'
+    //  solid 1px,
+    
+  }
+  const field ={
+    width: 300
+  }
+
+  const form ={
+    left:1100
+  }
+
 class SignUp extends Component {
+
+
+
+  
+
+
+state={
+  firstName : '',
+  MiddleName : '',
+  LastName : '',
+  email : '',
+  password :'',
+  ID_type : '',
+  SSID : '',
+  Nationality : '',
+  Type : '',
+  Address :'',
+  birthdate : '',
+  telephone_number : '',
+  gender : ''
+}
+
+
+
   myFunction(event) {
     console.log('hiiii')
       var x = document.getElementById("password");
@@ -23,6 +62,18 @@ OnClick1(event){
     
 try{  
     console.log('my first name is ' + this.state.firstName)
+    console.log('my first name is ' + this.state.MiddleName)
+    console.log('my first name is ' + this.state.LastName)
+    console.log('my first name is ' + this.state.email)
+    console.log('my first name is ' + this.state.ID_type)
+    console.log('my first name is ' + this.state.SSID)
+    console.log('my first name is ' + this.state.Nationality)
+    console.log('my first name is ' + this.state.Type)
+    console.log('my first name is ' + this.state.Address)
+    console.log('my first name is ' + this.state.birthdate)
+    console.log('my first name is ' + this.state.telephone_number)
+    console.log('my first name is ' + this.state.gender)
+
     
 axios({
     method: 'post',
@@ -64,91 +115,145 @@ console.log(error)
     }
   
     handleChange(event) {
-        console.log(event.target.name)
-       console.log(event.target.value)
+      console.log(event.target.name)
+      console.log(event.target.value)
       this.setState({
-          
            [event.target.name] : event.target.value
       });
     }
-   
-
-   
-   
-      
-
-     
-
 
   render() {
     return (
-        <Form>
+      <fieldset class="the-fieldset"style = {{border:"1px solid #999", borderRadius:"8px",
+      boxShadow:"0 0 10px #999", textAlign:"center"}}>
+   <div  style ={{textAlign:"center"}}>
+        <Form  > 
+    
 <h1> <Form.Label className="label label-primary">WELCOME</Form.Label> </h1>
             <br></br>
 
-
-        <Form.Group controlId="firstName">
+        <Form.Group controlId="firstName" bg={field} variant="dark" style ={field}>
           <Form.Label>First Name</Form.Label>
-          <Form.Control type="firstName" placeholder="Enter your first name" onChange = {this.handleChange.bind(this)}/> 
+          <Form.Control type="firstName"  placeholder="Enter your first name" name ="firstName" onChange = {this.handleChange.bind(this)}/> 
         </Form.Group>
 
-        <Form.Group controlId="MiddleName">
+        <Form.Group controlId="MiddleName"  bg={field} variant="dark" style ={field}>
           <Form.Label>Middle Name</Form.Label>
-          <Form.Control type="MiddleName" placeholder="Enter your middle name " onChange = {this.handleChange.bind(this)}/>
+          <Form.Control type="MiddleName"  placeholder="Enter your middle name " name="MiddleName"  onChange = {this.handleChange.bind(this)}/>
         </Form.Group>
 
-        <Form.Group controlId="LastName">
+        <Form.Group controlId="LastName"  bg={field} variant="dark" style ={field}>
           <Form.Label>LastName Name</Form.Label>
-          <Form.Control type="LastName" placeholder="Enter your last name" onChange = {this.handleChange.bind(this)}/>
+          <Form.Control type="LastName" placeholder="Enter your last name" name="LastName"  onChange = {this.handleChange.bind(this)}/>
         </Form.Group>
 
-        <Form.Group controlId="email">
+        <Form.Group controlId="email"  bg={field} variant="dark" style ={field}>
           <Form.Label>E-mail</Form.Label>
-          <Form.Control type="email" placeholder="Enter your email" onChange = {this.handleChange.bind(this)} />
+          <Form.Control type="email" placeholder="Enter your email" name ="email"  onChange = {this.handleChange.bind(this)} />
           <Form.Text className="text-muted">
             We'll never share your email with anyone else.
           </Form.Text>
         </Form.Group>
 
+        {/* <InputGroup className="mb-3" controlId="email">
+        <FormControl
+          placeholder="Username"
+          aria-label="Username"
+          aria-describedby="basic-addon1"
+        />
+      </InputGroup> */}
+
+
+
      
-        <Form.Group controlId="password">
+        <Form.Group controlId="password"  bg={field} variant="dark" style ={field}>
           <Form.Label>Password</Form.Label>
-          <Form.Control type="password" placeholder="Enter your password" onChange = {this.handleChange.bind(this)}/>
+          <Form.Control type="password" placeholder="Enter your password" name="password" onChange = {this.handleChange.bind(this)}/>
         </Form.Group>
         <Form.Group controlId="formBasicChecbox">
           <Form.Check type="checkbox" label="Check me out"  onClick={this.myFunction.bind(this)}/>
         </Form.Group>
 
 
-        <Form.Group controlId="SSID">
+        <Form.Group controlId="SSID"  bg={field} variant="dark" style ={field}>
           <Form.Label>SSID</Form.Label>
-          <Form.Control type="SSID" placeholder="Enter your social security number" onChange = {this.handleChange.bind(this)}/>
+          <Form.Control type="SSID" placeholder="Enter your social security number" name="SSID" onChange = {this.handleChange.bind(this)}/>
         </Form.Group>
 
-        <Form.Group controlId="Nationality">
+        <Form.Group controlId="Nationality"  bg={field} variant="dark" style ={field}>
           <Form.Label>Nationality</Form.Label>
-          <Form.Control type="Nationality" placeholder="Enter your nationality" onChange = {this.handleChange.bind(this)}/>
+          <Form.Control type="Nationality" placeholder="Enter your nationality" name="Nationality" onChange = {this.handleChange.bind(this)}/>
         </Form.Group>
 
-        <Form.Group controlId="Type">
+        <Form.Group controlId="Type"  bg={field} variant="dark" style ={field}>
+          <Form.Label>ID-Type</Form.Label> <br/> 
+<input type="radio" name="Type" value="Passport"  onChange={this.handleChange.bind(this)}/> Passport &nbsp;
+<input type="radio" name="Type" value="National ID"   onChange={this.handleChange.bind(this)}/> National ID<br></br>
+</Form.Group>
+
+
+        {/* <Form.Group controlId="Type">
           <Form.Label>ID-Type</Form.Label>
-          <Form.Control type="Type" placeholder="Enter your ID-Type" onChange = {this.handleChange.bind(this)}/>
-        </Form.Group>
+          <Form.Control type="Type" placeholder="Enter your ID-Type" name="Type"  onChange = {this.handleChange.bind(this)}/>
+        </Form.Group> */}
 
-        <Form.Group controlId="Address">
+        <Form.Group controlId="Address"  bg={field} variant="dark" style ={field}>
           <Form.Label>Address</Form.Label>
-          <Form.Control type="Address" placeholder="Enter your address" onChange = {this.handleChange.bind(this)}/>
+          <Form.Control type="Address" placeholder="Enter your address" name="Address"  onChange = {this.handleChange.bind(this)}/>
         </Form.Group>
 
-        <Form.Group controlId="telephone_number">
+        <Form.Group controlId="birthdate"  bg={field} variant="dark" style ={field}>
+          <Form.Label>Birth Date</Form.Label>
+          <Form.Control type="birthdate" placeholder="Enter your birth date" name="birthdate"  onChange = {this.handleChange.bind(this)}/>
+        </Form.Group>
+
+
+        <Form.Group controlId="telephone_number"  bg={field} variant="dark" style ={field}>
           <Form.Label>Telephone Number</Form.Label>
-          <Form.Control type="telephone_number" placeholder="Enter your number" onChange = {this.handleChange.bind(this)}/>
+          <Form.Control type="telephone_number" placeholder="Enter your number" name="telephone_number" onChange = {this.handleChange.bind(this)}/>
         </Form.Group>
 
-        <Form.Group controlId="gender">
+        {/* <Form.Group controlId="gender">
           <Form.Label>Gender</Form.Label>
-          <Form.Control type="gender" placeholder="Enter your gender" onChange = {this.handleChange.bind(this)}/>
-        </Form.Group>
+          <Form.Control type="gender" placeholder="Enter your gender" name="gender" onChange = {this.handleChange.bind(this)}/>
+        </Form.Group> */}
+
+
+
+          {/* <label>
+            <input
+              type="radio"
+              value="male"
+              // onClick={this.state.gender === "male"}
+              onChange={this.handleChange.bind(this)}
+            />
+            Male
+          </label>
+      
+       
+          <label>
+            <input
+              type="radio"
+              value="female"
+              // onClick={this.state.gender === "female"}
+              onChange={this.handleChange.bind(this)}
+            />
+            Female
+          </label>
+       */}
+
+{/* 
+<ButtonGroup>
+    <Button active>Radio 1</Button>
+    <Button>Radio 2</Button>
+  </ButtonGroup> */}
+
+ <Form.Group controlId="gender"  bg={field} variant="dark" style ={field}>
+          <Form.Label>Gender</Form.Label> <br/> 
+<input type="radio" name="gender" value="male"  onChange={this.handleChange.bind(this)}/> Male &nbsp;
+<input type="radio" name="gender" value="female"   onChange={this.handleChange.bind(this)}/> Female<br></br>
+</Form.Group>
+<br/><br/>
 
 
       
@@ -156,6 +261,8 @@ console.log(error)
           Submit
         </Button>
       </Form>
+      </div>
+      </fieldset>
     )
   }
 }

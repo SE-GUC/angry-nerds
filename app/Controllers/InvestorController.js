@@ -551,24 +551,24 @@ InvestorViewingPublishedCompanies: async (req, res) => {
         //Viewing a specific User of any type
 
         InvestorViewing: async (req, res) => {
-            var proj = { _id: 0, password: 0 };
-            var projy = { _id: 0, password: 0, ratings: 0 };
+            var proj = { '_id': 0, 'firstName': 1, 'MiddleName': 1, 'LastName': 1, 'Nationality': 1, 'Address': 1, 'birthdate': 1, 'telephone_number': 1, 'gender': 1 };
+
             try {
-                const id = req.params.id;
-                const Inv = await Investor.findById(id, proj);
-                const Revs = await Reviewer.findById(id, proj);
-                const Adm = await Admins.findById(id, proj);
-                const Lawy = await Lawyer.findById(id, projy);
-                if (Inv) res.json({ message: "investor", data: Inv });
-                else if (Revs) res.json({ message: "Rev", data: Revs });
-                else if (Lawy) res.json({ message: "lawyer", data: Lawy });
-                else if (Adm) res.json({ message: "Admin", data: Adm });
-                else {
-                    res.json({ message: "User does not exist" });
-                }
-            } catch (error) {
-                console.log(error);
+                const id = req.params.id
+                const Inv = await Investor.findById(id, proj)
+               
+                if(Inv)
+                res.json({ message:'investor' ,data: Inv})
+                    else {
+                        res.json({message: 'User does not exist'})
+            
+                    }
             }
+            catch (error) {
+            console.log(error)
+            }
+            
+            
         },
 
             uploadFile: (req, res, next) => {
