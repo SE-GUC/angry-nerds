@@ -122,7 +122,7 @@ state = {
           </Col>            
         </Row>
         <Row>
-        <Col md={{ span: 0, offset: 1 }}>
+        <Col md={{ span: 7, offset: 0 }}>
             <p className={this.state.minimum}>{this.state.minimumText}</p>          
           </Col>
           <Col md={{ span: 0, offset: 1 }}>
@@ -138,11 +138,9 @@ state = {
       </InputGroup.Append>
     </InputGroup>
     <InputGroup className="mb-3">
-      <Row>
-          <Col md={{ span: 0, offset: 1 }}>
+          <Col md={{ span: 0, offset: 0 }}>
           <p className={this.state.confirmed}>{this.state.confirmedText}</p>
           </Col>           
-        </Row>
        </InputGroup>
     </div>  
     )

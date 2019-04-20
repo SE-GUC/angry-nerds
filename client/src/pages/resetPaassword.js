@@ -3,9 +3,9 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form'; 
 import Alert from 'react-bootstrap/Alert'; 
 import axios from 'axios';
-import { Row , Col } from 'react-bootstrap';
+import { Row , Col , Container } from 'react-bootstrap';
 import '../App.css'
-import Verifypassword from "../components/password"
+import Verifypassword from "../components/passwordinReset"
 const padding = {margin: '20'};
 
 class Resetpass extends Component  {
@@ -27,21 +27,14 @@ class Resetpass extends Component  {
     }
     render(){
     return (
-        <React.Fragment>
-            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css"/>
-            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
-        <Form>
-            <br>
-            </br>
-            <fieldset class="the-fieldset">
-            <legend  class="the-legend" >Reset Password</legend>
-            <div className="container">
+            <Container>
+                
+            <br></br>
+            <legend >Reset Password</legend>            
             <Row>
-            <Col  md={{ span: 4, offset: 4 }}>
-            <div className="col-xs-12">
+            <Col md={{ span: 6, offset: 3 }}>
             <Verifypassword />
-            </div></Col>
+            </Col>
             </Row>
             <Row>
             <Col  md={{ span: 4, offset: 5 }}>
@@ -50,10 +43,7 @@ class Resetpass extends Component  {
             </Button>
             </Col>
             </Row>
-            </div>
-            </fieldset>
-    </Form>
-    </React.Fragment>    
+            </Container>
   )
   
 }

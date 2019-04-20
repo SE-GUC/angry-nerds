@@ -17,6 +17,8 @@ router.put('/InvestorUpdateForm/:id', InvestorController.investorUpdateForm)
 router.put('/InvestorEditProfile',InvestorController.InvestorEditProfile)
 router.get('/InvestorViewComment',InvestorController.investorViewComment)
 router.get('/InvestorViewProfile',InvestorController.investorViewProfile)
+router.get('/CalcFeesImmediately/:lawNumber/:capital',InvestorController.CalcFeesImmediately) 
+
 
 
 //this endpoint allows investor to view his company fees
