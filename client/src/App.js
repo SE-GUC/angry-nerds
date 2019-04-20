@@ -60,7 +60,7 @@ class App extends Component {
     return (
       <Router>
           <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" />
-          {/* <Route component={mainNavBar} /> */}
+          <Route component={mainNavBar} />
           <Switch>
         <Route exact path="/stocks" component={stocks} />
             <Route exact path="/home" component={unregiteredHome} />

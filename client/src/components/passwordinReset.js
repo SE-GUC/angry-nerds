@@ -21,11 +21,14 @@ state = {
     upperCaseText:"✖ UpperCase",
     numberText:"✖ Number",
     minimumText:"✖ Minimum Length 8",
-    confirmedText:"✖ Match"
+    confirmedText:"✖ Match",
+    passwordFlag:true,
+    matchFlag:true,
+    submitButton:true
   }
 
   componentWillMount(){
-      this.match1(this.state.confirmPassword)
+      // this.match1(this.state.confirmPassword)
   }
   validate (e){
     const pass = e.target.value
@@ -37,10 +40,10 @@ state = {
 
         if (lowerCaseLetters.test(pass)){
             this.setState({lowerCase:"text-success"})  
-            this.setState({lowerCaseText:"✔ LowerCase"})            
+            this.setState({lowerCaseText:"✔ LowerCase"})
         }else{
             this.setState({lowerCase:"text-danger"})
-            this.setState({lowerCaseText:"✖ LowerCase"})          
+            this.setState({lowerCaseText:"✖ LowerCase"})        
         }
 
         if (upperCaseLetters.test(pass)){
@@ -61,13 +64,12 @@ state = {
 
         if (numbers.test(pass)){
             this.setState({number:"text-success"})
-            this.setState({numberText:"✔ Number"})
-                       
+            this.setState({numberText:"✔ Number"})    
         }else{
             this.setState({number:"text-danger"})    
             this.setState({numberText:"✖ Number"})
-            
-        }     
+        }
+
   }
   
   match(e){
@@ -75,10 +77,12 @@ state = {
     this.setState({confirmPassword:pass})
     if (pass===this.state.password){
         this.setState({confirmed:"text-success"})
-        this.setState({confirmedText:"✔ Match"}) 
+        this.setState({confirmedText:"✔ Match"})
+        this.setState({matchFlag:false}) 
     }else{
         this.setState({confirmed:"text-danger"})    
         this.setState({confirmedText:"✖ Match"})
+        this.setState({matchFlag:true}) 
     }
   }
 
@@ -86,9 +90,11 @@ state = {
     if (pass===x){
         this.setState({confirmed:"text-success"})
         this.setState({confirmedText:"✔ Match"}) 
-    }else{
+        this.setState({matchFlag:false}) 
+      }else{
         this.setState({confirmed:"text-danger"})    
         this.setState({confirmedText:"✖ Match"})
+        this.setState({matchFlag:true}) 
     }
   }
 
@@ -99,6 +105,7 @@ state = {
   handleClick2 = () => this.setState(({type2}) => ({
     type2: type2 === 'text' ? 'password' : 'text'
   }))
+
 
 
   render() {
@@ -115,14 +122,14 @@ state = {
       <InputGroup className="mb-3">
       <Row>
           <Col md={{ span: 0, offset: 1 }}>
-          <p className={this.state.lowerCase}>{this.state.lowerCaseText}</p>
+          <p className={this.state.lowerCase} >{this.state.lowerCaseText}</p>
           </Col>
           <Col md={{ span: 0, offset: 3 }}>
           <p className={this.state.upperCase}>{this.state.upperCaseText}</p>
           </Col>            
         </Row>
         <Row>
-        <Col md={{ span: 7, offset: 0 }}>
+        <Col md={{ span: 0, offset: 1 }}>
             <p className={this.state.minimum}>{this.state.minimumText}</p>          
           </Col>
           <Col md={{ span: 0, offset: 1 }}>
@@ -131,17 +138,22 @@ state = {
         </Row></InputGroup>
       <InputGroup className="mb-3">
       <FormControl type={this.state.type2} placeholder="Confirm your new password" 
-          onChange={(e) => {this.match(e)}} pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"  required
+          onChange={(e) => {this.match(e)}} pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" required
           title="Must match the password you entered before"/>
       <InputGroup.Append>
         <Button className="glyphicon glyphicon-eye-open" variant="outline" onClick={this.handleClick2} />
       </InputGroup.Append>
     </InputGroup>
     <InputGroup className="mb-3">
-          <Col md={{ span: 0, offset: 0 }}>
+    <Row>
+          <Col md={{ span: 0, offset: 1 }}>
           <p className={this.state.confirmed}>{this.state.confirmedText}</p>
           </Col>           
-       </InputGroup>
+    </Row>
+    </InputGroup>
+  
+    <Col md={{ span: 0, offset: 8 }}>
+        <Button type="submit" disabled={this.state.passwordFlag} >Reset</Button></Col>
     </div>  
     )
   }
