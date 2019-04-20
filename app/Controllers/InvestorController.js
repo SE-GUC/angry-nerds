@@ -411,7 +411,15 @@ let InvestorController = {
         },
 
 
-
+    returnStyle(field) {    
+        const arabic = /[\u0600-\u06FF]/
+        if(arabic.test(field)){
+            return {text: field, style: 'normal_arabic'}
+        }
+        else{
+            return {text: field, style: 'normal_english'}
+        }
+    },
 
 /*
       GET method to generate a   contract based on the case object.
@@ -434,17 +442,182 @@ generatePdf: async function(req, res) {
                 .status(404)
                 .json({ error: "Cannot find an case with this ID" });
         } else {
-            
-            const docDefinition = {
-                content: 
-                    
-                    "اربك تكست هو اول موقع يسمح لالفوتوشوب و "
 
-                ,
+            const arabic = /[\u0600-\u06FF]/
 
-                defaultStyle: {
-                    font: "NotoKufiArabic"
+
+            let title1 = '\n ' + 'النظام الأساسي'
+            title1 = title1.split(" ").reverse().join(" ")
+
+            let title2 = '\n ' + 'لشركــــة' + c.arabic_name 
+            title2 = title2.split(" ").reverse().join(" ")
+
+            let title3 = '\n ' +  'شركـــة شخص واحد' 
+            title3 = title3.split(" ").reverse().join(" ")
+
+            let title4 = ' خاضعة لأحكام قانون شركات المساھمة وشركات التوصیة بالأسھم والشركات ذات المسئولیة المحدودة وشركات'
+            title4 = title4.split(" ").reverse().join(" ")
+
+            let title5 = '\n ' + 'الشخص الواحد الصادر بالقانون رقم ١٥٩ لسنة ١٩٨١' 
+            title5 = title5.split(" ").reverse().join(" ")
+
+
+            let title6 = '\n ' + 'رقم العقد'
+            title6 = title6.split(" ").reverse().join(" ")
+
+            let text1 = 'إنھ في یوم الثلاثاء الموافق  تم إقرار ھذا النظام الأساسي وفقا للمواد الآتیة'
+            text1 = text1.split(" ").reverse().join(" ")
+
+
+
+            ///////////////
+
+            let title7 = 'تمھید'
+
+            let text2 = ''
+            let text3 = ''
+            if(c.regulated_law === '72'){
+                text2 = 'في إطار أحكام القانون المصري وافق الموقع على هذا النظام الأساسي على تأسيس شركة شخص واحد تحت اسم'
+                text2 = text2.split(" ").reverse().join(" ")
+                text3 = 'ولائحته التنفيذية وأحكام هذا النظام الأساسي' + ' \n ' +'ولائحته التنفيذية وقانون الاستثمار الصادر بالقانون رقم ٧٢ لسنة ٢٠١٧ ، ويشار إليه فيما بعد باسم قانون الاستثمار' +' \n ' +'وقد وافق على تأسيس شركة شخص واحد مصرية الجنسية وفقاً لأحكام القوانين النافذة وعلى وجه الخصوص قانون الشركات' +' \n ' + 'إليها ، ويترتب على مخالفة ذلك سقوط التمتع بالحافز المشار إليه والتزام الشركة بسداد جميع المستحقات الضريبية ' +' \n ' + 'المادة ١٢ من اللائحة التنفيذية لقانون الاستثمار بغرض إنشاء مشروع استثماري جديد يتمتع بالحوافز الخاصة المشار' +' \n ' + 'لشركة أو منشأة قائمة وقت العمل بأحكام هذا القانون أو قام بتصفية تلك الشركة أو المنشأة خلال المدة المبينة بالبند ٢ من' +' \n ' + 'كما يقر أنه لم يقدم أو يساهم أو يستخدم في إنشاء أو تأسيس أو إقامة مشروع الاستثمار المتمتع بالحافز أياً من الأصول المادية' + ' \n\n ' +'وأنه غير محظور عليه تأسيس شركات طبقاً لأحكام القانون ' + ' \n ' + 'الواحد الصادر بالقانون رقم ١٥٩ لسنة ١٩٨١ ، ويشار إليه فيما بعد باسم قانون الشركات ، ما لم يكن قد رُد إليه اعتباره ،' + ' \n ' + '١٦٣ ، ١٦٤ من قانون شركات المساهمة وشركات التوصية بالأسهم والشركات ذات المسئولية المحدودة وشركات الشخص ' +  ' \n ' + 'أحكام عليه بعقوبة جناية أو جنحة مخلة بالشرف أو الأمانة أو بعقوبة من العقوبات المُشار إليها في المواد ٨٩ ، ١٦٢،' + ' \n ' + 'ويقر الموقع على هذا النظام الأساسي بأنه قد توافرت فيه الأهلية اللازمة لتأسيس شركة شخص واحد ، وبأنه لم يسبق صدور' + ' \n\n ' + ' حيث قامت بإجراء المراجعة  اللازمة له' +' \n '+  'وتأسيساً على ذلك تقدم بهذا النظام الأساسي إلى الهيئة العامة للاستثمار والمناطق الحرة ،'
+                text3 = text3.split(" ").reverse().join(" ")
+            }
+            else{
+                if(c.regulated_law === '159'){
+                    text2 = 'في إطار أحكام القانون المصري وافق الموقع على هذا النظام الأساسي على تأسيس شركة شخص واحد تحت اسم'
+                    text2 = text2.split(" ").reverse().join(" ")
+                    text3 = 'ولائحته التنفيذية' + ' \n '+'وقد أقر المؤسس بالالتزام بأحكام هذا النظام الأساسي وأحكام القانون المصري، وبصفة خاصة قانون الشركات المشار إليه' + ' \n\n ' +'وأنه غير محظور عليه تأسيس شركات طبقاً لأحكام القانون ' + ' \n ' + 'الواحد الصادر بالقانون رقم ١٥٩ لسنة ١٩٨١ ، ويشار إليه فيما بعد باسم قانون الشركات ، ما لم يكن قد رُد إليه اعتباره ،' + ' \n ' + '١٦٣ ، ١٦٤ من قانون شركات المساهمة وشركات التوصية بالأسهم والشركات ذات المسئولية المحدودة وشركات الشخص ' +  ' \n ' + 'أحكام عليه بعقوبة جناية أو جنحة مخلة بالشرف أو الأمانة أو بعقوبة من العقوبات المُشار إليها في المواد ٨٩ ، ١٦٢،' + ' \n ' + 'ويقر الموقع على هذا النظام الأساسي بأنه قد توافرت فيه الأهلية اللازمة لتأسيس شركة شخص واحد ، وبأنه لم يسبق صدور' + ' \n\n ' + ' حيث قامت بإجراء المراجعة  اللازمة له' +' \n '+  'وتأسيساً على ذلك تقدم بهذا النظام الأساسي إلى الهيئة العامة للاستثمار والمناطق الحرة ،'
+                    text3 = text3.split(" ").reverse().join(" ")
                 }
+            }
+           
+            let title8 = ' الماده ١ '
+            title8 = title8.split(" ").reverse().join(" ")
+            let text4 = ' اسم الشركة '
+            text4 = text4.split(" ").reverse().join(" ")
+            let text5 = ' شركة شخص واحد محدودة المسئولیة '
+            text5 = text5.split(" ").reverse().join(" ")
+
+            let title9 = 'الماده ٢'
+            title9 = title9.split(" ").reverse().join(" ")
+
+            let text6 = 'بیانات مؤسس الشركة'
+            text6 = text6.split(" ").reverse().join(" ")
+
+            
+
+            [ investor.Address,investor.ID_type,investor.birthdate, investor.Nationality, investor.firstName + ' ' + investor.lastName, '١' ],
+
+
+            const docDefinition = {
+                 
+                content: [
+                    {text: title1,
+                    style: 'center_arabic'},
+                    {text: [
+                        {text: c.english_name,
+                        style: 'center_english'},
+                        {text: title2,
+                        style: 'center_arabic'}
+                    ]},
+                    {text: title3,
+                    style: 'center_arabic'},
+                    {text: title4,
+                    style: 'center_arabic'},
+                    {text: title5,
+                    style: 'center_arabic'},
+                    {text: [
+                        {text: c._id,
+                        style: 'code_center'},
+                        {text: title6,
+                        style: 'center_arabic'},  
+                    ]},
+                    {text: text1,
+                    style: 'normal_arabic'},
+                    {text: title7,
+                    style: 'center_arabic'},   
+                    {text: text2,
+                    style: 'normal_arabic'},
+                    {text: [
+                        {text: ' ' + c.english_name + ' ',
+                        style: 'center_english_normal'},
+                        {text: c.arabic_name,
+                        style: 'center_arabic_normal'},
+                    ]},
+                    {text: text3,
+                    style: 'normal_arabic'},
+                    {text: title8,
+                    style: 'center_arabic'},
+                    {text: [
+                        {text: text5,
+                        style: 'normal_arabic'},
+                        {text: c.arabic_name,
+                        style: 'normal_arabic'},
+                        {text: ' ' + c.english_name + ' ',
+                        style: 'normal_english'},
+                        {text: text4,
+                        style: 'normal_arabic'},
+                    ]},
+                    {text: title9,
+                    style: 'center_arabic'},
+                    {text: text6,
+                    style: 'normal_arabic'},
+                    {
+                        table: {
+                          
+                          headerRows: 1,
+                          widths: [ '*', 'auto', 100, '*' ],
+                  
+                          body: [
+                            [ {text:'الإقامة',style: 'normal_arabic'},{text:'إثبات'+'الشخصیة',style: 'normal_arabic'},
+                              {text:'تاریخ'+' المیلاد', style: 'normal_arabic'},{text: 'الجنسیة',style: 'normal_arabic'},
+                              {text:'الاسم' ,style: 'normal_arabic'}, {text:'م',style: 'normal_arabic'} ],
+                              tableOwnerBody
+                          ]
+                        }
+                      }
+                    
+
+
+                ],
+        
+                styles: {
+                    center_arabic: {
+                        fontSize: 10,
+                        bold: true,
+                        alignment: 'center',
+                        font: 'DroidKufi'
+                    },
+                    normal_arabic: {
+                        fontSize: 10,
+                        font: 'DroidKufi',
+                        alignment: 'right'
+                    },
+                    center_english: {
+                        alignment: 'center',
+                        font: 'Times',
+                        bold: true
+                    },
+                    normal_english: {
+                        font: 'Times',
+                        alignment: 'right'
+                    },
+                    code_center:{
+                        font: 'Courier',
+                        alignment: 'center'
+                    },
+                    center_english_normal:{
+                        alignment: 'center',
+                        font: 'Times',
+                    },
+                    center_arabic_normal:{
+                        fontSize: 10,
+                        alignment: 'center',
+                        font: 'DroidKufi'
+                    }
+                },
+                pageSize: 'A4',
+                pageMargins: [ 17, 40, 17, 40 ]
             };
 
             const fontDescriptors = {
@@ -461,9 +634,22 @@ generatePdf: async function(req, res) {
                    
                 },
                 DroidKufi: {
-                    normal: "DroidKufi-Regular.ttf"
+                    normal: "fonts/DroidKufi-Regular.ttf",
+                    bold: "fonts/DroidKufi-Bold.ttf"
                        
-                }
+                },
+                Courier: {
+                    normal: 'Courier',
+                    bold: 'Courier-Bold',
+                    italics: 'Courier-Oblique',
+                    bolditalics: 'Courier-BoldOblique'
+                },
+                Times: {
+                    normal: 'Times-Roman',
+                    bold: 'Times-Bold',
+                    italics: 'Times-Italic',
+                    bolditalics: 'Times-BoldItalic'
+                  }
 
                 
             };

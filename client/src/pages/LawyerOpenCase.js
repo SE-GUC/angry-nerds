@@ -238,6 +238,12 @@ export class LawyerOpenCase extends Component {
                 </div>
                 )
               })}
+              <div className="p-2 flex-shrink-1 bd-highlight">
+            <Form.Label style={{color: "white"}}>`</Form.Label> 
+            <Button value={field.key} onClick={(e) => { e.preventDefault(); let c = this.state.open; c[field.key] = !c[field.key]; this.setState({open: c})}  }
+          aria-controls={"control" + field.key}
+          aria-expanded={this.state.open[field.key]} >+</Button>
+          </div>
             </div>
               )
             })}
