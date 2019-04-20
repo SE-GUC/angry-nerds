@@ -13,6 +13,7 @@ import ChangePricing from "./pages/ChangePricing";
 import AdminViewLaws from "./pages/AdminViewLaws";
 import LawyerOpenCase from "./pages/LawyerOpenCase";
 import AddLawyer from "./components/AddLawyer";
+import AddLawyer_AR from "./components/AddLawyer_AR";
 import AdminAddLawyer from "./components/AdminAddLawyer";
 import AdminAddReviewer from "./components/AdminAddReviewer";
 import AdminAddAdmin from "./components/AdminAddAdmin";
@@ -34,6 +35,9 @@ import electronicJournal from "./pages/electronicJournal";
 import PrivateRoute from "./privateRoute";
 import resetPass from "./pages/resetPaassword";
 import stocks from "./components/stocks";
+import UploadPic from "./components/UploadPic";
+import FetchImage from "./components/FetchImage";
+
 //import Noti from './pages/Noti';
 import about from "./pages/About";
 import changePassword from "./pages/ChangePassword";
@@ -59,6 +63,10 @@ class App extends Component {
           <Route component={mainNavBar} />
           <Switch>
         <Route exact path="/stocks" component={stocks} />
+        <Route exact path="/UploadPic" component={UploadPic} />
+        <Route exact path="/FetchImage" component={FetchImage} />
+
+
 
             <Route exact path="/home" component={unregiteredHome} />
             <div className="container">
@@ -82,28 +90,18 @@ class App extends Component {
 
                 <Route exact path="/ReviewerHome" component={ReviewerHome} />
 
-                <Route
-                  exact
-                  path="/ChangeMyPassword"
-                  component={changePassword}
-                />
+                <Route exact path="/ChangeMyPassword" component={changePassword}/>
                 <Route exact path="/resetPassword" component={resetPass} />
                 <Route exact path="/payment/:id" component={Payment} />
                 <Route exact path="/createCase" component={CreateCase} />
                 <Route exact path="/InvestorForm" component={InvestorForm} />
                 <Route exact path="/LawyerForm" component={LawyerForm} />
-                <Route
-                  exact
-                  path="/InvestorEditForm/:id"
-                  component={InvestorEditForm}
+                <Route exact path="/InvestorEditForm/:id" component={InvestorEditForm}
                 />
                 <Route exact path="/ViewMyCompanies" component={Companies} />
                 {/* <Route exact path="/signUp" component={signup} /> */}
-                <Route
-                  exact
-                  path="/AdminAddLawyer"
-                  component={AdminAddLawyer}
-                />
+                <Route exact path="/AdminAddLawyer" component={AdminAddLawyer} />
+
                 <Route
                   exact
                   path="/AdminAddReviewer"
@@ -113,6 +111,7 @@ class App extends Component {
                 <Route exact path="/signUp" component={signup} />
                 <Route exact path="/signin" component={signin} />
                 <Route exact path="/AddLawyer" component={AddLawyer} />
+                <Route exact path="/AddLawyer_AR" component={AddLawyer_AR} />
                 <Route exact path="/AddReviewer" component={AddReviewer} />
                 <Route exact path="/testing" component={testing} />
                 <Route exact path="/LawyerHome" component={LawyerHome} />

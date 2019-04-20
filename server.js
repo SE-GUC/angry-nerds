@@ -22,7 +22,8 @@ const router = express.Router()
 const investor = require('./app/routes/api/Investor')
 const lawyer = require('./app/routes/api/Lawyer')
 const reviewer = require('./app/routes/api/Reviewer')
-// const pic = require('./app/routes/api/uploadPic')   ////
+const UploadPic = require('./app/routes/api/uploadPic')   ////
+express.static('./app/routes/api/uploadPic')
 
 
 const Staffi = require('./app/routes/api/Staff')
@@ -144,22 +145,6 @@ conn.once('open', () => {
   gfs = Grid(conn.db, mongoose.mongo);
   gfs.collection('uploads');
 });
-
-// // Create storage engine
-// const storage = new GridFsStorage({
-//   url: mongoURI,
-//   file: (req, file) => {
-//     return new Promise((resolve, reject) => {
-//       const filename = file.originalname;
-//       const fileInfo = {
-//         filename: filename,
-//         bucketName: 'uploads'
-//       };
-//       resolve(fileInfo);
-//     });
-//   }
-// });
-// const upload = multer({ storage });
 
 
 
@@ -328,13 +313,6 @@ app.get('/files', (req, res) => {
   });
 });
 
-//Enable CORS on the express server
-app.use(function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-  next();
-});
-
 // @route GET /files/:filename
 // @desc  Display single file object                        /// display query results from mongodb atlas
 app.get('/files/:filename', (req, res) => {
@@ -385,32 +363,13 @@ app.use(function(req, res, next) {
   next();
 });
 
-app.use(function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Methods", "POST, PUT, GET, OPTIONS, DELETE")
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
-  next();
-});
-
-app.use(function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Methods", "POST, PUT, GET, OPTIONS, DELETE")
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
-  next();
-});
-
 // Direct to Route Handlers
 app.get('/chat', function (req, res) {
   res.sendFile(__dirname + '/views/chat.html');
 });
-app.use(function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Methods", "POST, PUT, GET, OPTIONS, DELETE")
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
-  next();
-});
+
 app.use('/api/Staff', Staffi)
-// app.use('/api/uploadPic', pic)   ///
+app.use('/api/uploadPic', UploadPic)   ///
 app.use('/api/Cases', Cases)
 app.use('/api/Investor', investor)
 app.use('/api/Lawyer', lawyer)
@@ -420,6 +379,8 @@ app.use('/api/Questions', questions)
 app.use('/api/Comments', Commentj)
 app.use('/api/Admin', Admin)
 app.use('/', routes)
+app.use(express.static('./app/routes/api/uploadPic')) ////
+
 
 app.use((req, res) => res.status(404).send(`<h1>Can not find what you're looking for</h1>`))
 
