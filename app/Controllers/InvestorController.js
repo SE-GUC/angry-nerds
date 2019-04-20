@@ -554,7 +554,29 @@ generatePdf: async function(req, res) {
             let text13 = 'يتولى إدارة الشركة مؤسس الشركة أو مدير أو أكثر يعينهم مؤسس الشركة على النحو التالي'
             text13 = text13.split(" ").reverse().join(" ")
 
+            let title15 = ' ' + 'الماده ٨ '
+            title15 = title15.split(" ").reverse().join(" ")
 
+            let text14 = ''
+            if(c.regulated_law === '159'){
+                text14 = 'تسري على الشركة أحكام قانون الشركات ولائحته التنفيذية فيما لم يرد بشأنه نص خاص في هذا النظام '
+            }else{
+                if(c.regulated_law === '72')
+                text14 = 'تسري على الشركة أحكام قانون الشركات وقانون الاستثمار ولائحتيهما التنفيذية فيما لم يرد بشأنه نص خاص في هذا النظام '
+            }
+            text14 = text14.split(" ").reverse().join(" ")
+
+            let title16 = ' ' + 'الماده ٩ '
+            title16 = title16.split(" ").reverse().join(" ")
+
+            let text15 = 'ينشر هذا النظام طبقا لأحكام القانون '
+            text15 = text15.split(" ").reverse().join(" ")
+
+            let title17 = ' ' + 'الماده ٠١ '
+            title17 = title17.split(" ").reverse().join(" ")
+
+            let text16 ='المصروفات العامة' + ' \n ' + 'وتلتزم الشركة بأداء المصروفات والنفقات والأجور والتكاليف التي تم انفاقها بسبب تأسيس الشركة ، وذلك خصماً من حساب ' + ' \n ' + 'قام مؤسس الشركة بشخصه باتخاذ كافة الإجراءات اللازمة في هذا الشأن '
+            text16 = text16.split(" ").reverse().join(" ")
 
             let tableOwnerBody = [ InvestorController.returnStyle(investor.Address),
                 InvestorController.returnStyle(investor.ID_type),
@@ -563,10 +585,47 @@ generatePdf: async function(req, res) {
                 InvestorController.returnStyle( investor.firstName + ' ' + investor.lastName),
                 {text: '١', style: 'normal_arabic'} ]
 
+            let tableManagersBody = []
+            console.log(c.managers)
+            tableManagersBody.push([ {text:'الإقامة',style: 'normal_arabic'},{text: header2 ,style: 'normal_arabic'},
+            {text: header1, style: 'normal_arabic'},{text: 'الجنسیة',style: 'normal_arabic'},
+            {text:'الاسم' ,style: 'normal_arabic'}, {text:'م',style: 'normal_arabic'} ])
+            c.managers.map((manager,index) => {
+                console.log('manager #',index, ' : ',manager, 'birthdate: >>> ',manager.birthdate, ' firstname >>> ',manager.firstName)
+                tableManagersBody.push( [ InvestorController.returnStyle(manager.Address),
+                    InvestorController.returnStyle(manager.ID_type),
+                    {text: manager.birthdate.toDateString(), style: 'normal_english'},
+                    InvestorController.returnStyle(manager.Nationality),
+                    InvestorController.returnStyle( manager.firstName + ' ' + manager.lastName),
+                    {text: index, style: 'normal_english'} ] )
+            })    
 
             const docDefinition = {
-                 
+                header: {
+                    margin: 10,
+                    alignment: 'right',
+                    columns: [
+                        {
+                            // usually you would use a dataUri instead of the name for client-side printing
+                            // sampleImage.jpg however works inside playground so you can play with it
+                            image: 'client/src/Images/logo.png',
+                            width: 70,
+                        },
+                        // {
+                        //     margin: [10, 0, 0, 0],
+                        //     text: 'Here goes the rest'
+                        // }
+                    ]
+                },
+                // header: 
+                //     {image: 'client/src/Images/logo.png',
+                //     alignment: 'right',
+                //     opacity: 0.8
+                //     },
+                
+                footer: function(currentPage, pageCount) { return {text: currentPage.toString() + ' of ' + pageCount, alignment: 'center' }},
                 content: [
+                    
                     {text: title1,
                     style: 'center_arabic'},
                     {text: [
@@ -662,9 +721,27 @@ generatePdf: async function(req, res) {
                     style: 'center_arabic'},
                     {text: text13,
                     style: 'normal_arabic'},
-                        
-                    
-
+                    {
+                        table: {
+                          
+                          headerRows: 1,
+                          widths: [ '*', '*', '*', '*','*','*' ],
+                          alignment: 'right',
+                          body: tableManagersBody
+                        }
+                      },
+                    {text: title15,
+                    style: 'center_arabic'},
+                    {text: text14,
+                    style: 'normal_arabic'},
+                    {text: title16,
+                    style: 'center_arabic'},
+                    {text: text15,
+                    style: 'normal_arabic'},
+                    {text: title17,
+                    style: 'center_arabic'},
+                    {text: text16,
+                    style: 'normal_arabic'},
 
                 ],
         
@@ -704,7 +781,7 @@ generatePdf: async function(req, res) {
                     }
                 },
                 pageSize: 'A4',
-                pageMargins: [ 17, 40, 17, 40 ]
+                pageMargins: [ 17, 85, 17, 40 ]
             };
 
             const fontDescriptors = {
