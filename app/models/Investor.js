@@ -13,7 +13,7 @@ InvestorSchema = new Schema({
         type: String,
         //required: true
     },
-    LastName: {
+    lastName: {
         type: String,
         //required: true
     },
