@@ -16,12 +16,10 @@ export class DynamicForm extends Component {
 
   async handleSubmit(event) {
     event.preventDefault();
-    console.log(this.state);
 
     const body = this.state.case;
     body.form_type = this.props.form_type;
     body.managers = [];
-    console.log("BODY   ==>>>   ", body);
 
     try {
       this.setState({
@@ -34,15 +32,12 @@ export class DynamicForm extends Component {
       this.setState({
         success:true
       })
-      console.log("REQUEST  =====>>>", request);
     } catch (e) {
-      console.log("error ====>>>>", e.response.data);
       const error = e.response.data;
       let message = "";
       for (let i = 0; i < Object.keys(error).length; i++) {
         message =
           message + "" + (i + 1) + ")" + error[Object.keys(error)[i]] + "\n";
-        console.log("message =====>>>", message);
       }
       if (this.props.form_type == "SSC" || "SPC")
         this.setState({
@@ -53,19 +48,16 @@ export class DynamicForm extends Component {
   }
 
   handleChange(event) {
-    console.log(event.target.name);
     let _case = this.state.case;
     _case[event.target.name] = event.target.value;
     this.setState({
       case: _case
     });
-    console.log("state =====>>>        ", this.state);
   }
 
   arrayChange(event) {
     //fields[0] field name - fields[1] array index - fields[2] entity ie. managers
     let values = event.target.name.split("-");
-    console.log(values);
     let _case = this.state.case;
     if (!_case[values[2]]) {
       _case[values[2]] = [];
@@ -75,7 +67,6 @@ export class DynamicForm extends Component {
       _case[values[2]].push({});
     }
     _case[values[2]][values[1]][values[0]] = event.target.value;
-    console.log(_case);
 
     this.setState({
       case: _case
@@ -83,7 +74,6 @@ export class DynamicForm extends Component {
   }
 
   increment(event) {
-    console.log(event.target.key);
     this.setState({
       [event.target.key]: event.target.key + 1
     });
@@ -169,6 +159,7 @@ export class DynamicForm extends Component {
               <Input
                 className="form-input"
                 style={ddItem}
+                autoComplete="off"
                 name={key}
                 type={type}
                 {...props}
@@ -184,8 +175,8 @@ export class DynamicForm extends Component {
       return (
         <div class="w-25 p-3">
           <FormGroup>
-            <label className="label label-primary" for="ex2">
-              {m.label}
+            <label className="label label-primary" for="ex2" style={{fontWeight: 'bold'}}>
+              {m.label}:
             </label>
             {inputt}
           </FormGroup>
@@ -211,7 +202,7 @@ export class DynamicForm extends Component {
     return (
       <div>
         <fieldset class="the-fieldset">
-          <legend className="the-legend">{this.props.form_type}</legend>
+          <legend className="the-legend">Fill The Application Form Below</legend>
           <Form onSubmit={this.handleSubmit.bind(this)}>
             {this.renderForm()}
             <Alert
