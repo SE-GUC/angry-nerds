@@ -16,6 +16,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const config = require('../../config/key')
 const mailer =require ('../../misc/mailer')
+var nodemailer = require('nodemailer');
 const tokenKey = config.secretOrKey;
 var passport = require('passport');
 require('../../config/passport')(passport);
@@ -276,6 +277,110 @@ verify: async (req,res) => {
         res.json({message:'error'})
     }
 },
+
+forgotPassword: async (req, res) => {
+  const email = req.body.email;
+  const investor = await Investor.findOne({ email });
+  const lawyer = await Lawyer.findOne({ email });
+  const reviewer = await Reviewer.findOne({ email });
+  const admin = await Admin.findOne({ email });
+
+  if ( (!investor) && (!lawyer) && (!reviewer) && (!admin) ) return res.status(400).json({ error : "Email does not exist" });
+  
+  else{
+    let token
+    if (investor){
+      token = jwt.sign({
+        type:'investor',
+        email:email
+        }, tokenKey, { expiresIn: "1h" })
+        investor.secret = token;
+        investor.save();
+    }
+    if (lawyer){
+      token = jwt.sign({
+        type:'lawyer',
+        email:email
+        }, tokenKey, { expiresIn: "1h" })
+        lawyer.secret = token;
+        lawyer.save();
+    }
+    if (reviewer){
+      token = jwt.sign({
+        type:'reviewer',
+        email:email
+        }, tokenKey, { expiresIn: "1h" })
+        reviewer.secret = token;
+        reviewer.save();
+    }
+    if (admin){
+      token = jwt.sign({
+        type:'admin',
+        email:email
+        }, tokenKey, { expiresIn: "1h" })
+        admin.secret = token;
+        admin.save();
+    }
+          
+
+          let transporter = nodemailer.createTransport({
+              service: 'gmail',
+              auth: {
+                  user: config.user,
+                  pass: config.pass
+              }
+
+          });
+          let mailOptions = {
+              from: '"Angry Nerds 👻" <angry.nerds2019@gmail.com>', // sender address
+              to: email ,
+              subject: 'Resetting Password', // Subject line
+              text: 'reset Link expires in 1 hour', // plain text body
+              html: 'We heard that you lost your GAFI password. Sorry about that! <br></br>  But don’t worry! <p>You can Click <a href="http://localhost:3001/resetPassword/' + token + '">here</a> to reset your password</p>'
+          };
+          transporter.sendMail(mailOptions, (error, info) => {
+              if (error) {
+                  return res.status(400).json({ message: 'please try again' })
+              }
+              res.status(200).json({ success: true, message: 'An email has been sent check your email' });
+          });
+      }
+},
+resetPassword:async (req,res) =>{
+  try{
+      console.log('da5lna xD')
+      const password = req.body.password
+      console.log(password)
+      const salt = bcrypt.genSaltSync(10); 
+      const hashPass = bcrypt.hashSync(password, salt);
+      const token = req.params.tok
+      const decoded = jwt.decode(token)
+      console.log(decoded)
+      if (decoded.type==='investor'){
+        const investor = await Investor.findOne({"secret":req.params.tok});
+        investor.password = hashPass;
+        investor.save();
+        res.status(200).json({ success: true, message: 'Your new password has been set Succefully' });
+      }
+      else if (decoded.type==='lawyer'){
+        const lawyer = await Lawyer.findOne({"secret":req.params.tok});
+        lawyer.password = hashPass;
+        lawyer.save();
+      }else if (decoded.type==='reviewer'){
+        const reviewer = await Reviewer.findOne({"secret":req.params.tok});
+        reviewer.password = hashPass;
+        reviewer.save();
+      }else if (decoded.type==='admin'){
+        const admin = await Admin.findOne({"secret":req.params.tok});
+        admin.password = hashPass;
+        admin.save();
+      }
+  }
+  catch(e)
+  {
+
+  }
+}
 
 
 };
