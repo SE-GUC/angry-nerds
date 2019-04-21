@@ -44,8 +44,6 @@ router.post('/AdminRegisterReviewer', AdminController.AdminRegisterReviewer)
 router.delete('/AdminDeleteLawyer/:id', AdminController.AdminDeleteLawyer)
 router.delete('/AdminDeleteReviewer/:id', AdminController.AdminDeleteReviewer)
 router.delete('/AdminDeleteAdmin/:id', AdminController.AdminDeleteAdmin)
-router.get('/forgotpassword', AdminController.forgotpassword)
-router.post('/resetpassword/:token', AdminController.resetpassword)
 router.put('/AdminChangePricingStrategy/:id', AdminController.AdminChangePricingStrategy)
 router.get('/AdminViewingPublishedCompanies', AdminController.AdminViewingPublishedCompanies)
 router.get('/AdminViewingCompany/:id', AdminController.AdminViewingCompany)
@@ -130,6 +128,8 @@ router.post('/register', UserController.register)
 router.put('/verify/:tok', UserController.verify)
 router.get('/UserViewLaws', UserController.UserViewLaws)
 router.post('/MakeQuestion',UserController.makeQuestion)
+router.put('/forgotpassword', UserController.forgotPassword)
+router.put('/resetpassword/:token', UserController.resetPassword)
 
 
 

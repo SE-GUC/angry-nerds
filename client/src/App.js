@@ -46,6 +46,8 @@ import { faStroopwafel } from "@fortawesome/free-solid-svg-icons";
 import { Switch } from "react-router-dom";
 import setAuthToken from "./helpers/setAuthToken";
 import tryComponent from "./pages/tryComponent"
+import anotherMail from "./pages/anotherMail"
+import ForgetPassword from "./pages/forgetPassword"
 library.add(faStroopwafel);
 
 if (localStorage.jwtToken){
@@ -86,7 +88,7 @@ class App extends Component {
                   path="/ChangeMyPassword"
                   component={changePassword}
                 />
-                <Route exact path="/resetPassword" component={resetPass} />
+                <Route exact path="/resetPassword/:tok" component={resetPass} />
                 <Route exact path="/payment/:id" component={Payment} />
                 <Route exact path="/createCase" component={CreateCase} />
                 <Route exact path="/InvestorForm" component={InvestorForm} />
@@ -149,7 +151,10 @@ class App extends Component {
                 />
                  <Route exact path="/me" component={NotFound} />
                 <Route exact path="/verify/:tok" component={Verify} />
-                  
+                <Route exact path="/anotherMail/:tok" component={anotherMail} />
+                <Route exact path="/ForgetPassword" component={ForgetPassword} />
+
+                
               </div>
             </div>
             <Route exact path="*" component={NotFound} />

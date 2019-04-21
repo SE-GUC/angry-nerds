@@ -2,7 +2,9 @@ import React, { Component  } from "react";
 import ReactDOM from 'react-dom'
 import Card from "react-bootstrap/Card";
 import Spinner from "react-bootstrap/Button"; 
-import {Button,InputGroup,FormControl,Row,Col} from "react-bootstrap";
+import {Button,InputGroup,FormControl,Row,Col,Form} from "react-bootstrap";
+import jwt from 'jsonwebtoken'
+import axios from 'axios'
 
 class Verifypassword extends Component {
 
@@ -106,12 +108,29 @@ state = {
     type2: type2 === 'text' ? 'password' : 'text'
   }))
 
-
+  submit(){
+    try {
+      const token = this.props.match.params.tok
+      const decoded = jwt.decode(token)
+          axios({
+              method: "put",
+              url: 'http://localhost:3000/forgotpassword' ,
+              data: {
+                email : decoded.email
+              }
+            }).then(res => console.log(res))
+            .catch(error => console.log(error))
+          }
+          catch(e){
+              
+          }
+  }
 
   render() {
     return (
         <div>
         <InputGroup className="mb-3">
+        <Form.Label style={{color: "#428bca"}}>Password</Form.Label>
         <FormControl type={this.state.type1} placeholder="Enter your new password" ref="psw" 
             onChange={(e) => {this.validate(e)}}  pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"  required
             title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters"/>
@@ -137,6 +156,7 @@ state = {
           </Col>       
         </Row></InputGroup>
       <InputGroup className="mb-3">
+      <Form.Label style={{color: "#428bca"}}>Confirm password</Form.Label>
       <FormControl type={this.state.type2} placeholder="Confirm your new password" 
           onChange={(e) => {this.match(e)}} pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" required
           title="Must match the password you entered before"/>
@@ -153,7 +173,7 @@ state = {
     </InputGroup>
   
     <Col md={{ span: 0, offset: 8 }}>
-        <Button type="submit" disabled={this.state.passwordFlag} >Reset</Button></Col>
+        <Button type="submit" disabled={this.state.matchFlag} onClick={this.submit.bind(this)} >Reset</Button></Col>
     </div>  
     )
   }
