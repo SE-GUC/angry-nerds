@@ -46,6 +46,7 @@
     "pdfmake": "^0.1.54",
     "randomstring": "^1.1.5",
     "react-bootstrap-carousel": "^3.4.1",
+    "react-bootstrap-sidebar": "0.0.1",
     "react-radio-buttons": "^1.2.2",
     "react-slick": "^0.24.0",
     "request": "^2.88.0",
