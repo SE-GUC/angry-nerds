@@ -65,6 +65,9 @@ const LawyerSchema = new Schema({
      photoID: {
         type: String
     },
+    secret: {
+        type: String
+    },
     notifications:{
         type : [
             {
