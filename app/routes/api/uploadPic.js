@@ -13,8 +13,6 @@ const methodOverride = require('method-override'); //
 
 
 
-const app = express()
-app.set('view engine', 'hbs')
 
 
 
@@ -22,17 +20,16 @@ app.set('view engine', 'hbs')
 // //////////UPLOAD IMAGE TO DATABASE /////////////
 
 
-// Middleware
-app.use(bodyParser.json());
-app.use(methodOverride('_method'));
-app.set('view engine', 'ejs');          // change with react later
+// // Middleware
+router.use(bodyParser.json());
+router.use(methodOverride('_method'));
 
 // Create mongo connection
 
 const mongoURI = 'mongodb+srv://ramyGabra:Nike-1234@angrynerds-ymdpc.mongodb.net/test?retryWrites=true';
 const conn = mongoose.createConnection(mongoURI);
 
-// Init gfs
+// // Init gfs
 let gfs;     ////  variable for grid fs stream
 
 conn.once('open', () => {
@@ -70,7 +67,7 @@ const upload = multer({ storage });    // uploading to database
 
 // @route GET /
 // @desc Loads form
-app.get('/', (req, res) => {
+router.get('/', (req, res) => {
   gfs.files.find().toArray((err, files) => {
     // Check if files
     if (!files || files.length === 0) {
@@ -93,7 +90,7 @@ app.get('/', (req, res) => {
 
 // @route POST /upload       
 // @desc  Uploads file to DB                                             // need to edit this to post the profile of user schema
-app.post('/upload/:id', upload.single('file'), async (req, res) => {    // file is the name of the file field from the HTML doc 
+router.post('/upload/:id', upload.single('file'), async (req, res) => {    // file is the name of the file field from the HTML doc 
   try {
     const id = req.file.filename // id of picture
     const incID= "5cabb438c2f6c432a8e244ca"
@@ -114,7 +111,7 @@ app.post('/upload/:id', upload.single('file'), async (req, res) => {    // file 
 
 // @route GET /files
 // @desc  Display all files in JSON                     // displays all Uploded pics as querys from mongo db atlas
-app.get('/files', (req, res) => {
+router.get('/files', (req, res) => {
   gfs.files.find().toArray((err, files) => {
     // Check if files
     if (!files || files.length === 0) {
@@ -131,7 +128,7 @@ app.get('/files', (req, res) => {
 
 // @route GET /files/:filename
 // @desc  Display single file object                        /// display query results from mongodb atlas
-app.get('/files/:filename', (req, res) => {
+router.get('/files/:filename', (req, res) => {
   gfs.files.findOne({ filename: req.params.filename }, (err, file) => {
     // Check if file
     if (!file || file.length === 0) {
@@ -146,7 +143,7 @@ app.get('/files/:filename', (req, res) => {
 
 // @route GET /image/:filename                                ///// to be able to retrive image using filename  "take file name from investor,"
 // @desc Display Image                     to see uploaded pic   /// http://localhost:3000/image/9f2afd767a8c1dd18de66671eeb5ea33.jpg  :)
-app.get('/image/:filename', (req, res) => {
+router.get('/image/:filename', (req, res) => {
   gfs.files.findOne({ filename: req.params.filename }, (err, file) => {
     // Check if file
     if (!file || file.length === 0) {

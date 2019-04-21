@@ -118,7 +118,7 @@ export class AddLawyer_AR extends Component {
 
       <Form.Row>
 
-          <Form.Group as={Col} controlId="formGridPassword">
+          <Form.Group as={Col} text-align="right" controlId="formGridPassword">
       <Form.Label float="right">كلمه السر</Form.Label>
       <Form.Control type="text"  name="password" placeholder="كلمه السر"  onChange={this.handleChangePassword}/>
     </Form.Group>   

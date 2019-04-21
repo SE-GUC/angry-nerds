@@ -32,7 +32,7 @@ export class FetchImage extends Component {
 
       <Row>
     <Col xs={6} md={4}>
-    <Image src="http://localhost:3000/image/56eed3911d46092375f8c33ded536312.jpeg" roundedCircle height ="100"  width="100"/>    
+    <Image src="http://localhost:3000/api/uploadPic/image/a918913dbb98b308052f69270b406333.jpg" roundedCircle height ="100"  width="100"/>    
     </Col>
     </Row>
 

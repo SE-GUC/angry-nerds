@@ -19,7 +19,7 @@ uploadHandler = () => {
       this.state.selectedFile.name
     )
     try {
-        axios.post(`http://localhost:3000/upload/5c7aee579c27c860c43d54b9`,  file )
+        axios.post(`http://localhost:3000/api/uploadPic/upload/5c7aee579c27c860c43d54b9`,  file )
           .then(res => {
             console.log(res);
             console.log(res.data);
