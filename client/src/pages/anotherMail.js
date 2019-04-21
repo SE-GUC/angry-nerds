@@ -33,13 +33,14 @@ render(){
 
   return(
     <Card>
-      <Card.Header as="h5">Forget Password</Card.Header>
+      <Card.Header as="h4">Forget Password</Card.Header>
       <Card.Body>
-      <Card.Title></Card.Title>
       <Card.Text>
       We heard that you lost your GAFI password. Sorry about that! <br></br> 
-      But don’t worry! You can check you mail and follow the steps  
+      But don’t worry! You can check your mail again and follow the steps <br />
+      After , you can sign in again by click on this link  
       </Card.Text>
+      <Card.Link href="http://localhost:3001/signIn">Click here to signIn</Card.Link>
       </Card.Body>
     </Card>
     )

@@ -68,10 +68,10 @@ class signin extends Component  {
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
         <Row style={{height: .12*window.innerHeight + 'px'}}>  </Row>
         <legend  class="the-legend" style={{color: "#428bca"}}>Sign in</legend>        
-        <Col md={{ span: 2, offset: 0 }}>
+        <Col md={{ span: 2, offset: 2 }}>
         <Row style={{height: .04*window.innerHeight + 'px'}} />
          <img src={image1} /> </Col>
-        <Col md={{ span: 4, offset: 2 }}> 
+        <Col md={{ span: 4, offset: 1 }}> 
         <Row style={{height: .05*window.innerHeight + 'px'}} />
         <InputGroup className="mb-3">
         <Form.Label style={{color: "#428bca"}}>Email address</Form.Label>

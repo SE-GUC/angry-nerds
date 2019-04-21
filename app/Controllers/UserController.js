@@ -16,6 +16,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const config = require('../../config/key')
 const mailer =require ('../../misc/mailer')
+var nodemailer = require('nodemailer');
 const tokenKey = config.secretOrKey;
 var passport = require('passport');
 require('../../config/passport')(passport);
@@ -335,7 +336,7 @@ forgotPassword: async (req, res) => {
               to: email ,
               subject: 'Resetting Password', // Subject line
               text: 'reset Link expires in 1 hour', // plain text body
-              html: '<h3>The code expires within an hour</h3> <br> <p>Click <a href="http://localhost:3001/resetPassword/' + token + '">here</a> to reset your password</p>'
+              html: 'We heard that you lost your GAFI password. Sorry about that! <br></br>  But don’t worry! <p>You can Click <a href="http://localhost:3001/resetPassword/' + token + '">here</a> to reset your password</p>'
           };
           transporter.sendMail(mailOptions, (error, info) => {
               if (error) {
@@ -347,15 +348,19 @@ forgotPassword: async (req, res) => {
 },
 resetPassword:async (req,res) =>{
   try{
+      console.log('da5lna xD')
       const password = req.body.password
+      console.log(password)
       const salt = bcrypt.genSaltSync(10); 
       const hashPass = bcrypt.hashSync(password, salt);
       const token = req.params.tok
       const decoded = jwt.decode(token)
+      console.log(decoded)
       if (decoded.type==='investor'){
         const investor = await Investor.findOne({"secret":req.params.tok});
         investor.password = hashPass;
         investor.save();
+        res.status(200).json({ success: true, message: 'Your new password has been set Succefully' });
       }
       else if (decoded.type==='lawyer'){
         const lawyer = await Lawyer.findOne({"secret":req.params.tok});

@@ -129,7 +129,7 @@ router.put('/verify/:tok', UserController.verify)
 router.get('/UserViewLaws', UserController.UserViewLaws)
 router.post('/MakeQuestion',UserController.makeQuestion)
 router.put('/forgotpassword', UserController.forgotPassword)
-router.put('/resetpassword/:token', UserController.resetPassword)
+router.put('/resetpassword/:tok', UserController.resetPassword)
 
 
 

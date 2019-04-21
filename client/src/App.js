@@ -20,7 +20,7 @@ import AddReviewer from "./components/AddReviewer";
 import AdminDeleteInvestor from './pages/AdminDeleteInvestor'
 import testing from "./components/testing";
 import InvestorEditForm from "./pages/InvestorEditForm";
-import mainNavBar from "./components/mainNavBar";
+import MainNavBar from "./components/mainNavBar";
 import NotFound from './pages/NotFound'
 import unregiteredHome from "./pages/unregHome";
 import AdminSideNavbar from "./components/AdminSideNavbar";
@@ -56,13 +56,20 @@ if (localStorage.jwtToken){
 
 class App extends Component {
   //states & functions
-  state = {};
+  state = {
+    user:'user'
+  };
+
+
 
   render() {
     return (
       <Router>
           <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" />
-          <Route component={mainNavBar} />
+          
+          {/* <Route  component={MainNavBar} /> */}
+          <Route  component={()=>this.state.user==='user'? <MainNavBar /> : <Companies/>} />
+
           <Switch>
         <Route exact path="/stocks" component={stocks} />
             <Route exact path="/home" component={unregiteredHome} />
