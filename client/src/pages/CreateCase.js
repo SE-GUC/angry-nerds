@@ -119,6 +119,7 @@ export class CreateCase extends Component {
                 model={this.state.model}
                 form_type={this.state.form_type}
                 addField = {this.addField.bind(this)} 
+                formModel = {this.state.formModel}
               />
             </FormGroup>
           </Form>

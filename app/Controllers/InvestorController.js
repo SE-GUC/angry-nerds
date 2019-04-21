@@ -165,8 +165,6 @@ let InvestorController = {
             const id = "5c93ac9555b21722fc46eb9b"; //From Token
             const investor = await Investor.findById(id);
 
-
-
             if (!investor) {
                 return res
                     .status(404)

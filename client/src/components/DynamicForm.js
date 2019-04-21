@@ -6,7 +6,8 @@ export class DynamicForm extends Component {
   state = {
     alert: false,
     alertMessage: "",
-    case: {}
+    case: {},
+    success:false
   };
 
   constructor(props) {
@@ -30,6 +31,9 @@ export class DynamicForm extends Component {
         "http://localhost:3000/InvestorFillForm",
         body
       );
+      this.setState({
+        success:true
+      })
       console.log("REQUEST  =====>>>", request);
     } catch (e) {
       console.log("error ====>>>>", e.response.data);
@@ -58,8 +62,24 @@ export class DynamicForm extends Component {
     console.log("state =====>>>        ", this.state);
   }
 
-  arrayChange(event){
-     console.log(event.target.name)
+  arrayChange(event) {
+    //fields[0] field name - fields[1] array index - fields[2] entity ie. managers
+    let values = event.target.name.split("-");
+    console.log(values);
+    let _case = this.state.case;
+    if (!_case[values[2]]) {
+      _case[values[2]] = [];
+    }
+
+    for (let i = _case[values[2]].length; i <= values[1]; i++) {
+      _case[values[2]].push({});
+    }
+    _case[values[2]][values[1]][values[0]] = event.target.value;
+    console.log(_case);
+
+    this.setState({
+      case: _case
+    });
   }
 
   increment(event) {
@@ -82,23 +102,33 @@ export class DynamicForm extends Component {
       let inputt = <h1 />;
 
       if (multiple) {
-        
+        let size = 0;
+        this.props.formModel.map(e => {
+          if (e.name == m.name) {
+            size = e.fields.length;
+          }
+        });
+
+        let counter = -1;
+        let number;
         let input = m.fields.map(attribute => {
           let key = attribute.key;
           let type = attribute.type || "text";
           let props = attribute.props || {};
           counter++;
-          
           return (
             <Row>
               <div className="col-xs-5">
-                <Label name={key + counter} key={"l" + key + counter}>
-                  {key}
+                <Label
+                  name={key + "-" + Math.floor(counter / size) + "-" + m.name}
+                  key={"l" + key + counter}
+                >
+                 {Math.floor(counter / size)}. {key}
                 </Label>
                 <Input
                   className="form-input"
                   style={ddItem}
-                  name={key + counter}
+                  name={key + "-" + Math.floor(counter / size) + "-" + m.name}
                   type={type}
                   {...props}
                   key={"i" + key + counter}
@@ -108,7 +138,6 @@ export class DynamicForm extends Component {
               <br />
             </Row>
           );
-         
         });
 
         inputt = (
@@ -116,7 +145,12 @@ export class DynamicForm extends Component {
             <Label>{m.name}</Label>
             {input}
             <div>
-              <Button onClick={(e)=>{ e.preventDefault(); this.props.addField(m.name)}}>
+              <Button
+                onClick={e => {
+                  e.preventDefault();
+                  this.props.addField(m.name);
+                }}
+              >
                 {" "}
                 Add {m.name}
               </Button>
@@ -167,6 +201,12 @@ export class DynamicForm extends Component {
     });
   }
 
+  dismissSuccess() {
+    this.setState({
+      success: false
+    });
+  }
+
   render() {
     return (
       <div>
@@ -174,6 +214,22 @@ export class DynamicForm extends Component {
           <legend className="the-legend">{this.props.form_type}</legend>
           <Form onSubmit={this.handleSubmit.bind(this)}>
             {this.renderForm()}
+            <Alert
+              color="danger"
+              isOpen={this.state.alert}
+              toggle={this.onDismiss.bind(this)}
+            >
+              {this.state.alertMessage}
+            </Alert>
+            <Alert
+          color="success"
+          isOpen={this.state.success}
+          toggle={this.dismissSuccess.bind(this)}
+        >
+          You've Successfully filled the application to establish a company. <br/>
+          Your application will be processed by our employess and you will be notified <br/>
+          through email when you are required to pay the registration fees.
+        </Alert>
             <Button
               style={{
                 backgroundColor: "#286090",
@@ -185,14 +241,6 @@ export class DynamicForm extends Component {
             </Button>
           </Form>
         </fieldset>
-
-        <Alert
-          color="danger"
-          isOpen={this.state.alert}
-          toggle={this.onDismiss.bind(this)}
-        >
-          {this.state.alertMessage}
-        </Alert>
       </div>
     );
   }
