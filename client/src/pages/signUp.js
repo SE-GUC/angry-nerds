@@ -117,25 +117,6 @@ console.log(error)
  }
          
 
-  constructor(props) {
-              super(props);
-               this.handleChange = this.handleChange.bind(this);
-    }
-
-
-          
-    handleChange(event) {
-                console.log(event.target.name)
-               console.log(event.target.value)
-              this.setState({
-                  
-                   [event.target.name] : event.target.value
-              });
-     }
-           
-
-
-
 
   render() {
     return (
