@@ -360,20 +360,23 @@ resetPassword:async (req,res) =>{
         const investor = await Investor.findOne({"secret":req.params.tok});
         investor.password = hashPass;
         investor.save();
-        res.status(200).json({ success: true, message: 'Your new password has been set Succefully' });
+        return res.status(200).json({ success: true, message: 'Your new password has been set Succefully' });
       }
       else if (decoded.type==='lawyer'){
         const lawyer = await Lawyer.findOne({"secret":req.params.tok});
         lawyer.password = hashPass;
         lawyer.save();
+        return res.status(200).json({ success: true, message: 'Your new password has been set Succefully' });        
       }else if (decoded.type==='reviewer'){
         const reviewer = await Reviewer.findOne({"secret":req.params.tok});
         reviewer.password = hashPass;
         reviewer.save();
+        return res.status(200).json({ success: true, message: 'Your new password has been set Succefully' });
       }else if (decoded.type==='admin'){
         const admin = await Admin.findOne({"secret":req.params.tok});
         admin.password = hashPass;
         admin.save();
+        return res.status(200).json({ success: true, message: 'Your new password has been set Succefully' });
       }
   }
   catch(e)
