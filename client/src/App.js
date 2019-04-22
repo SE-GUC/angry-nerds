@@ -12,6 +12,7 @@ import LawyerHome from "./pages/LawyerHome";
 import ChangePricing from "./pages/ChangePricing";
 import AdminViewLaws from "./pages/AdminViewLaws";
 import LawyerOpenCase from "./pages/LawyerOpenCase";
+import CompaniesGroup from './components/CompaniesGroup'
 import AddLawyer from "./components/AddLawyer";
 import AddLawyer_AR from "./components/AddLawyer_AR";
 import AdminAddLawyer from "./components/AdminAddLawyer";
@@ -54,6 +55,7 @@ import { library } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStroopwafel } from "@fortawesome/free-solid-svg-icons";
 import { Switch } from "react-router-dom";
+import Step from './components/stepProgressBar'
 import setAuthToken from "./helpers/setAuthToken";
 import tryComponent from "./pages/tryComponent"
 import anotherMail from "./pages/anotherMail"
@@ -94,7 +96,6 @@ class App extends Component {
             
             
               <Route exact path="/Companies" component={Companies} />
-              <div className="col-sm-10">
                 <Route
                   exact
                   path="/"
@@ -121,6 +122,7 @@ class App extends Component {
                 <Route exact path="/payment/:id" component={Payment} />
                 <Route exact path="/createCase" component={CreateCase} />
                 <Route exact path="/InvestorForm" component={InvestorForm} />
+                <Route exact path ='/AdminDeleteCase' component = {CompaniesGroup}/>
                 <Route exact path="/LawyerForm" component={LawyerForm} />
                 <Route exact path="/InvestorEditForm/:id" component={InvestorEditForm}
                 />
@@ -181,8 +183,6 @@ class App extends Component {
 
                 
               </div>
-              
-            </div>
             
             <Route exact path="*" component={NotFound} />
             
