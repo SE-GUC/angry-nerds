@@ -35,7 +35,8 @@ import electronicJournal from "./pages/electronicJournal";
 import PrivateRoute from "./privateRoute";
 import resetPass from "./pages/resetPaassword";
 import stocks from "./components/stocks";
-import AddFormType from './pages/AddFormType'
+import AddFormType from './pages/AddFormType';
+import DeleteFormType from './pages/DeleteFormType'
 import about from "./pages/About";
 import changePassword from "./pages/ChangePassword";
 import InvEditProfile from "./pages/InvEditProfile";
@@ -99,6 +100,7 @@ class App extends Component {
                 <Route exact path="/payment/:id" component={Payment} />
                 <Route exact path="/createCase" component={CreateCase} />
                 <Route exact path="/AddFormType" component={AddFormType} />
+                <Route exact path="/DeleteFormType" component={DeleteFormType} />
                 <Route exact path="/InvestorForm" component={InvestorForm} />
                 <Route exact path="/LawyerForm" component={LawyerForm} />
                 <Route

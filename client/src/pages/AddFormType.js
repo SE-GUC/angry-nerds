@@ -12,7 +12,10 @@ export class AddFormType extends Component {
 
         this.state={
             formName:'',
-            text:''
+            text:'',
+            alert:false,
+            alertMessage:'',
+            alertColor:''
         }
 
     }
@@ -38,11 +41,25 @@ export class AddFormType extends Component {
     
             const form = JSON.parse(this.state.model)
             const request = await axios.post('http://localhost:3000/AdminCreateFormType', form)
-            console.log(request)
+            this.setState({
+              alert:true,
+              alertMessage:'A new Form Type has been successfully Created',
+              alertColor:'success'
+            });
         }
-        catch(e){
-            console.log(e)
+        catch (e) {
+          console.log(e.response.data.message)
+          this.setState({
+            alert:true,
+            alertMessage:e.response.data.message,
+            alertColor:'danger'
+          });
         }
+    }
+    onDismiss() {
+      this.setState({
+        alert: false
+      });
     }
 
   render() {
@@ -62,6 +79,13 @@ export class AddFormType extends Component {
             </ol>
           <Input type="textarea" rows="20" cols="50" name="text" id="exampleText" onChange={this.change.bind(this)}/>
         </FormGroup>
+        <Alert
+              color={this.state.alertColor}
+              isOpen={this.state.alert}
+              toggle={this.onDismiss.bind(this)}
+            >
+              {this.state.alertMessage}
+            </Alert>
         <Button color="primary" style={{float:"right"}} onClick={this.submit.bind(this)}>Add Field</Button>
       </Form>
  
