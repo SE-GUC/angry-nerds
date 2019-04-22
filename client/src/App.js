@@ -20,10 +20,11 @@ import AddReviewer from "./components/AddReviewer";
 import AdminDeleteInvestor from './pages/AdminDeleteInvestor'
 import testing from "./components/testing";
 import InvestorEditForm from "./pages/InvestorEditForm";
-import MainNavBar from "./components/mainNavBar";
+import mainNavBar from "./components/mainNavBar";
 import NotFound from './pages/NotFound'
 import unregiteredHome from "./pages/unregHome";
 import AdminSideNavbar from "./components/AdminSideNavbar";
+import AdminSideNavbarAR from "./components/AdminSideNavbarAR";
 import CreateCase from "./pages/CreateCase";
 import InvestorsList from "./pages/InvestorsList";
 import notificat from "./components/notificat";
@@ -46,10 +47,8 @@ import { faStroopwafel } from "@fortawesome/free-solid-svg-icons";
 import { Switch } from "react-router-dom";
 import setAuthToken from "./helpers/setAuthToken";
 import InvestorPage from "./pages/InvestorPage";
+import InvestorPageAR from "./pages/InvestorPageAR";
 import ControlledCarousel from './components/ControlledCarousel'
-import tryComponent from "./pages/tryComponent"
-import anotherMail from "./pages/anotherMail"
-import ForgetPassword from "./pages/forgetPassword"
 library.add(faStroopwafel);
 
 if (localStorage.jwtToken){
@@ -58,20 +57,13 @@ if (localStorage.jwtToken){
 
 class App extends Component {
   //states & functions
-  state = {
-    user:'user'
-  };
-
-
+  state = {};
 
   render() {
     return (
       <Router>
           <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" />
-          
-          {/* <Route  component={MainNavBar} /> */}
-          <Route  component={()=>this.state.user==='user'? <MainNavBar /> : <Companies/>} />
-
+          <Route component={mainNavBar} />
           <Switch>
         <Route exact path="/stocks" component={stocks} />
             <Route exact path="/home" component={unregiteredHome} />
@@ -80,7 +72,7 @@ class App extends Component {
               <div className="col-sm-10">
                 <Route
                   exact
-                  path="/" 
+                  path="/"
                   render={props => (
                     <React.Fragment>
                       <h1>Hello World!</h1>
@@ -88,7 +80,7 @@ class App extends Component {
                     </React.Fragment>
                   )}
                 />
-                <PrivateRoute exact path="/trackMyCase" component={TrackMyCase} />
+                <Route exact path="/trackMyCase" component={TrackMyCase} />
                 <Route exact path="/about" component={about} />
                   <Route exact path = "/AdminDeleteInvestor" component = {AdminDeleteInvestor}/>
                 <Route exact path="/ReviewerHome" component={ReviewerHome} />
@@ -97,7 +89,7 @@ class App extends Component {
                   path="/ChangeMyPassword"
                   component={changePassword}
                 />
-                <Route exact path="/resetPassword/:tok" component={resetPass} />
+                <Route exact path="/resetPassword" component={resetPass} />
                 <Route exact path="/payment/:id" component={Payment} />
                 <Route exact path="/createCase" component={CreateCase} />
                 <Route exact path="/InvestorForm" component={InvestorForm} />
@@ -123,7 +115,6 @@ class App extends Component {
                 <Route exact path="/signin" component={signin} />
                 <Route exact path="/AddLawyer" component={AddLawyer} />
                 <Route exact path="/AddReviewer" component={AddReviewer} />
-                <Route exact path="/tryComponent" component={tryComponent} />
                 <Route exact path="/testing" component={testing} />
                 <Route exact path="/LawyerHome" component={LawyerHome} />
                 <Route
@@ -139,8 +130,8 @@ class App extends Component {
                 <Route exact path="/ChangePricing" component={ChangePricing} />
                 <Route exact path="/ChangePricing" component={ChangePricing} />
                 <Route exact path="/AdminViewLaws" component={AdminViewLaws} />
-                <Route exact path="/AdminPage" component={AdminSideNavbar} />
-                <Route exact path="/InvestorPage" component={InvestorPage} />
+                <Route exact path="/AdminPage" component={AdminSideNavbarAR} />
+                <Route exact path="/InvestorPage" component={InvestorPageAR} />
                 <Route exact path="/Questions" component={Questions} />
                 <Route exact path="/notificat" component={notificat} />
                 <Route
@@ -161,10 +152,7 @@ class App extends Component {
                 />
                  <Route exact path="/me" component={NotFound} />
                 <Route exact path="/verify/:tok" component={Verify} />
-                <Route exact path="/anotherMail/:tok" component={anotherMail} />
-                <Route exact path="/ForgetPassword" component={ForgetPassword} />
-
-                
+                  
               </div>
             </div>
             <Route exact path="*" component={NotFound} />

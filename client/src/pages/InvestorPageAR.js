@@ -25,7 +25,8 @@ const SideNavbarStyle = {
     
    
     
-};
+}
+
 
 export class InvestorPage extends Component {
 
@@ -56,13 +57,15 @@ export class InvestorPage extends Component {
     
         
  <div  >  
-    <h1  align="center" fontFamily="Times New Roman"> <b> NOW! </b> </h1>
+    <h1  align="center" fontFamily="Times New Roman"> <b> ! الان </b> </h1>
     <h2 align="center" ><b>
-    In Less than 24 hours, at the click of a button , YOUR company is ready.</b>
+
+        !في اقل من يوم، بضغطة واحدة، شركتك على اتم إستعداد
+    </b>
     </h2>
     <br/><br/>
 
-    <h3 align="center" fontFamily="Impact" > <b>OUR COMPANIES</b></h3>
+    <h3 align="center" fontFamily="Impact" > <b>بعض شركاتنا</b></h3>
  <div >
  {/* style={{fontSize:"300%",align:"center"}} */}
 
@@ -81,14 +84,14 @@ export class InvestorPage extends Component {
   <Card style={{width:"90px", top:"70px"}}>
     <Card.Img variant="top" src={image2} />
     <Card.Body>
-      <Card.Title align="center" fontFamily="Impact" >Types of companies</Card.Title>
+      <Card.Title align="center" fontFamily="Impact" >أقسام الشركات</Card.Title>
      
     </Card.Body>
     <Card.Text  align="center"style={{fontSize:15}}>
-    SSC : Single Shareholder Company
+    SSC : شركة ذات مساهم واحد
       </Card.Text>
     <Card.Footer>
-      <small className="text-muted">Last updated 3 mins ago</small>
+      <small className="text-muted">أخر تعديل منذ ثلاث دقائق</small>
     </Card.Footer>
   </Card>
 
@@ -97,14 +100,14 @@ export class InvestorPage extends Component {
   <Card style={{width:"90px", top:"70px"}}>
     <Card.Img variant="top" src={image1} />
     <Card.Body>
-      <Card.Title>Visit Us</Card.Title>
+      <Card.Title>قم بزيارتنا</Card.Title>
       <Card.Text style={{fontSize:15}}>
-      Address: 3 Salah Salem St, Al Estad, Nasr City, Cairo Governorate
-      Phone: 02 24055412
+      العنوان: 3 شارع صلاح سالم ، الاستاد ، مدينة نصر ، محافظة القاهرة
+      هاتف:02 24055412
       </Card.Text>
     </Card.Body>
     <Card.Footer>
-      <small className="text-muted">Last updated 3 mins ago</small>
+      <small className="text-muted"> أخر تعديل منذ ثلاث دقائق</small>
     </Card.Footer>
   </Card>
 
@@ -121,7 +124,7 @@ export class InvestorPage extends Component {
       </Card.Text>
     
     <Card.Footer>
-      <small className="text-muted">Last updated 3 mins ago</small>
+      <small className="text-muted"> أخر تعديل منذ ثلاث دقائق</small>
     </Card.Footer>
   </Card>
   
@@ -147,7 +150,7 @@ export class InvestorPage extends Component {
             <NavItem eventKey="home" >
             <NavIcon >
                 <i class ="fa fa-fw fa-home" style={{ fontSize: '1.75em' }}  font-family= {FontAwesomeIcon}   />    
-             &nbsp; Home</NavIcon>
+             &nbsp; الصفحة الرئيسية</NavIcon>
             <NavText>
            
             </NavText>
@@ -158,7 +161,7 @@ export class InvestorPage extends Component {
          <NavItem eventKey="Published Companies">
                 <NavIcon>
                     <i className="fa fa-trophy" style={{ fontSize: '1.75em' }} />
-                &nbsp;Published Companies </NavIcon>
+                &nbsp;الشركات المؤسسة </NavIcon>
             <NavText>
            
             </NavText>
@@ -170,7 +173,7 @@ export class InvestorPage extends Component {
          <NavItem eventKey="Pay Fees">
                 <NavIcon>
                     <i className="fa fa-dollar" style={{ fontSize: '1.75em' }} />
-                &nbsp;Payment </NavIcon>
+                &nbsp;الدفع </NavIcon>
             <NavText>
            
             </NavText>
@@ -182,7 +185,7 @@ export class InvestorPage extends Component {
          <NavItem eventKey="Fill Form">
                 <NavIcon>
                     <i className="fa fa-folder-open" style={{ fontSize: '1.75em' }} />
-                &nbsp;Create a Case </NavIcon>
+                &nbsp;طلب إنشاء شركة</NavIcon>
             <NavText>
            
             </NavText>
@@ -195,7 +198,7 @@ export class InvestorPage extends Component {
          <NavItem eventKey="Update Form">
                 <NavIcon>
                     <i className="fa fa-plus" style={{ fontSize: '1.75em' }} />
-                &nbsp;Update Case </NavIcon>
+                &nbsp;تعديل طلب الإنشاء </NavIcon>
             <NavText>
            
             </NavText>
@@ -209,7 +212,7 @@ export class InvestorPage extends Component {
          <NavItem eventKey="View Profile">
                 <NavIcon>
                     <i className="fa fa-user-circle-o" style={{ fontSize: '1.75em' }} />
-                &nbsp;View My Profile </NavIcon>
+                &nbsp;زيارة صفحتي </NavIcon>
             <NavText>
            
             </NavText>
@@ -222,7 +225,7 @@ export class InvestorPage extends Component {
          <NavItem eventKey="Edit Profile">
                 <NavIcon>
                     <i className="fa fa-user-plus" style={{ fontSize: '1.75em' }} />
-                &nbsp;Edit My Profile </NavIcon>
+                &nbsp;تعديل صفحتي</NavIcon>
             <NavText>
            
             </NavText>
@@ -235,7 +238,7 @@ export class InvestorPage extends Component {
          <NavItem eventKey="changePassword">
             <NavIcon>
                 <i className="fa fa-lock" style={{ fontSize: '1.75em' }} />
-             &nbsp;   Change Password </NavIcon>
+             &nbsp;  تغيير كلمة المرور</NavIcon>
             <NavText>
           
             </NavText>
@@ -247,7 +250,7 @@ export class InvestorPage extends Component {
          <NavItem eventKey="Reset Password">
             <NavIcon>
                 <i className="fa fa-refresh" style={{ fontSize: '1.75em' }} />
-             &nbsp;   Reset Password </NavIcon>
+             &nbsp;   إعادة تسجيل كلمة المرور </NavIcon>
             <NavText>
           
             </NavText>
@@ -259,7 +262,7 @@ export class InvestorPage extends Component {
          <NavItem eventKey="forgotPassword">
             <NavIcon>
                 <i className="fa fa-eye-slash" style={{ fontSize: '1.75em' }} />
-             &nbsp;   Forgot Password</NavIcon>
+             &nbsp;  نسيت كلمة المرور </NavIcon>
             <NavText>
           
             </NavText>
@@ -274,7 +277,7 @@ export class InvestorPage extends Component {
 
  <Col md={{ span: 0, offset: 5 }}>
  <h1>
-   <Badge className="label label-primary" variant="Dark"  align="center">Invest in the growing economy of Egypt</Badge>
+   <Badge className="label label-primary" variant="Dark"  align="center">الاستثمار في الاقتصاد المتنامي في مصر</Badge>
   </h1> </Col>
     <Col md={{ span: 0, offset: 2 }}>
   <Stocks/></Col>
@@ -289,7 +292,7 @@ export class InvestorPage extends Component {
       <Image src={image3} roundedCircle />
     </Col>
     <Col md={{ span: 3, offset: 0 }}>
-    <h1>PAYMENT THROUGH</h1></Col>
+    <h1>الدفع من خلال</h1></Col>
     <Col md={{ span: 3, offset:0 }}>
       <Image src={image4} roundedCircle />
     </Col>
