@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import Axios from "axios";
 import InvestorItem from '../components/InvestorItem'
-import {Input, Form, Label, Button} from 'reactstrap'
-import AdminDeleteInvestorItem from '../components/AdminDeleteInvestorItem'
+import {Input, Form, Label, Button,Row} from 'reactstrap'
+import AdminDeleteInvestorItem from '../components/AdminDeleteInvestorItemAr'
 
 export class AdminDeleteInvestor extends Component {
   state = {
@@ -71,10 +71,10 @@ export class AdminDeleteInvestor extends Component {
           <br></br>
           
           <Form>
-
-            <Label>Search</Label>
-            
-        <Input type="text" placeholder="Find Investor..." onChange={this.filter.bind(this)}> Search... </Input>
+            <Row>
+            <Label float="right"style={{textALign:"right"}}>بحث</Label>
+            </Row>
+        <Input style={{textALign:"center"}}type="text" placeholder="البحث عن المستثمر" onChange={this.filter.bind(this)}>   ... بحث </Input>
         {/* <button type="button" class="btn btn-outline-primary" onClick={this.filter.bind(this)}> Search </button> */}
        
         </Form>

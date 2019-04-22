@@ -12,10 +12,10 @@ import {
   CardText
 } from "reactstrap";
 import { IconContext} from "react-icons";
-import {IoIosPerson} from 'react-icons/io'
+import {IoMdClipboard} from 'react-icons/io'
 import Modal from 'react-bootstrap/Modal'
 
-export class AdminDeleteInvestorItem extends Component {
+export class DeleteFormTypeItem extends Component {
   state = {
     disabled: true, 
     show: false
@@ -36,7 +36,7 @@ handleClose(){
     async submit(event){
         await axios({
             method: 'delete',
-            url:'http://127.0.0.1:3000/AdminDeleteInvestor/'+this.props.inv._id,
+            url:'http://127.0.0.1:3000/AdminDeleteFormType/'+this.props.form._id,
             headers: {}, 
             data: { 
             }
@@ -44,15 +44,14 @@ handleClose(){
           this.setState({
             show:false
           })
-          alert('Successfully')
-          window.location.replace('/AdminDeleteInvestor')
+          window.location.replace('/deleteFormType')
 
           
         
     }
     changeC(event)
     {
-      if(document.getElementById("InvestorName").value===this.props.inv.firstName)
+      if(document.getElementById("InvestorName").value===this.props.form.formName)
       {
         this.setState({
           disabled:false
@@ -81,26 +80,25 @@ handleClose(){
             <IconContext.Provider
               value={{ color: "#286090", className: "global-class-name", size:"3em" }}>
               <div>
-                <IoIosPerson />
+                <IoMdClipboard />
               </div>
             </IconContext.Provider>
-            {this.props.inv.firstName + " " + this.props.inv.LastName}
+            {this.props.form.formName}
           </CardHeader>
           <CardBody>
-            <Row>
-              <Col float="left">
-                <CardTitle>
-                  Nationality: {this.props.inv.Nationality}
+          <CardTitle>
+                  Form Type: {this.props.form.formName}
                   <br />
-                  {this.props.inv._id}
+                  {this.props.form._id}
                 </CardTitle>
+            <Row>
+              
+              <Col float="right">
+                <Button color="danger" float="right" onClick= {this.change.bind(this)}>
+                  Delete Form Type
+                </Button>
               </Col>
             </Row>
-            <Row float="left">
-            <Button color="danger" onClick= {this.change.bind(this)}>
-                  Delete Investor
-                </Button>
-                </Row>
           </CardBody>
 
           <br />
@@ -108,21 +106,19 @@ handleClose(){
         </Card>
         <Modal show={this.state.show} onHide={this.handleClose.bind(this)}  style={{backgroundColor: "white"}}>
           <Modal.Header closeButton>
-            <Modal.Title>Confirm delete investor</Modal.Title>
+            <Modal.Title>Confirm delete Form Type</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <h4> Enter the investor's first name to confirm deletion</h4>
-            <input class="form-control" type="input" placeholder= {this.props.inv.firstName}  onChange={this.changeC.bind(this)} id="InvestorName"/>
+            <h4> Enter the form type to confirm deletion</h4>
+            <input class="form-control" type="input" placeholder= {this.props.form.formName}  onChange={this.changeC.bind(this)} id="InvestorName"/>
             <br></br>
             <Button color="danger" float="right" id="deleted" disabled={this.state.disabled} onClick={this.submit.bind(this)}>
-                  Delete Investor
+                  Delete form
                 </Button>
           </Modal.Body>
         </Modal>
       </div>
-
     );
   }
 }
-
-export default AdminDeleteInvestorItem;
+export default DeleteFormTypeItem;
