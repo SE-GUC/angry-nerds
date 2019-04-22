@@ -135,11 +135,11 @@ class signin extends Component  {
             <Button className="glyphicon glyphicon-eye-open" variant="outline" onClick={this.handleClick} />
           </InputGroup.Append>
         </InputGroup>
-        <Col md={{ span: 10, offset: 2 }}>
+        <Col md={{ span: 7, offset: 0 }}>
         <Card.Link href="http://localhost:3001/ForgetPassword" style={{textDecoration: 'underline'}} >هل نسيت كلمة المرور ؟</Card.Link></Col>
         <Row style={{height: .04*window.innerHeight + 'px'}}>  </Row>
-        <Col md={{ span: 4, offset: 8 }}>
-        <Button variant="primary" type="submit" onClick={this.submit.bind(this)}>Sign in</Button></Col>
+        <Col md={{ span: 4, offset: 0 }}>
+        <Button variant="primary" type="submit" onClick={this.submit.bind(this)}>تسجيل الدخول</Button></Col>
         </Col>
         </React.Fragment>        
     )
