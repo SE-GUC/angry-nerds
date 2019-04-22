@@ -2,7 +2,9 @@ import React, { Component  } from "react";
 import ReactDOM from 'react-dom'
 import Card from "react-bootstrap/Card";
 import Spinner from "react-bootstrap/Button"; 
-import {Button,InputGroup,FormControl,Row,Col} from "react-bootstrap";
+import {Button,InputGroup,FormControl,Row,Col,Form} from "react-bootstrap";
+import jwt from 'jsonwebtoken'
+import axios from 'axios'
 
 class Verifypassword extends Component {
 
@@ -21,11 +23,14 @@ state = {
     upperCaseText:"✖ UpperCase",
     numberText:"✖ Number",
     minimumText:"✖ Minimum Length 8",
-    confirmedText:"✖ Match"
+    confirmedText:"✖ Match",
+    passwordFlag:true,
+    matchFlag:true,
+    submitButton:true
   }
 
   componentWillMount(){
-      this.match1(this.state.confirmPassword)
+      // this.match1(this.state.confirmPassword)
   }
   validate (e){
     const pass = e.target.value
@@ -37,10 +42,10 @@ state = {
 
         if (lowerCaseLetters.test(pass)){
             this.setState({lowerCase:"text-success"})  
-            this.setState({lowerCaseText:"✔ LowerCase"})            
+            this.setState({lowerCaseText:"✔ LowerCase"})
         }else{
             this.setState({lowerCase:"text-danger"})
-            this.setState({lowerCaseText:"✖ LowerCase"})          
+            this.setState({lowerCaseText:"✖ LowerCase"})        
         }
 
         if (upperCaseLetters.test(pass)){
@@ -61,13 +66,12 @@ state = {
 
         if (numbers.test(pass)){
             this.setState({number:"text-success"})
-            this.setState({numberText:"✔ Number"})
-                       
+            this.setState({numberText:"✔ Number"})    
         }else{
             this.setState({number:"text-danger"})    
             this.setState({numberText:"✖ Number"})
-            
-        }     
+        }
+
   }
   
   match(e){
@@ -75,10 +79,12 @@ state = {
     this.setState({confirmPassword:pass})
     if (pass===this.state.password){
         this.setState({confirmed:"text-success"})
-        this.setState({confirmedText:"✔ Match"}) 
+        this.setState({confirmedText:"✔ Match"})
+        this.setState({matchFlag:false}) 
     }else{
         this.setState({confirmed:"text-danger"})    
         this.setState({confirmedText:"✖ Match"})
+        this.setState({matchFlag:true}) 
     }
   }
 
@@ -86,9 +92,11 @@ state = {
     if (pass===x){
         this.setState({confirmed:"text-success"})
         this.setState({confirmedText:"✔ Match"}) 
-    }else{
+        this.setState({matchFlag:false}) 
+      }else{
         this.setState({confirmed:"text-danger"})    
         this.setState({confirmedText:"✖ Match"})
+        this.setState({matchFlag:true}) 
     }
   }
 
@@ -100,11 +108,29 @@ state = {
     type2: type2 === 'text' ? 'password' : 'text'
   }))
 
+  submit(){
+    try {
+      const token = this.props.match.params.tok
+      const decoded = jwt.decode(token)
+          axios({
+              method: "put",
+              url: 'http://localhost:3000/forgotpassword' ,
+              data: {
+                email : decoded.email
+              }
+            }).then(res => console.log(res))
+            .catch(error => console.log(error))
+          }
+          catch(e){
+              
+          }
+  }
 
   render() {
     return (
         <div>
         <InputGroup className="mb-3">
+        <Form.Label style={{color: "#428bca"}}>Password</Form.Label>
         <FormControl type={this.state.type1} placeholder="Enter your new password" ref="psw" 
             onChange={(e) => {this.validate(e)}}  pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"  required
             title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters"/>
@@ -115,7 +141,7 @@ state = {
       <InputGroup className="mb-3">
       <Row>
           <Col md={{ span: 0, offset: 1 }}>
-          <p className={this.state.lowerCase}>{this.state.lowerCaseText}</p>
+          <p className={this.state.lowerCase} >{this.state.lowerCaseText}</p>
           </Col>
           <Col md={{ span: 0, offset: 3 }}>
           <p className={this.state.upperCase}>{this.state.upperCaseText}</p>
@@ -130,20 +156,24 @@ state = {
           </Col>       
         </Row></InputGroup>
       <InputGroup className="mb-3">
+      <Form.Label style={{color: "#428bca"}}>Confirm password</Form.Label>
       <FormControl type={this.state.type2} placeholder="Confirm your new password" 
-          onChange={(e) => {this.match(e)}} pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"  required
+          onChange={(e) => {this.match(e)}} pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" required
           title="Must match the password you entered before"/>
       <InputGroup.Append>
         <Button className="glyphicon glyphicon-eye-open" variant="outline" onClick={this.handleClick2} />
       </InputGroup.Append>
     </InputGroup>
     <InputGroup className="mb-3">
-      <Row>
+    <Row>
           <Col md={{ span: 0, offset: 1 }}>
           <p className={this.state.confirmed}>{this.state.confirmedText}</p>
           </Col>           
-        </Row>
-       </InputGroup>
+    </Row>
+    </InputGroup>
+  
+    <Col md={{ span: 0, offset: 8 }}>
+        <Button type="submit" disabled={this.state.matchFlag} onClick={this.submit.bind(this)} >Reset</Button></Col>
     </div>  
     )
   }

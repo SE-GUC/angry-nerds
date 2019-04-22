@@ -115,6 +115,7 @@ console.log(error)
         }  
         
  }
+<<<<<<< HEAD
          
 
   // constructor(props) {
@@ -122,6 +123,8 @@ console.log(error)
   //              this.handleChange = this.handleChange.bind(this);
   //   }
 
+=======
+>>>>>>> react_dev
 
           
     handleChange(event) {
