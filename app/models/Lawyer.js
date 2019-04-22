@@ -71,6 +71,10 @@ const LawyerSchema = new Schema({
     notifications:{
         type : [
             {
+                CaseID:{
+                    type: mongoose.Schema.Types.ObjectId,
+                    ref: 'Cases'
+                     },
                text: {
                    type: String
                },
