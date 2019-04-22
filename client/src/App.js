@@ -48,6 +48,8 @@ import setAuthToken from "./helpers/setAuthToken";
 import tryComponent from "./pages/tryComponent"
 import anotherMail from "./pages/anotherMail"
 import ForgetPassword from "./pages/forgetPassword"
+import InvestorPage from "./pages/InvestorPage";
+import ControlledCarousel from './components/ControlledCarousel'
 library.add(faStroopwafel);
 
 if (localStorage.jwtToken){
@@ -78,7 +80,7 @@ class App extends Component {
               <div className="col-sm-10">
                 <Route
                   exact
-                  path="/"
+                  path="/" 
                   render={props => (
                     <React.Fragment>
                       <h1>Hello World!</h1>
@@ -138,6 +140,7 @@ class App extends Component {
                 <Route exact path="/ChangePricing" component={ChangePricing} />
                 <Route exact path="/AdminViewLaws" component={AdminViewLaws} />
                 <Route exact path="/AdminPage" component={AdminSideNavbar} />
+                <Route exact path="/InvestorPage" component={InvestorPage} />
                 <Route exact path="/Questions" component={Questions} />
                 <Route exact path="/notificat" component={notificat} />
                 <Route

@@ -7,17 +7,18 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar'; 
 import notificat from './notificat';
 import DropdownButton from 'react-bootstrap/DropdownButton'
+import { Route, Redirect } from 'react-router-dom'
 const navbar = {backgroundColor: '#286090'};
 
 
 class mainNavBar extends Component  {
 
-  increment = () => {
-    this.props.dispatch({type :"INCREMENT"})
+  switchToEng = () => {
+    this.props.dispatch({type :"SWITCHtoENG"})
         }
     
-        decrement = () => {
-            this.props.dispatch({type :"DECREMENT"})
+        switchToAr = () => {
+            this.props.dispatch({type :"SWITCHtoAR"})
         }
   
  
@@ -26,6 +27,7 @@ class mainNavBar extends Component  {
 
 
     render(){
+    
     return (
         <React.Fragment>
           <div className=".App__Aside"></div>
@@ -48,13 +50,13 @@ class mainNavBar extends Component  {
       <Nav.Link href="#pricing">Pricing</Nav.Link>
       <Nav.Link href = "/notificat">Notifications</Nav.Link>
      
-    {/* =============REDUX TEST============================== */}
-    {/* <div>
-          <button onClick={this.decrement}>&ndash;</button>
-          <span className="count">{this.props.count}</span>
-           <button onClick={this.increment}>+</button>
-      </div> */}
-    {/* =================REDUX TEST========================= */}
+    {/* =============REDUX TEST==============================  */}
+     <div>
+          <button onClick={this.switchToEng} > To ENG</button>
+          <span className="count">{this.props.lang}</span>
+           <button onClick={this.switchToAr}> To AR</button>
+      </div>
+      {/* =================REDUX TEST=========================  */}
     </Nav>
     <Form inline>
       <Button href="/signin"  variant='outline-light'>Sign in</Button>
@@ -71,24 +73,8 @@ class mainNavBar extends Component  {
     }
 }
 const mapStateToProps = (state) => ({
-  count : state.count 
+  lang : state.lang 
 })
-
-// const mapDispatchToProps = (dispatch) => {
-//   return {
-//     increment : () => dispatch
-//       //this.props.dispatch
-//       ({type :'INCREMENT'}),
-      
-//           decrement : () =>dispatch
-//               //this.props.
-//               ({type :'DECREMENT'})
-          
-//         }
-// }
-
-
-
 
 
 

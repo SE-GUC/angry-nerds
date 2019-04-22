@@ -74,7 +74,7 @@ const ddItem4={
 
 const SideNavbarStyle = {
     backgroundColor: '#286090',
-    height:700,
+    height:980,
     width:120,
     left:-120,
     top:-22
@@ -202,6 +202,7 @@ export class AdminSideNavbar extends Component {
             </NavItem>
             </LinkContainer>
             
+
             <LinkContainer to="/AdminAddAdmin">
             <NavItem eventKey="Register Admin">
             <NavIcon>
@@ -214,39 +215,63 @@ export class AdminSideNavbar extends Component {
             </LinkContainer>
             
 
-                {/* </LinkContainer>  */}
-
-
-            <NavItem eventKey="Delete">
+            {/* <NavItem eventKey="Delete">
             <NavIcon>
             <i class="fa fa-trash-o"  style={{ fontSize: '1.75em' }} font-family= {FontAwesomeIcon}></i>
             </NavIcon>
                 <NavText>
                     Delete
-                </NavText>
-            
-            <NavItem eventKey="Delete/Investor" >
-            < a href = "/DeleteInvestor"/>
+                </NavText> */}
+
+
+         <LinkContainer to="/AdminDeleteInvestor">
+            <NavItem eventKey="Delete Investor" >
+            <NavIcon>
+            <i class="fa fa-trash-o"  style={{ fontSize: '1.75em' }} font-family= {FontAwesomeIcon}></i>
+            </NavIcon>
                 <NavText>
-                    Investor
-                </NavText>
-            </NavItem>
-            <NavItem eventKey="Delete/Lawyer">
-                <NavText>
-                    Lawyer
-                </NavText>
-            </NavItem>
-            <NavItem eventKey="Delete/Reviewer">
-                <NavText>
-                    Reviewer
+                   Delete Investor
                 </NavText>
             </NavItem>
-            <NavItem eventKey="Delete/Admin">
+         </LinkContainer>
+
+
+
+         <LinkContainer to="/DeleteLawyer"> 
+            <NavItem eventKey="Delete Lawyer">
+            <NavIcon>
+            <i class="fa fa-trash-o"  style={{ fontSize: '1.75em' }} font-family= {FontAwesomeIcon}></i>
+            </NavIcon>
                 <NavText>
-                    Admin
+                    Delete Lawyer
+                </NavText>
+            </NavItem>
+            </LinkContainer>
+
+
+         <LinkContainer to="/DeleteReviewer"> 
+            <NavItem eventKey="Delete Reviewer">
+            <NavIcon>
+            <i class="fa fa-trash-o"  style={{ fontSize: '1.75em' }} font-family= {FontAwesomeIcon}></i>
+            </NavIcon>
+                <NavText>
+                   Delete Reviewer
+                </NavText>
+            </NavItem>
+          </LinkContainer>
+
+
+          <LinkContainer to="/DeleteAdmin"> 
+            <NavItem eventKey="Delete Admin">
+            <NavIcon>
+            <i class="fa fa-trash-o"  style={{ fontSize: '1.75em' }} font-family= {FontAwesomeIcon}></i>
+            </NavIcon>
+                <NavText>
+                 Delete Admin
                 </NavText>
                 </NavItem>
-            </NavItem>
+           </LinkContainer>
+            
 
  <LinkContainer to="#editCompanies">
             <NavItem eventKey="Edit Companies">
@@ -314,7 +339,7 @@ export class AdminSideNavbar extends Component {
          </NavItem>
          </LinkContainer>
 
-         <LinkContainer to="#publishedCompanies">
+         <LinkContainer to="/Companies">
          <NavItem eventKey="Published Companies">
                 <NavIcon>
                     <i className="fa fa-trophy" style={{ fontSize: '1.75em' }} />
@@ -374,7 +399,7 @@ export class AdminSideNavbar extends Component {
  </SideNav>
 
 
- <ButtonDropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
+ {/* <ButtonDropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
 
 
  <DropdownToggle bg={ddButton} variant="dark" style ={ddButton}>SETTINGS</DropdownToggle>
@@ -385,20 +410,20 @@ export class AdminSideNavbar extends Component {
           <DropdownItem  bg={ddItem} variant="dark" style ={ddItem} href="#forgotPassword" >Forgot Password</DropdownItem>
         </DropdownMenu>
 
-</ButtonDropdown>
+</ButtonDropdown> */}
 
  
 
 
 
- <DropdownButton bg={ddButton2} variant="dark" style ={ddButton2}> 
+ {/* <DropdownButton bg={ddButton2} variant="dark" style ={ddButton2}> 
 {/* <Dropdown bg={ddButton2} variant="dark" style ={ddButton2}> FORM TYPE</Dropdown> */}
-       
+{/*        
          <DropdownItem   bg={ddItem2} variant="dark" style ={ddItem2} href="#addFormType" >Add Form Type</DropdownItem>
          <DropdownItem   bg={ddItem3} variant="dark" style ={ddItem3}  href="#viewFormType" >View Form Type</DropdownItem>
          <DropdownItem  bg={ddItem4} variant="dark" style ={ddItem4}   href="#viewAllForms" >View All Forms</DropdownItem>
-      
- </DropdownButton>
+       */}
+ {/* </DropdownButton>  */}
 
 
 
