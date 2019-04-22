@@ -64,57 +64,6 @@ class signin extends Component  {
         return (<Redirect to={{pathname:'/LawyerHome'}} />)
         }else{
     return (
-<<<<<<< HEAD
-        <React.Fragment >
-     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css"/>
-
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
-<Form>
-<div> 
-  <div style={{textAlign:"center"}}>
-<img src={image1} class="rounded"/>
-</div>
-</div>
-<br>
-</br>
-<fieldset class="the-fieldset">
-   <legend  class="the-legend" >Sign in</legend>
-<div className="container">
-<Row >
-<div className="col-xs-4">
-<Row>
-<h4>  <label className="label label-default" for="ex2">Email</label> </h4>
-</Row>
-  <Form.Group controlId="formBasicEmail">
-    <input class="form-control" type="email" placeholder="Enter email"  id="email"/>
-  </Form.Group>
-  </div>
-  </Row>
-  <Row>
-  <h4><label className="label label-default" for="ex2">Password</label></h4>
-  </Row>
-  <Row>
-  <div className="col-xs-4">
-  <Form.Group controlId="formBasicPassword">
-    <input class="form-control" type="password" placeholder="Enter password"  id="password"/>
-
- 
-  </Form.Group>
-  </div>
-  </Row>
-  <br></br>
-  <Row>
-  <Button variant="primary" type="submit" onClick={this.submit.bind(this)}>
-    Sign in
-  </Button>
-  </Row>
-  </div>
-  </fieldset>
-</Form>
-</React.Fragment>        
-=======
       <React.Fragment>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css"/>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -146,7 +95,6 @@ class signin extends Component  {
       <Button variant="primary" type="submit" onClick={this.submit.bind(this)}>Sign in</Button></Col>
       </Col>
       </React.Fragment>        
->>>>>>> react_dev
   )
   
     }
