@@ -79,7 +79,7 @@ const image4 =
       )}
     >
       <div style={{ height: 500 }}>
-        <div style={insideStyles}><Button variant="light" className = 'btn btn-light btn-lg' type="submit" href='/About'>
+        <div style={insideStyles}><Button style={{borderRadius:1000}}variant="light" className = 'btn btn-light btn-lg' type="submit" href='/About'>
     About
   </Button></div>
       </div>
