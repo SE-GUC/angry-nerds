@@ -14,7 +14,6 @@ class Companies extends Component {
         res => this.setState({pubCases: res.data.data}))
         axios.get('http://localhost:3000/viewMyPendingCompanies').then(
         res => this.setState({pendCases: res.data.data}))
-        
         } 
         catch(error){
             console.log(error)
@@ -24,9 +23,7 @@ class Companies extends Component {
     return ( this.state.pendCases.map((aCase) => 
     ( <div>
     <a href=' '> {aCase.english_name}</a> 
-    
         </div>
-
     )))
 
 }

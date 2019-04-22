@@ -16,18 +16,20 @@ class verification extends Component  {
 
 
 render(){
-    return(
+
+  return(
     <Card>
-  <Card.Header as="h5">Email verification</Card.Header>
-  <Card.Body>
-    <Card.Title>Congratulations !!</Card.Title>
-    <Card.Text>
+      <Card.Header as="h5">Email verification</Card.Header>
+      <Card.Body>
+      <Card.Title>Congratulations !!</Card.Title>
+      <Card.Text>
         Thank you for verifying your mail <br></br> You ready now to enjoy using our website by sign in
-    </Card.Text>
-    <Card.Link href="http://localhost:3001/signIn">Click here to signIn</Card.Link>
-  </Card.Body>
-</Card>
+      </Card.Text>
+      <Card.Link href="http://localhost:3001/signIn">Click here to signIn</Card.Link>
+      </Card.Body>
+    </Card>
     )
+  
 }
 
 }
