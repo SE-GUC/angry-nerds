@@ -76,7 +76,6 @@ class App extends Component {
             <Route exact path="/home" component={unregiteredHome} />
             <div className="container">
               <Route exact path="/Companies" component={Companies} />
-              <div className="col-sm-10">
                 <Route
                   exact
                   path="/"
@@ -166,7 +165,6 @@ class App extends Component {
 
                 
               </div>
-            </div>
             <Route exact path="*" component={NotFound} />
           </Switch>
       </Router>

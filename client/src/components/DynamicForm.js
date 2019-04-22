@@ -7,11 +7,27 @@ export class DynamicForm extends Component {
     alert: false,
     alertMessage: "",
     case: {},
-    success:false
+    success:false, 
+    laws: []
   };
 
   constructor(props) {
     super(props);
+    try{
+
+      axios.get('http://localhost:3000/AdminFindLaw').then(lawss => {
+        console.log(lawss)
+         this.setState({
+           laws: lawss.data.data
+         })
+      })
+      console.log(this.state.laws)
+    }
+    catch(e){
+      console.log(e)
+    }
+
+
   }
 
   async handleSubmit(event) {
@@ -106,6 +122,32 @@ export class DynamicForm extends Component {
           let type = attribute.type || "text";
           let props = attribute.props || {};
           counter++;
+
+          inputt = ( <Input
+          className="form-input"
+          style={ddItem}
+          name={key + "-" + Math.floor(counter / size) + "-" + m.name}
+          type={type}
+          {...props}
+          key={"i" + key + counter}
+          onChange={this.arrayChange.bind(this)}
+        />)
+
+
+        if (type == "select") {
+          inputt = m.options.map((o) => {
+               return (
+                      <option {...props}
+                          className="form-input"
+                          key={o}
+                          value={o}
+                      >{o}</option>
+               );
+          });
+          inputt = <select name={m.key} onChange={this.handleChange.bind(this)}>{inputt}</select>;
+       }
+      
+
           return (
             <Row>
               <div className="col-xs-5">
@@ -113,20 +155,15 @@ export class DynamicForm extends Component {
                   name={key + "-" + Math.floor(counter / size) + "-" + m.name}
                   key={"l" + key + counter}
                 >
+                {{inputt}}
                  {Math.floor(counter / size)}. {key}
                 </Label>
-                <Input
-                  className="form-input"
-                  style={ddItem}
-                  name={key + "-" + Math.floor(counter / size) + "-" + m.name}
-                  type={type}
-                  {...props}
-                  key={"i" + key + counter}
-                  onChange={this.arrayChange.bind(this)}
-                />
+               
               </div>
               <br />
             </Row>
+
+
           );
         });
 
@@ -146,6 +183,11 @@ export class DynamicForm extends Component {
               </Button>
             </div>
           </div>
+
+
+          
+
+
         );
       } else {
         let key = m.key;
@@ -170,6 +212,20 @@ export class DynamicForm extends Component {
             <br />
           </Row>
         );
+
+
+        if (type == "select") {
+          inputt = m.options.map((o) => {
+               return (
+                      <option {...props}
+                          className="form-input"
+                          key={o}
+                          value={o}
+                      >{o}</option>
+               );
+          });
+          inputt = <select name={m.key} onChange={this.handleChange.bind(this)}>{inputt}</select>;
+       }
       }
 
       return (
@@ -198,6 +254,13 @@ export class DynamicForm extends Component {
     });
   }
 
+  remap(){
+     console.log('hey')
+   
+
+
+  }
+
   render() {
     return (
       <div>
@@ -205,6 +268,23 @@ export class DynamicForm extends Component {
           <legend className="the-legend">Fill The Application Form Below</legend>
           <Form onSubmit={this.handleSubmit.bind(this)}>
             {this.renderForm()}
+
+            <Label for="exampleSelectMulti">Select regulated law</Label>
+          <Input
+            type="select"
+            name="regulated_law"
+            id="exampleSelectMulti"
+            onChange={this.handleChange.bind(this)}>
+         
+            {
+                this.state.laws.map(law => {
+                console.log(law)
+                return <option> {law.LawNumber} </option>;
+              })
+            }
+          </Input>
+
+
             <Alert
               color="danger"
               isOpen={this.state.alert}

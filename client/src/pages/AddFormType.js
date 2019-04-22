@@ -2,7 +2,10 @@ import React, { Component } from 'react'
 import { Button, Form, FormGroup, Label, Input, Alert, Row } from "reactstrap";
 import { library } from '@fortawesome/fontawesome-svg-core';
 import axios from "axios";
-
+import brace from 'brace';
+import AceEditor from 'react-ace';
+import 'brace/mode/json';
+import 'brace/theme/monokai';
 
 
 export class AddFormType extends Component {
@@ -15,7 +18,10 @@ export class AddFormType extends Component {
             text:'',
             alert:false,
             alertMessage:'',
-            alertColor:''
+            alertColor:'',
+            model:{
+
+            }
         }
 
     }
@@ -23,11 +29,19 @@ export class AddFormType extends Component {
     change(event){
 
         this.setState({
-            model: event.target.value
+            model: JSON.parse(event)
         })
 
         console.log(this.state.model)
 
+    }
+
+    shouldComponentUpdate(nextProps, nextState) {
+      if (this.state.model !== nextState.model) {
+        return false
+      } else {
+        return true;
+      }
     }
 
     async submit(event){
@@ -77,17 +91,29 @@ export class AddFormType extends Component {
           <li> <Label for="exampleText">if a certain element is an array of fields write it in the format of [Object1,Object2]</Label><br/></li>
           <li><Label for="exampleText">Provide type and props</Label><br/> </li>
             </ol>
-          <Input type="textarea" rows="20" cols="50" name="text" id="exampleText" onChange={this.change.bind(this)}/>
         </FormGroup>
+        <AceEditor
+                    mode="json"
+                    theme="monokai"
+                    onChange={this.change.bind(this)}
+                    name="UNIQUE_ID_OF_DIV"
+                    editorProps={{
+                        $blockScrolling: true
+                    }}
+                />
         <Alert
               color={this.state.alertColor}
               isOpen={this.state.alert}
               toggle={this.onDismiss.bind(this)}
             >
               {this.state.alertMessage}
-            </Alert>
+        </Alert>
+
         <Button color="primary" style={{float:"right"}} onClick={this.submit.bind(this)}>Add Field</Button>
       </Form>
+
+
+      
  
       </div>
     )

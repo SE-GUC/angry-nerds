@@ -12,7 +12,7 @@ import {
   CardText
 } from "reactstrap";
 import { IconContext} from "react-icons";
-import {IoIosPerson} from 'react-icons/io'
+import {IoMdClipboard} from 'react-icons/io'
 import Modal from 'react-bootstrap/Modal'
 
 export class DeleteFormTypeItem extends Component {
@@ -36,7 +36,7 @@ handleClose(){
     async submit(event){
         await axios({
             method: 'delete',
-            url:'http://127.0.0.1:3000/AdminDeleteFormType/'+this.props.law._id,
+            url:'http://127.0.0.1:3000/AdminDeleteFormType/'+this.props.form._id,
             headers: {}, 
             data: { 
             }
@@ -44,15 +44,14 @@ handleClose(){
           this.setState({
             show:false
           })
-          alert('Successfully')
-          window.location.replace('/AdminDeleteFormType')
+          window.location.replace('/deleteFormType')
 
           
         
     }
     changeC(event)
     {
-      if(document.getElementById("InvestorName").value===this.props.law.LawNumber)
+      if(document.getElementById("InvestorName").value===this.props.form.formName)
       {
         this.setState({
           disabled:false
@@ -81,16 +80,22 @@ handleClose(){
             <IconContext.Provider
               value={{ color: "#286090", className: "global-class-name", size:"3em" }}>
               <div>
-                <IoIosPerson />
+                <IoMdClipboard />
               </div>
             </IconContext.Provider>
-            {this.props.law.LawNumber}
+            {this.props.form.formName}
           </CardHeader>
           <CardBody>
+          <CardTitle>
+                  Form Type: {this.props.form.formName}
+                  <br />
+                  {this.props.form._id}
+                </CardTitle>
             <Row>
+              
               <Col float="right">
                 <Button color="danger" float="right" onClick= {this.change.bind(this)}>
-                  Delete Law
+                  Delete Form Type
                 </Button>
               </Col>
             </Row>
@@ -101,14 +106,14 @@ handleClose(){
         </Card>
         <Modal show={this.state.show} onHide={this.handleClose.bind(this)}  style={{backgroundColor: "white"}}>
           <Modal.Header closeButton>
-            <Modal.Title>Confirm delete Law</Modal.Title>
+            <Modal.Title>Confirm delete Form Type</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <h4> Enter the Law Number to confirm deletion</h4>
-            <input class="form-control" type="input" placeholder= {this.props.law.LawNumber}  onChange={this.changeC.bind(this)} id="InvestorName"/>
+            <h4> Enter the form type to confirm deletion</h4>
+            <input class="form-control" type="input" placeholder= {this.props.form.formName}  onChange={this.changeC.bind(this)} id="InvestorName"/>
             <br></br>
             <Button color="danger" float="right" id="deleted" disabled={this.state.disabled} onClick={this.submit.bind(this)}>
-                  Delete Law
+                  Delete form
                 </Button>
           </Modal.Body>
         </Modal>

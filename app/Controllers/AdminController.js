@@ -696,6 +696,9 @@ let AdminController = {
         }
     },
 
+
+
+
     AdminChangePricingStrategy: async function (req, res) {
         try {
               //authorization using passport
@@ -1103,6 +1106,17 @@ AdminDeleteCase: async (req, res) => {
         try{
             const forms = await FormTypes.find()
             res.status(200).json({message:'form types', data: forms})
+        }
+        catch(error){
+            console.log(error)
+            res.status(400).json({message: error})
+        }
+    },
+
+    AdminFindLaw: async function(req,res){
+        try{
+            const laws = await Laws.find()
+            res.status(200).json({message:'form types', data: laws})
         }
         catch(error){
             console.log(error)

@@ -53,7 +53,7 @@ router.delete('/AdminDeleteCase/:id', AdminController.AdminDeleteCase)
 router.get('/AdminViewLawyersLeaderBoard', AdminController.adminViewLawyersLeaderBoard)
 router.get('/AdminViewReviewersLeaderBoard', AdminController.adminViewReviewersLeaderBoard)
 router.put('/AdminAnswerQuestions',AdminController.AdminAnswerQuestions)
-
+router.get('/AdminFindLaw', AdminController.AdminFindLaw)
 
 router.put('/AdminChangePassword/:id', AdminController.adminChangePassword)
 router.post('/AdminCreateNewLaw', AdminController.AdminCreateNewLaw)
