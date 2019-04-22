@@ -43,6 +43,7 @@ import { library } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStroopwafel } from "@fortawesome/free-solid-svg-icons";
 import { Switch } from "react-router-dom";
+import faq from './pages/FAQ'
 library.add(faStroopwafel);
 
 class App extends Component {
@@ -59,6 +60,7 @@ class App extends Component {
           <Route component={mainNavBar} />
           <Switch>
         <Route exact path="/stocks" component={stocks} />
+        <Route exact path="/FAQ" component={faq} />
 
             <Route exact path="/home" component={unregiteredHome} />
             <div className="container">
