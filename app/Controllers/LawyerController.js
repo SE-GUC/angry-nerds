@@ -240,7 +240,9 @@ let LawyerController = {
       locked: false,
       log: newLog
     });
-
+    var notify = [{  'CaseID': CaseID, 'text': "has been disapproved by the lawyer", 'time': Date.now }]
+     await Investor.findOneAndUpdate(CASE.investorID, { $push: { notifications: notify } })
+    
     LawyerController.lawyerWriteComment(caseID, req.body.comment, staffID);
 
     return res
@@ -264,6 +266,7 @@ let LawyerController = {
     if (!CASE) {
       return res.status(404).json({ error: "cannot find this case" });
     }
+    const inv = Investor.findById(CASE.investorID)
     const newLog = CASE.log;
     newLog.push({
       id: staffID,
@@ -276,6 +279,10 @@ let LawyerController = {
       locked: false,
       log: newLog
     });
+    var notify = [{  'CaseID': CaseID, 'text': "has been approved by the lawyer and sent to the Reviewer", 'time': Date.now }]
+     await Investor.findOneAndUpdate(CASE.investorID, { $push: { notifications: notify } })
+    //  var notifyrev = [{  'CaseID': CaseID, 'text': "has been approved by the lawyer", 'time': Date.now }]
+    //  await Reviewer.findOneAndUpdate(CASE.investorID, { $push: { notifications: notifyrev } })                 
     return res
       .status(200)
       .json({ msg: "Case approved and sent to reviewer", data: CASE }); // in test check that caseStatus is reviewer
@@ -327,7 +334,7 @@ let LawyerController = {
     */
   lawyerMyNotifications: async function(req, res) {
     try {
-      const id = "5cade37fad14590482dfcd14";
+      const id = req.params.id
       let lawyer = await Lawyer.findById(id);
       if (!lawyer) {
         return res
@@ -362,16 +369,6 @@ let LawyerController = {
     }
   },
 
-  //view all published companies
-  LawCompListViewing: async (req, res) => {
-    try {
-      var Cas = await Case.find({ caseStatus: "published" });
-
-      res.json({ data: Cas });
-    } catch (error) {
-      console.log(error);
-    }
-  },
 
 
 

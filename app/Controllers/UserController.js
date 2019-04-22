@@ -2,6 +2,7 @@ const validator = require("../../validations/caseValidations");
 const stripe = require("stripe")("sk_test_Tc2FlJG0ovXrM6Zt7zuK1O6f002jC3hcT0");
 const Case = require("./../models/Cases");
 const Questions = require("./../models/Questions");
+var crypto = require("crypto");
 const express = require("express");
 const router = express.Router();
 const mongoose = require("mongoose");
@@ -14,6 +15,7 @@ const tempUser = require("./../models/tempUser");
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const config = require('../../config/key')
+const mailer =require ('../../misc/mailer')
 const tokenKey = config.secretOrKey;
 var passport = require('passport');
 require('../../config/passport')(passport);
@@ -138,11 +140,9 @@ catch (error) {
 
 
 
-  Login: async (req, res) => {
+  Login : async (req, res) => {
     try {
-
       const { email, password } = req.body;
-
       const investor = await Investor.findOne({ email });
       const lawyer = await Lawyer.findOne({ email });
       const reviewer = await Reviewer.findOne({ email });
@@ -156,6 +156,7 @@ catch (error) {
         console.log('1')
         const match = bcrypt.compareSync(password, investor.password);
         if (match) {
+          if (investor.active===true){
             const payload = {
                 id: investor._id,
                 email: investor.email,
@@ -163,6 +164,9 @@ catch (error) {
               };
               const token = jwt.sign(payload, tokenKey, { expiresIn: "1h" });
               return res.json({data: `Bearer ${token}`})
+            }else {
+              return res.json({data:'You need to verify the email that is used in registeration'})
+            }
             }else return res.status(400).send({ error: "Wrong password" });
       }
       else if (lawyer){
@@ -211,7 +215,67 @@ catch (error) {
     catch (e) {
         console.log(e)
     }
-  }
+  },
+
+  register : async (req, res) => {
+    const { firstName ,MiddleName,LastName,email,password,
+            ID_type,SSID, Nationality,Type,Address, birthdate,
+            telephone_number, gender, photoID } = req.body
+    
+    const user = await Investor.findOne({ email })
+    const admin = await Admin.findOne({ email })
+    const lawyer = await Lawyer.findOne({ email })
+    const reviewer = await Reviewer.findOne({ email })
+    console.log(user)
+    if (user || admin || lawyer || reviewer)
+    {
+        console.log('Email Exists')
+        return res.status(400).json({ error: 'Email already exists' })
+    }
+    else{
+      const payload = {
+        email: email,
+        type:'investor'
+      };
+      const token = jwt.sign(payload, tokenKey, { expiresIn: "1h" });
+      const salt = bcrypt.genSaltSync(10); 
+      const hashPass = bcrypt.hashSync(password, salt);
+            const investor1 = await Investor.create({
+                firstName : firstName ,
+                MiddleName : MiddleName ,
+                LastName : LastName ,
+                email : email,
+                password : hashPass ,
+                ID_type : ID_type,
+                SSID : SSID,
+                Nationality : Nationality,
+                Type : Type,
+                Address : Address,
+                birthdate : birthdate,
+                telephone_number : telephone_number,
+                gender : gender,
+                active : false,
+                photoID: photoID,
+                secret : token
+            })
+            console.log(investor1.secret)
+            res.json({ msg: 'registere Succefully', data: investor1 })
+            const html = 'Hi there, <br/> Thank you for registering <br/><br/> Please verify your email by clicking on the following page:<a href= "http://localhost:3001/verify/'+investor1.secret+'">Click here to verify</a></br></br> '
+            await mailer.sendEmail(config.user, req.body.email, 'Please verify your email', html)
+    }
+},
+
+
+verify: async (req,res) => {
+    try{
+        const user = await Investor.findOne({"secret":req.params.tok})
+        const update = await Investor.findByIdAndUpdate( user._id,{"active" :true})
+    }
+    catch(error){
+        console.log(error)
+        res.json({message:'error'})
+    }
+},
 
 
 };

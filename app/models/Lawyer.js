@@ -65,9 +65,16 @@ const LawyerSchema = new Schema({
      photoID: {
         type: String
     },
+    secret: {
+        type: String
+    },
     notifications:{
         type : [
             {
+                CaseID:{
+                    type: mongoose.Schema.Types.ObjectId,
+                    ref: 'Cases'
+                     },
                text: {
                    type: String
                },

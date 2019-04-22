@@ -31,6 +31,7 @@ import notificat from "./components/notificat";
 import ReviewerHome from "./pages/ReviewerHome";
 import ReviewerOpenCase from "./pages/ReviewerOpenCase";
 import Questions from "./pages/Questions";
+import Verify from "./pages/verification";
 import electronicJournal from "./pages/electronicJournal";
 import PrivateRoute from "./privateRoute";
 import resetPass from "./pages/resetPaassword";
@@ -45,7 +46,12 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStroopwafel } from "@fortawesome/free-solid-svg-icons";
 import { Switch } from "react-router-dom";
 import Step from './components/stepProgressBar'
+import setAuthToken from "./helpers/setAuthToken";
 library.add(faStroopwafel);
+
+if (localStorage.jwtToken){
+  setAuthToken(localStorage.jwtToken)
+}
 
 class App extends Component {
   //states & functions
@@ -54,18 +60,13 @@ class App extends Component {
   render() {
     return (
       <Router>
-
-
           <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" />
-
           <Route component={mainNavBar} />
           <Switch>
         <Route exact path="/stocks" component={stocks} />
-
             <Route exact path="/home" component={unregiteredHome} />
             <div className="container">
               <Route exact path="/Companies" component={Companies} />
-
                 <Route
                   exact
                   path="/"
@@ -76,13 +77,10 @@ class App extends Component {
                     </React.Fragment>
                   )}
                 />
-                <PrivateRoute exact path="/trackMyCase" component={TrackMyCase} />
-                <Route exact path="/Companies" component={Companies} />
+                <Route exact path="/trackMyCase" component={TrackMyCase} />
                 <Route exact path="/about" component={about} />
                   <Route exact path = "/AdminDeleteInvestor" component = {AdminDeleteInvestor}/>
-
                 <Route exact path="/ReviewerHome" component={ReviewerHome} />
-
                 <Route
                   exact
                   path="/ChangeMyPassword"
@@ -100,7 +98,6 @@ class App extends Component {
                   component={InvestorEditForm}
                 />
                 <Route exact path="/ViewMyCompanies" component={Companies} />
-                {/* <Route exact path="/signUp" component={signup} /> */}
                 <Route
                   exact
                   path="/AdminAddLawyer"
@@ -109,10 +106,10 @@ class App extends Component {
                 <Route
                   exact
                   path="/AdminAddReviewer"
-                  component={AdminAddReviewer}
+                  component={AdminAddReviewer}  
                 />
                 <Route exact path="/AdminAddAdmin" component={AdminAddAdmin} />
-                <Route exact path="/signUp" component={signup} />
+                <Route exact path="/signUp" component={signup} />       
                 <Route exact path="/signin" component={signin} />
                 <Route exact path="/AddLawyer" component={AddLawyer} />
                 <Route exact path="/AddReviewer" component={AddReviewer} />
@@ -123,7 +120,6 @@ class App extends Component {
                   path="/LawyerOpenCase/:id"
                   component={LawyerOpenCase}
                 />
-               
                 <Route
                   exact
                   path="/ReviewerOpenCase/:id"
@@ -152,7 +148,8 @@ class App extends Component {
                   component={InvViewProfile}
                 />
                  <Route exact path="/me" component={NotFound} />
-               
+                <Route exact path="/verify/:tok" component={Verify} />
+                  
               </div>
             <Route exact path="*" component={NotFound} />
           </Switch>

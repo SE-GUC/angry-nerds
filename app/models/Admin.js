@@ -55,13 +55,9 @@ const AdminSchema = new Schema({
     ssid: {
         type: Number,
     },
-    token:{
-        type:String
+    secret: {
+        type: String
     },
-    token_date : {
-        type:Date
-    },
-    
 
 })
 
