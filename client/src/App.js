@@ -46,6 +46,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStroopwafel } from "@fortawesome/free-solid-svg-icons";
 import { Switch } from "react-router-dom";
 import setAuthToken from "./helpers/setAuthToken";
+import tryComponent from "./pages/tryComponent"
+import anotherMail from "./pages/anotherMail"
+import ForgetPassword from "./pages/forgetPassword"
 import InvestorPage from "./pages/InvestorPage";
 import InvestorPageAR from "./pages/InvestorPageAR";
 import ControlledCarousel from './components/ControlledCarousel'
