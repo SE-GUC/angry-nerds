@@ -30,9 +30,14 @@ export class AdminViewLaws extends Component {
           console.log(law.LawNumber)
           return (
             <div>
-              <h3>Law {law.LawNumber}</h3>
+                      <div> &nbsp;&nbsp;</div> 
+
+              <div class="d-flex">
+              <h3 className='p-2'>Law {law.LawNumber}</h3>
+              <Button className='ml-auto p-2' variant='light' onClick={(e) => {e.preventDefault(); this.props.history.push({pathname: 'AdminEditLaws/' + law._id, state: {law: law}});}} >Edit Law</Button>
+              </div>
               <h5>Fixed Values</h5>
-              <Table striped bordered hover>
+              <Table striped bordered hover variant='dark'>
                 <thead>
                   <tr>
                     <th>Description</th>
@@ -51,7 +56,7 @@ export class AdminViewLaws extends Component {
                 </tbody>
               </Table>
               <h5>Percentages</h5>
-              <Table striped bordered hover>
+              <Table striped bordered hover variant='dark'>
                 <thead>
                   <tr>
                     <th>Value</th>

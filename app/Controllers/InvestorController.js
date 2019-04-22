@@ -10,6 +10,9 @@ const caseFunctions = require('../routes/api/Cases')
 const router = express.Router();
 const mongoose = require("mongoose");
 const pdfMakePrinter = require("pdfmake/src/printer");
+
+const pdfMake = require('pdfmake')
+
 const Reviewer = require("./../models/Reviewer");
 const Lawyer = require("./../models/Lawyer");
 const config = require("../../config/mailer");
@@ -823,6 +826,7 @@ generatePdf: async function(req, res) {
 
                 
             };
+ 
             const printer = new pdfMakePrinter(fontDescriptors);
             const doc = printer.createPdfKitDocument(docDefinition);
 

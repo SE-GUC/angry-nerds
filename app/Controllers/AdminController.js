@@ -1015,7 +1015,7 @@ AdminDeleteCase: async (req, res) => {
                 for(let j = 0;j<AllCases[i].log.length-1;j++){
                     if(AllCases[i].log[j].id === lawyerID && AllCases[i].log[j].destination === 'open'){
                         let mins = AllCases[i].log[j+1].date.getTime() - AllCases[i].log[j].date.getTime() 
-                        mins = mins/1000*60
+                        mins = mins/(1000*60)
                         total = total + mins
                         num = num + 1
                     }
@@ -1075,7 +1075,6 @@ AdminDeleteCase: async (req, res) => {
 
         let d = startDate
         while (d <= endDate) {
-            console.log(d)
             let x = 0;
             for (let i = 0; i < datesArray.length; i++) {
                 let d1 = new Date(datesArray[i])
@@ -1084,7 +1083,6 @@ AdminDeleteCase: async (req, res) => {
                 }
             }
             resultArr.push({date: JSON.parse(JSON.stringify(d)), cases: x})
-            console.log('curr arr >>>>>> ' , resultArr)
             d.setDate(d.getDate() + 1)
         }
 

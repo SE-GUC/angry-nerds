@@ -14,6 +14,8 @@ import PerformanceHome from "./pages/PerformanceHome";
 
 import ChangePricing from "./pages/ChangePricing";
 import AdminViewLaws from "./pages/AdminViewLaws";
+import AdminEditLaws from "./pages/AdminEditLaws";
+
 import LawyerOpenCase from "./pages/LawyerOpenCase";
 import AddLawyer from "./components/AddLawyer";
 import AdminAddLawyer from "./components/AdminAddLawyer";
@@ -136,6 +138,7 @@ class App extends Component {
                 <Route exact path="/ChangePricing" component={ChangePricing} />
                 <Route exact path="/ChangePricing" component={ChangePricing} />
                 <Route exact path="/AdminViewLaws" component={AdminViewLaws} />
+                <Route exact path="/AdminEditLaws/:id" component={AdminEditLaws} />
                 <Route exact path="/AdminPage" component={AdminSideNavbar} />
                 <Route exact path="/Questions" component={Questions} />
                 <Route exact path="/notificat" component={notificat} />

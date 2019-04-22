@@ -119,7 +119,7 @@ class LawyerHome extends Component {
 
   render() {
 
-    
+    console.log(this.state.allCases)
     if(this.state.allCases.length !== 0){
     return (
         <div>
