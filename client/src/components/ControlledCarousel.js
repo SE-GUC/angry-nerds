@@ -2,20 +2,24 @@
 import  React, { Component } from 'react'
 import Carousel from 'react-bootstrap/Carousel'
 import { isAbsolute } from 'path';
-const image1 =require('../Images/oracle logo.png')
-const image2 =require('../Images/CIB Logo.PNG')
-const image3 =require('../Images/eva logo.png')
+const image1 =require('../Images/vodafone HD.jpg')
+const image2 =require('../Images/Orascom HD.jpg')
+const image3 =require('../Images/uber HD.jpg')
+const image4 =require('../Images/microsoft HD.png')
+const image5 =require('../Images/IBM HD.jpg')
+const image6 =require('../Images/Oracle-Logos-HD.png')
+
 
 
 
 const Carous = {
   //width:"40%",
-  maxWidth:500,
+  maxWidth:600,
  // marginBottom: "20px",
  // marginTop: "-20px",
  // top:"100%",
- top:"50%",
-  left:"40%",
+ top:"10px",
+  left:"20%",
   boxSizing:100,
   //position:
  // display: flex,
@@ -41,9 +45,9 @@ const Carous = {
 
       <Carousel style={Carous}>
 <Carousel.Item>
-  <Carousel.Caption>
-          <h3 style={{color:"black"}}>Our Companies</h3>
-       </Carousel.Caption> 
+  {/* <Carousel.Caption >
+          <h3 style={{color:"black", fontFamily:"Impact", top:"10%"}}>Our Companies</h3>
+       </Carousel.Caption>  */}
 <img style={Carous}
       className="d-block w-100"
       src={image1}
@@ -54,9 +58,9 @@ const Carous = {
 
 
 <Carousel.Item> 
-  <Carousel.Caption>
-          <h3 style={{color:"black"}}>Our Companies</h3>
-        </Carousel.Caption>
+  {/* <Carousel.Caption>
+          <h3 style={{color:"black", fontFamily:"Impact", top:"10%"}}>Our Companies</h3>
+        </Carousel.Caption> */}
 <img style={Carous}
       className="d-block w-100"
       src={image2}
@@ -66,12 +70,52 @@ const Carous = {
 
 
 <Carousel.Item> 
-  <Carousel.Caption>
-          <h3 style={{color:"black"}}>Our Companies</h3>
-        </Carousel.Caption>
+  {/* <Carousel.Caption>
+          <h3 style={{color:"black", fontFamily:"Impact", top:"10%"}}>Our Companies</h3>
+        </Carousel.Caption> */}
 <img 
       className="d-block w-100"
       src={image3}
+     // alt="Third slide"
+    />
+    </Carousel.Item> 
+
+
+
+    
+<Carousel.Item> 
+  {/* <Carousel.Caption>
+          <h3 style={{color:"black", fontFamily:"Impact", top:"10%"}}>Our Companies</h3>
+        </Carousel.Caption> */}
+<img 
+      className="d-block w-100"
+      src={image4}
+     // alt="Third slide"
+    />
+    </Carousel.Item> 
+
+
+    
+<Carousel.Item> 
+  {/* <Carousel.Caption>
+          <h3 style={{color:"black", fontFamily:"Impact", top:"10%"}}>Our Companies</h3>
+        </Carousel.Caption> */}
+<img 
+      className="d-block w-100"
+      src={image5}
+     // alt="Third slide"
+    />
+    </Carousel.Item> 
+
+
+    
+<Carousel.Item> 
+  {/* <Carousel.Caption>
+          <h3 style={{color:"black", fontFamily:"Impact", top:"10%"}}>Our Companies</h3>
+        </Carousel.Caption> */}
+<img 
+      className="d-block w-100"
+      src={image6}
      // alt="Third slide"
     />
     </Carousel.Item> 

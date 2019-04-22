@@ -5,6 +5,8 @@ import SideNav, { Toggle, Nav, NavItem, NavIcon, NavText } from '@trendmicro/rea
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import DropdownButton from 'react-bootstrap/DropdownButton'
 import Container from 'react-bootstrap/Container'
+import Image from 'react-bootstrap/Image'
+import {Col, Row} from 'react-bootstrap'
 
 import Dropdown from 'react-bootstrap/Dropdown'
 import DropdownType from 'react-bootstrap/Dropdown'
@@ -12,7 +14,10 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button'
 import Style from'@trendmicro/react-sidenav/dist/react-sidenav.css';
 import { ButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
-
+const image1 =require('../Images/gafybuilding.jpg')
+const image2 =require('../Images/gafi logo.jpg')
+const image3 =require('../Images/stripe.png')
+const image4 =require('../Images/fawry.png')
 
 const ddButton ={
     backgroundColor: '#286090',
@@ -74,8 +79,8 @@ const ddItem4={
 
 const SideNavbarStyle = {
     backgroundColor: '#286090',
-    height:980,
-    width:120,
+    height:880,
+    width:190,
     left:-120,
     top:-22
     
@@ -116,29 +121,29 @@ const DropdownStyle ={
 
 export class AdminSideNavbar extends Component {
 
-    constructor(props) {
-        super(props);
+    // constructor(props) {
+    //     super(props);
     
-        this.toggle = this.toggle.bind(this);
-        this.state = {
-          dropdownOpen: false
-        };
-      }
+    //     this.toggle = this.toggle.bind(this);
+    //     this.state = {
+    //       dropdownOpen: false
+    //     };
+    //   }
 
       
     
-      toggle() {
-        this.setState({
-          dropdownOpen: !this.state.dropdownOpen
-        });
-      }
+    //   toggle() {
+    //     this.setState({
+    //       dropdownOpen: !this.state.dropdownOpen
+    //     });
+    //   }
 
 
 
   render() {
     return (
        
-      <div>
+      <div >
           <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css"></link>
           <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"/>
           <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"></link>
@@ -150,18 +155,16 @@ export class AdminSideNavbar extends Component {
     }}
 >
 <SideNav bg={SideNavbarStyle} variant="dark" style ={SideNavbarStyle}>
-    <SideNav.Toggle />
+    {/* <SideNav.Toggle /> */}
    
     <SideNav.Nav defaultSelected="home">
 
         <LinkContainer to="/home">
             <NavItem eventKey="home">
             <NavIcon>
-                <i class ="fa fa-fw fa-home" style={{ fontSize: '1.75em' }}  font-family= {FontAwesomeIcon}   />    
-            </NavIcon>
-            <NavText>
-                Home
-            </NavText>
+                <i   class ="fa fa-fw fa-home" style={{ fontSize: '1.75em' }}  font-family= {FontAwesomeIcon}   />    
+                &nbsp; Home</NavIcon>
+           
               </NavItem>
         </LinkContainer>
            
@@ -169,10 +172,10 @@ export class AdminSideNavbar extends Component {
 <LinkContainer to="#Cases">
         <NavItem eventKey="Cases Timing">
             <NavIcon>
-            <i class="fa fa-clock-o" style={{ fontSize: '1.75em' }}  font-family= {FontAwesomeIcon} />
-            </NavIcon>
+            <i class="fa fa-clock-o" style={{ fontSize: '1.75em' }}  font-family= {FontAwesomeIcon}  />
+            &nbsp; Cases Timing </NavIcon>
             <NavText>
-               Cases Timing
+              
             </NavText>
          </NavItem>
          </LinkContainer>
@@ -182,9 +185,9 @@ export class AdminSideNavbar extends Component {
         <NavItem eventKey="Register Lawyer">
         <NavIcon>
             <i class="fa fa-user"  style={{ fontSize: '1.75em' }} font-family= {FontAwesomeIcon}/>
-        </NavIcon>
+        &nbsp;  Register Lawyer </NavIcon>
                 <NavText>
-                   Register Lawyer
+               
                 </NavText>
       </NavItem>
       </LinkContainer> 
@@ -195,9 +198,9 @@ export class AdminSideNavbar extends Component {
             <NavItem eventKey="Register Reviewer">
             <NavIcon>
             <i class="fa fa-user"  style={{ fontSize: '1.75em' }} font-family= {FontAwesomeIcon}></i>
-        </NavIcon>
+         &nbsp;    Register Reviewer</NavIcon>
                 <NavText>
-                   Register Reviewer
+               
                 </NavText>
             </NavItem>
             </LinkContainer>
@@ -207,9 +210,9 @@ export class AdminSideNavbar extends Component {
             <NavItem eventKey="Register Admin">
             <NavIcon>
             <i class="fa fa-user"  style={{ fontSize: '1.75em' }} font-family= {FontAwesomeIcon}/>
-        </NavIcon>
+        &nbsp; Register Admin</NavIcon>
                 <NavText>
-                Register Admin
+                
                 </NavText>
                 </NavItem>
             </LinkContainer>
@@ -228,9 +231,9 @@ export class AdminSideNavbar extends Component {
             <NavItem eventKey="Delete Investor" >
             <NavIcon>
             <i class="fa fa-trash-o"  style={{ fontSize: '1.75em' }} font-family= {FontAwesomeIcon}></i>
-            </NavIcon>
+             &nbsp;   Delete Investor</NavIcon>
                 <NavText>
-                   Delete Investor
+               
                 </NavText>
             </NavItem>
          </LinkContainer>
@@ -241,9 +244,9 @@ export class AdminSideNavbar extends Component {
             <NavItem eventKey="Delete Lawyer">
             <NavIcon>
             <i class="fa fa-trash-o"  style={{ fontSize: '1.75em' }} font-family= {FontAwesomeIcon}></i>
-            </NavIcon>
+             &nbsp;   Delete Lawyer</NavIcon>
                 <NavText>
-                    Delete Lawyer
+               
                 </NavText>
             </NavItem>
             </LinkContainer>
@@ -253,9 +256,9 @@ export class AdminSideNavbar extends Component {
             <NavItem eventKey="Delete Reviewer">
             <NavIcon>
             <i class="fa fa-trash-o"  style={{ fontSize: '1.75em' }} font-family= {FontAwesomeIcon}></i>
-            </NavIcon>
+             &nbsp;    Delete Reviewer</NavIcon>
                 <NavText>
-                   Delete Reviewer
+               
                 </NavText>
             </NavItem>
           </LinkContainer>
@@ -265,9 +268,9 @@ export class AdminSideNavbar extends Component {
             <NavItem eventKey="Delete Admin">
             <NavIcon>
             <i class="fa fa-trash-o"  style={{ fontSize: '1.75em' }} font-family= {FontAwesomeIcon}></i>
-            </NavIcon>
+           &nbsp;   Delete Admin </NavIcon>
                 <NavText>
-                 Delete Admin
+                
                 </NavText>
                 </NavItem>
            </LinkContainer>
@@ -277,9 +280,9 @@ export class AdminSideNavbar extends Component {
             <NavItem eventKey="Edit Companies">
             <NavIcon>
                 <i className="glyphicon glyphicon-pencil" style={{ fontSize: '1.75em' }} font-family= {FontAwesomeIcon} />
-            </NavIcon>
+            &nbsp;  Edit Companies</NavIcon>
             <NavText>
-               Edit Companies
+            
             </NavText>
          </NavItem>
          </LinkContainer>
@@ -288,9 +291,9 @@ export class AdminSideNavbar extends Component {
          <NavItem eventKey="Comments">
          <NavIcon>
             <i class="fa fa-comment"  style={{ fontSize: '1.75em' }} font-family= {FontAwesomeIcon}></i>
-            </NavIcon>
+            &nbsp;  Comments</NavIcon>
             <NavText>
-               Comments
+            
             </NavText>
          </NavItem>
         </LinkContainer>
@@ -299,9 +302,9 @@ export class AdminSideNavbar extends Component {
          <NavItem eventKey="Leader Boards For">
          <NavIcon>
             <i class=" fa fa-users"  style={{ fontSize: '1.75em' }} font-family= {FontAwesomeIcon}></i>
-            </NavIcon>
+              &nbsp;  Leader Boards For</NavIcon>
                 <NavText>
-                Leader Boards For
+              
                 </NavText>
             
             <NavItem eventKey="Leader Boards For/Lawyers">
@@ -321,9 +324,9 @@ export class AdminSideNavbar extends Component {
         <NavItem eventKey="Generate New Law">
             <NavIcon>
                 <i className="fa fa-lightbulb-o" style={{ fontSize: '1.75em' }} />
-            </NavIcon>
+            &nbsp; Generate New Law </NavIcon>
             <NavText>
-            Generate New Law
+           
             </NavText>
          </NavItem>
 </LinkContainer>
@@ -332,9 +335,9 @@ export class AdminSideNavbar extends Component {
          <NavItem eventKey="Pricing Strategy">
             <NavIcon>
                 <i className="fa fa-credit-card" style={{ fontSize: '1.75em' }} />
-            </NavIcon>
+             &nbsp;   Pricing Strategy</NavIcon>
             <NavText>
-            Pricing Strategy
+           
             </NavText>
          </NavItem>
          </LinkContainer>
@@ -343,9 +346,9 @@ export class AdminSideNavbar extends Component {
          <NavItem eventKey="Published Companies">
                 <NavIcon>
                     <i className="fa fa-trophy" style={{ fontSize: '1.75em' }} />
-                </NavIcon>
+               &nbsp;   Published Companies  </NavIcon>
             <NavText>
-            Published Companies
+           
             </NavText>
          </NavItem>
          </LinkContainer>
@@ -354,9 +357,9 @@ export class AdminSideNavbar extends Component {
          <NavItem eventKey="Remove">
          <NavIcon>
             <i class="fa fa-trash-o"  style={{ fontSize: '1.75em' }} font-family= {FontAwesomeIcon}></i>
-            </NavIcon>
+            &nbsp;  Remove </NavIcon>
                 <NavText>
-                Remove
+               
                 </NavText>
             
             <NavItem eventKey="Remove/Case">
@@ -371,24 +374,24 @@ export class AdminSideNavbar extends Component {
             </NavItem>
         </NavItem>
 
-        <LinkContainer to="#sendMail">
+        {/* <LinkContainer to="#sendMail">
         <NavItem eventKey="Send E-mails">
             <NavIcon>
                 <i className="fa fa-envelope" style={{ fontSize: '1.75em' }} />
-            </NavIcon>
+            &nbsp;  Sends E-mails </NavIcon>
             <NavText>
-            Sends E-mails
+           
             </NavText>
          </NavItem>
-        </LinkContainer>
+        </LinkContainer> */}
 
  <LinkContainer to="#averageMins">
          <NavItem eventKey="Statistics">
             <NavIcon>
                 <i className="glyphicon glyphicon-stats" style={{ fontSize: '1.75em' }} />
-            </NavIcon>
+             &nbsp;   Statistics </NavIcon>
             <NavText>
-            Statistics
+          
             </NavText>
          </NavItem>
          </LinkContainer>
@@ -424,6 +427,14 @@ export class AdminSideNavbar extends Component {
          <DropdownItem  bg={ddItem4} variant="dark" style ={ddItem4}   href="#viewAllForms" >View All Forms</DropdownItem>
        */}
  {/* </DropdownButton>  */}
+
+
+  <Row>
+    <Col md={{ span:0, offset: 3 }}>
+      <Image src={image1} fluid/>
+    </Col>
+    
+  </Row>
 
 
 
