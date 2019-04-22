@@ -75,6 +75,9 @@ const LawyerSchema = new Schema({
                     type: mongoose.Schema.Types.ObjectId,
                     ref: 'Cases'
                      },
+                     ArText: {
+                        type: String
+                    },
                text: {
                    type: String
                },
