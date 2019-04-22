@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import CaseCard from '../components/CaseCard'
-import CaseCardAR from '../components/CaseCardAR'
 
 import LawyerToolbar from '../components/LawyerToolbar'
 import Spinner from 'react-bootstrap/Spinner'
@@ -78,12 +77,12 @@ class LawyerHome extends Component {
     if(this.state.searchTerm.length === 0){
       console.log('cases ===> ',cases)
       return cases.map( (oneCase) => 
-         ( <CaseCardAR history={this.props.history} key={oneCase._id} case={oneCase} pressed={this.state.pressed} caseButton={this.caseButton.bind(this)} type='lawyer'/>))
+         ( <CaseCard history={this.props.history} key={oneCase._id} case={oneCase} pressed={this.state.pressed} caseButton={this.caseButton.bind(this)} type='lawyer'/>))
     }
     else{
       console.log('filter')
       return filteredCases.map( (filteredCase) => 
-      ( <CaseCardAR history={this.props.history} key={filteredCase._id} case={filteredCase} pressed={this.state.pressed} caseButton={this.caseButton.bind(this)} type='lawyer'/>) )
+      ( <CaseCard history={this.props.history} key={filteredCase._id} case={filteredCase} pressed={this.state.pressed} caseButton={this.caseButton.bind(this)} type='lawyer'/>) )
     }    
   }
 

@@ -101,7 +101,7 @@ let ReviewerController = {
     // req contain the lawyer id
     try {
         
-        let cases = await Case.find({ caseStatus: 'reviewer', locked:false });
+        let cases = await Case.find({ caseStatus: 'reviewer' });
         if (!cases) {
           return res.status(200).json({ message: "Cannot find cases" });
         }

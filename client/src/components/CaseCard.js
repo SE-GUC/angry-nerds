@@ -22,17 +22,20 @@ class CaseCard extends Component {
     e.preventDefault()
     //this.setState({toCasePage: true})
     console.log('before  ==> ',this.props.pressed)
-    this.props.caseButton(this.props.case._id)
+    //this.props.caseButton(this.props.case._id)
     console.log('after  ==> ',this.props.pressed)
-    let path
+    let path = ''
     if(this.props.type === 'lawyer'){
       path = 'http://localhost:3000/lawyerOpenCase/' + this.props.case._id }
     else{
       if(this.props.type === 'reviewer'){
         path = 'http://localhost:3000/reviewerOpenCase/' + this.props.case._id }
       }
-   
-    axios.get(path).then(res => {console.log(res);  })
+   try{
+    axios.get(path).then(res => console.log(res)).catch(err => console.log(err))
+   }catch(error){
+    console.log(error)
+   }
     (this.props.type === 'lawyer')?this.props.history.push('/LawyerOpenCase/' + this.props.case._id):this.props.history.push('/ReviewerOpenCase/' + this.props.case._id)
     //this.props.history.push('lawyerOpenCase/' + oneCase._id);
   }
