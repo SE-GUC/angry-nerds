@@ -43,6 +43,8 @@ import electronicJournal from "./pages/electronicJournal";
 import PrivateRoute from "./privateRoute";
 import resetPass from "./pages/resetPaassword";
 import stocks from "./components/stocks";
+import AddFormType from './pages/AddFormType';
+import DeleteFormType from './pages/DeleteFormType'
 import UploadPic from "./components/UploadPic";
 import FetchImage from "./components/FetchImage";
 
@@ -121,6 +123,8 @@ class App extends Component {
                 <Route exact path="/resetPassword" component={resetPass} />
                 <Route exact path="/payment/:id" component={Payment} />
                 <Route exact path="/createCase" component={CreateCase} />
+                <Route exact path="/AddFormType" component={AddFormType} />
+                <Route exact path="/DeleteFormType" component={DeleteFormType} />
                 <Route exact path="/InvestorForm" component={InvestorForm} />
                 <Route exact path ='/AdminDeleteCase' component = {CompaniesGroup}/>
                 <Route exact path="/LawyerForm" component={LawyerForm} />

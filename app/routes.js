@@ -53,7 +53,7 @@ router.delete('/AdminDeleteCase/:id', AdminController.AdminDeleteCase)
 router.get('/AdminViewLawyersLeaderBoard', AdminController.adminViewLawyersLeaderBoard)
 router.get('/AdminViewReviewersLeaderBoard', AdminController.adminViewReviewersLeaderBoard)
 router.put('/AdminAnswerQuestions',AdminController.AdminAnswerQuestions)
-
+router.get('/AdminFindLaw', AdminController.AdminFindLaw)
 
 router.put('/AdminChangePassword/:id', AdminController.adminChangePassword)
 router.post('/AdminCreateNewLaw', AdminController.AdminCreateNewLaw)
@@ -64,11 +64,6 @@ router.post('/addFormType', AdminController.addFormType)
 router.get('/getFormType/:formName', AdminController.getFormType)
 router.get('/getAllFormTypes', AdminController.getAllFormTypes)
 router.delete('/deleteFormType/:formName', AdminController.deleteFormType)
-
-router.post('/AdminCreateFormType', AdminController.AdminCreateFormType)
-router.delete('/AdminDeleteFormType/:id', AdminController.AdminDeleteFormType)
-router.get('/AdminFindFormType', AdminController.AdminFindFormType)
-router.get('/AdminFindFormType/:id', AdminController.AdminFindFormTypeID)
 
 router.get('/calculateFees/:id', AdminController.SystemCalcFees)
 router.post('/AdminCreateFormType', AdminController.AdminCreateFormType)

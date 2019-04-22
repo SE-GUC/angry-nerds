@@ -34,7 +34,6 @@ let InvestorController = {
 
         console.log(req.body);
         const invID = "5ca772654d70710fa843bd5f"; //get this from login token
-
         const CaseID = req.body.caseID;
         const myCase = await Case.findById(CaseID);
         const inv = await Investor.findOne({ _id: invID });
@@ -44,7 +43,7 @@ let InvestorController = {
         if (myCase.caseStatus !== "pending") {
             console.log(myCase);
             return res
-                .status(200)
+                .status(400)
                 .json({ message: "company is not ready for payment" });
         }
 
@@ -61,7 +60,7 @@ let InvestorController = {
                 async function (err, token) {
                     console.log("myError");
                     console.log(err);
-                    if (err) return res.json({ message: "card declined" });
+                    if (err) return res.status(400).json({ message: "card declined" });
                     else {
                         //use axios to get amount
                         const response = await axios.get(
@@ -78,7 +77,7 @@ let InvestorController = {
                             },
                             async function (err) {
                                 if (err) {
-                                    return res.json({
+                                    return res.status(400).json({
                                         message: "your card is declined, try again!" + err
                                     });
                                 } else {
@@ -119,7 +118,7 @@ let InvestorController = {
                 }
             );
         } else
-            return res.json({
+            return res.status(400).json({
                 message: "you cannot pay for a company that is not yours"
             });
 
@@ -165,8 +164,6 @@ let InvestorController = {
         try {
             const id = "5c93ac9555b21722fc46eb9b"; //From Token
             const investor = await Investor.findById(id);
-
-
 
             if (!investor) {
                 return res
