@@ -9,10 +9,22 @@ const image3 =require('../Images/eva logo.png')
 
 
 const Carous = {
-  width:500,
+  //width:"40%",
+  maxWidth:500,
+ // marginBottom: "20px",
+ // marginTop: "-20px",
  // top:"100%",
-  left:300,
-  boxSizing:100
+ top:"50%",
+  left:"40%",
+  boxSizing:100,
+  //position:
+ // display: flex,
+  //width: 60px;
+ // height:"5px",
+ // marginRight: "5px",
+ // display: inline-block,
+ // transition: background 0.5s ease;
+ // cursor: pointer
  // height:100,
 //  position: isAbsolute
   // margin-left: auto;
@@ -32,7 +44,7 @@ const Carous = {
   <Carousel.Caption>
           <h3 style={{color:"black"}}>Our Companies</h3>
        </Carousel.Caption> 
-<img
+<img style={Carous}
       className="d-block w-100"
       src={image1}
       //alt="First slide"
@@ -45,7 +57,7 @@ const Carous = {
   <Carousel.Caption>
           <h3 style={{color:"black"}}>Our Companies</h3>
         </Carousel.Caption>
-<img
+<img style={Carous}
       className="d-block w-100"
       src={image2}
      // alt="Second slide"
@@ -57,7 +69,7 @@ const Carous = {
   <Carousel.Caption>
           <h3 style={{color:"black"}}>Our Companies</h3>
         </Carousel.Caption>
-<img
+<img 
       className="d-block w-100"
       src={image3}
      // alt="Third slide"

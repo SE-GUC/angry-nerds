@@ -70,7 +70,7 @@ class App extends Component {
               <div className="col-sm-10">
                 <Route
                   exact
-                  path="/"
+                  path="/" 
                   render={props => (
                     <React.Fragment>
                       <h1>Hello World!</h1>

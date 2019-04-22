@@ -52,6 +52,8 @@ export class InvestorPage extends Component {
     
         
  <div >
+<div >
+        <ControlledCarousel/> </div>
 
 
           <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css"></link>
@@ -111,19 +113,12 @@ export class InvestorPage extends Component {
             </NavText>
               </NavItem>
         </LinkContainer>
-           
-      
-
-
-      
     </SideNav.Nav>
     </SideNav>
  </SideNav>
 
 
- <div >
-        <ControlledCarousel/> </div>
-
+ 
 </div> 
  
     )
