@@ -24,7 +24,7 @@ router.get('/CalcFeesImmediately/:lawNumber/:capital',InvestorController.CalcFee
 //this endpoint allows investor to view his company fees
 router.get('/InvestorViewFees', InvestorController.InvestorViewFees)
 router.put('/InvestorChangePassword/:id',InvestorController.investorChangePassword)
-router.get('/InvestorMyNotifications',InvestorController.investorMyNotifications)
+router.get('/InvestorMyNotifications/:id',InvestorController.investorMyNotifications)
 router.get('/viewMyPublishedCompanies',InvestorController.viewMyPublishedCompanies)
 router.get('/viewMyPendingCompanies',InvestorController.viewMyPendingCompanies)
 router.get('/generatePdf/:id',InvestorController.generatePdf)
@@ -78,7 +78,7 @@ router.get('/LawyerViewComment', LawyerController.lawyerViewComment)
 router.get('/LawyerViewLawyersLeaderBoard', LawyerController.lawyerViewLawyersLeaderBoard)
 router.get('/LawyerViewReviewersLeaderBoard', LawyerController.lawyerViewReviewersLeaderBoard)
 router.put('/LawyerChangePassword/:id', LawyerController.lawyerChangePassword)
-router.get('/LawyerMyNotifications', LawyerController.lawyerMyNotifications)
+router.get('/LawyerMyNotifications/:id', LawyerController.lawyerMyNotifications)
 
 // router.post('/lawyerWriteComment',LawyerController.lawyerComment)
 
@@ -98,7 +98,7 @@ router.get('/LawyerViewingCompany/:id', LawyerController.LawyerViewingCompany)
 
 //----------------------------------------------Reviewer Routes-----------------------------------------
 router.put('/ReviewerChangePassword/:id',ReviewerController.reviewerChangePassword)
-router.get('/ReviewerMyNotifications',ReviewerController.reviewerMyNotifications)
+router.get('/ReviewerMyNotifications/:id',ReviewerController.reviewerMyNotifications)
 router.get('/ReviewerViewLawyersLeaderBoard',ReviewerController.reviewerViewLawyersLeaderBoard)
 router.get('/ReviewerViewingPublishedCompanies', ReviewerController.ReviewerViewingPublishedCompanies)
 router.get('/ReviewerViewingCompany/:id', ReviewerController.ReviewerViewingCompany)

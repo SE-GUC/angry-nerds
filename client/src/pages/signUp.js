@@ -115,12 +115,13 @@ console.log(error)
         }  
         
  }
+
          
 
-  constructor(props) {
-              super(props);
-               this.handleChange = this.handleChange.bind(this);
-    }
+  // constructor(props) {
+  //             super(props);
+  //              this.handleChange = this.handleChange.bind(this);
+  //   }
 
 
           
