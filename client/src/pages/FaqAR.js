@@ -1,8 +1,8 @@
 import React from 'react';
 import { TabContent, TabPane, Nav, NavItem, NavLink, Card, Button, CardTitle, CardText, Row, Col } from 'reactstrap';
 import classnames from 'classnames';
-import CollapseGeneral from '../components/collapseGeneral'
-import CollapseCompanies from '../components/collapseCompanies'
+import CollapseGeneralAR from '../components/collapseGeneral'
+import CollapseCompaniesAR from '../components/collapseCompanies'
 
 export default class Example extends React.Component {
   constructor(props) {
@@ -15,7 +15,7 @@ export default class Example extends React.Component {
   }
 
   askQuestion(event){
-      window.location.replace('/Questions')
+      window.location.replace('/')
   }
 
   toggle(tab) {
@@ -52,14 +52,14 @@ export default class Example extends React.Component {
           <TabPane tabId="1">
             <Row>
               <Col sm="12">
-                <CollapseGeneral/>
+                <CollapseGeneralAR/>
               </Col>
             </Row>
           </TabPane>
           <TabPane tabId="2">
             <Row>
               <Col sm="6">
-                <CollapseCompanies/>
+                <CollapseCompaniesAR/>
               </Col>
               <Col sm="6">
                 
@@ -69,13 +69,7 @@ export default class Example extends React.Component {
         </TabContent>
         </div>
         <div class="flex-item">
-        <br>
-        </br>
-        <br></br>
-        <br>
-        </br>
-        <br></br>
-        <Button color="primary" onClick={this.askQuestion.bind(this)} style={{ marginBottom: '1rem' }}><h6>Ask your own question</h6></Button>
+        <Button color="link" onClick={this.askQuestion.bind(this)} style={{ marginBottom: '1rem' }}><h4>Ask your own question</h4></Button>
         
 
         </div>

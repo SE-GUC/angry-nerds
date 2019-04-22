@@ -48,6 +48,7 @@ import setAuthToken from "./helpers/setAuthToken";
 import tryComponent from "./pages/tryComponent"
 import anotherMail from "./pages/anotherMail"
 import ForgetPassword from "./pages/forgetPassword"
+import Faq from './pages/FAQ'
 library.add(faStroopwafel);
 
 if (localStorage.jwtToken){
@@ -72,7 +73,7 @@ class App extends Component {
 
           <Switch>
         <Route exact path="/stocks" component={stocks} />
-        <Route exact path="/FAQ" component={faq} />
+        <Route exact path="/FAQ" component={Faq} />
 
             <Route exact path="/home" component={unregiteredHome} />
             <div className="container">
