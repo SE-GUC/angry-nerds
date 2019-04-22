@@ -1,16 +1,15 @@
-import React ,{ Component } from 'react'
-import Alert from 'react-bootstrap/Alert'; 
-import { Redirect } from 'react-router-dom'
-import jwt from 'jsonwebtoken'
-import axios from 'axios';
+import React, { Component  } from "react";
+import ReactDOM from 'react-dom'
+import Card from "react-bootstrap/Card";
+import Spinner from "react-bootstrap/Button"; 
 import {Button,InputGroup,FormControl,Row,Col,Form} from "react-bootstrap";
-import '../App.css'
-import Verifypassword from "../components/passwordinReset"
-const image1 =require('../Images/logo.png')
-const padding = {margin: '20'};
+import jwt from 'jsonwebtoken'
+import axios from 'axios'
 
-class Resetpass extends Component  {
-  state = {
+class Verifypassword extends Component {
+
+
+state = {
     password:"",
     confirmPassword:"",
     type1: 'password',
@@ -112,43 +111,24 @@ class Resetpass extends Component  {
   submit(){
     try {
       const token = this.props.match.params.tok
-      console.log(token)
       const decoded = jwt.decode(token)
           axios({
               method: "put",
-              url: 'http://localhost:3000/resetpassword/' + token ,
+              url: 'http://localhost:3000/forgotpassword' ,
               data: {
-                password:this.state.password
+                email : decoded.email
               }
             }).then(res => console.log(res))
             .catch(error => console.log(error))
           }
           catch(e){
-              console.log(e)
+              
           }
   }
-    render(){
-      
-      const token = this.props.match.params.tok
-      const decoded = jwt.decode(token)
-      console.log(Date.now())
-      console.log(decoded.exp)
-      if ((decoded.exp*1000)<Date.now()){
 
-      return <Redirect to={{pathname:'/anotherMail/'+token}} />
-
-      }
-      else{
+  render() {
     return (
-    <React.Fragment>
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css"/>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
-        <Row style={{height: .15*window.innerHeight + 'px'}} /> 
-        <legend  class="the-legend" style={{color: "#428bca"}}>Reset password</legend>        
-        <Col md={{ span: 2, offset: 0 }}> <Row style={{height: .04*window.innerHeight + 'px'}} /><img src={image1} /> </Col>
-        <Col md={{ span: 4, offset: 2 }}> 
-
+        <div>
         <InputGroup className="mb-3">
         <Form.Label style={{color: "#428bca"}}>Password</Form.Label>
         <FormControl type={this.state.type1} placeholder="Enter your new password" ref="psw" 
@@ -194,13 +174,10 @@ class Resetpass extends Component  {
   
     <Col md={{ span: 0, offset: 8 }}>
         <Button type="submit" disabled={this.state.matchFlag} onClick={this.submit.bind(this)} >Reset</Button></Col>
-        
-        </Col>
-   </React.Fragment>
-  )
-    }
- }
+    </div>  
+    )
+  }
 }
 
 
-export default Resetpass;
+export default Verifypassword;

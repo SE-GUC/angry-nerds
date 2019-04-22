@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import {BrowserRouter,Route,Link} from 'react-router-dom'; 
+import {BrowserRouter,Route,Link, Redirect} from 'react-router-dom'; 
 import { LinkContainer } from 'react-router-bootstrap'
 import SideNav, { Toggle, Nav, NavItem, NavIcon, NavText } from '@trendmicro/react-sidenav';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -74,8 +74,10 @@ const ddItem4={
 
 const SideNavbarStyle = {
     backgroundColor: '#286090',
-    height:725,
-    width:110,
+    height:700,
+    width:120,
+    left:-120,
+    top:-22
     
    
     
@@ -176,41 +178,43 @@ export class AdminSideNavbar extends Component {
          </LinkContainer>
 
 
-          <LinkContainer to= "/AddLawyer"> 
-          {/* <LinkContainer to= "/AddLawyer">  */}
-
-        <NavItem eventKey="Register">
+      <LinkContainer to ="/AdminAddLawyer">    
+        <NavItem eventKey="Register Lawyer">
         <NavIcon>
             <i class="fa fa-user"  style={{ fontSize: '1.75em' }} font-family= {FontAwesomeIcon}/>
         </NavIcon>
                 <NavText>
-                   Register
+                   Register Lawyer
                 </NavText>
+      </NavItem>
+      </LinkContainer> 
 
-    
-            <NavItem eventKey="Register/Lawyer">
+
+
+         <LinkContainer to="/AdminAddReviewer">
+            <NavItem eventKey="Register Reviewer">
+            <NavIcon>
+            <i class="fa fa-user"  style={{ fontSize: '1.75em' }} font-family= {FontAwesomeIcon}></i>
+        </NavIcon>
                 <NavText>
-                    Lawyer
+                   Register Reviewer
                 </NavText>
-                 <Link to="/AddLawyer"></Link>
             </NavItem>
-           
-            <NavItem eventKey="Register/Reviewer">
+            </LinkContainer>
+            
+            <LinkContainer to="/AdminAddAdmin">
+            <NavItem eventKey="Register Admin">
+            <NavIcon>
+            <i class="fa fa-user"  style={{ fontSize: '1.75em' }} font-family= {FontAwesomeIcon}/>
+        </NavIcon>
                 <NavText>
-                    Reviewer
+                Register Admin
                 </NavText>
                 </NavItem>
-            <LinkContainer to="/AddReviewer"><NavItem eventKey="Register/Reviewer"> </NavItem></LinkContainer>
+            </LinkContainer>
             
 
-            <NavItem eventKey="Register/Admin">
-                <NavText>
-                    Admin
-                </NavText>
-                </NavItem>
-            </NavItem>
-
-                </LinkContainer> 
+                {/* </LinkContainer>  */}
 
 
             <NavItem eventKey="Delete">
@@ -221,7 +225,8 @@ export class AdminSideNavbar extends Component {
                     Delete
                 </NavText>
             
-            <NavItem eventKey="Delete/Investor">
+            <NavItem eventKey="Delete/Investor" >
+            < a href = "/DeleteInvestor"/>
                 <NavText>
                     Investor
                 </NavText>
@@ -363,7 +368,7 @@ export class AdminSideNavbar extends Component {
          </NavItem>
          </LinkContainer>
 
-   
+      
     </SideNav.Nav>
     </SideNav>
  </SideNav>
