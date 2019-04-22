@@ -78,7 +78,9 @@ InvestorSchema = new Schema({
                ref: 'Cases'
                 },
             
-
+                ArText: {
+                    type: String
+                },
                text: {
                    type: String
                },
