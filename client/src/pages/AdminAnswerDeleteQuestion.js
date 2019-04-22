@@ -21,7 +21,7 @@ class AdminAnswerDeleteQuestion extends Component {
 
     console.log(this.state.allCases)
     try{
-        axios.get('http://localhost:3000/UnregisteredViewQuestions').then(
+        axios.get('http://localhost:3000/api/Questions').then(
               res => this.setState({allQuestions: res.data.data}))
         
         
@@ -31,13 +31,6 @@ class AdminAnswerDeleteQuestion extends Component {
       }
 
       
-
-  searchText(event){
-    this.setState({
-      search: event.target.value
-    })
-    console.log(this.state.search)
-  }
 
   filter(event){
     this.setState({
@@ -74,27 +67,6 @@ class AdminAnswerDeleteQuestion extends Component {
   }
 
 
-  filter = (e) => {
-      const original = this.state.allQuestions
-      console.log(e.target.value)
-      this.setState({search: e.target.value})
-      if (e.target.value !== "") {
-        this.setState({filteredQuestions: original.filter(aquestion => {
-          if(aquestion.question){  
-            const lc = aquestion.question.toLowerCase();
-            const filter = e.target.value.toLowerCase();
-            return lc.includes(filter);
-          }
-          else{
-            return aquestion;
-          }  
-        })})
-      }
-    else{
-        this.setState({allQuestions: original})
-    }
-} 
-
 
 
   render() {
@@ -108,17 +80,14 @@ class AdminAnswerDeleteQuestion extends Component {
 <Label>Search</Label>
 
 <Input type="text" placeholder="Find Question..." onChange={this.filter.bind(this)}> Search... </Input>
-{/* <button type="button" class="btn btn-outline-primary" onClick={this.filter.bind(this)}> Search </button> */}
-
+{this.TheQuestions(this.state.allQuestions,this.state.filteredQuestions)}
  </Form>
-            {this.TheQuestions(this.state.allQuestions,this.state.filteredQuestions)}
+            
         </div>
     )
     }
     
 
-
-//return(  <AnswerDeleteQuestion/>)
 
   }
 

@@ -1034,6 +1034,7 @@ AdminDeleteCase: async (req, res) => {
     },
 
     AdminAnswerQuestions: async function (req, res) {
+        try{
 
         const AdminID = '5c9bb0dc5185793518ea84fb' 
         const questionId = req.params.id 
@@ -1042,7 +1043,7 @@ AdminDeleteCase: async (req, res) => {
             res.json({ message: 'you are not authorized' })
         })
 
-        const question = await Question.findById(id).catch((err) => {
+        const question = await Question.findById(questionId).catch((err) => {
             res.json({ message: 'This is not a valid question ID' })
         })
 
@@ -1053,8 +1054,8 @@ AdminDeleteCase: async (req, res) => {
                 console.log(answered.question)
                 console.log(answered.answer)
                 console.log(answered.email)                
-                const html = 'Hi there, <br/> Thank you for your question:'+answered.question+' <br/><br/> The Answer for your question is:'+answered.answer+' </br></br> If you still have any questions please do not hesitate to ask us '
-                await mailer.sendEmail(config.user, answered.email, 'Your Question is Answered', html)
+               // const html = 'Hi there, <br/> Thank you for your question:'+answered.question+' <br/><br/> The Answer for your question is:'+answered.answer+' </br></br> If you still have any questions please do not hesitate to ask us '
+                //await mailer.sendEmail(config.user, answered.email, 'Your Question is Answered', html)
                 
                 return res.json({
                     message: 'you have answered the required question successfully', data: answered
@@ -1069,6 +1070,11 @@ AdminDeleteCase: async (req, res) => {
                 message: 'the question you are trying to answer does not exist'
             })
         }
+    }
+    catch(error){
+        console.log(error)
+            res.status(400).json({message: error})
+    }
 
     },
 

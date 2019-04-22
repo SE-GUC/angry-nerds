@@ -38,7 +38,7 @@ class AnswerDeleteQuestion extends Component {
 
 
     deleteQuestion(e){
-        console.log(this.props.question._id)
+       // console.log(this.props.question._id)
         axios({
             method: 'delete',
             url:'http://localhost:3000/AdminDeleteQuestion/'+this.props.question._id,
@@ -55,7 +55,6 @@ class AnswerDeleteQuestion extends Component {
 
 
     buttonDelete = (aquestion) => {
-      console.log(this.props.clicked)
       return(
           <div>
           <Button onClick={this.deleteQuestion.bind(this)} className="float-right"
@@ -182,10 +181,9 @@ class AnswerDeleteQuestion extends Component {
                 <Card.Text className="float-left" style ={{textAlign:"left"}}>
 
                   
-                  <Table  >
+                  <Table style={{tableLayout:'fixed'}}>
                       <tr >
-                          <td>Answer: {this.props.question.answer}</td>
-                          <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+                          <td style={{width:'80%'}}><div style={{color:'#286090'}}>Answer:</div> {this.props.question.answer}</td>
                           <td><tr><td>{this.buttonDelete(this.props.question)}</td></tr>
                           <tr><div className="p-2 flex-shrink-1 bd-highlight">
             <Form.Label style={{color: "white"}}>`</Form.Label> 
