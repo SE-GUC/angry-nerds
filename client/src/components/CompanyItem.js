@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import {Card,Button,CardHeader,CardBody,ProgressBarReactFragment,Row,Col,CardTitle} from "reactstrap";
 import { IconContext} from "react-icons";
+import axios from 'axios'
 //import {IoIosHomeOutline} from 'react-icons/io'
 import ProgressBar from 'react-bootstrap/ProgressBar'
 import StepProgressBar from './stepProgressBar'
@@ -9,9 +10,81 @@ export class CompanyItem extends Component {
   constructor(props){
     super(props)
   }
+  state={
+    color:'',
+    percentage:0
+  }
+  async change(event)
+  {
+    event.preventDefault();
+    try{
+    await axios({
+      method: 'delete',
+      url:'http://127.0.0.1:3000/AdminDeleteCase/'+this.props.company._id,
+      headers: {}, 
+      data: { 
+      }
+    });
+    alert('Successfully')
+    window.location.replace('/ShowCompanies')
 
-  state = {
+  }
+  catch(e)
+  {
+    console.log(e)
+    alert(e.error)
+  }
 
+  }
+  setColor()
+  {
+    
+    
+  }
+  componentDidMount() {
+    if(this.props.company.caseStatus==='investor')
+    {
+      this.setState({
+        color:'danger',
+        percentage:20
+      });
+    }
+
+    if(this.props.company.caseStatus==='lawyer-investor')
+    {
+      this.setState({
+        color:'warning',
+        percentage:40
+      });
+    }
+    if(this.props.company.caseStatus==='lawyer-reviewer')
+    {
+      this.setState({
+        color:'warning',
+        percentage:40
+      });
+    }
+    if(this.props.company.caseStatus==='reviewer')
+    {
+      this.setState({
+        color:'warning',
+        percentage:40
+      });
+    }
+    if(this.props.company.caseStatus==='pending')
+    {
+      this.setState({
+        color:'primary',
+        percentage:70
+      });
+    }
+    if(this.props.company.caseStatus==='published')
+    {
+      this.setState({
+        color:'success',
+        percentage:100
+      });
+    }
   }
   render() {
     const bg = "light"
@@ -37,8 +110,8 @@ export class CompanyItem extends Component {
             </IconContext.Provider>
             {this.props.company.english_name + " " + this.props.company.arabic_name}
           </CardHeader>
-          <CardBody>
-          <ProgressBar animated  variant="warning" now={40} />
+          <CardBody> 
+          <ProgressBar animated  variant={this.state.color} now={this.state.percentage} />
             <Row>
               <Col float="left">
                 <CardTitle>
@@ -51,9 +124,11 @@ export class CompanyItem extends Component {
               </Col>
               
             </Row>
-            <Row>
-            
-            </Row>
+            <Row float='right'>
+            <Button color="danger" onClick= {this.change.bind(this)}>
+                  Delete Case
+                </Button>
+                </Row>
           </CardBody>
           </Card>
           </div>

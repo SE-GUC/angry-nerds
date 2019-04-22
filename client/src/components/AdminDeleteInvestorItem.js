@@ -95,12 +95,12 @@ handleClose(){
                   {this.props.inv._id}
                 </CardTitle>
               </Col>
-              <Col float="right">
-                <Button color="danger" onClick= {this.change.bind(this)}>
+            </Row>
+            <Row float="left">
+            <Button color="danger" onClick= {this.change.bind(this)}>
                   Delete Investor
                 </Button>
-              </Col>
-            </Row>
+                </Row>
           </CardBody>
 
           <br />

@@ -90,7 +90,7 @@ class App extends Component {
                 <Route exact path="/payment/:id" component={Payment} />
                 <Route exact path="/createCase" component={CreateCase} />
                 <Route exact path="/InvestorForm" component={InvestorForm} />
-                <Route exact path ='/ShowCompanies' component = {CompaniesGroup}/>
+                <Route exact path ='/AdminDeleteCase' component = {CompaniesGroup}/>
                 <Route exact path="/LawyerForm" component={LawyerForm} />
                 <Route
                   exact
