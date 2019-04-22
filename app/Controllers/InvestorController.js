@@ -781,7 +781,13 @@ generatePdf: async function(req, res) {
                     }
                 },
                 pageSize: 'A4',
-                pageMargins: [ 17, 85, 17, 40 ]
+                pageMargins: [ 17, 85, 17, 40 ],
+                info: {
+                    title: c.english_name + ' Contract',
+                    author: 'GAFI',
+                    subject: 'Legal contract for the to be established company of name ' + c.english_name,
+                    keywords: 'Contract'
+                  }
             };
 
             const fontDescriptors = {

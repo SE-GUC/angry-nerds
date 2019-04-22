@@ -8,6 +8,8 @@ import { IconContext } from "react-icons";
 import {FaLock} from "react-icons/fa";
 import { IoIosWarning } from "react-icons/io";
 import {FaLockOpen} from "react-icons/fa";
+import ContractButton from '../components/ContractButton'
+
 
 class CaseCard extends Component {
 
@@ -67,11 +69,14 @@ class CaseCard extends Component {
       )
     }else{
       return(
-        <div>
-        <Button onClick={this.openCase.bind(this)} className="float-right"
+        <div className="float-right">
+        <Button onClick={this.openCase.bind(this)} 
           style ={{backgroundColor:'#286090',border:'#286090'}}>
           Open Case
         </Button>
+        <div style={{clear:'both'}}></div>
+        <div> &nbsp;</div> 
+        <ContractButton id={this.props.case._id}></ContractButton>
         </div>
 
       )
@@ -158,6 +163,8 @@ class CaseCard extends Component {
                 Case Type: {this.props.case.form_type}$
                 </Card.Text>
                 {this.buttonSetter(this.props.case)}
+                
+                
             </div>
           </Card.Body>
 

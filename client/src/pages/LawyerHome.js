@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 import CaseCard from '../components/CaseCard'
 import LawyerToolbar from '../components/LawyerToolbar'
 import Spinner from 'react-bootstrap/Spinner'
-import CardDeck from 'react-bootstrap/CardDeck'
-
 import axios from 'axios'
 
 
@@ -83,7 +81,7 @@ class LawyerHome extends Component {
     if(this.state.searchTerm.length === 0){
       console.log('cases ===> ',cases)
       return cases.map( (oneCase) => 
-         ( <CaseCard key={oneCase._id} case={oneCase} pressed={this.state.pressed} caseButton={this.caseButton.bind(this)} type='lawyer'/> ))
+         ( <CaseCard key={oneCase._id} case={oneCase} pressed={this.state.pressed} caseButton={this.caseButton.bind(this)} type='lawyer'/>))
     }
     else{
       console.log('filter')
