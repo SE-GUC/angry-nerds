@@ -133,8 +133,8 @@ class App extends Component {
                 <Route exact path="/ChangePricing" component={ChangePricing} />
                 <Route exact path="/ChangePricing" component={ChangePricing} />
                 <Route exact path="/AdminViewLaws" component={AdminViewLaws} />
-                <Route exact path="/AdminPage" component={AdminSideNavbarAR} />
-                <Route exact path="/InvestorPage" component={InvestorPageAR} />
+                <Route exact path="/AdminPage" component={AdminSideNavbar} />
+                <Route exact path="/InvestorPage" component={InvestorPage} />
                 <Route exact path="/Questions" component={Questions} />
                 <Route exact path="/notificat" component={notificat} />
                 <Route
