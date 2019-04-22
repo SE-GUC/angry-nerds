@@ -163,7 +163,7 @@ export class AdminSideNavbar extends Component {
             <NavItem eventKey="home">
             <NavIcon>
                 <i   class ="fa fa-fw fa-home" style={{ fontSize: '1.75em' }}  font-family= {FontAwesomeIcon}   />    
-                &nbsp; Home</NavIcon>
+                &nbsp; الصفحة الرئيسية</NavIcon>
            
               </NavItem>
         </LinkContainer>
@@ -173,7 +173,7 @@ export class AdminSideNavbar extends Component {
         <NavItem eventKey="Cases Timing">
             <NavIcon>
             <i class="fa fa-clock-o" style={{ fontSize: '1.75em' }}  font-family= {FontAwesomeIcon}  />
-            &nbsp; Cases Timing </NavIcon>
+            &nbsp; متابعة الشركات </NavIcon>
             <NavText>
               
             </NavText>
@@ -185,7 +185,7 @@ export class AdminSideNavbar extends Component {
         <NavItem eventKey="Register Lawyer">
         <NavIcon>
             <i class="fa fa-user"  style={{ fontSize: '1.75em' }} font-family= {FontAwesomeIcon}/>
-        &nbsp;  Register Lawyer </NavIcon>
+        &nbsp;  تسجيل محامي </NavIcon>
                 <NavText>
                
                 </NavText>
@@ -198,7 +198,7 @@ export class AdminSideNavbar extends Component {
             <NavItem eventKey="Register Reviewer">
             <NavIcon>
             <i class="fa fa-user"  style={{ fontSize: '1.75em' }} font-family= {FontAwesomeIcon}></i>
-         &nbsp;    Register Reviewer</NavIcon>
+         &nbsp;    تسجيل مراجع</NavIcon>
                 <NavText>
                
                 </NavText>
@@ -210,7 +210,7 @@ export class AdminSideNavbar extends Component {
             <NavItem eventKey="Register Admin">
             <NavIcon>
             <i class="fa fa-user"  style={{ fontSize: '1.75em' }} font-family= {FontAwesomeIcon}/>
-        &nbsp; Register Admin</NavIcon>
+        &nbsp; تسجيل  مسؤول</NavIcon>
                 <NavText>
                 
                 </NavText>
@@ -231,7 +231,7 @@ export class AdminSideNavbar extends Component {
             <NavItem eventKey="Delete Investor" >
             <NavIcon>
             <i class="fa fa-trash-o"  style={{ fontSize: '1.75em' }} font-family= {FontAwesomeIcon}></i>
-             &nbsp;   Delete Investor</NavIcon>
+             &nbsp;   حذف مستثمر</NavIcon>
                 <NavText>
                
                 </NavText>
@@ -244,7 +244,7 @@ export class AdminSideNavbar extends Component {
             <NavItem eventKey="Delete Lawyer">
             <NavIcon>
             <i class="fa fa-trash-o"  style={{ fontSize: '1.75em' }} font-family= {FontAwesomeIcon}></i>
-             &nbsp;   Delete Lawyer</NavIcon>
+             &nbsp;   حذف محامي</NavIcon>
                 <NavText>
                
                 </NavText>
@@ -256,7 +256,7 @@ export class AdminSideNavbar extends Component {
             <NavItem eventKey="Delete Reviewer">
             <NavIcon>
             <i class="fa fa-trash-o"  style={{ fontSize: '1.75em' }} font-family= {FontAwesomeIcon}></i>
-             &nbsp;    Delete Reviewer</NavIcon>
+             &nbsp;    حذف مراجع</NavIcon>
                 <NavText>
                
                 </NavText>
@@ -268,7 +268,7 @@ export class AdminSideNavbar extends Component {
             <NavItem eventKey="Delete Admin">
             <NavIcon>
             <i class="fa fa-trash-o"  style={{ fontSize: '1.75em' }} font-family= {FontAwesomeIcon}></i>
-           &nbsp;   Delete Admin </NavIcon>
+           &nbsp;  حذف مسؤول </NavIcon>
                 <NavText>
                 
                 </NavText>
@@ -280,7 +280,7 @@ export class AdminSideNavbar extends Component {
             <NavItem eventKey="Edit Companies">
             <NavIcon>
                 <i className="glyphicon glyphicon-pencil" style={{ fontSize: '1.75em' }} font-family= {FontAwesomeIcon} />
-            &nbsp;  Edit Companies</NavIcon>
+            &nbsp;  تعديل الشركات</NavIcon>
             <NavText>
             
             </NavText>
@@ -291,7 +291,7 @@ export class AdminSideNavbar extends Component {
          <NavItem eventKey="Comments">
          <NavIcon>
             <i class="fa fa-comment"  style={{ fontSize: '1.75em' }} font-family= {FontAwesomeIcon}></i>
-            &nbsp;  Comments</NavIcon>
+            &nbsp;  التعليقات</NavIcon>
             <NavText>
             
             </NavText>
@@ -309,12 +309,12 @@ export class AdminSideNavbar extends Component {
             
             <NavItem eventKey="Leader Boards For/Lawyers">
                 <NavText>
-                    Lawyers
+                   محاميين
                 </NavText>
             </NavItem>
             <NavItem eventKey="Leader Boards For/Reviewers">
                 <NavText>
-                    Reviewers
+                   مراجعين
                 </NavText>
             </NavItem>
         </NavItem>
@@ -324,7 +324,7 @@ export class AdminSideNavbar extends Component {
         <NavItem eventKey="Generate New Law">
             <NavIcon>
                 <i className="fa fa-lightbulb-o" style={{ fontSize: '1.75em' }} />
-            &nbsp; Generate New Law </NavIcon>
+            &nbsp;إصدار قانون جديد </NavIcon>
             <NavText>
            
             </NavText>
@@ -336,7 +336,7 @@ export class AdminSideNavbar extends Component {
         <NavItem eventKey="View Exixting Laws">
             <NavIcon>
                 <i className="fa fa-list" style={{ fontSize: '1.75em' }} />
-            &nbsp; View Laws </NavIcon>
+            &nbsp; عرض القوانين </NavIcon>
             <NavText>
            
             </NavText>
@@ -347,7 +347,7 @@ export class AdminSideNavbar extends Component {
          <NavItem eventKey="Pricing Strategy">
             <NavIcon>
                 <i className="fa fa-credit-card" style={{ fontSize: '1.75em' }} />
-             &nbsp;   Pricing Strategy</NavIcon>
+             &nbsp;  استراتيجية التسعير</NavIcon>
             <NavText>
            
             </NavText>
@@ -358,7 +358,7 @@ export class AdminSideNavbar extends Component {
          <NavItem eventKey="Published Companies">
                 <NavIcon>
                     <i className="fa fa-trophy" style={{ fontSize: '1.75em' }} />
-               &nbsp;   Published Companies  </NavIcon>
+               &nbsp;   الشركات المؤسسة  </NavIcon>
             <NavText>
            
             </NavText>
@@ -369,7 +369,7 @@ export class AdminSideNavbar extends Component {
          <NavItem eventKey="Remove">
          <NavIcon>
             <i class="fa fa-trash-o"  style={{ fontSize: '1.75em' }} font-family= {FontAwesomeIcon}></i>
-            &nbsp;  Remove Case </NavIcon>
+            &nbsp;  حذف طلب شركة</NavIcon>
                 <NavText>
                
                 </NavText>
@@ -403,7 +403,7 @@ export class AdminSideNavbar extends Component {
          <NavItem eventKey="AddFormType">
             <NavIcon>
                 <i className="glyphicon glyphicon-pencil" style={{ fontSize: '1.75em' }} />
-             &nbsp;   Add Form Type </NavIcon>
+             &nbsp;   إضافة نوع طلب </NavIcon>
             <NavText>
           
             </NavText>
@@ -415,7 +415,7 @@ export class AdminSideNavbar extends Component {
          <NavItem eventKey="ViewFormType">
             <NavIcon>
                 <i className="fa fa-file" style={{ fontSize: '1.75em' }} />
-             &nbsp;   View Form Type </NavIcon>
+             &nbsp;   عرض نوع طلب </NavIcon>
             <NavText>
           
             </NavText>
@@ -427,7 +427,7 @@ export class AdminSideNavbar extends Component {
          <NavItem eventKey="ViewAllForms">
             <NavIcon>
                 <i className="fa fa-files-o" style={{ fontSize: '1.75em' }} />
-             &nbsp;   View All Forms </NavIcon>
+             &nbsp;   عرض كل انواع الطلبات </NavIcon>
             <NavText>
           
             </NavText>
@@ -439,7 +439,7 @@ export class AdminSideNavbar extends Component {
          <NavItem eventKey="changePassword">
             <NavIcon>
                 <i className="fa fa-lock" style={{ fontSize: '1.75em' }} />
-             &nbsp;   Change Password </NavIcon>
+             &nbsp;   تغيير كلمة المرور </NavIcon>
             <NavText>
           
             </NavText>
@@ -451,7 +451,7 @@ export class AdminSideNavbar extends Component {
          <NavItem eventKey="Reset Password">
             <NavIcon>
                 <i className="fa fa-refresh" style={{ fontSize: '1.75em' }} />
-             &nbsp;   Reset Password </NavIcon>
+             &nbsp;     إعادة تسجيل كلمة المرور </NavIcon>
             <NavText>
           
             </NavText>
@@ -463,7 +463,7 @@ export class AdminSideNavbar extends Component {
          <NavItem eventKey="forgotPassword">
             <NavIcon>
                 <i className="fa fa-eye-slash" style={{ fontSize: '1.75em' }} />
-             &nbsp;   Forgot Password</NavIcon>
+             &nbsp;     نسيت كلمة المرور</NavIcon>
             <NavText>
           
             </NavText>
@@ -474,7 +474,7 @@ export class AdminSideNavbar extends Component {
          <NavItem eventKey="Statistics">
             <NavIcon>
                 <i className="glyphicon glyphicon-stats" style={{ fontSize: '1.75em' }} />
-             &nbsp;   Statistics </NavIcon>
+             &nbsp;   إحصائيات </NavIcon>
             <NavText>
           
             </NavText>

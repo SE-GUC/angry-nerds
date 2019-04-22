@@ -553,21 +553,21 @@ InvestorViewingPublishedCompanies: async (req, res) => {
             const proj = { _id: 0, password: 0 };
             const projy = { _id: 0, password: 0, ratings: 0 };
             try {
-                const id = req.params.id;
-                const Inv = await Investor.findById(id, proj);
-                const Revs = await Reviewer.findById(id, proj);
-                const Adm = await Admins.findById(id, proj);
-                const Lawy = await Lawyer.findById(id, projy);
-                if (Inv) res.json({ message: "investor", data: Inv });
-                else if (Revs) res.json({ message: "Rev", data: Revs });
-                else if (Lawy) res.json({ message: "lawyer", data: Lawy });
-                else if (Adm) res.json({ message: "Admin", data: Adm });
-                else {
-                    res.json({ message: "User does not exist" });
-                }
-            } catch (error) {
-                console.log(error);
+                const id = req.params.id
+                const Inv = await Investor.findById(id, proj)
+               
+                if(Inv)
+                res.json({ message:'investor' ,data: Inv})
+                    else {
+                        res.json({message: 'User does not exist'})
+            
+                    }
             }
+            catch (error) {
+            console.log(error)
+            }
+            
+            
         },
 
             uploadFile: (req, res, next) => {
