@@ -240,7 +240,8 @@ let LawyerController = {
       locked: false,
       log: newLog
     });
-    var notify = [{  'CaseID': CaseID, 'text': "has been disapproved by the lawyer", 'time': Date.now }]
+    var notify = [{  'CaseID': caseID,text: CASE.english_name + "has been disapproved",
+    ArText : CASE.arabic_name + "لم يتم الموافقة عليها ", 'time': Date.now }]
      await Investor.findOneAndUpdate(CASE.investorID, { $push: { notifications: notify } })
     
     LawyerController.lawyerWriteComment(caseID, req.body.comment, staffID);
@@ -279,7 +280,8 @@ let LawyerController = {
       locked: false,
       log: newLog
     });
-    var notify = [{  'CaseID': CaseID, 'text': "has been approved by the lawyer and sent to the Reviewer", 'time': Date.now }]
+    var notify = [{  'CaseID': caseID, text: CASE.english_name + "has been approved by the lawyer",
+    ArText : CASE.arabic_name + " تم الموافقة عليها من قبل المحامي", 'time': Date.now }]
      await Investor.findOneAndUpdate(CASE.investorID, { $push: { notifications: notify } })
     //  var notifyrev = [{  'CaseID': CaseID, 'text': "has been approved by the lawyer", 'time': Date.now }]
     //  await Reviewer.findOneAndUpdate(CASE.investorID, { $push: { notifications: notifyrev } })                 
