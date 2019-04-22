@@ -48,6 +48,8 @@ import setAuthToken from "./helpers/setAuthToken";
 import tryComponent from "./pages/tryComponent"
 import anotherMail from "./pages/anotherMail"
 import ForgetPassword from "./pages/forgetPassword"
+import AdminAnswerDeleteQuestion from "./pages/AdminAnswerDeleteQuestion"
+
 library.add(faStroopwafel);
 
 if (localStorage.jwtToken){
@@ -160,6 +162,8 @@ class App extends Component {
                 <Route exact path="/verify/:tok" component={Verify} />
                 <Route exact path="/anotherMail/:tok" component={anotherMail} />
                 <Route exact path="/ForgetPassword" component={ForgetPassword} />
+                <Route exact path="/AdminAnswerDeleteQuestion" component={AdminAnswerDeleteQuestion} />
+
 
                 
               </div>

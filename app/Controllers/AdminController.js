@@ -1049,6 +1049,13 @@ AdminDeleteCase: async (req, res) => {
         if (question) {
             if (admin) {
                 const answered = await Question.findByIdAndUpdate(questionId, req.body)
+                console.log(answered)
+                console.log(answered.question)
+                console.log(answered.answer)
+                console.log(answered.email)                
+                const html = 'Hi there, <br/> Thank you for your question:'+answered.question+' <br/><br/> The Answer for your question is:'+answered.answer+' </br></br> If you still have any questions please do not hesitate to ask us '
+                await mailer.sendEmail(config.user, answered.email, 'Your Question is Answered', html)
+                
                 return res.json({
                     message: 'you have answered the required question successfully', data: answered
                 })

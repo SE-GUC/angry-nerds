@@ -52,7 +52,7 @@ router.delete('/AdminDeleteQuestion/:id', AdminController.AdminDeleteQuestion)
 router.delete('/AdminDeleteCase/:id', AdminController.AdminDeleteCase)
 router.get('/AdminViewLawyersLeaderBoard', AdminController.adminViewLawyersLeaderBoard)
 router.get('/AdminViewReviewersLeaderBoard', AdminController.adminViewReviewersLeaderBoard)
-router.put('/AdminAnswerQuestions',AdminController.AdminAnswerQuestions)
+router.put('/AdminAnswerQuestions/:id',AdminController.AdminAnswerQuestions)
 
 
 router.put('/AdminChangePassword/:id', AdminController.adminChangePassword)
