@@ -8,13 +8,21 @@ export class ContractButton extends Component {
 
   state = {
       pdfString: '#',
-      loaded: false
+      loaded: true
   }
 
   componentDidMount(){
     axios.get('http://localhost:3000/generatePdf/' + this.props.id)
         .then(res => this.setState({pdfString: res.data.data, loaded:true}))
         .catch(err => console.log(err))
+  }
+
+  generate(e){
+    console.log('PDF')
+    e.preventDefault();
+    axios.get('http://localhost:3000/generatePdf/' + this.props.id)
+    .then(res => this.setState({pdfString: res.data.data, loaded:true}))
+    .catch(err => this.setState({loaded:false}))
   }
 
   render() {
@@ -45,7 +53,7 @@ export class ContractButton extends Component {
             <Button
               download
               disabled
-              variant="success"
+              variant="danger"
               style={{width: '105px'}}
               href = {this.state.pdfString}
             >

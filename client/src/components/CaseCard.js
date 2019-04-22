@@ -20,7 +20,7 @@ class CaseCard extends Component {
 
   openCase(e) {
     e.preventDefault()
-    this.setState({toCasePage: true})
+    //this.setState({toCasePage: true})
     console.log('before  ==> ',this.props.pressed)
     this.props.caseButton(this.props.case._id)
     console.log('after  ==> ',this.props.pressed)
@@ -31,33 +31,14 @@ class CaseCard extends Component {
       if(this.props.type === 'reviewer'){
         path = 'http://localhost:3000/reviewerOpenCase/' + this.props.case._id }
       }
-    try{
-      console.log('get')
-    axios.get(path).then(res => console.log(res))}
-    catch(e){
-      console.log(e)
-    }
+   
+    axios.get(path).then(res => {console.log(res);  })
+    (this.props.type === 'lawyer')?this.props.history.push('/LawyerOpenCase/' + this.props.case._id):this.props.history.push('/ReviewerOpenCase/' + this.props.case._id)
     //this.props.history.push('lawyerOpenCase/' + oneCase._id);
   }
 
   buttonSetter = (oneCase) => {
-    console.log(this.props.pressed)
-    if(this.props.pressed !== null && this.props.pressed === oneCase._id){
-      console.log('LOCK-LOCK-LOCK')
-      return(
-        <Button className="float-right" disabled>
-           <Spinner
-              as="span"
-              animation="border"
-              size="sm"
-              role="status"
-              aria-hidden="true"
-            />
-            <span className="sr-only">Loading...</span>
-        </Button>
-      )
-    }
-
+   
     if(oneCase.locked){
       return(
         <div>
@@ -85,7 +66,7 @@ class CaseCard extends Component {
 
   iconSetter = (oneCase) => {
     let now = new Date();
-    let date = new Date(oneCase.log[0].date);
+    let date = new Date(oneCase.log[oneCase.log.length-1].date);
 
     if(oneCase.locked){
       return (
@@ -118,26 +99,24 @@ class CaseCard extends Component {
     }
   }
 
+  returnDateString(now,date){
+    if((now.getTime() - date.getTime()) / (1000 * 60 * 60) > 24){
+      return(
+        Math.floor((now.getTime() - date.getTime()) / (1000 * 60 * 60 * 24)) + ' days ago' 
+      )
+    }else{
+      return(
+        Math.floor((now.getTime() - date.getTime()) / (1000 * 60 * 60)) + ' mins ago' 
+      )
+    }
+  }
+
 
   render() {
 
-    if(this.state.toCasePage){
-      if(this.props.type === 'lawyer'){
-      return (
-        <Redirect to={'/LawyerOpenCase/' + this.props.case._id} />
-      )
-      }
-      else{
-        if(this.props.type === 'reviewer') {
-          return(
-          <Redirect to={'/ReviewerOpenCase/' + this.props.case._id} />
-          )
-        }
-      }
-    }
-    else{
+   
     let now = new Date();
-    let date = new Date(this.props.case.log[0].date);
+    let date = new Date(this.props.case.log[this.props.case.log.length-1].date);
     const bg = "light"
     const text = "black"
     // const iconColour =  now.getTime() - date.getTime() < 1000 * 60 * 60 * 24 * 3
@@ -170,17 +149,14 @@ class CaseCard extends Component {
 
           <Card.Footer>
             <small className="mb-2">
-              {Math.floor(
-                (now.getTime() - date.getTime()) / (1000 * 60 * 60 * 24)
-              )}{" "}
-              days ago{" "}
+              {this.returnDateString(now,date)}
             </small>
           </Card.Footer>
         </Card>
       </div>
     );
-    }
   }
+  
 }
 
 export default CaseCard;

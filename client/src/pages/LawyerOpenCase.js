@@ -118,7 +118,9 @@ export class LawyerOpenCase extends Component {
     let path = 'http://localhost:3000/lawyerCloseCase/' + this.state.oneCase._id
     try{
       console.log('get')
-      axios.get(path).then(res => {console.log(res); this.props.history.push('/LawyerHome')})}
+      axios.get(path).then(res => {console.log(res); })
+      this.props.history.push('/LawyerHome')
+    }
       catch(e){
         console.log(e)
     }
