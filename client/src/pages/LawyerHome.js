@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import CaseCard from '../components/CaseCard'
+import CaseCardAR from '../components/CaseCardAR'
+
 import LawyerToolbar from '../components/LawyerToolbar'
 import Spinner from 'react-bootstrap/Spinner'
 import axios from 'axios'
@@ -30,8 +32,8 @@ class LawyerHome extends Component {
               if(oneCase.english_name && oneCase.fees && oneCase.equality_capital && oneCase.log.length !== 0){
               return oneCase
             }})
-            console.log('ALLCASES: ',_allCases)
-            this.setState( {allCases: _allCases,totalCases: _allCases.length})
+            console.log('ALLCASES: ',res.data.data)
+            this.setState( {allCases: _allCases , totalCases: _allCases.length})
         }
     )
     }catch(error){
@@ -76,12 +78,12 @@ class LawyerHome extends Component {
     if(this.state.searchTerm.length === 0){
       console.log('cases ===> ',cases)
       return cases.map( (oneCase) => 
-         ( <CaseCard history={this.props.history} key={oneCase._id} case={oneCase} pressed={this.state.pressed} caseButton={this.caseButton.bind(this)} type='lawyer'/>))
+         ( <CaseCardAR history={this.props.history} key={oneCase._id} case={oneCase} pressed={this.state.pressed} caseButton={this.caseButton.bind(this)} type='lawyer'/>))
     }
     else{
       console.log('filter')
       return filteredCases.map( (filteredCase) => 
-      ( <CaseCard history={this.props.history} key={filteredCase._id} case={filteredCase} pressed={this.state.pressed} caseButton={this.caseButton.bind(this)} type='lawyer'/>) )
+      ( <CaseCardAR history={this.props.history} key={filteredCase._id} case={filteredCase} pressed={this.state.pressed} caseButton={this.caseButton.bind(this)} type='lawyer'/>) )
     }    
   }
 

@@ -8,10 +8,10 @@ import { IconContext } from "react-icons";
 import {FaLock} from "react-icons/fa";
 import { IoIosWarning } from "react-icons/io";
 import {FaLockOpen} from "react-icons/fa";
-import ContractButton from '../components/ContractButton'
+import ContractButtonAR from '../components/ContractButtonAR'
 
 
-class CaseCard extends Component {
+class CaseCardAR extends Component {
 
   state = {
     basket: '',
@@ -42,22 +42,22 @@ class CaseCard extends Component {
     if(oneCase.locked){
       return(
         <div>
-        <Button onClick={this.openCase.bind(this)} className="float-right"
+        <Button onClick={this.openCase.bind(this)} className="float-left"
           style ={{backgroundColor:'#286090',border:'#286090'}} disabled>
-          Open Case
+         تفاصيل الشركة
         </Button>
         </div>
       )
     }else{
       return(
-        <div className="float-right">
+        <div className="float-left">
         <Button onClick={this.openCase.bind(this)} 
           style ={{backgroundColor:'#286090',border:'#286090'}}>
-          Open Case
+          تفاصيل الشركة
         </Button>
         <div style={{clear:'both'}}></div>
         <div> &nbsp;</div> 
-        <ContractButton id={this.props.case._id}></ContractButton>
+        <ContractButtonAR id={this.props.case._id}></ContractButtonAR>
         </div>
 
       )
@@ -70,7 +70,7 @@ class CaseCard extends Component {
 
     if(oneCase.locked){
       return (
-          <IconContext.Provider value={{ className: "float-right" ,size: "1.5em"}}>
+          <IconContext.Provider value={{ className: "float-left" ,size: "1.5em"}}>
             <div>
               <FaLock />
             </div>
@@ -80,7 +80,7 @@ class CaseCard extends Component {
     else{
       if(now.getTime() - date.getTime() > 1000 * 60 * 60 * 24 * 3){
         return (
-          <IconContext.Provider value={{ color: "#EDC845", className: "float-right" ,size: "2em"}}>
+          <IconContext.Provider value={{ color: "#EDC845", className: "float-left" ,size: "2em"}}>
             <div>
               <IoIosWarning />
             </div>
@@ -89,7 +89,7 @@ class CaseCard extends Component {
       }
       else{
         return (
-          <IconContext.Provider value={{ color: "green", className: "float-right" ,size: "1.5em"}}>
+          <IconContext.Provider value={{ color: "green", className: "float-left" ,size: "1.5em"}}>
             <div>
               <FaLockOpen />
             </div>
@@ -102,11 +102,11 @@ class CaseCard extends Component {
   returnDateString(now,date){
     if((now.getTime() - date.getTime()) / (1000 * 60 * 60) > 24){
       return(
-        Math.floor((now.getTime() - date.getTime()) / (1000 * 60 * 60 * 24)) + ' days ago' 
+       <div className='float-left'>{ Math.floor((now.getTime() - date.getTime()) / (1000 * 60 * 60 * 24)) + ' أيام مضت' }</div>
       )
     }else{
       return(
-        Math.floor((now.getTime() - date.getTime()) / (1000 * 60 * 60)) + ' hours ago' 
+        <div className='float-left'>{ Math.floor((now.getTime() - date.getTime()) / (1000 * 60 * 60)) + ' ساعات مضت' }</div>
       )
     }
   }
@@ -128,18 +128,18 @@ class CaseCard extends Component {
       <div className="p-1" >
         <Card bg={bg} text={text} >
           <Card.Header>
-          <div className="float-left">{this.props.case.english_name}</div>
+          <div className="float-right">{this.props.case.english_name}</div>
           {this.iconSetter(this.props.case)}        
           </Card.Header>
 
           <Card.Body>
             <div className="ml-auto p-2 bd-highlight">
-              <Card.Text className="float-left" style ={{textAlign:"left"}}>
-                Case ID: <samp>{this.props.case._id} </samp>
+              <Card.Text className="float-right" style ={{textAlign:"right"}}>
+              <samp>{this.props.case._id} </samp>  :رقم الشركة
                 <br />
-                Capital: {this.props.case.equality_capital}$
+              ${this.props.case.equality_capital} :رأس المال
                 <br />
-                Case Type: {this.props.case.form_type}$
+             {this.props.case.form_type}  :نوع الشركة
                 </Card.Text>
                 {this.buttonSetter(this.props.case)}
                 
@@ -159,4 +159,4 @@ class CaseCard extends Component {
   
 }
 
-export default CaseCard;
+export default CaseCardAR;
