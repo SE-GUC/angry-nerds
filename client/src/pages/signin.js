@@ -3,12 +3,14 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form'; 
 import jwt from 'jsonwebtoken'
 import axios from 'axios';
-import {InputGroup,FormControl,Row,Col} from "react-bootstrap";
+import {InputGroup,FormControl,Row,Col,Card} from "react-bootstrap";
 import '../App.css'
 import { Route, Redirect } from 'react-router-dom'
 import setAuthToken from '../helpers/setAuthToken';
 const padding = {margin: '20'};
 const image1 =require('../Images/logo.png')
+const style = { backgroundImage:" url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABoAAAAaCAYAAACpSkzOAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAALEgAACxIB0t1+/AAAABZ0RVh0Q3JlYXRpb24gVGltZQAxMC8yOS8xMiKqq3kAAAAcdEVYdFNvZnR3YXJlAEFkb2JlIEZpcmV3b3JrcyBDUzVxteM2AAABHklEQVRIib2Vyw6EIAxFW5idr///Qx9sfG3pLEyJ3tAwi5EmBqRo7vHawiEEERHS6x7MTMxMVv6+z3tPMUYSkfTM/R0fEaG2bbMv+Gc4nZzn+dN4HAcREa3r+hi3bcuu68jLskhVIlW073tWaYlQ9+F9IpqmSfq+fwskhdO/AwmUTJXrOuaRQNeRkOd5lq7rXmS5InmERKoER/QMvUAPlZDHcZRhGN4CSeGY+aHMqgcks5RrHv/eeh455x5KrMq2yHQdibDO6ncG/KZWL7M8xDyS1/MIO0NJqdULLS81X6/X6aR0nqBSJcPeZnlZrzN477NKURn2Nus8sjzmEII0TfMiyxUuxphVWjpJkbx0btUnshRihVv70Bv8ItXq6Asoi/ZiCbU6YgAAAABJRU5ErkJggg=="}
+
 
 class signin extends Component  {
   state={
@@ -69,9 +71,9 @@ class signin extends Component  {
         <Row style={{height: .12*window.innerHeight + 'px'}}>  </Row>
         <legend  class="the-legend" style={{color: "#428bca"}}>Sign in</legend>        
         <Col md={{ span: 2, offset: 2 }}>
-        <Row style={{height: .04*window.innerHeight + 'px'}} />
+        <Row style={{height: .05*window.innerHeight + 'px'}} />
          <img src={image1} /> </Col>
-        <Col md={{ span: 4, offset: 1 }}> 
+        <Col md={{ span: 4, offset: 1 }}>
         <Row style={{height: .05*window.innerHeight + 'px'}} />
         <InputGroup className="mb-3">
         <Form.Label style={{color: "#428bca"}}>Email address</Form.Label>
@@ -86,7 +88,9 @@ class signin extends Component  {
           <Button className="glyphicon glyphicon-eye-open" variant="outline" onClick={this.handleClick} />
         </InputGroup.Append>
       </InputGroup>
-      <Row style={{height: .03*window.innerHeight + 'px'}}>  </Row>
+      <Col md={{ span: 10, offset: 6 }}>
+      <Card.Link href="http://localhost:3001/ForgetPassword" style={{textDecoration: 'underline'}} >Forgotten Password ?</Card.Link></Col>
+      <Row style={{height: .04*window.innerHeight + 'px'}}>  </Row>
       <Col md={{ span: 4, offset: 8 }}>
       <Button variant="primary" type="submit" onClick={this.submit.bind(this)}>Sign in</Button></Col>
       </Col>

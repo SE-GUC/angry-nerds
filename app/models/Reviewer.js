@@ -70,6 +70,14 @@ const ReviewerSchema = new Schema({
     notifications:{
         type : [
             {
+                CaseID:{
+                    type: mongoose.Schema.Types.ObjectId,
+                    ref: 'Cases'
+                     },
+
+                     ArText: {
+                        type: String
+                    },       
                text: {
                    type: String
                },

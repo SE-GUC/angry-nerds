@@ -817,12 +817,12 @@ AdminDeleteCase: async (req, res) => {
         mongoose.set('useFindAndModify', false)
         const id = req.params.id
         const aCase = await Case.findById(id)
-        const AdminId = '5c9bb0dc5185793518ea84fb' //login token
+        const AdminId = '5cae9507646b4841fcd6478f' //login token
         const Admin = await Admins.findById(AdminId)
-         if (!Admin)
-            return res.json({ message: 'Only Admins have access' })
+        if ((!Admin) || (Admin && Admin.Type !== 'Super'))
+            return res.status(403).json({ error: 'Only super admins have access' })
          if (!aCase)
-            return res.json({message: 'not a case'})
+            return res.status(403).json({error: 'not a case'})
 
          else {           
             const deletedCase = await Case.findByIdAndRemove(id)

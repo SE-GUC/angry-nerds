@@ -72,8 +72,15 @@ InvestorSchema = new Schema({
         type: String
     },
     notifications:{
-        type : [
-            {
+        type : [{
+               CaseID:{
+               type: mongoose.Schema.Types.ObjectId,
+               ref: 'Cases'
+                },
+            
+                ArText: {
+                    type: String
+                },
                text: {
                    type: String
                },

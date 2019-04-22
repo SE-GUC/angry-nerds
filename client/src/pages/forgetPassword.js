@@ -42,12 +42,13 @@ class ForgetPassword extends Component  {
         <FormControl type="mail" placeholder="mail@example.com" 
         onChange={(e) => {this.setState({email:e.target.value})}} />
       </InputGroup>
-      <Row style={{height: .03*window.innerHeight + 'px'}} />
+      <Row style={{height: .001*window.innerHeight + 'px'}} />
+      <Col md={{ span: 12, offset: 4 }}>
+      <Card.Link href="#" style={{textDecoration: 'underline'}} onClick={this.mail.bind(this)}>Click here to resend mail</Card.Link></Col>
+      <Row style={{height: .05*window.innerHeight + 'px'}} />
       <Col md={{ span: 4, offset: 8 }}>
       <Button onClick={this.mail.bind(this)}>Send</Button></Col>
-      <Row style={{height: .07*window.innerHeight + 'px'}} />
-      <Col md={{ span: 12, offset: 10 }}>
-      <Card.Link href="#" onClick={this.mail.bind(this)}>Click here to resend mail</Card.Link></Col>
+      
       </Col>
 
         
