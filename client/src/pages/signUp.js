@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import {Form, Button,ButtonGroup,FormControl} from 'react-bootstrap'
+import {Form, Button,ButtonGroup,FormControl,Col} from 'react-bootstrap'
 import axios from 'axios'
 
 
@@ -123,12 +123,15 @@ console.log(error)
 
   render() {
     return (
-      <fieldset class="the-fieldset"style = {{border:"1px solid #999", borderRadius:"8px",
-      boxShadow:"0 0 10px #999", textAlign:"center"}}>
-   <div  style ={{textAlign:"center"}}>
+      <Col md={{ span: 0, offset: 3 }}>
+      
+      <Col md={{ span: 0, offset: 3 }}> 
+  
         <Form  > 
-    
-<h1> <Form.Label className="label label-primary">WELCOME</Form.Label> </h1>
+
+
+      <h1>WELCOME </h1>
+
             <br></br>
 
         <Form.Group controlId="firstName" bg={field} variant="dark" style ={field}>
@@ -260,8 +263,9 @@ console.log(error)
           Submit
         </Button>
       </Form>
-      </div>
-      </fieldset>
+      
+      </Col>
+      </Col>
     )
   }
 }

@@ -1,6 +1,5 @@
 import React ,{ Component } from 'react'
 import Button from 'react-bootstrap/Button';
-import { connect } from 'react-redux';
 import Form from 'react-bootstrap/Form'; 
 import jwt from 'jsonwebtoken'
 import axios from 'axios';
@@ -11,22 +10,13 @@ import setAuthToken from '../helpers/setAuthToken';
 const padding = {margin: '20'};
 const image1 =require('../Images/logo.png')
 
-
-
-//ARABIC ENGISH start
-const mapStateToProps = (state) => ({
-  lang : state.lang 
-})
-//ARABIC ENGISH end
-
-class signin extends Component  {
+class signinArabic extends Component  {
   state={
     toHome : false,
     type: 'password',
     email:'',
     password:''
   }
-  
     async submit (event){
       event.preventDefault();
       console.log(this.state.email)
@@ -67,15 +57,10 @@ class signin extends Component  {
       type: type === 'text' ? 'password' : 'text'
     }))
 
-    
-
     render(){
       if (this.state.toHome===true){
         return (<Redirect to={{pathname:'/LawyerHome'}} />)
         }else{
-          //ARABIC ENGISH start
-          //this to check what is the chose
-          if (this.props.lang==='ENG') {
     return (
       <React.Fragment>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css"/>
@@ -109,48 +94,14 @@ class signin extends Component  {
       </Col>
       </React.Fragment>        
   )
-    }else{
-      return (
-        <React.Fragment>
-          <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css"/>
-          <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-          <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
-          <Row style={{height: .12*window.innerHeight + 'px' }}>  </Row>
-          <legend  class="the-legend" style={{color: "#428bca",textAlign:"right"}}>تسجيل دخول</legend>        
-          <Col md={{ span: 2, offset: 3 }}>
-          <Row style={{height: .05*window.innerHeight + 'px'}} />
-           <img src={image1} /> </Col>
-          <Col md={{ span: 4, offset: 1 }} style={{color: "#428bca",textAlign:"right"}}>
-          <Row style={{height: .01*window.innerHeight + 'px'}} />
-          <InputGroup className="mb-3">
-          <Form.Label style={{color: "#428bca"}}>البريد الإلكتروني</Form.Label>
-          <FormControl type="mail" placeholder="mail@example.com" 
-          onChange={(e) => {this.setState({email:e.target.value})}} required/>
-        </InputGroup>
-        <InputGroup className="mb-3">
-          <Form.Label style={{color: "#428bca"}}>كلمة السر</Form.Label>
-          <FormControl type={this.state.type} placeholder="Password" 
-          onChange={(e) => {this.setState({password:e.target.value})}} required />
-          <InputGroup.Append>
-            <Button className="glyphicon glyphicon-eye-open" variant="outline" onClick={this.handleClick} />
-          </InputGroup.Append>
-        </InputGroup>
-        <Col md={{ span: 10, offset: 2 }}>
-        <Card.Link href="http://localhost:3001/ForgetPassword" style={{textDecoration: 'underline'}} >هل نسيت كلمة المرور ؟</Card.Link></Col>
-        <Row style={{height: .04*window.innerHeight + 'px'}}>  </Row>
-        <Col md={{ span: 4, offset: 8 }}>
-        <Button variant="primary" type="submit" onClick={this.submit.bind(this)}>Sign in</Button></Col>
-        </Col>
-        </React.Fragment>        
-    )
-    }
+  
     }
   }
-  
 }
 
 
 
 
 
-export default connect(mapStateToProps)(signin)
+
+export default signinArabic;
