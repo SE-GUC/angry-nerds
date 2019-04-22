@@ -1,7 +1,9 @@
 import React, { Component } from "react";
-import {Card,Button,CardHeader,CardBody,ReactFragment,Row,Col,CardTitle} from "reactstrap";
+import {Card,Button,CardHeader,CardBody,ProgressBarReactFragment,Row,Col,CardTitle} from "reactstrap";
 import { IconContext} from "react-icons";
 //import {IoIosHomeOutline} from 'react-icons/io'
+import ProgressBar from 'react-bootstrap/ProgressBar'
+import StepProgressBar from './stepProgressBar'
 export class CompanyItem extends Component {
 
   constructor(props){
@@ -36,6 +38,7 @@ export class CompanyItem extends Component {
             {this.props.company.english_name + " " + this.props.company.arabic_name}
           </CardHeader>
           <CardBody>
+          <ProgressBar animated  variant="warning" now={40} />
             <Row>
               <Col float="left">
                 <CardTitle>
@@ -46,6 +49,10 @@ export class CompanyItem extends Component {
                  Comapny id: {this.props.company._id}
                 </CardTitle>
               </Col>
+              
+            </Row>
+            <Row>
+            
             </Row>
           </CardBody>
           </Card>

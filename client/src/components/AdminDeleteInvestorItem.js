@@ -96,7 +96,7 @@ handleClose(){
                 </CardTitle>
               </Col>
               <Col float="right">
-                <Button color="danger" float="right" onClick= {this.change.bind(this)}>
+                <Button color="danger" onClick= {this.change.bind(this)}>
                   Delete Investor
                 </Button>
               </Col>
