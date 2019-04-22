@@ -44,7 +44,7 @@ console.log(event.target.files[0]);
         <h1> Upload Profile Picture</h1>
 
         <input type="file" onChange={this.fileChangedHandler}/>
-        <Button variant="outline-secondary"  type="submit"  onClick={this.uploadHandler}  >UPLOAD</Button>
+        <Button variant="outline-primary"  type="submit"  onClick={this.uploadHandler}  >UPLOAD</Button>
 
        {/* <img src={this.state.multerImage} alt="upload-image" className="process__image" />   */}
 

@@ -25,14 +25,16 @@ export class FetchImage extends Component {
     return (
       <div>
 {/* <img 
-      src="http://localhost:3000/image/91b79a646e8ca8a5ada55c3512b3c201.jpeg "
+      src="http://localhost:3000/image/91b79a646e8ca8a5ada55c3512b3c201.jpeg "       //   1fc6ad65287b346a516097c3bd84d026.jpg  sad cat
+                                                                                     // "32b9d1e608c09eb1b9c9d26e418c4494.jpg" yara
+                                                                                     // cfd4988535b8ab3558f79ef58dc660ab night king
       alt="new"
       /> */}
 
 
       <Row>
     <Col xs={6} md={4}>
-    <Image src="http://localhost:3000/api/uploadPic/image/a918913dbb98b308052f69270b406333.jpg" roundedCircle height ="100"  width="100"/>    
+    <Image src="http://localhost:3000/api/uploadPic/image/cfd4988535b8ab3558f79ef58dc660ab.jpg" roundedCircle height ="100"  width="100"/>    
     </Col>
     </Row>
 

@@ -15,13 +15,18 @@ import LawyerOpenCase from "./pages/LawyerOpenCase";
 import AddLawyer from "./components/AddLawyer";
 import AddLawyer_AR from "./components/AddLawyer_AR";
 import AdminAddLawyer from "./components/AdminAddLawyer";
+import AdminAddLawyer_AR from "./components/AdminAddLawyer_AR";
 import AdminAddReviewer from "./components/AdminAddReviewer";
+import AdminAddReviewer_AR from "./components/AdminAddReviewer_AR";
 import AdminAddAdmin from "./components/AdminAddAdmin";
+import AdminAddAdmin_AR from "./components/AdminAddAdmin_AR";
 import AddReviewer from "./components/AddReviewer";
+import AddReviewer_AR from "./components/AddReviewer_AR";
 import AdminDeleteInvestor from './pages/AdminDeleteInvestor'
 import testing from "./components/testing";
 import InvestorEditForm from "./pages/InvestorEditForm";
 import mainNavBar from "./components/mainNavBar";
+import footer from "./layout/footer";
 import NotFound from './pages/NotFound'
 import unregiteredHome from "./pages/unregHome";
 import AdminSideNavbar from "./components/AdminSideNavbar";
@@ -65,11 +70,15 @@ class App extends Component {
         <Route exact path="/stocks" component={stocks} />
         <Route exact path="/UploadPic" component={UploadPic} />
         <Route exact path="/FetchImage" component={FetchImage} />
+        
+
 
 
 
             <Route exact path="/home" component={unregiteredHome} />
             <div className="container">
+            
+            
               <Route exact path="/Companies" component={Companies} />
 
               <div className="col-sm-10">
@@ -80,13 +89,18 @@ class App extends Component {
                     <React.Fragment>
                       <h1>Hello World!</h1>
                       <h2> my name is Ramy! </h2>
+
                     </React.Fragment>
+                    
                   )}
+                  
                 />
+                
                 <PrivateRoute exact path="/trackMyCase" component={TrackMyCase} />
                 <Route exact path="/Companies" component={Companies} />
                 <Route exact path="/about" component={about} />
                   <Route exact path = "/AdminDeleteInvestor" component = {AdminDeleteInvestor}/>
+
 
                 <Route exact path="/ReviewerHome" component={ReviewerHome} />
 
@@ -101,18 +115,18 @@ class App extends Component {
                 <Route exact path="/ViewMyCompanies" component={Companies} />
                 {/* <Route exact path="/signUp" component={signup} /> */}
                 <Route exact path="/AdminAddLawyer" component={AdminAddLawyer} />
+                <Route exact path="/AdminAddLawyer_AR" component={AdminAddLawyer_AR} />
 
-                <Route
-                  exact
-                  path="/AdminAddReviewer"
-                  component={AdminAddReviewer}
-                />
+                <Route exact path="/AdminAddReviewer" component={AdminAddReviewer}  />
+                <Route exact path="/AdminAddReviewer_AR" component={AdminAddReviewer_AR}  />
                 <Route exact path="/AdminAddAdmin" component={AdminAddAdmin} />
+                <Route exact path="/AdminAddAdmin_AR" component={AdminAddAdmin_AR} />
                 <Route exact path="/signUp" component={signup} />
                 <Route exact path="/signin" component={signin} />
                 <Route exact path="/AddLawyer" component={AddLawyer} />
                 <Route exact path="/AddLawyer_AR" component={AddLawyer_AR} />
                 <Route exact path="/AddReviewer" component={AddReviewer} />
+                <Route exact path="/AddReviewer_AR" component={AddReviewer_AR} />
                 <Route exact path="/testing" component={testing} />
                 <Route exact path="/LawyerHome" component={LawyerHome} />
                 <Route
@@ -148,12 +162,22 @@ class App extends Component {
                   path="/InvViewProfile"
                   component={InvViewProfile}
                 />
+                
                  <Route exact path="/me" component={NotFound} />
+
                
               </div>
+              
             </div>
+            
             <Route exact path="*" component={NotFound} />
+            
           </Switch>
+          <Route exact path="/home" component={footer} />
+
+
+
+          
       </Router>
     );
   }

@@ -192,6 +192,11 @@ app.use(bodyParser.json());
 app.use(methodOverride('_method'));
 
 
+
+
+
+
+
 //Enable CORS on the express server
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
