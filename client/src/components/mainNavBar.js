@@ -7,10 +7,31 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar'; 
 import notificat from './notificat';
 import DropdownButton from 'react-bootstrap/DropdownButton'
+import Dropdown from 'react-bootstrap/Dropdown'
+import DropdownType from 'react-bootstrap/Dropdown'
+import axios from "axios"
 const navbar = {backgroundColor: '#286090'};
+const ids = '5ca772654d70710fa843bd5f';
 
 
 class mainNavBar extends Component  {
+
+  constructor(props){
+    super(props)
+
+    this.state = {
+      notifications: []
+    }
+
+    axios.get('http://localhost:3000/InvestorMyNotifications/'+ids).then(
+      res => this.setState({notifications: res.data.data}))
+
+
+
+
+  }
+
+  
 
   increment = () => {
     this.props.dispatch({type :"INCREMENT"})
@@ -22,6 +43,19 @@ class mainNavBar extends Component  {
   
  
     
+        notf(){
+          return (this.state.notifications.map((ha)=>(
+            <DropdownType
+            color="grey"
+            size="lg"
+            title="Drop small"
+            > 
+             <Dropdown.Item href="/trackMyCase">{ha.text} {ha.time}</Dropdown.Item>
+            
+             </DropdownType>
+
+)))
+}
 
 
 
@@ -46,8 +80,10 @@ class mainNavBar extends Component  {
       <Nav.Link href="#features">Features</Nav.Link>
       <Nav.Link href="#pricing">Laws and Fees</Nav.Link>
       <Nav.Link href="#pricing">Pricing</Nav.Link>
-      <Nav.Link href = "/notificat">Notifications</Nav.Link>
-     
+      <DropdownButton id="dropdown-basic-button" title="Notifications">
+                  
+                  {this.notf()}
+                  </DropdownButton>
     {/* =============REDUX TEST============================== */}
     {/* <div>
           <button onClick={this.decrement}>&ndash;</button>

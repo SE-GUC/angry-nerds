@@ -335,7 +335,8 @@ let InvestorController = {
     */
     investorMyNotifications: async function (req, res) {
         try {
-            const id = '5cabaf8dd20243280c5c96f0'
+            // const id = '5ca772654d70710fa843bd5f'
+            const id = req.params.id
             let investor = await Investor.findById(id)
             if (!investor) {
                 return res.status(404).json({ error: 'Cannot find an investor account with this ID' })
