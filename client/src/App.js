@@ -54,6 +54,10 @@ import setAuthToken from "./helpers/setAuthToken";
 import tryComponent from "./pages/tryComponent"
 import anotherMail from "./pages/anotherMail"
 import ForgetPassword from "./pages/forgetPassword"
+<<<<<<< HEAD
+import Faq from './pages/FAQ'
+=======
+>>>>>>> react_dev
 import InvestorPage from "./pages/InvestorPage";
 import InvestorPageAR from "./pages/InvestorPageAR";
 import ControlledCarousel from './components/ControlledCarousel'
@@ -74,6 +78,8 @@ class App extends Component {
           <Route component={mainNavBar} />
           <Switch>
         <Route exact path="/stocks" component={stocks} />
+        <Route exact path="/FAQ" component={Faq} />
+
             <Route exact path="/home" component={unregiteredHome} />
             <div className="container">
               <Route exact path="/Companies" component={Companies} />

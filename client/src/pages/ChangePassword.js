@@ -1,12 +1,11 @@
 import React, { Component } from 'react'
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
-import Col from 'react-bootstrap/Col'
-import InputGroup from 'react-bootstrap/InputGroup'
+import jwt from 'jsonwebtoken'
 
 import axios from 'axios'
 
-export class ChangePricing extends Component {
+export class ChangePassword extends Component {
 
   state = {
     validated: false,
@@ -36,24 +35,24 @@ export class ChangePricing extends Component {
       })
       console.log(this.state.length1)
     }
-      if (upperCaseLetters.test(p)) {
-        console.log("i am upperCase")
-        this.setState({
-          upperCase: true
-        })
-      }
-      if (lowerCaseLetters.test(p)) {
-        console.log("i am lowerCase")
-        this.setState({
-          lowerCase: true
-        })
-      }
-      if (numbers.test(p)) {
-        console.log("i am number")
-        this.setState({
-          number: true
-        })
-      }
+    if (upperCaseLetters.test(p)) {
+      console.log("i am upperCase")
+      this.setState({
+        upperCase: true
+      })
+    }
+    if (lowerCaseLetters.test(p)) {
+      console.log("i am lowerCase")
+      this.setState({
+        lowerCase: true
+      })
+    }
+    if (numbers.test(p)) {
+      console.log("i am number")
+      this.setState({
+        number: true
+      })
+    }
   }
 
   showPassword(event) {
@@ -70,13 +69,15 @@ export class ChangePricing extends Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    
-    
+
+    const storedToken = localStorage.getItem('jwtToken')
+    const str = storedToken.replace('Bearer ', '')
+    const token = jwt.decode(str)
     let p1 = document.getElementById('nPassword1').value
     let p2 = document.getElementById("nPassword2").value
     const form = event.currentTarget;
-    
-    
+
+
 
     if (form.checkValidity() === false) {
       event.stopPropagation();
@@ -86,26 +87,67 @@ export class ChangePricing extends Component {
     }
 
     else {
-      this.setState({
-        number: true
-      })
-      console.log(this.state.length1)
-      console.log(this.state.number)
-      console.log(this.state.upperCase)
-      console.log(this.state.lowerCase)
-      if (this.state.number && this.state.length1 && this.state.upperCase && this.state.lowerCase) {
-        this.setState({ validated: true });
-        const body = {
-          oldPassword: this.state.oldPassword,
-          newPassword: this.state.newPassword
+      if (token.type === "Reviewer") {
+        if (this.state.number && this.state.length1 && this.state.upperCase && this.state.lowerCase) {
+          this.setState({ validated: true });
+          const body = {
+            oldPassword: this.state.oldPassword,
+            newPassword: this.state.newPassword
 
+
+          }
+          axios.put('http://localhost:3000/ReviewerChangePassword/5ca772654d70710fa843bd5f', body)
+            .then(res => console.log(res))
+            .catch(error => alert(error.response.data.error))
 
         }
-        axios.put('http://localhost:3000/InvestorChangePassword/5ca772654d70710fa843bd5f', body)
-          .then(res => console.log(res))
-          .catch(error => alert(error.response.data.error))
-
       }
+      else if (token.type === "Lawyer") {
+        if (this.state.number && this.state.length1 && this.state.upperCase && this.state.lowerCase) {
+          this.setState({ validated: true });
+          const body = {
+            oldPassword: this.state.oldPassword,
+            newPassword: this.state.newPassword
+
+
+          }
+          axios.put('http://localhost:3000/LawyerChangePassword/5ca772654d70710fa843bd5f', body)
+            .then(res => console.log(res))
+            .catch(error => alert(error.response.data.error))
+
+        }
+      }
+      else if (token.type === "INvestor") {
+        if (this.state.number && this.state.length1 && this.state.upperCase && this.state.lowerCase) {
+          this.setState({ validated: true });
+          const body = {
+            oldPassword: this.state.oldPassword,
+            newPassword: this.state.newPassword
+
+
+          }
+          axios.put('http://localhost:3000/InvestorChangePassword/5ca772654d70710fa843bd5f', body)
+            .then(res => console.log(res))
+            .catch(error => alert(error.response.data.error))
+
+        }
+      }
+      else if (token.type === "Admin") {
+        if (this.state.number && this.state.length1 && this.state.upperCase && this.state.lowerCase) {
+          this.setState({ validated: true });
+          const body = {
+            oldPassword: this.state.oldPassword,
+            newPassword: this.state.newPassword
+
+
+          }
+          axios.put('http://localhost:3000/AdminChangePassword/5ca772654d70710fa843bd5f', body)
+            .then(res => console.log(res))
+            .catch(error => alert(error.response.data.error))
+
+        }
+      }
+
       else {
         alert("Your password must contain a LOWERCASE letter, an UPPERCASE letter, a NUMBER with length 8-25 characters")
       }
@@ -162,7 +204,7 @@ export class ChangePricing extends Component {
             </Form.Group>
 
 
-            <Button variant="primary" type="submit"  onClick={this.handleSubmit.bind(this)}>
+            <Button variant="primary" type="submit" onClick={this.handleSubmit.bind(this)}>
               Submit
         </Button>
           </Form>
@@ -172,4 +214,4 @@ export class ChangePricing extends Component {
   }
 }
 
-export default ChangePricing
+export default ChangePassword

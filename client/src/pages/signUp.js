@@ -1,5 +1,9 @@
 import React, { Component } from 'react'
+<<<<<<< HEAD
+import {Form, Button,ButtonGroup,FormControl} from 'react-bootstrap'
+=======
 import {Form,InputGroup, Button,ButtonGroup,FormControl,Col,Row, Container} from 'react-bootstrap'
+>>>>>>> react_dev
 import axios from 'axios'
 import Verifypassword from '../components/passwordinReset'
 const image1 =require('../Images/logo.png')
