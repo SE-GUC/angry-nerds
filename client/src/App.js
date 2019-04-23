@@ -9,8 +9,13 @@ import Companies from "./pages/Companies";
 import signup from "./pages/signUp";
 import signin from "./pages/signin";
 import LawyerHome from "./pages/LawyerHome";
+import Performance from "./pages/Performance";
+import PerformanceHome from "./pages/PerformanceHome";
+
 import ChangePricing from "./pages/ChangePricing";
 import AdminViewLaws from "./pages/AdminViewLaws";
+import AdminEditLaws from "./pages/AdminEditLaws";
+
 import LawyerOpenCase from "./pages/LawyerOpenCase";
 import AddLawyer from "./components/AddLawyer";
 import AdminAddLawyer from "./components/AdminAddLawyer";
@@ -49,9 +54,15 @@ import setAuthToken from "./helpers/setAuthToken";
 import tryComponent from "./pages/tryComponent"
 import anotherMail from "./pages/anotherMail"
 import ForgetPassword from "./pages/forgetPassword"
+
+import AdminAnswerDeleteQuestion from "./pages/AdminAnswerDeleteQuestion"
+
+
+import Faq from './pages/FAQ'
 import InvestorPage from "./pages/InvestorPage";
 import InvestorPageAR from "./pages/InvestorPageAR";
 import ControlledCarousel from './components/ControlledCarousel'
+
 library.add(faStroopwafel);
 
 if (localStorage.jwtToken){
@@ -69,11 +80,26 @@ class App extends Component {
           <Route component={mainNavBar} />
           <Switch>
             <div className="container">
-              <div className="col-sm-10">
                 <Route exact path="/" component={unregiteredHome} />
                 <Route exact path="/home" component={unregiteredHome}/>
                 <Route exact path="/stocks" component={stocks}/>
                 <Route exact path="/Companies" component={Companies}/>
+        <Route exact path="/stocks" component={stocks} />
+        <Route exact path="/FAQ" component={Faq} />
+
+        
+
+                <Route
+                  exact
+                  path="/"
+                  render={props => (
+                    <React.Fragment>
+                      <h1>Hello World!</h1>
+                      <h2> my name is Ramy! </h2>
+                    </React.Fragment>
+                  )}
+                />
+                <Route exact path="/trackMyCase" component={TrackMyCase} />
                 <Route exact path="/about" component={about} />
                 <PrivateRoute exact path="/trackMyCase" allowedUsers={['investor']} component={TrackMyCase} />
                 <PrivateRoute exact path = "/AdminDeleteInvestor" allowedUsers={['investor']} component = {AdminDeleteInvestor}/>
@@ -100,6 +126,15 @@ class App extends Component {
                 <PrivateRoute exact path="/AdminViewLaws" allowedUsers={['admin']}component={AdminViewLaws} />
                 <PrivateRoute exact path="/AdminPage" allowedUsers={['admin']} component={AdminSideNavbar} />
                 <PrivateRoute exact path="/InvestorPage" allowedUsers={['investor']} component={InvestorPage} />
+                <Route exact path="/testing" component={testing} />
+                <Route exact path="/Performance/:id" component={Performance} />
+                <Route exact path="/PerformanceHome" component={PerformanceHome} />
+
+
+               
+               
+             
+           
                 <Route exact path="/Questions" component={Questions} />
                 <PrivateRoute exact path="/notificat" allowedUsers={['investor']} component={notificat} />
                 <Route exact path="/electronicjournal" component={electronicJournal} />
@@ -107,8 +142,13 @@ class App extends Component {
                 <PrivateRoute exact path="/InvEditProfile" allowedUsers={['investor']} component={InvEditProfile}/>
                 <PrivateRoute exact path="/InvViewProfile" allowedUsers={['investor']} component={InvViewProfile} />
                 <Route exact path="/verify/:tok" component={Verify} />
+                <Route exact path="/anotherMail/:tok" component={anotherMail} />
+                <Route exact path="/ForgetPassword" component={ForgetPassword} />
+                <Route exact path="/AdminAnswerDeleteQuestion" component={AdminAnswerDeleteQuestion} />
+
+
+                
               </div>
-            </div>
             <Route exact path="*" component={NotFound} />
           </Switch>
       </Router>

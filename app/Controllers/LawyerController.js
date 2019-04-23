@@ -117,7 +117,7 @@ let LawyerController = {
 
   lawyerViewComment: async (req, res) => {
     try {
-      const caseID = '5caea6d0656a5b5b52c79e9f'
+      const caseID = req.params.idf;
       const lawyerID = "5c9f69180ec7b72d689dba6d"; //from Token
       //const caseID = req.params.caseID;
 
@@ -139,7 +139,7 @@ let LawyerController = {
 
   lawyerViewLawyersLeaderBoard: async (req, res) => {
     try {
-      const lawyerid = "5c9f69180ec7b72d689dba6d";
+      const lawyerid = "5c9f69180ec7b72d689dba6d"; //token
       const lawyer = await Lawyer.findById(lawyerid);
       if (!lawyer)
         return res
@@ -309,12 +309,14 @@ let LawyerController = {
   viewCasesLawyer: async function(req, res) {
     try {
 
-      let cases = await Case.find({
-        $or: [
-          { caseStatus: "lawyer-investor" },
-          { caseStatus: "lawyer-reviewer" },
-        ]
-      });
+      // let cases = await Case.find({
+      //   $or: [
+      //     { caseStatus: "lawyer-investor" },
+      //     { caseStatus: "lawyer-reviewer" },
+      //   ]
+      // }).lean();
+
+      let cases = await Case.find({ caseStatus: "lawyer-reviewer" })
 
       return res.status(200).json({ data: cases , msg: "Done" });
     } catch (error) {
@@ -354,7 +356,7 @@ let LawyerController = {
 
   lawyerViewReviewersLeaderBoard: async (req, res) => {
     try {
-      const lawyerid = "5c9f69180ec7b72d689dba6d";
+      const lawyerid = "5c9f69180ec7b72d689dba6d";  //token
       const lawyer = await Lawyer.findById(lawyerid);
       if (!lawyer)
         return res

@@ -13,7 +13,7 @@ InvestorSchema = new Schema({
         type: String,
         //required: true
     },
-    lastName: {
+    LastName: {
         type: String,
         //required: true
     },
@@ -68,19 +68,9 @@ InvestorSchema = new Schema({
     photoID: {
         type: String
     },
-    secret: {
-        type: String
-    },
     notifications:{
-        type : [{
-               CaseID:{
-               type: mongoose.Schema.Types.ObjectId,
-               ref: 'Cases'
-                },
-            
-                ArText: {
-                    type: String
-                },
+        type : [
+            {
                text: {
                    type: String
                },

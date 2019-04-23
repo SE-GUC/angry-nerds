@@ -21,6 +21,11 @@ router.get('/InvestorMyNotifications/:id',InvestorController.authenticate , Inve
 router.get('/viewMyPublishedCompanies',InvestorController.authenticate,InvestorController.viewMyPublishedCompanies)
 router.get('/viewMyPendingCompanies',InvestorController.authenticate,InvestorController.viewMyPendingCompanies)
 router.get('/generatePdf/:id',InvestorController.authenticate,InvestorController.generatePdf)
+//this endpoint allows the investor to pay fees for a pending company
+
+
+
+//this endpoint allows investor to view his company fees
 router.get('/InvestorViewingPublishedCompanies', InvestorController.InvestorViewingPublishedCompanies)
 router.get('/InvestorViewingCompany/:id', InvestorController.InvestorViewingCompany)
 router.post('/InvestorRateLawyer/:id', InvestorController.authenticate, InvestorController.InvestorRateLawyer)
@@ -63,6 +68,16 @@ router.post('/AdminCreateFormType',AdminController.authenticate, AdminController
 router.delete('/AdminDeleteFormType/:id',AdminController.authenticate, AdminController.AdminDeleteFormType)
 router.get('/AdminFindFormType',AdminController.authenticate, AdminController.AdminFindFormType)
 router.get('/AdminFindFormType/:id',AdminController.authenticate, AdminController.AdminFindFormTypeID)
+
+router.get('/calculateAverageMins/:id', AdminController.calculateAverageMins)
+router.get('/calculateUniqueCases/:id', AdminController.calculateUniqueCases)
+router.put('/calculateRange/:id', AdminController.calculateRange)
+
+
+
+//------------------------------------Lawyer Routes----------------------------------------------------
+
+// router.post('/lawyerWriteComment',LawyerController.lawyerComment)
 
 //------------------------------------Lawyer Routes----------------------------------------------------
 router.post('/LawyerFillForm',LawyerController.authenticate , LawyerController.lawyerFillForm)

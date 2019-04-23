@@ -254,8 +254,8 @@ let AdminController = {
 
     adminViewComment: async (req, res) => {
         try {
-            const formid = '5caea6d0656a5b5b52c79e9f'
-            const adminid = '5c9bb0dc5185793518ea84fb'
+            const formid = req.params.idf;
+            const adminid = '5c9bb0dc5185793518ea84fb' //tokennnnnnnnnnn
             const admin = await Admins.findById(adminid)
             const form = await Case.findById(formid)
             if (!form)
@@ -1002,7 +1002,7 @@ AdminDeleteCase: async (req, res) => {
         
     },
 
-    calculateAverageMinsLawyer: async function(req,res) {
+    calculateAverageMins: async function(req,res) {
         var num = 0
         var total = 0
         const lawyerID = req.params.id
@@ -1010,9 +1010,9 @@ AdminDeleteCase: async (req, res) => {
         for(let i = 0;i < AllCases.length;i++){
             if(AllCases[i].log){
                 for(let j = 0;j<AllCases[i].log.length-1;j++){
-                    if(AllCases[i].log[j].id === id && AllCases[i].log[j].destination === 'open' ){
-                        let mins = AllCases[i].log[j].date.getTime() - AllCases[i].log[j+1].date.getTime() 
-                        mins = mins/1000*60
+                    if(AllCases[i].log[j].id === lawyerID && AllCases[i].log[j].destination === 'open'){
+                        let mins = AllCases[i].log[j+1].date.getTime() - AllCases[i].log[j].date.getTime() 
+                        mins = mins/(1000*60)
                         total = total + mins
                         num = num + 1
                     }
@@ -1026,11 +1026,69 @@ AdminDeleteCase: async (req, res) => {
             result = total/num
         }
 
-        return res.status(200).json({data: result})
+        return res.status(200).json({average: result, total: total, cases: num})
+
+    },
+
+    calculateUniqueCases: async function(req,res) {
+        var num = 0
+        const lawyerID = req.params.id
+        const AllCases = await Case.find()
+        for(let i = 0;i < AllCases.length;i++){
+            if(AllCases[i].log){
+                for(let j = 0;j<AllCases[i].log.length-1;j++){
+                    if(AllCases[i].log[j].id === lawyerID){
+                        num = num + 1
+                        break
+                    }
+
+                }
+            }
+        }
+
+        return res.status(200).json({cases: num})
+
+    },
+
+    calculateRange: async function(req,res) {
+        let datesArray = []
+        let resultArr = []
+        const lawyerID = req.params.id
+        const AllCases = await Case.find()
+        let startDate = new Date(req.body.startDate)
+        let endDate = new Date(req.body.endDate)
+        let type = req.body.type
+        console.log(startDate,' ',endDate,' ',type)
+
+        for(let i = 0;i < AllCases.length;i++){
+            if(AllCases[i].log){
+                for(let j = 0;j<AllCases[i].log.length-1;j++){
+                    if(AllCases[i].log[j].id === lawyerID && AllCases[i].log[j].destination === type){
+                        datesArray.push(AllCases[i].log[j].date)
+                    }
+                }
+            }
+        }
+
+        let d = startDate
+        while (d <= endDate) {
+            let x = 0;
+            for (let i = 0; i < datesArray.length; i++) {
+                let d1 = new Date(datesArray[i])
+                if (d1.getTime() - d.getTime() < 1000*60*60*24 && d1.getTime() - d.getTime() > -1000*60*60*24 )  {
+                    x = x + 1
+                }
+            }
+            resultArr.push({date: JSON.parse(JSON.stringify(d)), cases: x})
+            d.setDate(d.getDate() + 1)
+        }
+
+        return res.status(200).json({data: resultArr})
 
     },
 
     AdminAnswerQuestions: async function (req, res) {
+        try{
 
         const AdminID = req.user.id
         const questionId = req.params.id 
@@ -1039,13 +1097,20 @@ AdminDeleteCase: async (req, res) => {
             res.json({ message: 'you are not authorized' })
         })
 
-        const question = await Question.findById(id).catch((err) => {
+        const question = await Question.findById(questionId).catch((err) => {
             res.json({ message: 'This is not a valid question ID' })
         })
 
         if (question) {
             if (admin) {
                 const answered = await Question.findByIdAndUpdate(questionId, req.body)
+                console.log(answered)
+                console.log(answered.question)
+                console.log(answered.answer)
+                console.log(answered.email)                
+               // const html = 'Hi there, <br/> Thank you for your question:'+answered.question+' <br/><br/> The Answer for your question is:'+answered.answer+' </br></br> If you still have any questions please do not hesitate to ask us '
+                //await mailer.sendEmail(config.user, answered.email, 'Your Question is Answered', html)
+                
                 return res.json({
                     message: 'you have answered the required question successfully', data: answered
                 })
@@ -1059,6 +1124,11 @@ AdminDeleteCase: async (req, res) => {
                 message: 'the question you are trying to answer does not exist'
             })
         }
+    }
+    catch(error){
+        console.log(error)
+            res.status(400).json({message: error})
+    }
 
     },
 
