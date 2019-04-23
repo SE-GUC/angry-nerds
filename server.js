@@ -225,6 +225,7 @@ app.use('/', routes)
 app.use(express.static('./app/routes/api/uploadPic')) ////
 
 
+
 app.use((req, res) => res.status(404).send(`<h1>Can not find what you're looking for</h1>`))
 
 const port = process.env.PORT || 3000
