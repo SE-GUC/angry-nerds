@@ -47,6 +47,7 @@ import AddFormType from './pages/AddFormType';
 import DeleteFormType from './pages/DeleteFormType'
 import UploadPic from "./components/UploadPic";
 import FetchImage from "./components/FetchImage";
+import viewCompany from './pages/viewCompany'
 
 //import Noti from './pages/Noti';
 import about from "./pages/About";
@@ -129,6 +130,8 @@ class App extends Component {
                 <Route exact path ='/AdminDeleteCase' component = {CompaniesGroup}/>
                 <Route exact path="/LawyerForm" component={LawyerForm} />
                 <Route exact path="/InvestorEditForm/:id" component={InvestorEditForm}
+                />
+                <Route exact path="/viewCompany/:id" component={viewCompany}
                 />
                 <Route exact path="/ViewMyCompanies" component={Companies} />
                 {/* <Route exact path="/signUp" component={signup} /> */}

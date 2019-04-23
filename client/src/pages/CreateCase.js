@@ -17,16 +17,21 @@ export class CreateCase extends Component {
       formTypes: [],
       form_type: ""
     };
+    try{
 
-    axios.get("http://localhost:3000/AdminFindFormType").then(formTypes => {
-      this.setState({
-        formTypes: formTypes.data.data,
-        model: formTypes.data.data[0].model,
-        formModel: formTypes.data.data[0].model,
-        dropdownOpen: false,
-        form_type: formTypes.data.data[0].formName
+      axios.get("http://localhost:3000/AdminFindFormType").then(formTypes => {
+        this.setState({
+          formTypes: formTypes.data.data,
+          model: formTypes.data.data[0].model,
+          formModel: formTypes.data.data[0].model,
+          dropdownOpen: false,
+          form_type: formTypes.data.data[0].formName
+        });
       });
-    });
+    }
+    catch(e){
+      console.log(e)
+    }
   }
 
   handleChangeForm = event => {

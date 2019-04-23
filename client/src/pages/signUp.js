@@ -147,7 +147,7 @@ console.log(error)
 
         <Form.Group controlId="firstName">
           <Form.Label>First Name</Form.Label>
-          <Form.Control type="firstName" placeholder="Enter your first name" onChange = {this.handleChange.bind(this)}/> 
+          <Form.Control name="firstName" type="firstName" placeholder="Enter your first name" onChange = {this.handleChange.bind(this)}/> 
         </Form.Group>
 
         <Form.Group controlId="MiddleName">

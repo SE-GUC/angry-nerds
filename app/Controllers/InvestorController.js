@@ -162,7 +162,7 @@ let InvestorController = {
 
     investorFillForm: async (req, res) => {
         try {
-            const id = "5c93ac9555b21722fc46eb9b"; //From Token
+            const id = req.user.id; 
             const investor = await Investor.findById(id);
 
             if (!investor) {
