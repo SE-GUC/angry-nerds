@@ -109,7 +109,7 @@ router.get('/ReviewerViewing/:id', ReviewerController.ReviewerViewing)
 router.get('/ReviewerOpenCase/:id',ReviewerController.authenticate, ReviewerController.ReviewerOpenCase)
 router.get('/ReviewerCloseCase/:id',ReviewerController.authenticate, ReviewerController.ReviewerCloseCase)
 router.put('/caseAproveedAtReviewer/:idCase',ReviewerController.authenticate, ReviewerController.caseAproveedAtreviewer)// fix this
-router.put('/caseDisAproveedAtReviewer/:idCase', ReviewerController.caseDisAproveedAtReviewer)
+router.put('/caseDisAproveedAtReviewer/:idCase',ReviewerController.authenticate, ReviewerController.caseDisAproveedAtReviewer)
 router.get('/viewCasesReviewer',ReviewerController.authenticate, ReviewerController.viewCasesReviewer)
 router.get('/ReviewerViewReviewersLeaderBoard',ReviewerController.authenticate,ReviewerController.reviewerViewReviewersLeaderBoard)
 

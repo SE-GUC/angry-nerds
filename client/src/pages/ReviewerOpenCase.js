@@ -172,6 +172,7 @@ export class ReviewerOpenCase extends Component {
 
   reject(e){
     e.preventDefault()
+    console.log(this.state.comment)
     axios({
     method: 'PUT',
     url: 'http://localhost:3000/caseDisAproveedAtReviewer/'+ this.state.oneCase._id ,

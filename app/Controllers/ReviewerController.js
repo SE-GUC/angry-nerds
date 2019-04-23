@@ -24,6 +24,7 @@ let ReviewerController = {
     //call comment from frontend
 
     const caseID = req.params.idCase;
+    console.log(req.user)
     const staffID = req.user.id //get from token
     const CASE = await Case.findById(caseID);
     console.log(CASE)

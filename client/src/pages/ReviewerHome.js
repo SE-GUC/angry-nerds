@@ -25,7 +25,7 @@ class ReviewerHome extends Component {
       res => {
         let _allCases = res.data.data.filter((oneCase) => 
         {
-          if(oneCase.english_name && oneCase.fees && oneCase.equality_capital && oneCase.log.length !== 0){
+          if(oneCase.english_name && oneCase.equality_capital && oneCase.log.length !== 0){
           return oneCase
         }})
         console.log('ALLCASES: ',_allCases)
