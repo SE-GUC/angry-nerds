@@ -93,8 +93,6 @@ export class ChangePassword extends Component {
           const body = {
             oldPassword: this.state.oldPassword,
             newPassword: this.state.newPassword
-
-
           }
           axios.put('http://localhost:3000/ReviewerChangePassword/5ca772654d70710fa843bd5f', body)
             .then(res => console.log(res))

@@ -25,6 +25,7 @@ class signin extends Component  {
   state={
     toHome : false,
     type: 'password',
+    userHome:'',
     email:'',
     password:''
   }
@@ -45,18 +46,24 @@ class signin extends Component  {
           })
           console.log('HAHAHAHAHAHA',user.data)
           if (user.data.data!=='You need to verify the email that is used in registeration'){
-            alert("Successfully")  
             localStorage.setItem('jwtToken',user.data.data)
             axios.defaults.headers.common['Authorization'] = user.data.data
+            console.log(axios.defaults.headers.common['Authorization'])
             const tok = localStorage.getItem('jwtToken').replace('Bearer ','')
             const decoded = jwt.decode(tok)
-            alert(axios.defaults.headers.common['Authorization'])
+            console.log(decoded.type)
+            switch(decoded.type){
+              case 'investor' : this.setState({userHome:'/InvestorPage'}) ; break ;
+              case 'lawyer' : this.setState({userHome:'/LawyerHome'}) ; break ;
+              case 'reviewer' : this.setState({userHome:'/ReviewerHome'}) ; break ;
+              case 'admin' : this.setState({userHome:'/AdminPage'}) ; break ;
+              default : this.setState({userHome:'/signin'})
+            }
             this.setState({toHome: true})
+            console.log(this.state.toHome)
           }else{
             alert("You need to verify your mail") 
           }
-         
-        //setAuthToken(user.data.data)
         
         }
         catch(error)
@@ -73,7 +80,7 @@ class signin extends Component  {
 
     render(){
       if (this.state.toHome===true){
-        return (<Redirect to={{pathname:'/LawyerHome'}} />)
+        return (<Redirect to={{pathname:this.state.userHome}} />)
         }else{
           //ARABIC ENGISH start
           //this to check what is the chose
@@ -84,7 +91,7 @@ class signin extends Component  {
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
         <Row style={{height: .12*window.innerHeight + 'px'}}>  </Row>
-        <legend  class="the-legend" style={{color: "#428bca"}}>Sign in</legend>        
+        <legend  className="the-legend" style={{color: "#428bca"}}>Sign in</legend>        
         <Col md={{ span: 2, offset: 2 }}>
         <Row style={{height: .05*window.innerHeight + 'px'}} />
          <img src={image1} /> </Col>
@@ -118,7 +125,7 @@ class signin extends Component  {
           <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
           <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
           <Row style={{height: .12*window.innerHeight + 'px' }}>  </Row>
-          <legend  class="the-legend" style={{color: "#428bca",textAlign:"right"}}>تسجيل دخول</legend>        
+          <legend  className="the-legend" style={{color: "#428bca",textAlign:"right"}}>تسجيل دخول</legend>        
           <Col md={{ span: 2, offset: 3 }}>
           <Row style={{height: .05*window.innerHeight + 'px'}} />
            <img src={image1} /> </Col>
