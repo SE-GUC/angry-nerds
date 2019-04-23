@@ -6,15 +6,20 @@ import Reviewer from '../Images/reviewer.png'
 import Waiting from '../Images/waiting.png'
 import Published from '../Images/published.png'
 import axios from 'axios'
+import jwt from 'jsonwebtoken'
 
 class StepProgressBar extends React.Component {
 
   state = {
     status: ''
   }
+  
   componentDidMount() {
+    const storedToken = localStorage.getItem('jwtToken')
+    const str = storedToken.replace('Bearer ', '')
+    const token = jwt.decode(str)
     try{
-    axios.get('http://localhost:3000/api/Cases/5c95094155f85f30d82dcfeb').then(
+    axios.get('http://localhost:3000/api/Cases/' + token.id).then(
           res =>{
             console.log(res)
             this.setState({status: res.data.data.caseStatus})
@@ -44,7 +49,7 @@ class StepProgressBar extends React.Component {
       <ProgressBar
 
         percent={x}
-        filledBackground="linear-gradient(to right, #fefb72, #f0bb31)"
+        filledBackground="linear-gradient(to right, #286090, #284a90)"
         width="70%"
       >
         <Step transition="scale">

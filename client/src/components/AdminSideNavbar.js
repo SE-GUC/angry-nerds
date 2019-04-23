@@ -1,10 +1,12 @@
 import React, { Component } from 'react'
-import {BrowserRouter,Route,Link} from 'react-router-dom'; 
+import {BrowserRouter,Route,Link, Redirect} from 'react-router-dom'; 
 import { LinkContainer } from 'react-router-bootstrap'
 import SideNav, { Toggle, Nav, NavItem, NavIcon, NavText } from '@trendmicro/react-sidenav';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import DropdownButton from 'react-bootstrap/DropdownButton'
 import Container from 'react-bootstrap/Container'
+import Image from 'react-bootstrap/Image'
+import {Col, Row} from 'react-bootstrap'
 
 import Dropdown from 'react-bootstrap/Dropdown'
 import DropdownType from 'react-bootstrap/Dropdown'
@@ -12,7 +14,10 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button'
 import Style from'@trendmicro/react-sidenav/dist/react-sidenav.css';
 import { ButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
-
+const image1 =require('../Images/gafybuilding.jpg')
+const image2 =require('../Images/gafi logo.jpg')
+const image3 =require('../Images/stripe.png')
+const image4 =require('../Images/fawry.png')
 
 const ddButton ={
     backgroundColor: '#286090',
@@ -74,8 +79,10 @@ const ddItem4={
 
 const SideNavbarStyle = {
     backgroundColor: '#286090',
-    height:725,
-    width:110,
+    height:900,
+    width:190,
+    left:0,
+    top:0
     
    
     
@@ -136,7 +143,7 @@ export class AdminSideNavbar extends Component {
   render() {
     return (
        
-      <div>
+      <div >
           <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css"></link>
           <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"/>
           <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"></link>
@@ -148,252 +155,286 @@ export class AdminSideNavbar extends Component {
     }}
 >
 <SideNav bg={SideNavbarStyle} variant="dark" style ={SideNavbarStyle}>
-    <SideNav.Toggle />
+    {/* <SideNav.Toggle /> */}
    
     <SideNav.Nav defaultSelected="home">
 
         <LinkContainer to="/home">
             <NavItem eventKey="home">
             <NavIcon>
-                <i class ="fa fa-fw fa-home" style={{ fontSize: '1.75em' }}  font-family= {FontAwesomeIcon}   />    
-            </NavIcon>
-            <NavText>
-                Home
-            </NavText>
+                <i   class ="fa fa-fw fa-home" style={{ fontSize: '1.75em' }}  font-family= {FontAwesomeIcon}   />    
+                &nbsp; Home</NavIcon>
+           
               </NavItem>
         </LinkContainer>
            
       
-<LinkContainer to="#Cases">
+<LinkContainer to="/PerformanceHome">
         <NavItem eventKey="Cases Timing">
             <NavIcon>
-            <i class="fa fa-clock-o" style={{ fontSize: '1.75em' }}  font-family= {FontAwesomeIcon} />
-            </NavIcon>
+            <i class="fa fa-clock-o" style={{ fontSize: '1.75em' }}  font-family= {FontAwesomeIcon}  />
+            &nbsp; Cases Timing </NavIcon>
             <NavText>
-               Cases Timing
+              
             </NavText>
          </NavItem>
          </LinkContainer>
 
 
-          <LinkContainer to= "/AddLawyer"> 
-          {/* <LinkContainer to= "/AddLawyer">  */}
-
-        <NavItem eventKey="Register">
+      <LinkContainer to ="/AdminAddLawyer">    
+        <NavItem eventKey="Register Lawyer">
         <NavIcon>
             <i class="fa fa-user"  style={{ fontSize: '1.75em' }} font-family= {FontAwesomeIcon}/>
-        </NavIcon>
+        &nbsp;  Register Lawyer </NavIcon>
                 <NavText>
-                   Register
+               
                 </NavText>
+      </NavItem>
+      </LinkContainer> 
 
-    
-            <NavItem eventKey="Register/Lawyer">
+
+
+         <LinkContainer to="/AdminAddReviewer">
+            <NavItem eventKey="Register Reviewer">
+            <NavIcon>
+            <i class="fa fa-user"  style={{ fontSize: '1.75em' }} font-family= {FontAwesomeIcon}></i>
+         &nbsp;    Register Reviewer</NavIcon>
                 <NavText>
-                    Lawyer
+               
                 </NavText>
-                 <Link to="/AddLawyer"></Link>
             </NavItem>
-           
-            <NavItem eventKey="Register/Reviewer">
-                <NavText>
-                    Reviewer
-                </NavText>
-                </NavItem>
-            <LinkContainer to="/AddReviewer"><NavItem eventKey="Register/Reviewer"> </NavItem></LinkContainer>
+            </LinkContainer>
             
 
-            <NavItem eventKey="Register/Admin">
+            <LinkContainer to="/AdminAddAdmin">
+            <NavItem eventKey="Register Admin">
+            <NavIcon>
+            <i class="fa fa-user"  style={{ fontSize: '1.75em' }} font-family= {FontAwesomeIcon}/>
+        &nbsp; Register Admin</NavIcon>
                 <NavText>
-                    Admin
+                
                 </NavText>
                 </NavItem>
-            </NavItem>
+            </LinkContainer>
+            
 
-                </LinkContainer> 
-
-
-            <NavItem eventKey="Delete">
+            {/* <NavItem eventKey="Delete">
             <NavIcon>
             <i class="fa fa-trash-o"  style={{ fontSize: '1.75em' }} font-family= {FontAwesomeIcon}></i>
             </NavIcon>
                 <NavText>
                     Delete
+                </NavText> */}
+
+
+         <LinkContainer to="/AdminDeleteInvestor">
+            <NavItem eventKey="Delete Investor" >
+            <NavIcon>
+            <i class="fa fa-trash-o"  style={{ fontSize: '1.75em' }} font-family= {FontAwesomeIcon}></i>
+             &nbsp;   Delete Investor</NavIcon>
+                <NavText>
+               
                 </NavText>
+            </NavItem>
+         </LinkContainer>
+
+
+
             
-            <NavItem eventKey="Delete/Investor">
-                <NavText>
-                    Investor
-                </NavText>
-            </NavItem>
-            <NavItem eventKey="Delete/Lawyer">
-                <NavText>
-                    Lawyer
-                </NavText>
-            </NavItem>
-            <NavItem eventKey="Delete/Reviewer">
-                <NavText>
-                    Reviewer
-                </NavText>
-            </NavItem>
-            <NavItem eventKey="Delete/Admin">
-                <NavText>
-                    Admin
-                </NavText>
-                </NavItem>
-            </NavItem>
 
  <LinkContainer to="#editCompanies">
             <NavItem eventKey="Edit Companies">
             <NavIcon>
                 <i className="glyphicon glyphicon-pencil" style={{ fontSize: '1.75em' }} font-family= {FontAwesomeIcon} />
-            </NavIcon>
+            &nbsp;  Edit Companies</NavIcon>
             <NavText>
-               Edit Companies
+            
             </NavText>
          </NavItem>
          </LinkContainer>
 
-         <LinkContainer to="#viewComments">
+         {/* <LinkContainer to="#viewComments">
          <NavItem eventKey="Comments">
          <NavIcon>
             <i class="fa fa-comment"  style={{ fontSize: '1.75em' }} font-family= {FontAwesomeIcon}></i>
-            </NavIcon>
+            &nbsp;  Comments</NavIcon>
             <NavText>
-               Comments
+            
             </NavText>
          </NavItem>
-        </LinkContainer>
+        </LinkContainer> */}
 
 
-         <NavItem eventKey="Leader Boards For">
-         <NavIcon>
-            <i class=" fa fa-users"  style={{ fontSize: '1.75em' }} font-family= {FontAwesomeIcon}></i>
-            </NavIcon>
-                <NavText>
-                Leader Boards For
-                </NavText>
-            
-            <NavItem eventKey="Leader Boards For/Lawyers">
-                <NavText>
-                    Lawyers
-                </NavText>
-            </NavItem>
-            <NavItem eventKey="Leader Boards For/Reviewers">
-                <NavText>
-                    Reviewers
-                </NavText>
-            </NavItem>
-        </NavItem>
-
-
-        <LinkContainer to="#addLaw">
-        <NavItem eventKey="Generate New Law">
+<LinkContainer to="/AdminViewLaws">
+        <NavItem eventKey="View Exixting Laws">
             <NavIcon>
-                <i className="fa fa-lightbulb-o" style={{ fontSize: '1.75em' }} />
-            </NavIcon>
+                <i className="fa fa-list" style={{ fontSize: '1.75em' }} />
+            &nbsp; View and Edit Laws </NavIcon>
             <NavText>
-            Generate New Law
+           
             </NavText>
          </NavItem>
 </LinkContainer>
 
-<LinkContainer to="#pricingStrategy">
+
+<LinkContainer to="/ChangePricing">
          <NavItem eventKey="Pricing Strategy">
             <NavIcon>
                 <i className="fa fa-credit-card" style={{ fontSize: '1.75em' }} />
-            </NavIcon>
+             &nbsp;   Pricing Strategy</NavIcon>
             <NavText>
-            Pricing Strategy
+           
             </NavText>
          </NavItem>
          </LinkContainer>
 
-         <LinkContainer to="#publishedCompanies">
+         <LinkContainer to="/Companies">
          <NavItem eventKey="Published Companies">
                 <NavIcon>
                     <i className="fa fa-trophy" style={{ fontSize: '1.75em' }} />
-                </NavIcon>
+               &nbsp;   Published Companies  </NavIcon>
             <NavText>
-            Published Companies
+           
             </NavText>
          </NavItem>
          </LinkContainer>
 
-
+         <LinkContainer to="/AdminDeleteCase">
          <NavItem eventKey="Remove">
          <NavIcon>
             <i class="fa fa-trash-o"  style={{ fontSize: '1.75em' }} font-family= {FontAwesomeIcon}></i>
-            </NavIcon>
+            &nbsp;  Remove Case </NavIcon>
                 <NavText>
-                Remove
+               
                 </NavText>
+                
             
-            <NavItem eventKey="Remove/Case">
+            {/* <NavItem eventKey="Remove/Case">
                 <NavText>
                     Case
                 </NavText>
-            </NavItem>
-            <NavItem eventKey="Remove/Question">
+            </NavItem> */}
+            {/* <NavItem eventKey="Remove/Question">
                 <NavText>
                     Question
                 </NavText>
-            </NavItem>
-        </NavItem>
+        </NavItem>*/}
+        </NavItem> 
+        </LinkContainer>
 
-        <LinkContainer to="#sendMail">
-        <NavItem eventKey="Send E-mails">
+        <LinkContainer to="/AdminAnswerDeleteQuestion">
+        <NavItem eventKey="Questions">
             <NavIcon>
-                <i className="fa fa-envelope" style={{ fontSize: '1.75em' }} />
-            </NavIcon>
+                <i className="fa fa-question-circle" style={{ fontSize: '1.75em' }} />
+            &nbsp;  Questions </NavIcon>
             <NavText>
-            Sends E-mails
+           
             </NavText>
          </NavItem>
         </LinkContainer>
 
- <LinkContainer to="#averageMins">
-         <NavItem eventKey="Statistics">
+        <LinkContainer to="/AddFormType">
+         <NavItem eventKey="AddFormType">
             <NavIcon>
-                <i className="glyphicon glyphicon-stats" style={{ fontSize: '1.75em' }} />
-            </NavIcon>
+                <i className="glyphicon glyphicon-pencil" style={{ fontSize: '1.75em' }} />
+             &nbsp;   Add Form Type </NavIcon>
             <NavText>
-            Statistics
+          
             </NavText>
          </NavItem>
          </LinkContainer>
 
-   
+{/* 
+         <LinkContainer to="#viewFormType">
+         <NavItem eventKey="ViewFormType">
+            <NavIcon>
+                <i className="fa fa-file" style={{ fontSize: '1.75em' }} />
+             &nbsp;   View Form Type </NavIcon>
+            <NavText>
+          
+            </NavText>
+         </NavItem>
+         </LinkContainer> */}
+
+
+         <LinkContainer to="#viewAllForms">
+         <NavItem eventKey="ViewAllForms">
+            <NavIcon>
+                <i className="fa fa-files-o" style={{ fontSize: '1.75em' }} />
+             &nbsp;   View All Forms </NavIcon>
+            <NavText>
+          
+            </NavText>
+         </NavItem>
+         </LinkContainer>
+
+
+         <LinkContainer to="/AdminChangePassword">
+         <NavItem eventKey="changePassword">
+            <NavIcon>
+                <i className="fa fa-lock" style={{ fontSize: '1.75em' }} />
+             &nbsp;   Change Password </NavIcon>
+            <NavText>
+          
+            </NavText>
+         </NavItem>
+         </LinkContainer>
+
+
+      
+
+
+        
+ <LinkContainer to="/PerformanceHome">
+         <NavItem eventKey="Statistics">
+            <NavIcon>
+                <i className="glyphicon glyphicon-stats" style={{ fontSize: '1.75em' }} />
+             &nbsp;   Statistics </NavIcon>
+            <NavText>
+          
+            </NavText>
+         </NavItem>
+         </LinkContainer>
+
+      
     </SideNav.Nav>
     </SideNav>
  </SideNav>
 
 
- <ButtonDropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
+ {/* <ButtonDropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}> */}
 
 
- <DropdownToggle bg={ddButton} variant="dark" style ={ddButton}>SETTINGS</DropdownToggle>
+ {/* <DropdownToggle bg={ddButton} variant="dark" style ={ddButton}>SETTINGS</DropdownToggle>
       
         <DropdownMenu>
           <DropdownItem   bg={ddItem} variant="dark" style ={ddItem} href="/AdminChangePassword" >Change Password</DropdownItem>
           <DropdownItem   bg={ddItem} variant="dark" style ={ddItem} href="#resetPassword">Reset Password</DropdownItem>
           <DropdownItem  bg={ddItem} variant="dark" style ={ddItem} href="#forgotPassword" >Forgot Password</DropdownItem>
-        </DropdownMenu>
+        </DropdownMenu> */}
 
-</ButtonDropdown>
+{/* </ButtonDropdown> */}
 
  
 
 
 
- <DropdownButton bg={ddButton2} variant="dark" style ={ddButton2}> 
-{/* <Dropdown bg={ddButton2} variant="dark" style ={ddButton2}> FORM TYPE</Dropdown> */}
-       
+ {/* <DropdownButton bg={ddButton2} variant="dark" style ={ddButton2}> 
+ <Dropdown bg={ddButton2} variant="dark" style ={ddButton2}> FORM TYPE</Dropdown> 
+        
          <DropdownItem   bg={ddItem2} variant="dark" style ={ddItem2} href="#addFormType" >Add Form Type</DropdownItem>
          <DropdownItem   bg={ddItem3} variant="dark" style ={ddItem3}  href="#viewFormType" >View Form Type</DropdownItem>
-         <DropdownItem  bg={ddItem4} variant="dark" style ={ddItem4}   href="#viewAllForms" >View All Forms</DropdownItem>
-      
- </DropdownButton>
+          <DropdownItem  bg={ddItem4} variant="dark" style ={ddItem4}   href="#viewAllForms" >View All Forms</DropdownItem>
+       
+ </DropdownButton>  */}
+
+
+  <Row>
+    <Col md={{ span:0, offset: 3 }}>
+      <Image src={image1} fluid/>
+    </Col>
+    
+  </Row>
 
 
 

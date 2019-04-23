@@ -1,17 +1,17 @@
 const initialState ={
-    count : 0
+    lang : ""
 }
 
 export default function reducer (state = initialState, action){
     switch(action.type){
 
-     case "INCREMENT":
+     case "SWITCHtoENG":
     return {
-        count: state.count + 1
+        lang:"ENG"
     }   
-    case "DECREMENT":
+    case "SWITCHtoAR":
     return {
-        count: state.count - 1
+        lang:"AR"
     } 
     default: 
     return state

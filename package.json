@@ -16,6 +16,7 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "@fortawesome/fontawesome-free": "^5.8.1",
     "array": "^0.4.3",
     "axios": "^0.18.0",
     "bcrypt": "^3.0.5",
@@ -45,8 +46,14 @@
     "passport-jwt": "^4.0.0",
     "pdfmake": "^0.1.54",
     "randomstring": "^1.1.5",
+    "react-ace": "^6.5.0",
+    "react-bootstrap-carousel": "^3.4.1",
+    "react-bootstrap-sidebar": "0.0.1",
+    "react-radio-buttons": "^1.2.2",
+    "react-slick": "^0.24.0",
     "request": "^2.88.0",
     "secure-random-password": "^0.1.0",
+    "slick-carousel": "^1.8.1",
     "stripe": "^6.28.0"
   },
   "devDependencies": {

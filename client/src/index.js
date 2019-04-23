@@ -9,14 +9,18 @@ import reducer from './globalState/reducers/countReducer'
 import './index.css';
 import App from './App';
 import rootReducer from './globalState/reducers/rootReducer';
+import "@fortawesome/fontawesome-free/css/all.min.css";
+// import "mdbreact/dist/css/mdb.css";
 
 //import * as serviceWorker from './serviceWorker';
 
-const initialState = 0
+//const initialState = 0
 
-const store = createStore(rootReducer, initialState)
-// store.dispatch({ type: "INCREMENT"})
-// store.dispatch({ type: "DECREMENT"})
+const store = createStore(reducer)
+
+// const store = createStore(rootReducer, initialState)
+
+
 
  
 
