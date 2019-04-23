@@ -102,19 +102,6 @@ class App extends Component {
                 />
                 <Route exact path="/trackMyCase" component={TrackMyCase} />
                 <Route exact path="/about" component={about} />
-<<<<<<< HEAD
-                  <Route exact path = "/AdminDeleteInvestor" component = {AdminDeleteInvestor}/>
-                <Route exact path="/ReviewerHome" component={ReviewerHome} />
-                <Route exact path ='/AdminDeleteCase' component={CompaniesGroup}/>
-                <Route
-                  exact
-                  path="/ChangeMyPassword"
-                  component={changePassword}
-                />
-                <Route exact path="/resetPassword" component={resetPass} />
-                <Route exact path="/payment/:id" component={Payment} />
-                <Route exact path="/createCase" component={CreateCase} />
-=======
                 <PrivateRoute exact path="/trackMyCase" allowedUsers={['investor']} component={TrackMyCase} />
                 <PrivateRoute exact path = "/AdminDeleteInvestor" allowedUsers={['investor']} component = {AdminDeleteInvestor}/>
                 <PrivateRoute exact path="/ReviewerHome" allowedUsers={['reviewer']} component={ReviewerHome} />
@@ -122,7 +109,6 @@ class App extends Component {
                 <Route exact path="/resetPassword"  component={resetPass} />
                 <PrivateRoute exact path="/payment/:id" allowedUsers={['investor']} component={Payment} />
                 <PrivateRoute exact path="/createCase" allowedUsers={['investor','lawyer']} component={CreateCase} />
->>>>>>> 88cef36d1ead567eec36fbc92b6c830257cade90
                 <Route exact path="/InvestorForm" component={InvestorForm} />
                 <Route exact path="/LawyerForm" component={LawyerForm} />
                 <PrivateRoute exact path="/InvestorEditForm/:id" allowedUsers={['investor']} component={InvestorEditForm} />
@@ -130,7 +116,8 @@ class App extends Component {
                 <PrivateRoute exact path="/AdminAddLawyer" allowedUsers={['admin']} component={AdminAddLawyer} />
                 <PrivateRoute exact path="/AdminAddReviewer" allowedUsers={['admin']} component={AdminAddReviewer}   />
                 <PrivateRoute exact path="/AdminAddAdmin" allowedUsers={['admin']} component={AdminAddAdmin} />
-                <Route exact path="/signUp" component={signup} />       
+                <Route exact path="/signUp" component={signup} /> 
+
                 <Route exact path="/signin" component={signin} />
                 <Route exact path="/AddLawyer" component={AddLawyer} />
                 <Route exact path="/AddReviewer" component={AddReviewer} />
@@ -141,6 +128,7 @@ class App extends Component {
                 <PrivateRoute exact path="/AdminViewLaws" allowedUsers={['admin']}component={AdminViewLaws} />
                 <PrivateRoute exact path="/AdminPage" allowedUsers={['admin']} component={AdminSideNavbar} />
                 <PrivateRoute exact path="/InvestorPage" allowedUsers={['investor']} component={InvestorPage} />
+      {/*prvate route*/}          <Route exact path ='/AdminDeleteCase' component={CompaniesGroup}></Route>
                 <Route exact path="/testing" component={testing} />
                 <Route exact path="/Performance/:id" component={Performance} />
                 <Route exact path="/PerformanceHome" component={PerformanceHome} />
@@ -154,7 +142,7 @@ class App extends Component {
                 <PrivateRoute exact path="/notificat" allowedUsers={['investor']} component={notificat} />
                 <Route exact path="/electronicjournal" component={electronicJournal} />
                 <PrivateRoute exact path="/InvestorList" allowedUsers={['lawyer','reviewer','admin']}  component={InvestorsList} />
-                <PrivateRoute exact path="/InvEditProfile" allowedUsers={['investor']} component={InvEditProfile}/>
+                <Route exact path="/InvEditProfile" allowedUsers={['investor']} component={InvEditProfile}/>
                 <PrivateRoute exact path="/InvViewProfile" allowedUsers={['investor']} component={InvViewProfile} />
                 <Route exact path="/verify/:tok" component={Verify} />
                 <Route exact path="/anotherMail/:tok" component={anotherMail} />

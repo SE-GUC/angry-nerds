@@ -5,7 +5,7 @@ import axios from 'axios';
 
 export class UploadPic extends Component {
 
-state = { selectedFile: null }
+state = { selectedFile: {} }
 
 fileChangedHandler = event => {
   this.setState({ selectedFile: event.target.files[0] })

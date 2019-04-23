@@ -16,6 +16,7 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "@fortawesome/fontawesome-free": "^5.8.1",
     "array": "^0.4.3",
     "axios": "^0.18.0",
     "bcrypt": "^3.0.5",

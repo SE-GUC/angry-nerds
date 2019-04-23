@@ -159,7 +159,7 @@ export class AdminSideNavbar extends Component {
    
     <SideNav.Nav defaultSelected="home">
 
-        <LinkContainer to="/home">
+    <LinkContainer to="/home">
             <NavItem eventKey="home">
             <NavIcon>
                 <i   class ="fa fa-fw fa-home" style={{ fontSize: '1.75em' }}  font-family= {FontAwesomeIcon}   />    
@@ -169,11 +169,11 @@ export class AdminSideNavbar extends Component {
         </LinkContainer>
            
       
-<LinkContainer to="#Cases">
+<LinkContainer to="/PerformanceHome">
         <NavItem eventKey="Cases Timing">
             <NavIcon>
             <i class="fa fa-clock-o" style={{ fontSize: '1.75em' }}  font-family= {FontAwesomeIcon}  />
-            &nbsp; متابعة الشركات </NavIcon>
+            &nbsp;  متابعة الشركات </NavIcon>
             <NavText>
               
             </NavText>
@@ -210,7 +210,7 @@ export class AdminSideNavbar extends Component {
             <NavItem eventKey="Register Admin">
             <NavIcon>
             <i class="fa fa-user"  style={{ fontSize: '1.75em' }} font-family= {FontAwesomeIcon}/>
-        &nbsp; تسجيل  مسؤول</NavIcon>
+        &nbsp;  تسجيل  مسؤول</NavIcon>
                 <NavText>
                 
                 </NavText>
@@ -231,7 +231,7 @@ export class AdminSideNavbar extends Component {
             <NavItem eventKey="Delete Investor" >
             <NavIcon>
             <i class="fa fa-trash-o"  style={{ fontSize: '1.75em' }} font-family= {FontAwesomeIcon}></i>
-             &nbsp;   حذف مستثمر</NavIcon>
+             &nbsp;     حذف مستثمر </NavIcon>
                 <NavText>
                
                 </NavText>
@@ -240,43 +240,9 @@ export class AdminSideNavbar extends Component {
 
 
 
-         <LinkContainer to="#DeleteLawyer"> 
-            <NavItem eventKey="Delete Lawyer">
-            <NavIcon>
-            <i class="fa fa-trash-o"  style={{ fontSize: '1.75em' }} font-family= {FontAwesomeIcon}></i>
-             &nbsp;   حذف محامي</NavIcon>
-                <NavText>
-               
-                </NavText>
-            </NavItem>
-            </LinkContainer>
-
-
-         <LinkContainer to="#DeleteReviewer"> 
-            <NavItem eventKey="Delete Reviewer">
-            <NavIcon>
-            <i class="fa fa-trash-o"  style={{ fontSize: '1.75em' }} font-family= {FontAwesomeIcon}></i>
-             &nbsp;    حذف مراجع</NavIcon>
-                <NavText>
-               
-                </NavText>
-            </NavItem>
-          </LinkContainer>
-
-
-          <LinkContainer to="#DeleteAdmin"> 
-            <NavItem eventKey="Delete Admin">
-            <NavIcon>
-            <i class="fa fa-trash-o"  style={{ fontSize: '1.75em' }} font-family= {FontAwesomeIcon}></i>
-           &nbsp;  حذف مسؤول </NavIcon>
-                <NavText>
-                
-                </NavText>
-                </NavItem>
-           </LinkContainer>
             
 
- <LinkContainer to="#editCompanies">
+ {/* <LinkContainer to="#editCompanies">
             <NavItem eventKey="Edit Companies">
             <NavIcon>
                 <i className="glyphicon glyphicon-pencil" style={{ fontSize: '1.75em' }} font-family= {FontAwesomeIcon} />
@@ -285,69 +251,28 @@ export class AdminSideNavbar extends Component {
             
             </NavText>
          </NavItem>
-         </LinkContainer>
+         </LinkContainer> */}
 
-         <LinkContainer to="#viewComments">
-         <NavItem eventKey="Comments">
-         <NavIcon>
-            <i class="fa fa-comment"  style={{ fontSize: '1.75em' }} font-family= {FontAwesomeIcon}></i>
-            &nbsp;  التعليقات</NavIcon>
-            <NavText>
-            
-            </NavText>
-         </NavItem>
-        </LinkContainer>
-
-{/* ============================================================= */}
-         <NavItem eventKey="Leader Boards For">
-         <NavIcon>
-            <i class=" fa fa-users"  style={{ fontSize: '1.75em' }} font-family= {FontAwesomeIcon}></i>
-              &nbsp;  Leader Boards For</NavIcon>
-                <NavText>
-              
-                </NavText>
-            
-            <NavItem eventKey="Leader Boards For/Lawyers">
-                <NavText>
-                   محاميين
-                </NavText>
-            </NavItem>
-            <NavItem eventKey="Leader Boards For/Reviewers">
-                <NavText>
-                   مراجعين
-                </NavText>
-            </NavItem>
-        </NavItem>
-{/* ============================================================ */}
-
-        <LinkContainer to="#addLaw">
-        <NavItem eventKey="Generate New Law">
-            <NavIcon>
-                <i className="fa fa-lightbulb-o" style={{ fontSize: '1.75em' }} />
-            &nbsp;إصدار قانون جديد </NavIcon>
-            <NavText>
-           
-            </NavText>
-         </NavItem>
-</LinkContainer>
+        
 
 
 <LinkContainer to="/AdminViewLaws">
         <NavItem eventKey="View Exixting Laws">
             <NavIcon>
                 <i className="fa fa-list" style={{ fontSize: '1.75em' }} />
-            &nbsp; عرض القوانين </NavIcon>
+            &nbsp; عرض وتعديل القوانين  </NavIcon>
             <NavText>
            
             </NavText>
          </NavItem>
 </LinkContainer>
 
+
 <LinkContainer to="/ChangePricing">
          <NavItem eventKey="Pricing Strategy">
             <NavIcon>
                 <i className="fa fa-credit-card" style={{ fontSize: '1.75em' }} />
-             &nbsp;  استراتيجية التسعير</NavIcon>
+             &nbsp;   استراتيجية التسعير</NavIcon>
             <NavText>
            
             </NavText>
@@ -358,14 +283,14 @@ export class AdminSideNavbar extends Component {
          <NavItem eventKey="Published Companies">
                 <NavIcon>
                     <i className="fa fa-trophy" style={{ fontSize: '1.75em' }} />
-               &nbsp;   الشركات المؤسسة  </NavIcon>
+               &nbsp;  الشركات المؤسسة  </NavIcon>
             <NavText>
            
             </NavText>
          </NavItem>
          </LinkContainer>
 
-         <LinkContainer to="*removeCase">
+         <LinkContainer to="/AdminDeleteCase">
          <NavItem eventKey="Remove">
          <NavIcon>
             <i class="fa fa-trash-o"  style={{ fontSize: '1.75em' }} font-family= {FontAwesomeIcon}></i>
@@ -388,18 +313,18 @@ export class AdminSideNavbar extends Component {
         </NavItem> 
         </LinkContainer>
 
-        {/* <LinkContainer to="#sendMail">
-        <NavItem eventKey="Send E-mails">
+        <LinkContainer to="/AdminAnswerDeleteQuestion">
+        <NavItem eventKey="Questions">
             <NavIcon>
-                <i className="fa fa-envelope" style={{ fontSize: '1.75em' }} />
-            &nbsp;  Sends E-mails </NavIcon>
+                <i className="fa fa-question-circle" style={{ fontSize: '1.75em' }} />
+            &nbsp;  الأسئلة </NavIcon>
             <NavText>
            
             </NavText>
          </NavItem>
-        </LinkContainer> */}
+        </LinkContainer>
 
-        <LinkContainer to="#addFormType">
+        <LinkContainer to="/AddFormType">
          <NavItem eventKey="AddFormType">
             <NavIcon>
                 <i className="glyphicon glyphicon-pencil" style={{ fontSize: '1.75em' }} />
@@ -410,36 +335,36 @@ export class AdminSideNavbar extends Component {
          </NavItem>
          </LinkContainer>
 
-
+{/* 
          <LinkContainer to="#viewFormType">
          <NavItem eventKey="ViewFormType">
             <NavIcon>
                 <i className="fa fa-file" style={{ fontSize: '1.75em' }} />
-             &nbsp;   عرض نوع طلب </NavIcon>
+             &nbsp;   View Form Type </NavIcon>
             <NavText>
           
             </NavText>
          </NavItem>
-         </LinkContainer>
+         </LinkContainer> */}
 
 
-         <LinkContainer to="#viewAllForms">
+         {/* <LinkContainer to="#viewAllForms">
          <NavItem eventKey="ViewAllForms">
             <NavIcon>
                 <i className="fa fa-files-o" style={{ fontSize: '1.75em' }} />
-             &nbsp;   عرض كل انواع الطلبات </NavIcon>
+             &nbsp;   View All Forms </NavIcon>
             <NavText>
           
             </NavText>
          </NavItem>
-         </LinkContainer>
+         </LinkContainer> */}
 
 
          <LinkContainer to="/AdminChangePassword">
          <NavItem eventKey="changePassword">
             <NavIcon>
                 <i className="fa fa-lock" style={{ fontSize: '1.75em' }} />
-             &nbsp;   تغيير كلمة المرور </NavIcon>
+             &nbsp;     تغيير كلمة المرور </NavIcon>
             <NavText>
           
             </NavText>
@@ -447,30 +372,9 @@ export class AdminSideNavbar extends Component {
          </LinkContainer>
 
 
-         <LinkContainer to="/resetPassword/:tok">
-         <NavItem eventKey="Reset Password">
-            <NavIcon>
-                <i className="fa fa-refresh" style={{ fontSize: '1.75em' }} />
-             &nbsp;     إعادة تسجيل كلمة المرور </NavIcon>
-            <NavText>
-          
-            </NavText>
-         </NavItem>
-         </LinkContainer>
+         
 
-
-         <LinkContainer to="/ForgetPassword">
-         <NavItem eventKey="forgotPassword">
-            <NavIcon>
-                <i className="fa fa-eye-slash" style={{ fontSize: '1.75em' }} />
-             &nbsp;     نسيت كلمة المرور</NavIcon>
-            <NavText>
-          
-            </NavText>
-         </NavItem>
-         </LinkContainer>
-
- <LinkContainer to="#averageMins">
+ <LinkContainer to="/PerformanceHome">
          <NavItem eventKey="Statistics">
             <NavIcon>
                 <i className="glyphicon glyphicon-stats" style={{ fontSize: '1.75em' }} />
@@ -480,6 +384,9 @@ export class AdminSideNavbar extends Component {
             </NavText>
          </NavItem>
          </LinkContainer>
+
+
+
 
       
     </SideNav.Nav>
