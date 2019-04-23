@@ -9,8 +9,13 @@ import Companies from "./pages/Companies";
 import signup from "./pages/signUp";
 import signin from "./pages/signin";
 import LawyerHome from "./pages/LawyerHome";
+import Performance from "./pages/Performance";
+import PerformanceHome from "./pages/PerformanceHome";
+
 import ChangePricing from "./pages/ChangePricing";
 import AdminViewLaws from "./pages/AdminViewLaws";
+import AdminEditLaws from "./pages/AdminEditLaws";
+
 import LawyerOpenCase from "./pages/LawyerOpenCase";
 import AddLawyer from "./components/AddLawyer";
 import AdminAddLawyer from "./components/AdminAddLawyer";
@@ -20,10 +25,11 @@ import AddReviewer from "./components/AddReviewer";
 import AdminDeleteInvestor from './pages/AdminDeleteInvestor'
 import testing from "./components/testing";
 import InvestorEditForm from "./pages/InvestorEditForm";
-import MainNavBar from "./components/mainNavBar";
+import mainNavBar from "./components/mainNavBar";
 import NotFound from './pages/NotFound'
 import unregiteredHome from "./pages/unregHome";
 import AdminSideNavbar from "./components/AdminSideNavbar";
+import AdminSideNavbarAR from "./components/AdminSideNavbarAR";
 import CreateCase from "./pages/CreateCase";
 import InvestorsList from "./pages/InvestorsList";
 import notificat from "./components/notificat";
@@ -48,8 +54,12 @@ import setAuthToken from "./helpers/setAuthToken";
 import tryComponent from "./pages/tryComponent"
 import anotherMail from "./pages/anotherMail"
 import ForgetPassword from "./pages/forgetPassword"
+<<<<<<< HEAD
 import Faq from './pages/FAQ'
+=======
+>>>>>>> react_dev
 import InvestorPage from "./pages/InvestorPage";
+import InvestorPageAR from "./pages/InvestorPageAR";
 import ControlledCarousel from './components/ControlledCarousel'
 library.add(faStroopwafel);
 
@@ -59,20 +69,13 @@ if (localStorage.jwtToken){
 
 class App extends Component {
   //states & functions
-  state = {
-    user:'user'
-  };
-
-
+  state = {};
 
   render() {
     return (
       <Router>
           <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" />
-          
-          {/* <Route  component={MainNavBar} /> */}
-          <Route  component={()=>this.state.user==='user'? <MainNavBar /> : <Companies/>} />
-
+          <Route component={mainNavBar} />
           <Switch>
         <Route exact path="/stocks" component={stocks} />
         <Route exact path="/FAQ" component={Faq} />
@@ -80,10 +83,11 @@ class App extends Component {
             <Route exact path="/home" component={unregiteredHome} />
             <div className="container">
               <Route exact path="/Companies" component={Companies} />
-              <div className="col-sm-10">
+
+              {/* <div className="col-sm-10"> */}
                 <Route
                   exact
-                  path="/" 
+                  path="/"
                   render={props => (
                     <React.Fragment>
                       <h1>Hello World!</h1>
@@ -91,7 +95,7 @@ class App extends Component {
                     </React.Fragment>
                   )}
                 />
-                <PrivateRoute exact path="/trackMyCase" component={TrackMyCase} />
+                <Route exact path="/trackMyCase" component={TrackMyCase} />
                 <Route exact path="/about" component={about} />
                   <Route exact path = "/AdminDeleteInvestor" component = {AdminDeleteInvestor}/>
                 <Route exact path="/ReviewerHome" component={ReviewerHome} />
@@ -100,7 +104,7 @@ class App extends Component {
                   path="/ChangeMyPassword"
                   component={changePassword}
                 />
-                <Route exact path="/resetPassword/:tok" component={resetPass} />
+                <Route exact path="/resetPassword" component={resetPass} />
                 <Route exact path="/payment/:id" component={Payment} />
                 <Route exact path="/createCase" component={CreateCase} />
                 <Route exact path="/InvestorForm" component={InvestorForm} />
@@ -126,9 +130,12 @@ class App extends Component {
                 <Route exact path="/signin" component={signin} />
                 <Route exact path="/AddLawyer" component={AddLawyer} />
                 <Route exact path="/AddReviewer" component={AddReviewer} />
-                <Route exact path="/tryComponent" component={tryComponent} />
                 <Route exact path="/testing" component={testing} />
                 <Route exact path="/LawyerHome" component={LawyerHome} />
+                <Route exact path="/Performance/:id" component={Performance} />
+                <Route exact path="/PerformanceHome" component={PerformanceHome} />
+
+
                 <Route
                   exact
                   path="/LawyerOpenCase/:id"
@@ -142,6 +149,7 @@ class App extends Component {
                 <Route exact path="/ChangePricing" component={ChangePricing} />
                 <Route exact path="/ChangePricing" component={ChangePricing} />
                 <Route exact path="/AdminViewLaws" component={AdminViewLaws} />
+                <Route exact path="/AdminEditLaws/:id" component={AdminEditLaws} />
                 <Route exact path="/AdminPage" component={AdminSideNavbar} />
                 <Route exact path="/InvestorPage" component={InvestorPage} />
                 <Route exact path="/Questions" component={Questions} />
@@ -164,12 +172,9 @@ class App extends Component {
                 />
                  <Route exact path="/me" component={NotFound} />
                 <Route exact path="/verify/:tok" component={Verify} />
-                <Route exact path="/anotherMail/:tok" component={anotherMail} />
-                <Route exact path="/ForgetPassword" component={ForgetPassword} />
-
-                
+                  
               </div>
-            </div>
+            {/* </div> */}
             <Route exact path="*" component={NotFound} />
           </Switch>
       </Router>

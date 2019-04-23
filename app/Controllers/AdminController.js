@@ -696,6 +696,9 @@ let AdminController = {
         }
     },
 
+
+
+
     AdminChangePricingStrategy: async function (req, res) {
         try {
               //authorization using passport
@@ -809,12 +812,12 @@ AdminDeleteCase: async (req, res) => {
         mongoose.set('useFindAndModify', false)
         const id = req.params.id
         const aCase = await Case.findById(id)
-        const AdminId = '5c9bb0dc5185793518ea84fb' //login token
+        const AdminId = '5cae9507646b4841fcd6478f' //login token
         const Admin = await Admins.findById(AdminId)
-         if (!Admin)
-            return res.json({ message: 'Only Admins have access' })
+        if ((!Admin) || (Admin && Admin.Type !== 'Super'))
+            return res.status(403).json({ error: 'Only super admins have access' })
          if (!aCase)
-            return res.json({message: 'not a case'})
+            return res.status(403).json({error: 'not a case'})
 
          else {           
             const deletedCase = await Case.findByIdAndRemove(id)
@@ -1000,7 +1003,7 @@ AdminDeleteCase: async (req, res) => {
         
     },
 
-    calculateAverageMinsLawyer: async function(req,res) {
+    calculateAverageMins: async function(req,res) {
         var num = 0
         var total = 0
         const lawyerID = req.params.id
@@ -1008,9 +1011,9 @@ AdminDeleteCase: async (req, res) => {
         for(let i = 0;i < AllCases.length;i++){
             if(AllCases[i].log){
                 for(let j = 0;j<AllCases[i].log.length-1;j++){
-                    if(AllCases[i].log[j].id === id && AllCases[i].log[j].destination === 'open' ){
-                        let mins = AllCases[i].log[j].date.getTime() - AllCases[i].log[j+1].date.getTime() 
-                        mins = mins/1000*60
+                    if(AllCases[i].log[j].id === lawyerID && AllCases[i].log[j].destination === 'open'){
+                        let mins = AllCases[i].log[j+1].date.getTime() - AllCases[i].log[j].date.getTime() 
+                        mins = mins/(1000*60)
                         total = total + mins
                         num = num + 1
                     }
@@ -1024,7 +1027,64 @@ AdminDeleteCase: async (req, res) => {
             result = total/num
         }
 
-        return res.status(200).json({data: result})
+        return res.status(200).json({average: result, total: total, cases: num})
+
+    },
+
+    calculateUniqueCases: async function(req,res) {
+        var num = 0
+        const lawyerID = req.params.id
+        const AllCases = await Case.find()
+        for(let i = 0;i < AllCases.length;i++){
+            if(AllCases[i].log){
+                for(let j = 0;j<AllCases[i].log.length-1;j++){
+                    if(AllCases[i].log[j].id === lawyerID){
+                        num = num + 1
+                        break
+                    }
+
+                }
+            }
+        }
+
+        return res.status(200).json({cases: num})
+
+    },
+
+    calculateRange: async function(req,res) {
+        let datesArray = []
+        let resultArr = []
+        const lawyerID = req.params.id
+        const AllCases = await Case.find()
+        let startDate = new Date(req.body.startDate)
+        let endDate = new Date(req.body.endDate)
+        let type = req.body.type
+        console.log(startDate,' ',endDate,' ',type)
+
+        for(let i = 0;i < AllCases.length;i++){
+            if(AllCases[i].log){
+                for(let j = 0;j<AllCases[i].log.length-1;j++){
+                    if(AllCases[i].log[j].id === lawyerID && AllCases[i].log[j].destination === type){
+                        datesArray.push(AllCases[i].log[j].date)
+                    }
+                }
+            }
+        }
+
+        let d = startDate
+        while (d <= endDate) {
+            let x = 0;
+            for (let i = 0; i < datesArray.length; i++) {
+                let d1 = new Date(datesArray[i])
+                if (d1.getTime() - d.getTime() < 1000*60*60*24 && d1.getTime() - d.getTime() > -1000*60*60*24 )  {
+                    x = x + 1
+                }
+            }
+            resultArr.push({date: JSON.parse(JSON.stringify(d)), cases: x})
+            d.setDate(d.getDate() + 1)
+        }
+
+        return res.status(200).json({data: resultArr})
 
     },
 
@@ -1060,66 +1120,14 @@ AdminDeleteCase: async (req, res) => {
 
     },
 
+    
     AdminCreateFormType: async function (req,res){
 
         try{
-            
-            const formType = await FormType.create(req.body)
-            res.status(200).json({message: 'Form type is created successfully', data: formType})   
-        }
-        catch(error){
-            console.log(error)
-            res.status(400).json({message: error})
-        }
-
-    },
-
-
-    AdminDeleteFormType: async function(req,res){
-
-        try{
-            id = req.params.id
-            const formType = await FormType.findByIdAndRemove(id)
-            res.status(200).json({message: 'Form type is deleted successfully', data: formType})   
-        }
-        catch(error){
-            console.log(error)
-            res.status(400).json({message: error})
-        }
-
-    },
-
-    AdminFindFormType: async function(req,res){
-        try{
-            const forms = await FormType.find()
-            res.status(200).json({message:'form types', data: forms})
-        }
-        catch(error){
-            console.log(error)
-            res.status(400).json({message: error})
-        }
-    },
-
-    AdminFindFormTypeID: async function(req,res){
-        try{
-            const id = req.params.id
-            const form = await FormType.findById(id)
-            res.status(200).json({message:'form types', data: form})
-        }
-        catch(error){
-            console.log(error)
-            res.status(400).json({message: error})
-        }
-    },
-
-    AdminCreateFormType: async function (req,res){
-
-        try{
-            console.log('HHEHHEHEHHE?????   ', req.body)
-            const form = FormType.find({formName: req.body.formName})
-            //console.log(form)
-            // if(form.length !== 0)
-            //    return res.json({message: 'form already exists'})
+            const form = await FormType.find({formName: req.body.formName})
+           
+            if(form.length !== 0)
+               return res.status(400).json({message: 'form already exists'})
             
             const formType = await FormTypes.create(req.body)
             res.status(200).json({message: 'Form type is created successfully', data: formType})   
@@ -1150,6 +1158,17 @@ AdminDeleteCase: async (req, res) => {
         try{
             const forms = await FormTypes.find()
             res.status(200).json({message:'form types', data: forms})
+        }
+        catch(error){
+            console.log(error)
+            res.status(400).json({message: error})
+        }
+    },
+
+    AdminFindLaw: async function(req,res){
+        try{
+            const laws = await Laws.find()
+            res.status(200).json({message:'form types', data: laws})
         }
         catch(error){
             console.log(error)

@@ -9,12 +9,17 @@ import reducer from './globalState/reducers/countReducer'
 import './index.css';
 import App from './App';
 import rootReducer from './globalState/reducers/rootReducer';
+import "@fortawesome/fontawesome-free/css/all.min.css";
+import "bootstrap-css-only/css/bootstrap.min.css";
+import "mdbreact/dist/css/mdb.css";
 
 //import * as serviceWorker from './serviceWorker';
 
 //const initialState = 0
 
 const store = createStore(reducer)
+
+
 
 
  

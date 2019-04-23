@@ -18,7 +18,8 @@ const FormTypeSchema = new Schema( {
          *  }
          */
     }
-} )
+},
+{ strict: false } )
 
 module.exports = FormType = mongoose.model('FormTypes', FormTypeSchema)
 

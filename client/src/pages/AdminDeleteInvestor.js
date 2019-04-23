@@ -61,8 +61,10 @@ export class AdminDeleteInvestor extends Component {
     });
     return list;
   }
-
+ 
   render() {
+
+    if(this.state.investors.length !== 0){
     return (
       <div>
         <div >
@@ -81,13 +83,23 @@ export class AdminDeleteInvestor extends Component {
         </div>
         {this.state.filteredInvestors.map(Investor => {
           return (<div>
-            <AdminDeleteInvestorItem inv={Investor}/>
+            <AdminDeleteInvestorItem inv={Investor} NewRefresh = {this.NewRefresh}/>
             <br/>
             </div>)
 
         })}
       </div>
     );
+      }
+      else
+      {
+        return (
+          <div className="d-flex justify-content-center">
+          <div class="spinner-border text-black" role="status">
+  <span class="sr-only">Loading...</span>
+</div>
+</div>);
+      }
   }
 }
 

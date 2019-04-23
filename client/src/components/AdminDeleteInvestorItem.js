@@ -13,10 +13,27 @@ import {
 } from "reactstrap";
 import { IconContext} from "react-icons";
 import {IoIosPerson} from 'react-icons/io'
+import Modal from 'react-bootstrap/Modal'
 
 export class AdminDeleteInvestorItem extends Component {
+  state = {
+    disabled: true, 
+    show: false
+
+  }
+change(){
+  this.setState({
+    show: true
+  })
+}
+handleClose(){
+  this.setState({
+    show: false,
+    disabled: true, 
+  })
+}
+
     async submit(event){
-        console.log(this.props.inv._id)
         await axios({
             method: 'delete',
             url:'http://127.0.0.1:3000/AdminDeleteInvestor/'+this.props.inv._id,
@@ -24,9 +41,28 @@ export class AdminDeleteInvestorItem extends Component {
             data: { 
             }
           });
+          this.setState({
+            show:false
+          })
           alert('Successfully')
-          this.render()
+          window.location.replace('/AdminDeleteInvestor')
+
+          
         
+    }
+    changeC(event)
+    {
+      if(document.getElementById("InvestorName").value===this.props.inv.firstName)
+      {
+        this.setState({
+          disabled:false
+        })
+      }
+      else{
+        this.setState({
+          disabled:true
+        })
+      }
     }
   render() {
     return (
@@ -59,17 +95,30 @@ export class AdminDeleteInvestorItem extends Component {
                   {this.props.inv._id}
                 </CardTitle>
               </Col>
-              <Col float="right">
-                <Button color="primary" float="right" onClick= {this.submit.bind(this)}>
+            </Row>
+            <Row float="left">
+            <Button color="danger" onClick= {this.change.bind(this)}>
                   Delete Investor
                 </Button>
-              </Col>
-            </Row>
+                </Row>
           </CardBody>
 
           <br />
           <br />
         </Card>
+        <Modal show={this.state.show} onHide={this.handleClose.bind(this)}  style={{backgroundColor: "white"}}>
+          <Modal.Header closeButton>
+            <Modal.Title>Confirm delete investor</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <h4> Enter the investor's first name to confirm deletion</h4>
+            <input class="form-control" type="input" placeholder= {this.props.inv.firstName}  onChange={this.changeC.bind(this)} id="InvestorName"/>
+            <br></br>
+            <Button color="danger" float="right" id="deleted" disabled={this.state.disabled} onClick={this.submit.bind(this)}>
+                  Delete Investor
+                </Button>
+          </Modal.Body>
+        </Modal>
       </div>
 
     );

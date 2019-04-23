@@ -8,6 +8,8 @@ import { IconContext } from "react-icons";
 import {FaLock} from "react-icons/fa";
 import { IoIosWarning } from "react-icons/io";
 import {FaLockOpen} from "react-icons/fa";
+import ContractButton from '../components/ContractButton'
+
 
 class CaseCard extends Component {
 
@@ -18,44 +20,28 @@ class CaseCard extends Component {
 
   openCase(e) {
     e.preventDefault()
-    this.setState({toCasePage: true})
+    //this.setState({toCasePage: true})
     console.log('before  ==> ',this.props.pressed)
-    this.props.caseButton(this.props.case._id)
+    //this.props.caseButton(this.props.case._id)
     console.log('after  ==> ',this.props.pressed)
-    let path
+    let path = ''
     if(this.props.type === 'lawyer'){
       path = 'http://localhost:3000/lawyerOpenCase/' + this.props.case._id }
     else{
       if(this.props.type === 'reviewer'){
         path = 'http://localhost:3000/reviewerOpenCase/' + this.props.case._id }
       }
-    try{
-      console.log('get')
-    axios.get(path).then(res => console.log(res))}
-    catch(e){
-      console.log(e)
-    }
+   try{
+    axios.get(path).then(res => console.log(res)).catch(err => console.log(err))
+   }catch(error){
+    console.log(error)
+   }
+    (this.props.type === 'lawyer')?this.props.history.push('/LawyerOpenCase/' + this.props.case._id):this.props.history.push('/ReviewerOpenCase/' + this.props.case._id)
     //this.props.history.push('lawyerOpenCase/' + oneCase._id);
   }
 
   buttonSetter = (oneCase) => {
-    console.log(this.props.pressed)
-    if(this.props.pressed !== null && this.props.pressed === oneCase._id){
-      console.log('LOCK-LOCK-LOCK')
-      return(
-        <Button className="float-right" disabled>
-           <Spinner
-              as="span"
-              animation="border"
-              size="sm"
-              role="status"
-              aria-hidden="true"
-            />
-            <span className="sr-only">Loading...</span>
-        </Button>
-      )
-    }
-
+   
     if(oneCase.locked){
       return(
         <div>
@@ -67,11 +53,14 @@ class CaseCard extends Component {
       )
     }else{
       return(
-        <div>
-        <Button onClick={this.openCase.bind(this)} className="float-right"
+        <div className="float-right">
+        <Button onClick={this.openCase.bind(this)} 
           style ={{backgroundColor:'#286090',border:'#286090'}}>
           Open Case
         </Button>
+        <div style={{clear:'both'}}></div>
+        <div> &nbsp;</div> 
+        <ContractButton id={this.props.case._id}></ContractButton>
         </div>
 
       )
@@ -80,7 +69,7 @@ class CaseCard extends Component {
 
   iconSetter = (oneCase) => {
     let now = new Date();
-    let date = new Date(oneCase.log[0].date);
+    let date = new Date(oneCase.log[oneCase.log.length-1].date);
 
     if(oneCase.locked){
       return (
@@ -94,7 +83,7 @@ class CaseCard extends Component {
     else{
       if(now.getTime() - date.getTime() > 1000 * 60 * 60 * 24 * 3){
         return (
-          <IconContext.Provider value={{ color: "red", className: "float-right" ,size: "2em"}}>
+          <IconContext.Provider value={{ color: "#EDC845", className: "float-right" ,size: "2em"}}>
             <div>
               <IoIosWarning />
             </div>
@@ -113,26 +102,24 @@ class CaseCard extends Component {
     }
   }
 
+  returnDateString(now,date){
+    if((now.getTime() - date.getTime()) / (1000 * 60 * 60) > 24){
+      return(
+        Math.floor((now.getTime() - date.getTime()) / (1000 * 60 * 60 * 24)) + ' days ago' 
+      )
+    }else{
+      return(
+        Math.floor((now.getTime() - date.getTime()) / (1000 * 60 * 60)) + ' hours ago' 
+      )
+    }
+  }
+
 
   render() {
 
-    if(this.state.toCasePage){
-      if(this.props.type === 'lawyer'){
-      return (
-        <Redirect to={'/LawyerOpenCase/' + this.props.case._id} />
-      )
-      }
-      else{
-        if(this.props.type === 'reviewer') {
-          return(
-          <Redirect to={'/ReviewerOpenCase/' + this.props.case._id} />
-          )
-        }
-      }
-    }
-    else{
+   
     let now = new Date();
-    let date = new Date(this.props.case.log[0].date);
+    let date = new Date(this.props.case.log[this.props.case.log.length-1].date);
     const bg = "light"
     const text = "black"
     // const iconColour =  now.getTime() - date.getTime() < 1000 * 60 * 60 * 24 * 3
@@ -158,22 +145,21 @@ class CaseCard extends Component {
                 Case Type: {this.props.case.form_type}$
                 </Card.Text>
                 {this.buttonSetter(this.props.case)}
+                
+                
             </div>
           </Card.Body>
 
           <Card.Footer>
             <small className="mb-2">
-              {Math.floor(
-                (now.getTime() - date.getTime()) / (1000 * 60 * 60 * 24)
-              )}{" "}
-              days ago{" "}
+              {this.returnDateString(now,date)}
             </small>
           </Card.Footer>
         </Card>
       </div>
     );
-    }
   }
+  
 }
 
 export default CaseCard;

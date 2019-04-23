@@ -1,5 +1,5 @@
 const initialState ={
-    lang : "ENG"
+    lang : ""
 }
 
 export default function reducer (state = initialState, action){
