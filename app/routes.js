@@ -15,7 +15,7 @@ router.post('/InvestorPayFees' , InvestorController.InvestorPayFees)
 router.post('/InvestorFillForm',InvestorController.investorFillForm)
 router.put('/InvestorUpdateForm/:id', InvestorController.investorUpdateForm)
 router.put('/InvestorEditProfile',InvestorController.InvestorEditProfile)
-router.get('/InvestorViewComment',InvestorController.investorViewComment)
+router.get('/InvestorViewComment/:idf',InvestorController.investorViewComment)
 router.get('/InvestorViewProfile',InvestorController.investorViewProfile)
 router.get('/CalcFeesImmediately/:lawNumber/:capital',InvestorController.CalcFeesImmediately) 
 
@@ -35,7 +35,7 @@ router.post('/InvestorRateLawyer/:id', InvestorController.InvestorRateLawyer)
 
 
 //-------------------------------Admin Routes------------------------------------------------------------
-router.get('/AdminViewComment', AdminController.adminViewComment)
+router.get('/AdminViewComment/:idf', AdminController.adminViewComment)
 router.post('/AdminRegisterAdmin', AdminController.AdminRegisterAdmin)
 router.put('/AdminEditCompany/:id', AdminController.AdminEditCompany)
 router.delete('/AdminDeleteInvestor/:id', AdminController.AdminDeleteInvestor)
@@ -79,7 +79,7 @@ router.get('/AdminFindFormType/:id', AdminController.AdminFindFormTypeID)
 //------------------------------------Lawyer Routes----------------------------------------------------
 router.post('/LawyerFillForm', LawyerController.lawyerFillForm)
 router.put('/LawyerUpdateForm/:id', LawyerController.lawyerUpdateForm)
-router.get('/LawyerViewComment', LawyerController.lawyerViewComment)
+router.get('/LawyerViewComment/:idf', LawyerController.lawyerViewComment)
 router.get('/LawyerViewLawyersLeaderBoard', LawyerController.lawyerViewLawyersLeaderBoard)
 router.get('/LawyerViewReviewersLeaderBoard', LawyerController.lawyerViewReviewersLeaderBoard)
 router.put('/LawyerChangePassword/:id', LawyerController.lawyerChangePassword)
