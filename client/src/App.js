@@ -17,6 +17,7 @@ import AdminAddLawyer from "./components/AdminAddLawyer";
 import AdminAddReviewer from "./components/AdminAddReviewer";
 import AdminAddAdmin from "./components/AdminAddAdmin";
 import AddReviewer from "./components/AddReviewer";
+import CompaniesGroup from './components/CompaniesGroup'
 import AdminDeleteInvestor from './pages/AdminDeleteInvestor'
 import testing from "./components/testing";
 import InvestorEditForm from "./pages/InvestorEditForm";
@@ -87,6 +88,7 @@ class App extends Component {
                 <Route exact path="/about" component={about} />
                   <Route exact path = "/AdminDeleteInvestor" component = {AdminDeleteInvestor}/>
                 <Route exact path="/ReviewerHome" component={ReviewerHome} />
+                <Route exact path ='/AdminDeleteCase' component={CompaniesGroup}/>
                 <Route
                   exact
                   path="/ChangeMyPassword"
