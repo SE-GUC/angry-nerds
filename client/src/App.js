@@ -11,11 +11,9 @@ import signin from "./pages/signin";
 import LawyerHome from "./pages/LawyerHome";
 import Performance from "./pages/Performance";
 import PerformanceHome from "./pages/PerformanceHome";
-
 import ChangePricing from "./pages/ChangePricing";
 import AdminViewLaws from "./pages/AdminViewLaws";
 import AdminEditLaws from "./pages/AdminEditLaws";
-
 import LawyerOpenCase from "./pages/LawyerOpenCase";
 import AddLawyer from "./components/AddLawyer";
 import AdminAddLawyer from "./components/AdminAddLawyer";
@@ -54,10 +52,7 @@ import setAuthToken from "./helpers/setAuthToken";
 import tryComponent from "./pages/tryComponent"
 import anotherMail from "./pages/anotherMail"
 import ForgetPassword from "./pages/forgetPassword"
-
 import AdminAnswerDeleteQuestion from "./pages/AdminAnswerDeleteQuestion"
-
-
 import Faq from './pages/FAQ'
 import InvestorPage from "./pages/InvestorPage";
 import InvestorPageAR from "./pages/InvestorPageAR";
@@ -83,6 +78,7 @@ class App extends Component {
             <Switch>
 
                 <Route exact path="/" component={unregiteredHome} />
+                <Route exact path="/" component={unregiteredHome}/>
                 <Route exact path="/home" component={unregiteredHome}/>
                 <Route exact path="/stocks" component={stocks}/>
                 <Route exact path="/Companies" component={Companies}/>
@@ -92,16 +88,7 @@ class App extends Component {
 
         
 
-                <Route
-                  exact
-                  path="/"
-                  render={props => (
-                    <React.Fragment>
-                      <h1>Hello World!</h1>
-                      <h2> my name is Ramy! </h2>
-                    </React.Fragment>
-                  )}
-                />
+              
                 <Route exact path="/trackMyCase" component={TrackMyCase} />
                 <Route exact path="/about" component={about} />
                 <Route exact path="/resetPassword"  component={resetPass} />
