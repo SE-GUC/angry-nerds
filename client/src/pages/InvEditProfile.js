@@ -3,6 +3,7 @@ import axios from 'axios'
 import Button from 'react-bootstrap/Button'
 import Table from 'react-bootstrap/Table'
 import Form from 'react-bootstrap/Form'
+import UploadPic from '../components/UploadPic';
 
 
 
@@ -132,6 +133,9 @@ console.log(error)
 
   render() {
     return (
+      <div>
+        <UploadPic/>
+      
       <Table striped bordered hover>
      < thead>
     <tr>
@@ -236,7 +240,7 @@ console.log(error)
       
       </Table>
       
-       
+       </div>
      
     )
   }

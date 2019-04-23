@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import axios from 'axios'
 import Form from 'react-bootstrap/Form'
 import Table from 'react-bootstrap/Table'
+import UploadPic from '../components/UploadPic';
 
 export class InvViewProfile extends Component {
 
@@ -56,7 +57,12 @@ componentDidMount() {
 
 }
   render() {
+  
     return (
+      <div>
+        <UploadPic/>
+     
+       
         <Table striped bordered hover>
         < thead>
        <tr>
@@ -166,7 +172,7 @@ componentDidMount() {
          </Table>
          
           
-        
+        </div> 
     )
   }
 }
