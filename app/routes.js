@@ -71,6 +71,12 @@ router.delete('/AdminDeleteFormType/:id', AdminController.AdminDeleteFormType)
 router.get('/AdminFindFormType', AdminController.AdminFindFormType)
 router.get('/AdminFindFormType/:id', AdminController.AdminFindFormTypeID)
 
+router.get('/calculateAverageMins/:id', AdminController.calculateAverageMins)
+router.get('/calculateUniqueCases/:id', AdminController.calculateUniqueCases)
+router.put('/calculateRange/:id', AdminController.calculateRange)
+
+
+
 //------------------------------------Lawyer Routes----------------------------------------------------
 router.post('/LawyerFillForm', LawyerController.lawyerFillForm)
 router.put('/LawyerUpdateForm/:id', LawyerController.lawyerUpdateForm)

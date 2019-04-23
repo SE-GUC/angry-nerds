@@ -9,8 +9,13 @@ import Companies from "./pages/Companies";
 import signup from "./pages/signUp";
 import signin from "./pages/signin";
 import LawyerHome from "./pages/LawyerHome";
+import Performance from "./pages/Performance";
+import PerformanceHome from "./pages/PerformanceHome";
+
 import ChangePricing from "./pages/ChangePricing";
 import AdminViewLaws from "./pages/AdminViewLaws";
+import AdminEditLaws from "./pages/AdminEditLaws";
+
 import LawyerOpenCase from "./pages/LawyerOpenCase";
 import AddLawyer from "./components/AddLawyer";
 import AdminAddLawyer from "./components/AdminAddLawyer";
@@ -72,7 +77,8 @@ class App extends Component {
             <Route exact path="/home" component={unregiteredHome} />
             <div className="container">
               <Route exact path="/Companies" component={Companies} />
-              <div className="col-sm-10">
+
+              {/* <div className="col-sm-10"> */}
                 <Route
                   exact
                   path="/"
@@ -120,6 +126,10 @@ class App extends Component {
                 <Route exact path="/AddReviewer" component={AddReviewer} />
                 <Route exact path="/testing" component={testing} />
                 <Route exact path="/LawyerHome" component={LawyerHome} />
+                <Route exact path="/Performance/:id" component={Performance} />
+                <Route exact path="/PerformanceHome" component={PerformanceHome} />
+
+
                 <Route
                   exact
                   path="/LawyerOpenCase/:id"
@@ -133,6 +143,7 @@ class App extends Component {
                 <Route exact path="/ChangePricing" component={ChangePricing} />
                 <Route exact path="/ChangePricing" component={ChangePricing} />
                 <Route exact path="/AdminViewLaws" component={AdminViewLaws} />
+                <Route exact path="/AdminEditLaws/:id" component={AdminEditLaws} />
                 <Route exact path="/AdminPage" component={AdminSideNavbar} />
                 <Route exact path="/InvestorPage" component={InvestorPage} />
                 <Route exact path="/Questions" component={Questions} />
@@ -157,7 +168,7 @@ class App extends Component {
                 <Route exact path="/verify/:tok" component={Verify} />
                   
               </div>
-            </div>
+            {/* </div> */}
             <Route exact path="*" component={NotFound} />
           </Switch>
       </Router>

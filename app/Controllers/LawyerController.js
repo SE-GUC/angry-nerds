@@ -309,12 +309,14 @@ let LawyerController = {
   viewCasesLawyer: async function(req, res) {
     try {
 
-      let cases = await Case.find({
-        $or: [
-          { caseStatus: "lawyer-investor" },
-          { caseStatus: "lawyer-reviewer" },
-        ]
-      });
+      // let cases = await Case.find({
+      //   $or: [
+      //     { caseStatus: "lawyer-investor" },
+      //     { caseStatus: "lawyer-reviewer" },
+      //   ]
+      // }).lean();
+
+      let cases = await Case.find({ caseStatus: "lawyer-reviewer" })
 
       return res.status(200).json({ data: cases , msg: "Done" });
     } catch (error) {

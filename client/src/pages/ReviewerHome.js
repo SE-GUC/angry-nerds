@@ -22,21 +22,16 @@ class ReviewerHome extends Component {
     console.log(this.state.allCases)
     try{
     axios.get('http://localhost:3000/viewCasesReviewer').then(
-          res => this.setState(
-            {
-            allCases: res.data.data.filter((oneCase) => 
-            {console.log(oneCase)
-              if(oneCase.english_name && oneCase.fees && oneCase.equality_capital && oneCase.log.length !== 0){
-              return oneCase
-            }}), 
-            
-            totalCases: res.data.data.filter((oneCase) => 
-            {console.log(oneCase)
-              if(oneCase.english_name && oneCase.fees && oneCase.equality_capital && oneCase.log.length !== 0){
-              return oneCase
-            }}).length
-          })
-    )
+      res => {
+        let _allCases = res.data.data.filter((oneCase) => 
+        {
+          if(oneCase.english_name && oneCase.fees && oneCase.equality_capital && oneCase.log.length !== 0){
+          return oneCase
+        }})
+        console.log('ALLCASES: ',_allCases)
+        this.setState( {allCases: _allCases,totalCases: _allCases.length})
+    })
+    
     }catch(error){
         console.log(error)
     }  
@@ -79,12 +74,12 @@ class ReviewerHome extends Component {
     if(this.state.searchTerm.length === 0){
       console.log('cases ===> ',cases)
       return cases.map( (oneCase) => 
-         ( <CaseCard key={oneCase._id} case={oneCase} pressed={this.state.pressed} caseButton={this.caseButton.bind(this)} type='reviewer'/> ))
+         ( <CaseCard history={this.props.history} key={oneCase._id} case={oneCase} pressed={this.state.pressed} caseButton={this.caseButton.bind(this)} type='reviewer'/> ))
     }
     else{
       console.log('filter')
       return filteredCases.map( (filteredCase) => 
-      ( <CaseCard key={filteredCase._id} case={filteredCase} pressed={this.state.pressed} caseButton={this.caseButton.bind(this)} type='reviewer'/>) )
+      ( <CaseCard history={this.props.history} key={filteredCase._id} case={filteredCase} pressed={this.state.pressed} caseButton={this.caseButton.bind(this)} type='reviewer'/>) )
     }    
   }
 
