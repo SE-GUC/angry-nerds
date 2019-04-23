@@ -8,11 +8,11 @@ import axios from 'axios';
 
 const PrivateRoute =  ({
   component: Component,
-  isAuthenticated=true,
+  isAuthenticated=false,
   allowedUserFlag=false,
   allowedUsers : allowed ,
   redirect : pathname,
-  userHome = '/LawyerHome',
+  userHome = '/signin',
   ...rest
 }) => {
   
@@ -34,10 +34,10 @@ const PrivateRoute =  ({
     if (allowed.indexOf(tok.type)<=0){
       allowedUserFlag=false
       switch(tok.type){
-        case 'investor' : userHome = '/LawyerHome'; break ;
+        case 'investor' : userHome = '/InvestorPage'; break ;
         case 'lawyer' : userHome = '/LawyerHome' ; break ;
-        case 'reviewer' : userHome = '/LawyerHome';break ;
-        case 'admin' : userHome = '/AdminViewLaws' ;break ;
+        case 'reviewer' : userHome = '/ReviewerHome';break ;
+        case 'admin' : userHome = '/AdminPage' ;break ;
         default : userHome = '/signin'
       }    
     }else{
