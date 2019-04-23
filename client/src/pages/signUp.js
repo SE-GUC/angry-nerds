@@ -155,6 +155,7 @@ try{
     console.log('my first name is ' + this.state.MiddleName)
     console.log('my first name is ' + this.state.LastName)
     console.log('my first name is ' + this.state.email)
+    console.log('password ' + this.state.password)
     console.log('my first name is ' + this.state.ID_type)
     console.log('my first name is ' + this.state.SSID)
     console.log('my first name is ' + this.state.Nationality)
@@ -207,12 +208,12 @@ console.log(error)
     handleChange(event) {
       console.log(event.target.name)
       console.log(event.target.value)
-      if (event.target.name==='password'){
-          this.validate(event.target.value)
-      }
       this.setState({
-           [event.target.name] : event.target.value
+        [event.target.name] : event.target.value
       });
+            if (event.target.name==='password'){
+                this.validate(event.target.value)
+            }
     }
 
   render() {
@@ -257,7 +258,7 @@ console.log(error)
         </Col>
         
         <Col md={{ span: 0, offset: 1 }}>    
-        <Form.Group controlId="Password"  bg={field} variant="dark" style ={field}>
+        <Form.Group controlId="password"  bg={field} variant="dark" style ={field}>
         <InputGroup className="mb-3">    
         <Form.Label>Password</Form.Label>
         <FormControl type={this.state.type1} placeholder="Enter your new password" ref="psw" 

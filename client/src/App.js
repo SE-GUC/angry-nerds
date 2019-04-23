@@ -7,6 +7,7 @@ import InvestorForm from "./pages/InvestorForm";
 import TrackMyCase from "./pages/trackMyCase";
 import Companies from "./pages/Companies"; 
 import signup from "./pages/signUp";
+import signUpAR from "./pages/signUpAR";
 import signin from "./pages/signin";
 import LawyerHome from "./pages/LawyerHome";
 import ChangePricing from "./pages/ChangePricing";
@@ -114,7 +115,8 @@ class App extends Component {
                   component={AdminAddReviewer}  
                 />
                 <Route exact path="/AdminAddAdmin" component={AdminAddAdmin} />
-                <Route exact path="/signUp" component={signup} />       
+                <Route exact path="/signUp" component={signup} />     
+                {/* <Route exact path="/signUp" component={signUpAR} />          */}
                 <Route exact path="/signin" component={signin} />
                 <Route exact path="/AddLawyer" component={AddLawyer} />
                 <Route exact path="/AddReviewer" component={AddReviewer} />
@@ -134,7 +136,7 @@ class App extends Component {
                 <Route exact path="/ChangePricing" component={ChangePricing} />
                 <Route exact path="/AdminViewLaws" component={AdminViewLaws} />
                 <Route exact path="/AdminPage" component={AdminSideNavbarAR} />
-                <Route exact path="/InvestorPage" component={InvestorPageAR} />
+                <Route exact path="/InvestorPage" component={InvestorPage} />
                 <Route exact path="/Questions" component={Questions} />
                 <Route exact path="/notificat" component={notificat} />
                 <Route

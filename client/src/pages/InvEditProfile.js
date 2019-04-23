@@ -110,6 +110,18 @@ axios({
   res => {console.log(res)}
  )
  console.log('my first name is ' + this.state.firstName)
+ console.log('my first name is ' + this.state.MiddleName)
+ console.log('my first name is ' + this.state.LastName)
+ console.log('my first name is ' + this.state.email)
+ console.log('my first name is ' + this.state.ID_type)
+ console.log('my first name is ' + this.state.SSID)
+ console.log('my first name is ' + this.state.Nationality)
+ console.log('my first name is ' + this.state.Type)
+ console.log('my first name is ' + this.state.Address)
+ console.log('my first name is ' + this.state.birthdate)
+ console.log('my first name is ' + this.state.telephone_number)
+ console.log('my first name is ' + this.state.gender)
+
 
 
 } catch(error){
@@ -137,101 +149,100 @@ console.log(error)
     <tr>
       <th>Field</th>
       <th>Value</th>
-      <th>Edit</th>
     </tr>
   </thead>
 
   <tbody>
     <tr>
       <td>First Name</td>
-      <td>  <Form.Control className="text-muted" placeholder={this.state.firstName}    onChange = {this.handleChange.bind(this)}/>
+      <td>  <Form.Control className="text-muted" placeholder={this.state.firstName} name ="firstName" onChange = {this.handleChange.bind(this)}/>
       </td>
-      <td> <Button variant="outline-secondary"  onClick ={this.handleChangeEdit}>Edit Field</Button></td>
+      
     </tr>
 
     <tr>
     <td>Middle Name</td>
-      <td> <Form.Control className="text-muted" placeholder={this.state.MiddleName}   onChange = {this.handleChange.bind(this)}/>
+      <td> <Form.Control className="text-muted" placeholder={this.state.MiddleName} name ="MiddleName"  onChange = {this.handleChange.bind(this)}/>
    </td>
-      <td> <Button variant="outline-secondary">Edit Field</Button></td>
+     
     </tr>
 
     <tr>
     <td>Last Name</td>
-      <td><Form.Control className="text-muted" placeholder={this.state.LastName}   onChange = {this.handleChange.bind(this)}/>
+      <td><Form.Control className="text-muted" placeholder={this.state.LastName} name ="LastName"  onChange = {this.handleChange.bind(this)}/>
     </td>
-      <td> <Button variant="outline-secondary">Edit Field</Button></td>
+     
     </tr>
 
     <tr>
     <td>E-mail</td>
-      <td> <Form.Control className="text-muted" placeholder= {this.state.email}   onChange = {this.handleChange.bind(this)}/>
+      <td> <Form.Control className="text-muted" placeholder= {this.state.email}  name ="email" onChange = {this.handleChange.bind(this)}/>
      </td>
-      <td> <Button variant="outline-secondary">Edit Field</Button></td>
+     
     </tr>
 
 
     <tr>
     <td>password</td>
-      <td><Form.Control className="text-muted" placeholder={this.state.password}  onChange = {this.handleChange.bind(this)}/>
+      <td><Form.Control className="text-muted" placeholder={this.state.password} name ="password" onChange = {this.handleChange.bind(this)}/>
      </td>
-      <td> <Button variant="outline-secondary">Edit Field</Button></td>
+     
     </tr>
 
 
     <tr>
     <td>ID-Type</td>
-      <td><Form.Control className="text-muted" placeholder={this.state.ID_type}  onChange = {this.handleChange.bind(this)}/>
+      <td><Form.Control className="text-muted" placeholder={this.state.ID_type} name ="ID_type" onChange = {this.handleChange.bind(this)}/>
       </td>
-      <td> <Button variant="outline-secondary">Edit Field</Button></td>
+     
     </tr>
 
 
     <tr>
     <td>SSID</td>
-      <td><Form.Control className="text-muted" placeholder={this.state.SSID}  onChange = {this.handleChange.bind(this)}/>
+      <td><Form.Control className="text-muted" placeholder={this.state.SSID} name ="SSID" onChange = {this.handleChange.bind(this)}/>
       </td>
-      <td> <Button variant="outline-secondary">Edit Field</Button></td>
+      
     </tr>
 
     <tr>
     <td>Nationality</td>
-      <td><Form.Control className="text-muted" placeholder={this.state.Nationality}  onChange = {this.handleChange.bind(this)}/>
+      <td><Form.Control className="text-muted" placeholder={this.state.Nationality} name ="Nationality" onChange = {this.handleChange.bind(this)}/>
    </td>
-      <td> <Button variant="outline-secondary">Edit Field</Button></td>
+   
     </tr>
 
     <tr>
     <td>Address</td>
-      <td><Form.Control className="text-muted" placeholder={this.state.Address}  onChange = {this.handleChange.bind(this)}/> 
+      <td><Form.Control className="text-muted" placeholder={this.state.Address} name ="Address" onChange = {this.handleChange.bind(this)}/> 
      </td>
-      <td> <Button variant="outline-secondary">Edit Field</Button></td>
+     
     </tr>
 
     <tr>
     <td>Birth-Date</td>
-      <td><Form.Control className="text-muted" placeholder= {this.state.birthdate}  onChange = {this.handleChange.bind(this)}/>
+      <td><Form.Control className="text-muted" placeholder= {this.state.birthdate} name ="birthdate" onChange = {this.handleChange.bind(this)}/>
      </td>
-      <td> <Button variant="outline-secondary">Edit Field</Button></td>
+      
     </tr>
 
     <tr>
     <td>Telephone Number</td>
-      <td><Form.Control className="text-muted" placeholder={this.state.telephone_number}  onChange = {this.handleChange.bind(this)}/>
+      <td><Form.Control className="text-muted" placeholder={this.state.telephone_number} name ="telephone_number" onChange = {this.handleChange.bind(this)}/>
       </td>
-      <td> <Button variant="outline-secondary">Edit Field</Button></td>
+     
     </tr>
 
     <tr>
     <td>Gender</td>
-      <td><Form.Control className="text-muted" placeholder={this.state.gender}  onChange = {this.handleChange.bind(this)}/>
+      <td><Form.Control className="text-muted" placeholder={this.state.gender} name ="gender"  onChange = {this.handleChange.bind(this)}/>
    </td>
-      <td> <Button variant="outline-secondary">Edit Field</Button></td>
+    
     </tr>
     
   </tbody>
 
-  <Button variant="primary" onClick ={this.OnClick1.bind(this)}>Submit</Button>
+  <Button variant="primary" style={{left:"50%"}} onClick ={this.OnClick1.bind(this)}>Edit Fields</Button>
       
       
       </Table>

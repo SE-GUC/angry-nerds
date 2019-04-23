@@ -243,30 +243,6 @@ export class InvestorPage extends Component {
          </LinkContainer>
 
 
-         <LinkContainer to="/resetPassword/:tok">
-         <NavItem eventKey="Reset Password">
-            <NavIcon>
-                <i className="fa fa-refresh" style={{ fontSize: '1.75em' }} />
-             &nbsp;   Reset Password </NavIcon>
-            <NavText>
-          
-            </NavText>
-         </NavItem>
-         </LinkContainer>
-
-
-         <LinkContainer to="/ForgetPassword">
-         <NavItem eventKey="forgotPassword">
-            <NavIcon>
-                <i className="fa fa-eye-slash" style={{ fontSize: '1.75em' }} />
-             &nbsp;   Forgot Password</NavIcon>
-            <NavText>
-          
-            </NavText>
-         </NavItem>
-         </LinkContainer>
-
-
     </SideNav.Nav>
     </SideNav>
  </SideNav>

@@ -267,7 +267,7 @@ let InvestorController = {
 
     investorViewProfile: async (req, res) => {
         try {
-            const investorId = '5cae8dce70fe6265f034aa00'
+            const investorId = '5cad5ff2fc85ef1fe4b49757'
             const investor = await Investor.findById(investorId)
             if (!investor)
                 return res.status(404).send({ error: 'Investor doesnt exist ' });
@@ -626,20 +626,20 @@ InvestorViewingPublishedCompanies: async (req, res) => {
 
 
 InvestorEditProfile: async (req, res) => {
-    const InvestorID = '5cae8dce70fe6265f034aa00' //login token
+    const InvestorID = '5cad5ff2fc85ef1fe4b49757' //login token
     const newInvestor = await Investor.findById(InvestorID)
     if (!newInvestor)
         return res.status(400).json({ error: 'Not an investor' })
     const email = req.body.email
     const Investors = await Investor.findOne({ email })
-    if (Investors)
-        return res.status(400).json({ error: 'Email already exists' })
-    else {
+    // if (Investors)
+    //     return res.status(400).json({ error: 'Email already exists' })
+  //  else {
         const newInv = await Investor.findByIdAndUpdate(InvestorID, req.body)
         console.log('edited')
         return res.status(200).json({ msg: 'Investor was updated successfully', data: newInv })
         //  .catch(err => res.json('There was an error ,Try again later'))
-    }
+  //  }
 
 },
 

@@ -218,7 +218,7 @@ console.log(error)
   render() {
     return (
       
-      <React.Fragment>
+      <React.Fragment align="right">
       <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css"/>
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
       <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
@@ -229,13 +229,13 @@ console.log(error)
       </Col>
         <Row>
       <Col md={{ span: 0, offset: 0 }}>
-        <Form.Group controlId="firstName" bg={field} variant="dark" style ={field}>
+        <Form.Group controlId="firstName" bg={field} variant="dark" style ={field} align="right">
           <Form.Label>الإسم الأول</Form.Label>
-          <Form.Control type="firstName"  placeholder="ادخل الإسم الأول" name ="firstName" onChange = {this.handleChange.bind(this)}/> 
+          <Form.Control type="firstName"  placeholder="ادخل الإسم الأول" name ="firstName" onChange = {this.handleChange.bind(this)} /> 
         </Form.Group>
         </Col>
         <Col md={{ span: 0, offset: 1 }}></Col>      
-        <Form.Group controlId="MiddleName"  bg={field} variant="dark" style ={field}>
+        <Form.Group controlId="MiddleName"  bg={field} variant="dark" style ={field} align="right">
           <Form.Label>الإسم الأوسط</Form.Label>
           <Form.Control type="MiddleName"  placeholder="ادخل اسمك الأوسط " name="MiddleName"  onChange = {this.handleChange.bind(this)}/>
         </Form.Group>
@@ -243,11 +243,11 @@ console.log(error)
 
         <Row>
         <Col md={{ span: 0, offset: 0 }}>
-        <Form.Group controlId="LastName"  bg={field} variant="dark" style ={field}>
+        <Form.Group controlId="LastName"  bg={field} variant="dark" style ={field} align="right">
           <Form.Label>إسم العائلة</Form.Label>
           <Form.Control type="LastName" placeholder="ادخل اسم العائلة" name="LastName"  onChange = {this.handleChange.bind(this)}/>
         </Form.Group>      
-        <Form.Group controlId="email"  bg={field} variant="dark" style ={field}>
+        <Form.Group controlId="email"  bg={field} variant="dark" style ={field} align="right">
           <Form.Label>البريد الإلكتروني</Form.Label>
           <Form.Control type="email" placeholder="ادخل البريد الإلكتروني" name ="email"  onChange = {this.handleChange.bind(this)} />
           <Form.Text className="text-muted">
@@ -257,12 +257,12 @@ console.log(error)
         </Col>
         
         <Col md={{ span: 0, offset: 1 }}>    
-        <Form.Group controlId="password"  bg={field} variant="dark" style ={field}>
+        <Form.Group controlId="password"  bg={field} variant="dark" style ={field} align="right">
         <InputGroup className="mb-3">    
         <Form.Label>كلمه السر</Form.Label>
         <FormControl type={this.state.type1} placeholder="ادخل كلمة السر" ref="psw" 
             onChange = {this.handleChange.bind(this)} pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" name ="password" required
-            title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters"/>
+            title="يجب أن يحتوي على رقم واحد على الأقل وحرف كبير وأحرف صغيرة ، وعلى الأقل 8 أحرف أو أكثر"/>
         <InputGroup.Append>
           <Button className="glyphicon glyphicon-eye-open" variant="outline" onClick={this.handleClick1} />
         </InputGroup.Append>
@@ -291,25 +291,25 @@ console.log(error)
         </Row>
       <Row>
       <Col md={{ span: 0, offset: 0 }}>
-        <Form.Group controlId="SSID"  bg={field} variant="dark" style ={field}>
+        <Form.Group controlId="SSID"  bg={field} variant="dark" style ={field} align="right">
           <Form.Label>رقم الهوية الشخصية</Form.Label>
           <Form.Control type="SSID" placeholder="ادخل رقم الهوية الشخصية" name="SSID" onChange = {this.handleChange.bind(this)}/>
         </Form.Group>
-        <Form.Group controlId="Type"  bg={field} variant="dark" style ={field}>
+        <Form.Group controlId="Type"  bg={field} variant="dark" style ={field} align="right">
           <Form.Label>{"النوع"}</Form.Label>
         <input type="radio" name="Type" value="Passport"  onChange={this.handleChange.bind(this)}/> جواز سفر &nbsp;
         <input type="radio" name="Type" value="National ID"   onChange={this.handleChange.bind(this)}/> الرقم القومي
         </Form.Group>
         </Col>
       <Col md={{ span: 0, offset: 1 }}></Col>
-      <Form.Group controlId="confirmPassword"  bg={field} variant="dark" style ={field}>
+      <Form.Group controlId="confirmPassword"  bg={field} variant="dark" style ={field} align="right">
       <InputGroup className="mb-3">
       <Form.Label>تأكيد كلمة المرور</Form.Label>
       <FormControl type={this.state.type2} placeholder="ادخل تأكيد كلمة المرور" 
           onChange={(e) => {this.match(e)}} pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" required
           title="يجب أن يتطابق مع كلمة المرور التي أدخلتها من قبل"/>
       <InputGroup.Append>
-        <Button className="glyphicon glyphicon-eye-open" variant="outline" onClick={this.handleClick2} />
+        <Button className="glyphicon glyphicon-eye-open" variant="outline" onClick={this.handleClick2} align="right" />
       </InputGroup.Append>
       </InputGroup>
     <Row>
@@ -323,43 +323,43 @@ console.log(error)
         
         <Row>
         
-        <Form.Group controlId="Nationality"  bg={field} variant="dark" style ={field}>
+        <Form.Group controlId="Nationality"  bg={field} variant="dark" style ={field} align="right">
           <Form.Label>الجنسية</Form.Label>
           <Form.Control type="Nationality" placeholder="ادخل الجنسية" name="Nationality" onChange = {this.handleChange.bind(this)}/>
         </Form.Group>
         <Col md={{ span: 0, offset: 1 }} />        
-        <Form.Group controlId="Address"  bg={field} variant="dark" style ={field}>
+        <Form.Group controlId="Address"  bg={field} variant="dark" style ={field} align="right">
           <Form.Label>العنوان</Form.Label>
           <Form.Control type="Address" placeholder="ادخل العنوان" name="Address"  onChange = {this.handleChange.bind(this)}/>
         </Form.Group>
         </Row>
 
         <Row>
-        <Form.Group controlId="birthdate"  bg={field} variant="dark" style ={field}>
+        <Form.Group controlId="birthdate"  bg={field} variant="dark" style ={field} align="right">
           <Form.Label> تاريخ الميلاد</Form.Label>
           <Form.Control type="date" placeholder="ادخل تاريخ الميلاد" name="birthdate"  onChange = {this.handleChange.bind(this)}/>
         </Form.Group>
         <Col md={{ span: 0, offset: 1 }} /> 
-        <Form.Group controlId="رقم المحمول"  bg={field} variant="dark" style ={field}>
-          <Form.Label>Telephone Number</Form.Label>
+        <Form.Group controlId=" telephone_number" bg={field} variant="dark" style ={field} align="right">
+          <Form.Label>"رقم المحمول</Form.Label>
           <Form.Control type="telephone_number" placeholder="ادخل رقم المحمول" name="telephone_number" onChange = {this.handleChange.bind(this)}/>
         </Form.Group>
         </Row>
         
         <Row>
-        <Form.Group controlId="gender"  bg={field} variant="dark" style ={field}>
-          <Form.Label>Gender</Form.Label>
+        <Form.Group controlId="gender"  bg={field} variant="dark" style ={field} align="right">
+          <Form.Label>الجنس</Form.Label>
         <Col md={{ span: 0, offset: 1 }}></Col>
-        <input type="radio" name="gender" value="male"  onChange={this.handleChange.bind(this)}/> Male &nbsp;
-        <input type="radio" name="gender" value="female"   onChange={this.handleChange.bind(this)}/> Female
+        <input type="radio" name="gender" value="Male"  onChange={this.handleChange.bind(this)}/> ذكر &nbsp;
+        <input type="radio" name="gender" value="Female"   onChange={this.handleChange.bind(this)}/> انثى
         </Form.Group>
         </Row>
 
         
         <Row style={{height: .05*window.innerHeight + 'px'}}>
         <Col md={{ span: 0, offset: 4 }}>
-        <Button variant="primary" type="submit" onClick ={this.OnClick1.bind(this)}>
-          Submit
+        <Button variant="primary" type="submit" onClick ={this.OnClick1.bind(this)} align="right">
+          تأكييد
         </Button>
         </Col>        
         </Row>

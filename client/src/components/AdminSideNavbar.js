@@ -205,6 +205,7 @@ export class AdminSideNavbar extends Component {
             </NavItem>
             </LinkContainer>
             
+            
 
             <LinkContainer to="/AdminAddAdmin">
             <NavItem eventKey="Register Admin">
@@ -217,15 +218,6 @@ export class AdminSideNavbar extends Component {
                 </NavItem>
             </LinkContainer>
             
-
-            {/* <NavItem eventKey="Delete">
-            <NavIcon>
-            <i class="fa fa-trash-o"  style={{ fontSize: '1.75em' }} font-family= {FontAwesomeIcon}></i>
-            </NavIcon>
-                <NavText>
-                    Delete
-                </NavText> */}
-
 
          <LinkContainer to="/AdminDeleteInvestor">
             <NavItem eventKey="Delete Investor" >
@@ -298,27 +290,7 @@ export class AdminSideNavbar extends Component {
          </NavItem>
         </LinkContainer>
 
-{/* ============================================================= */}
-         <NavItem eventKey="Leader Boards For">
-         <NavIcon>
-            <i class=" fa fa-users"  style={{ fontSize: '1.75em' }} font-family= {FontAwesomeIcon}></i>
-              &nbsp;  Leader Boards For</NavIcon>
-                <NavText>
-              
-                </NavText>
-            
-            <NavItem eventKey="Leader Boards For/Lawyers">
-                <NavText>
-                    Lawyers
-                </NavText>
-            </NavItem>
-            <NavItem eventKey="Leader Boards For/Reviewers">
-                <NavText>
-                    Reviewers
-                </NavText>
-            </NavItem>
-        </NavItem>
-{/* ============================================================ */}
+
 
         <LinkContainer to="#addLaw">
         <NavItem eventKey="Generate New Law">
@@ -446,29 +418,6 @@ export class AdminSideNavbar extends Component {
          </NavItem>
          </LinkContainer>
 
-
-         <LinkContainer to="/resetPassword/:tok">
-         <NavItem eventKey="Reset Password">
-            <NavIcon>
-                <i className="fa fa-refresh" style={{ fontSize: '1.75em' }} />
-             &nbsp;   Reset Password </NavIcon>
-            <NavText>
-          
-            </NavText>
-         </NavItem>
-         </LinkContainer>
-
-
-         <LinkContainer to="/ForgetPassword">
-         <NavItem eventKey="forgotPassword">
-            <NavIcon>
-                <i className="fa fa-eye-slash" style={{ fontSize: '1.75em' }} />
-             &nbsp;   Forgot Password</NavIcon>
-            <NavText>
-          
-            </NavText>
-         </NavItem>
-         </LinkContainer>
 
  <LinkContainer to="#averageMins">
          <NavItem eventKey="Statistics">
