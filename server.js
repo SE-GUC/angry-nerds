@@ -221,6 +221,7 @@ app.use('/api/Questions', questions)
 app.use('/api/Comments', Commentj)
 app.use('/api/Admin', Admin)
 app.use('/', routes)
+
 app.use(express.static('./app/routes/api/uploadPic')) ////
 
 
