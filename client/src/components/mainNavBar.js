@@ -7,27 +7,67 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar'; 
 import notificat from './notificat';
 import DropdownButton from 'react-bootstrap/DropdownButton'
+import Dropdown from 'react-bootstrap/Dropdown'
+import DropdownType from 'react-bootstrap/Dropdown'
+import axios from "axios"
+import { Route, Redirect } from 'react-router-dom'
 const navbar = {backgroundColor: '#286090'};
+const ids = '5ca772654d70710fa843bd5f';
 
 
 class mainNavBar extends Component  {
 
+  constructor(props){
+    super(props)
+
+    this.state = {
+      notifications: []
+    }
+
+    axios.get('http://localhost:3000/InvestorMyNotifications/'+ids).then(
+      res => this.setState({notifications: res.data.data}))
+
+
+
+
+  }
+
+  
+
   increment = () => {
     this.props.dispatch({type :"INCREMENT"})
+  }
+  switchToEng = () => {
+    this.props.dispatch({type :"SWITCHtoENG"})
         }
     
-        decrement = () => {
-            this.props.dispatch({type :"DECREMENT"})
+        switchToAr = () => {
+            this.props.dispatch({type :"SWITCHtoAR"})
         }
   
  
     
+        notf(){
+          return (this.state.notifications.map((ha)=>(
+            <DropdownType
+            color="grey"
+            size="lg"
+            title="Drop small"
+            > 
+             <Dropdown.Item href="/trackMyCase">{ha.text} {ha.time}</Dropdown.Item>
+            
+             </DropdownType>
+
+)))
+}
 
 
 
     render(){
+    
     return (
         <React.Fragment>
+          {console.log(this.props.lang)}
           <div className=".App__Aside"></div>
   
   <div className="App__Form"></div>
@@ -46,8 +86,10 @@ class mainNavBar extends Component  {
       <Nav.Link href="#features">Features</Nav.Link>
       <Nav.Link href="#pricing">Laws and Fees</Nav.Link>
       <Nav.Link href="#pricing">Pricing</Nav.Link>
-      <Nav.Link href = "/notificat">Notifications</Nav.Link>
-     
+      <DropdownButton id="dropdown-basic-button" title="Notifications">
+                  
+                  {this.notf()}
+                  </DropdownButton>
     {/* =============REDUX TEST============================== */}
     {/* <div>
           <button onClick={this.decrement}>&ndash;</button>
@@ -55,6 +97,15 @@ class mainNavBar extends Component  {
            <button onClick={this.increment}>+</button>
       </div> */}
     {/* =================REDUX TEST========================= */}
+      <Nav.Link href = "/notificat">Notifications</Nav.Link>
+     
+    {/* =============REDUX TEST==============================  */}
+     <div>
+          <button onClick={this.switchToEng} > To ENG</button>
+          <span className="count">{this.props.lang}</span>
+           <button onClick={this.switchToAr}> To AR</button>
+      </div>
+      {/* =================REDUX TEST=========================  */}
     </Nav>
     <Form inline>
       <Button href="/signin"  variant='outline-light'>Sign in</Button>
@@ -67,30 +118,12 @@ class mainNavBar extends Component  {
 
         
   )
-  
     }
 }
 const mapStateToProps = (state) => ({
-  count : state.count 
+  lang : state.lang 
 })
-
-// const mapDispatchToProps = (dispatch) => {
-//   return {
-//     increment : () => dispatch
-//       //this.props.dispatch
-//       ({type :'INCREMENT'}),
-      
-//           decrement : () =>dispatch
-//               //this.props.
-//               ({type :'DECREMENT'})
-          
-//         }
-// }
-
-
-
 
 
 
 export default connect(mapStateToProps)(mainNavBar)
-  // ,mapDispatchToProps

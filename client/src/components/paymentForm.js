@@ -1,9 +1,9 @@
 import axios from "axios";
 import React, { Component } from "react";
 import { Button, Form, FormGroup, Label, Input, Card, CardBody, CardTitle, CardSubtitle,
-  CardText, 
+  CardText, Alert
  } from "reactstrap";
- const img = require('../Images/payment.png')
+ import Image from '../Images/payment.png'
 
 export class paymentForm extends Component {
   constructor(props) {
@@ -13,11 +13,14 @@ export class paymentForm extends Component {
       creditNumber: "",
       month: "",
       year: "",
-      cvc: ""
+      cvc: "",
+      alert:false,
+      alertText:'',
+      alertColor:''
     };
   }
 
-  handleSubmit(event) {
+  async handleSubmit(event) {
     event.preventDefault();
     console.log(this.state.creditNumber);
     console.log(this.state.month);
@@ -27,7 +30,7 @@ export class paymentForm extends Component {
 
 
     try {
-      axios({
+      const x = await axios({
         method: "post",
         baseURL: "http://localhost:3000/InvestorPayFees",
         headers: {},
@@ -38,11 +41,20 @@ export class paymentForm extends Component {
           year: this.state.year,
           caseID: this.props.case._id
         }
-      }).then(res => {
-        return console.log(res);
+      })
+      this.setState({
+        alert:true,
+        alertText:'you have successfully payed for your company and will receive and email shortly.',
+        alertColor:'success'
       });
+
     } catch (e) {
-      return console.log(e);
+      console.log(e.response.data.message)
+      this.setState({
+        alert:true,
+        alertText:e.response.data.message,
+        alertColor:'danger'
+      });
     }
 
       // axios.get('http://localhost:3000/api/investor').then(res => console.log(res))
@@ -56,14 +68,25 @@ export class paymentForm extends Component {
     });
   }
 
+  onDismiss() {
+    this.setState({
+      alert: false
+    });
+  }
+
+
   render() {
     const { creditNumber } = this.state.creditNumber;
     const { month } = this.state.month;
     const { year } = this.state.year;
     const { cvc } = this.state.cvc;
 
+    
+
     return (
       <div>
+
+
         <br></br>
         <br></br>
       
@@ -74,11 +97,9 @@ export class paymentForm extends Component {
     >
       <CardBody>
         <CardTitle>Establishment Fees</CardTitle>
-        <CardSubtitle>Fees due</CardSubtitle>
         <CardText>
           Amount due is {this.props.fees}. You can pay securely via stripe.
         </CardText>
-        <Button color="primary">Stripe</Button>
       </CardBody>
     </Card>
       
@@ -89,9 +110,9 @@ export class paymentForm extends Component {
 
 
 
-
+        <br/>
         <FormGroup>
-          <Label for="creditNumber">Credit Card Number</Label>
+          <Label for="creditNumber" style = {{fontWeight:"bold"}}>Credit Card Number</Label>
           <Input
             type="text"
             size="35"
@@ -102,7 +123,7 @@ export class paymentForm extends Component {
           />
         </FormGroup>
         <FormGroup>
-          <Label for="month">month</Label>
+          <Label for="month" style = {{fontWeight:"bold"}}>month</Label>
           <Input
             type="text"
             size="15"
@@ -113,7 +134,7 @@ export class paymentForm extends Component {
           />
         </FormGroup>
         <FormGroup>
-          <Label for="year">year</Label>
+          <Label for="year" style = {{fontWeight:"bold"}}>year</Label>
           <Input
             type="text"
             size="15"
@@ -124,7 +145,7 @@ export class paymentForm extends Component {
           />
         </FormGroup>
         <FormGroup>
-          <Label for="cvc">CVC</Label>
+          <Label for="cvc" style = {{fontWeight:"bold"}}>CVC</Label>
           <Input
             type="text"
             size="20"
@@ -134,7 +155,14 @@ export class paymentForm extends Component {
             onChange={this.handleChange.bind(this)}
           />
         </FormGroup>
-        <Button>Pay now</Button>
+        <Alert
+              color={this.state.alertColor}
+              isOpen={this.state.alert}
+              toggle={this.onDismiss.bind(this)}
+            >
+              {this.state.alertText}
+            </Alert>
+        <Button color="primary">Pay now</Button>
       </Form>
       </div>
     );

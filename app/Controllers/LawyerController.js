@@ -240,7 +240,10 @@ let LawyerController = {
       locked: false,
       log: newLog
     });
-
+    var notify = [{  'CaseID': caseID,text: CASE.english_name + "has been disapproved",
+    ArText : CASE.arabic_name + "لم يتم الموافقة عليها ", 'time': Date.now }]
+     await Investor.findOneAndUpdate(CASE.investorID, { $push: { notifications: notify } })
+    
     LawyerController.lawyerWriteComment(caseID, req.body.comment, staffID);
 
     return res
@@ -264,6 +267,7 @@ let LawyerController = {
     if (!CASE) {
       return res.status(404).json({ error: "cannot find this case" });
     }
+    const inv = Investor.findById(CASE.investorID)
     const newLog = CASE.log;
     newLog.push({
       id: staffID,
@@ -276,6 +280,11 @@ let LawyerController = {
       locked: false,
       log: newLog
     });
+    var notify = [{  'CaseID': caseID, text: CASE.english_name + "has been approved by the lawyer",
+    ArText : CASE.arabic_name + " تم الموافقة عليها من قبل المحامي", 'time': Date.now }]
+     await Investor.findOneAndUpdate(CASE.investorID, { $push: { notifications: notify } })
+    //  var notifyrev = [{  'CaseID': CaseID, 'text': "has been approved by the lawyer", 'time': Date.now }]
+    //  await Reviewer.findOneAndUpdate(CASE.investorID, { $push: { notifications: notifyrev } })                 
     return res
       .status(200)
       .json({ msg: "Case approved and sent to reviewer", data: CASE }); // in test check that caseStatus is reviewer
@@ -300,12 +309,14 @@ let LawyerController = {
   viewCasesLawyer: async function(req, res) {
     try {
 
-      let cases = await Case.find({
-        $or: [
-          { caseStatus: "lawyer-investor" },
-          { caseStatus: "lawyer-reviewer" },
-        ]
-      });
+      // let cases = await Case.find({
+      //   $or: [
+      //     { caseStatus: "lawyer-investor" },
+      //     { caseStatus: "lawyer-reviewer" },
+      //   ]
+      // }).lean();
+
+      let cases = await Case.find({ caseStatus: "lawyer-reviewer" })
 
       return res.status(200).json({ data: cases , msg: "Done" });
     } catch (error) {
@@ -327,7 +338,7 @@ let LawyerController = {
     */
   lawyerMyNotifications: async function(req, res) {
     try {
-      const id = "5cade37fad14590482dfcd14";
+      const id = req.params.id
       let lawyer = await Lawyer.findById(id);
       if (!lawyer) {
         return res
@@ -362,16 +373,6 @@ let LawyerController = {
     }
   },
 
-  //view all published companies
-  LawCompListViewing: async (req, res) => {
-    try {
-      var Cas = await Case.find({ caseStatus: "published" });
-
-      res.json({ data: Cas });
-    } catch (error) {
-      console.log(error);
-    }
-  },
 
 
 
@@ -420,30 +421,24 @@ let LawyerController = {
     },
 //Viewing a specific User of any type 
     LawyerViewing: async (req, res)=> {
-        var proj = { '_id': 0, 'password': 0 }
-        var projy = {'_id': 0, 'password': 0 , 'ratings': 0}
-    
-        try {
-            const id = req.params.id
-            const Inv = await Investor.findById(id, proj)
-            const Revs = await Reviewer.findById(id, proj)
-            const Adm = await Admins.findById(id,proj)
-            const Lawy = await Lawyer.findById(id, projy)
-            if(Inv)
-            res.json({ message:'investor' ,data: Inv})
-        else if(Revs)
-        res.json({message: 'Rev' ,data: Revs})
-        else if(Lawy)
-        res.json({message: 'lawyer',data: Lawy})
-        else if(Adm)
-        res.json({message: 'Admin',data: Adm})
-            else {
-            res.json({message: 'User does not exist'})
-    }
-        }
-        catch (error) {
-        console.log(error)
-        }
+      var proj = { '_id': 0, 'firstName': 1, 'MiddleName': 1, 'LastName': 1, 'Nationality': 1, 'Address': 1, 'birthdate': 1, 'telephone_number': 1, 'gender': 1 };
+
+      try {
+          const id = req.params.id
+          const Inv = await Investor.findById(id, proj)
+         
+          if(Inv)
+          res.json({ message:'investor' ,data: Inv})
+              else {
+                  res.json({message: 'User does not exist'})
+      
+              }
+      }
+      catch (error) {
+      console.log(error)
+      }
+      
+      
       },
 
 
