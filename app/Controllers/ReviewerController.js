@@ -24,7 +24,7 @@ let ReviewerController = {
     //call comment from frontend
 
     const caseID = req.params.idCase;
-    const staffID = "5caa2473a17f105039d06afb"; //get from token
+    const staffID = req.user.id //get from token
     const CASE = await Case.findById(caseID);
     console.log(CASE)
     if (!CASE) {
@@ -61,7 +61,7 @@ let ReviewerController = {
     // const staff= await Staff.findById(id)
 
     const caseID = req.params.idCase;
-    const staffID = "5caa2473a17f105039d06afb"; //get from token
+    const staffID = req.user.id; //get from token
     const CASE = await Case.findById(caseID);
     console.log(CASE)
     if (!CASE) {
@@ -210,7 +210,7 @@ let ReviewerController = {
 
   reviewerViewReviewersLeaderBoard: async (req, res) => {
     try {
-      const reviewerid = "5caedcb44452700f484617ac";  //token
+      const reviewerid = req.user.id;
       const reviewer = await Reviewer.findById(reviewerid);
       if (!reviewer)
         return res
@@ -233,7 +233,7 @@ let ReviewerController = {
   //reviewer open a case and lock
   ReviewerOpenCase: async(req,res) => {
 
-    reviewerID = '5cab9295d6ad9731d0149d43' //get from token
+    reviewerID = req.user.id //get from token
     caseID = req.params.id
     try{
         c = await Case.findById(caseID)
@@ -262,7 +262,7 @@ let ReviewerController = {
   //reviewer close a case and unlock
   ReviewerCloseCase: async(req,res) => {
 
-    reviewerID = '5cab9295d6ad9731d0149d43' //get from token
+    reviewerID = req.user.id //get from token
     caseID = req.params.id
     c = await Case.findById(caseID)
     try{

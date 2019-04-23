@@ -51,7 +51,7 @@ let LawyerController = {
    
   lawyerFillForm: async (req, res) => {
     try {
-      const id = "5c9f69180ec7b72d689dba6d"; //From Token
+      const id =req.user.id //From Token
       const lawyer = await Lawyer.findById(id);
 
       if (!lawyer)
@@ -87,7 +87,7 @@ let LawyerController = {
   lawyerUpdateForm: async (req, res) => {
     try {
       const id = req.params.id;
-      const lawyerid = "5c9f69180ec7b72d689dba6d"; //token
+      const lawyerid =req.user.id
       const lawyer = await Lawyer.findById(lawyerid);
       const form = await Case.findById(id);
       if (!lawyer)
@@ -381,7 +381,6 @@ let LawyerController = {
     
 //Displaying a List of all published companies
     LawyerViewingPublishedCompanies: async (req,res) => {
-
         try {
             var Cas = await Case.find({ caseStatus: 'published' }, projx)
     
@@ -444,7 +443,7 @@ let LawyerController = {
 
   //opening and closing a case
   lawyerOpenCase: async (req, res) => {
-    const lawyerID = "5cabb3ae42c62531851d9cfc";
+    const lawyerID = req.user.id;
 
     try {
       const id = req.params.id;
@@ -473,7 +472,7 @@ let LawyerController = {
 
   lawyerCloseCase: async (req, res) => {
     try {
-      const lawyerID = "5cabb3ae42c62531851d9cfc";
+      const lawyerID = req.user.id
 
       const id = req.params.id;
       var c = await Case.findById(id);
