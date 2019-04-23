@@ -67,7 +67,6 @@ class mainNavBar extends Component  {
     
     return (
         <React.Fragment>
-          {console.log(this.props.lang)}
           <div className=".App__Aside"></div>
   
   <div className="App__Form"></div>
