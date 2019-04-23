@@ -1,9 +1,60 @@
-import React, { Component } from 'react';
-import { Button, ButtonToolbar, ButtonGroup ,Form} from 'react-bootstrap'
-import "react-datepicker/dist/react-datepicker.css";
+import React, { Component } from 'react'
+import {Form,InputGroup, Button,ButtonGroup,FormControl,Col,Row, Container} from 'react-bootstrap'
 import axios from 'axios'
+import Verifypassword from '../components/passwordinReset'
+const image1 =require('../Images/logo.png')
+
+
+  const border ={
+    border: 'dbdbdb'
+    //  solid 1px,
+    
+  }
+  const field ={
+    width: 300
+  }
+
+  const form ={
+    left:1100
+  }
 
 class SignUp extends Component {
+
+state={
+  firstName : '',
+  MiddleName : '',
+  LastName : '',
+  email : '',
+  password :'',
+  ID_type : '',
+  SSID : '',
+  Nationality : '',
+  Type : '',
+  Address :'',
+  birthdate : '',
+  telephone_number : '',
+  gender : '',
+  password1:"",
+  confirmPassword:"",
+  type1: 'password',
+  type2: 'password',
+  lowerCase:"text-danger",
+  upperCase:"text-danger",
+  number:"text-danger",
+  minimum:"text-danger",
+  confirmed:"text-danger",
+  lowerCaseText:"✖ LowerCase",
+  upperCaseText:"✖ UpperCase",
+  numberText:"✖ Number",
+  minimumText:"✖ Minimum Length 8",
+  confirmedText:"✖ Match",
+  passwordFlag:true,
+  matchFlag:true,
+  submitButton:true
+}
+
+
+
   myFunction(event) {
     console.log('hiiii')
       var x = document.getElementById("password");
@@ -13,21 +64,106 @@ class SignUp extends Component {
         x.type = "password";
       }
     } 
-  
 
-// async submit (event){
-//     event.preventDefault
-// }
+    validate (e){
+      const pass = e
+      this.setState({password1:pass})
+      this.match1(this.state.confirmPassword1,pass)
+          const lowerCaseLetters = /[a-z]/g;
+          const upperCaseLetters = /[A-Z]/g;
+          const numbers = /[0-9]/g;
+  
+          if (lowerCaseLetters.test(pass)){
+              this.setState({lowerCase:"text-success"})  
+              this.setState({lowerCaseText:"✔ LowerCase"})
+          }else{
+              this.setState({lowerCase:"text-danger"})
+              this.setState({lowerCaseText:"✖ LowerCase"})        
+          }
+  
+          if (upperCaseLetters.test(pass)){
+              this.setState({upperCase:"text-success"})
+              this.setState({upperCaseText:"✔ UpperCase"})            
+          }else{
+              this.setState({upperCase:"text-danger"})
+              this.setState({upperCaseText:"✖ UpperCase"})            
+          }
+  
+          if (pass.length>7){
+              this.setState({minimum:"text-success"})
+              this.setState({minimumText:"✔ Minimum Length 8"})            
+         }else{
+             this.setState({minimum:"text-danger"})
+             this.setState({minimumText:"✖ Minimum Length 8"})            
+         }
+  
+          if (numbers.test(pass)){
+              this.setState({number:"text-success"})
+              this.setState({numberText:"✔ Number"})    
+          }else{
+              this.setState({number:"text-danger"})    
+              this.setState({numberText:"✖ Number"})
+          }
+  
+    }
+    
+    match(e){
+      const pass = e.target.value
+      this.setState({confirmPassword:pass})
+      if (pass===this.state.password1){
+          this.setState({confirmed:"text-success"})
+          this.setState({confirmedText:"✔ Match"})
+          this.setState({matchFlag:false}) 
+      }else{
+          this.setState({confirmed:"text-danger"})    
+          this.setState({confirmedText:"✖ Match"})
+          this.setState({matchFlag:true}) 
+      }
+    }
+  
+    match1(pass,x){
+      if (pass===x){
+          this.setState({confirmed:"text-success"})
+          this.setState({confirmedText:"✔ Match"}) 
+          this.setState({matchFlag:false}) 
+        }else{
+          this.setState({confirmed:"text-danger"})    
+          this.setState({confirmedText:"✖ Match"})
+          this.setState({matchFlag:true}) 
+      }
+    }
+  
+    handleClick1 = () => this.setState(({type1}) => ({
+      type1: type1 === 'text' ? 'password' : 'text'
+    }))
+  
+    handleClick2 = () => this.setState(({type2}) => ({
+      type2: type2 === 'text' ? 'password' : 'text'
+    }))
+  
+  
 OnClick1(event){
     console.log('here')
    event.preventDefault()  
     
 try{  
     console.log('my first name is ' + this.state.firstName)
+    console.log('my first name is ' + this.state.MiddleName)
+    console.log('my first name is ' + this.state.LastName)
+    console.log('my first name is ' + this.state.email)
+    console.log('my first name is ' + this.state.ID_type)
+    console.log('my first name is ' + this.state.SSID)
+    console.log('my first name is ' + this.state.Nationality)
+    console.log('my first name is ' + this.state.Type)
+    console.log('my first name is ' + this.state.Address)
+    console.log('my first name is ' + this.state.birthdate)
+    console.log('my first name is ' + this.state.telephone_number)
+    console.log('my first name is ' + this.state.gender)
+
     
 axios({
     method: 'post',
-    url: 'http://localhost:3000/api/Investor/register',
+    url: 'http://localhost:3000/register',
     headers: {},
     data: {
         firstName : this.state.firstName,
@@ -46,8 +182,7 @@ axios({
 
     }
   }).then(
-  res => {console.log(res)}
-  
+  res => {alert(res)}
  )
 
 
@@ -59,208 +194,177 @@ console.log(error)
  
     constructor(props) {
       super(props);
-    //   this.state = {
-    //     startDate: new Date()
-    //   };
        this.handleChange = this.handleChange.bind(this);
     }
   
     handleChange(event) {
-        console.log(event.target.name)
-       console.log(event.target.value)
+      console.log(event.target.name)
+      console.log(event.target.value)
+      if (event.target.name==='password'){
+          this.validate(event.target.value)
+      }
       this.setState({
-          
            [event.target.name] : event.target.value
       });
     }
-   
 
-    render() {
-   
+  render() {
+    return (
       
-      return (
-        <div className="App">
-         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css"/>
+      <React.Fragment>
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css"/>
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <Col md={{ span: 10, offset: 0 }}>
+        <Form> 
+    <Col md={{ span: 0, offset: 3 }}>
+    <Form.Label style={{color: "#428bca",textDecoration: 'underline',fontSize:25}} >Welcome to GAFI</Form.Label>      
+      </Col>
+        <Row>
+      <Col md={{ span: 0, offset: 0 }}>
+        <Form.Group controlId="firstName" bg={field} variant="dark" style ={field}>
+          <Form.Label>First Name</Form.Label>
+          <Form.Control type="firstName"  placeholder="Enter your first name" name ="firstName" onChange = {this.handleChange.bind(this)}/> 
+        </Form.Group>
+        </Col>
+        <Col md={{ span: 0, offset: 1 }}></Col>      
+        <Form.Group controlId="MiddleName"  bg={field} variant="dark" style ={field}>
+          <Form.Label>Middle Name</Form.Label>
+          <Form.Control type="MiddleName"  placeholder="Enter your middle name " name="MiddleName"  onChange = {this.handleChange.bind(this)}/>
+        </Form.Group>
+        </Row>
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <Row>
+        <Col md={{ span: 0, offset: 0 }}>
+        <Form.Group controlId="LastName"  bg={field} variant="dark" style ={field}>
+          <Form.Label>Last Name</Form.Label>
+          <Form.Control type="LastName" placeholder="Enter your last name" name="LastName"  onChange = {this.handleChange.bind(this)}/>
+        </Form.Group>      
+        <Form.Group controlId="email"  bg={field} variant="dark" style ={field}>
+          <Form.Label>E-mail</Form.Label>
+          <Form.Control type="email" placeholder="Enter your email" name ="email"  onChange = {this.handleChange.bind(this)} />
+          <Form.Text className="text-muted">
+            We'll never share your email with anyone else.
+          </Form.Text>
+        </Form.Group>
+        </Col>
+        
+        <Col md={{ span: 0, offset: 1 }}>    
+        <Form.Group controlId="Password"  bg={field} variant="dark" style ={field}>
+        <InputGroup className="mb-3">    
+        <Form.Label>Password</Form.Label>
+        <FormControl type={this.state.type1} placeholder="Enter your new password" ref="psw" 
+            onChange = {this.handleChange.bind(this)} pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" name ="password" required
+            title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters"/>
+        <InputGroup.Append>
+          <Button className="glyphicon glyphicon-eye-open" variant="outline" onClick={this.handleClick1} />
+        </InputGroup.Append>
+        </InputGroup>
+        <Row style={{height: .01*window.innerHeight + 'px'}} />
+      <Row>
+          <Col md={{ span: 0, offset: 1 }}>
+          <p className={this.state.lowerCase} >{this.state.lowerCaseText}</p>
+          </Col>
+          <Col md={{ span: 0, offset: 3 }}>
+          <p className={this.state.upperCase}>{this.state.upperCaseText}</p>
+          </Col>            
+        </Row>
+        <Row>
+        <Col md={{ span: 0, offset: 1 }}>
+            <p className={this.state.minimum}>{this.state.minimumText}</p>          
+          </Col>
+          <Col md={{ span: 0, offset: 1 }}>
+           <p className={this.state.number}>{this.state.numberText}</p>          
+          </Col>       
+        </Row>
+        </Form.Group>
 
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+        </Col>
 
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous"/>
-          {/* <div className=".App__Aside"></div> */}
-  
-           {/* <div className="App__Form"></div> */}
-  
-            {/* <div className="PageSwitcher">  */}
-            {/* </div>   */}
-          
-           {/* <div className= "FormTitle">
-            
-             <a href="#" className= "FormTitle__Link "  OnClick ={this.OnClick.bind(this)}>Sign Up</a>
-           </div> */}
-  
-         
-         <div className= "FormCenter"> 
-             <form className= "FormFields"  onSubmit={this.OnClick1.bind(this)}>
-            <h1> <Form.Label className="label label-primary">WELCOME</Form.Label> </h1>
-            <br></br>
-             <p> 
-             <div className= "FormCenter">
-                 <label className= "FormField__Label" htmlFor="name"  > <b>First Name  &nbsp;&nbsp; </b></label> 
-                 <input type="text" id="firstName" className="FormField__Input"  name="firstName" onChange = {this.handleChange.bind(this)} /> {/*placeholder="Enter your first name" */}
-                 <span  class="fas fa-pencil-alt" style={{ fontSize: '1.50em' }}></span> </div>
-            </p>
+        </Row>
+      <Row>
+      <Col md={{ span: 0, offset: 0 }}>
+        <Form.Group controlId="SSID"  bg={field} variant="dark" style ={field}>
+          <Form.Label>SSID</Form.Label>
+          <Form.Control type="SSID" placeholder="Enter your social security number" name="SSID" onChange = {this.handleChange.bind(this)}/>
+        </Form.Group>
+        <Form.Group controlId="Type"  bg={field} variant="dark" style ={field}>
+          <Form.Label>{"ID type :   ."}</Form.Label>
+        <input type="radio" name="Type" value="Passport"  onChange={this.handleChange.bind(this)}/> Passport &nbsp;
+        <input type="radio" name="Type" value="National ID"   onChange={this.handleChange.bind(this)}/> National ID
+        </Form.Group>
+        </Col>
+      <Col md={{ span: 0, offset: 1 }}></Col>
+      <Form.Group controlId="confirmPassword"  bg={field} variant="dark" style ={field}>
+      <InputGroup className="mb-3">
+      <Form.Label>Confirm password</Form.Label>
+      <FormControl type={this.state.type2} placeholder="Confirm your new password" 
+          onChange={(e) => {this.match(e)}} pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" required
+          title="Must match the password you entered before"/>
+      <InputGroup.Append>
+        <Button className="glyphicon glyphicon-eye-open" variant="outline" onClick={this.handleClick2} />
+      </InputGroup.Append>
+      </InputGroup>
+    <Row>
+          <Col md={{ span: 0, offset: 1 }}>
+          <p className={this.state.confirmed}>{this.state.confirmedText}</p>
+          </Col>           
+    </Row>
+      </Form.Group>
 
+        </Row>
+        
+        <Row>
+        
+        <Form.Group controlId="Nationality"  bg={field} variant="dark" style ={field}>
+          <Form.Label>Nationality</Form.Label>
+          <Form.Control type="Nationality" placeholder="Enter your nationality" name="Nationality" onChange = {this.handleChange.bind(this)}/>
+        </Form.Group>
+        <Col md={{ span: 0, offset: 1 }} />        
+        <Form.Group controlId="Address"  bg={field} variant="dark" style ={field}>
+          <Form.Label>Address</Form.Label>
+          <Form.Control type="Address" placeholder="Enter your address" name="Address"  onChange = {this.handleChange.bind(this)}/>
+        </Form.Group>
+        </Row>
 
-             <p> 
-             <div className= "FormField">
-                 <label className= "FormField__Label" htmlFor="name"><b>Middle Name  </b> </label>  
-                 <input type="text" id="middleName" className="FormField__Input"  name="MiddleName" onChange = {this.handleChange.bind(this)} /> {/*placeholder="Enter your middle name" */}
-                 <span  class="fas fa-pencil-alt" style={{ fontSize: '1.50em' }}></span></div>
-             </p> 
+        <Row>
+        <Form.Group controlId="birthdate"  bg={field} variant="dark" style ={field}>
+          <Form.Label>Birth Date</Form.Label>
+          <Form.Control type="date" placeholder="Enter your birth date" name="birthdate"  onChange = {this.handleChange.bind(this)}/>
+        </Form.Group>
+        <Col md={{ span: 0, offset: 1 }} /> 
+        <Form.Group controlId="telephone_number"  bg={field} variant="dark" style ={field}>
+          <Form.Label>Telephone Number</Form.Label>
+          <Form.Control type="telephone_number" placeholder="Enter your number" name="telephone_number" onChange = {this.handleChange.bind(this)}/>
+        </Form.Group>
+        </Row>
+        
+        <Row>
+        <Form.Group controlId="gender"  bg={field} variant="dark" style ={field}>
+          <Form.Label>Gender</Form.Label>
+        <Col md={{ span: 0, offset: 1 }}></Col>
+        <input type="radio" name="gender" value="male"  onChange={this.handleChange.bind(this)}/> Male &nbsp;
+        <input type="radio" name="gender" value="female"   onChange={this.handleChange.bind(this)}/> Female
+        </Form.Group>
+        </Row>
 
+        
+        <Row style={{height: .05*window.innerHeight + 'px'}}>
+        <Col md={{ span: 0, offset: 4 }}>
+        <Button variant="primary" type="submit" onClick ={this.OnClick1.bind(this)}>
+          Submit
+        </Button>
+        </Col>        
+        </Row>
 
-             <p>
-             <div className= "FormField">
-                 <label className= "FormField__Label" htmlFor="name"><b>Last Name &nbsp;&nbsp;&nbsp;</b> </label> 
-                 <input type="text" id="lastName" className="FormField__Input"  name="LastName" onChange = {this.handleChange.bind(this)}/> {/*placeholder="Enter your last name" */}
-                 <span  class="fas fa-pencil-alt" style={{ fontSize: '1.50em' }}></span></div>
-            </p>
+        <Row style={{height: .1*window.innerHeight + 'px'}}></Row>
+      </Form>
+      </Col>
+      
+      </React.Fragment>
+     
+    )
+  }
+}
 
-         
-            <p> 
-            <div className= "FormField">
-                 <label className= "FormField__Label" htmlFor="name"><b>E-mail &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </b></label> 
-                 <input type="text" id="email" className="FormField__Input"  name="email" onChange = {this.handleChange.bind(this)}/> {/*placeholder="Enter your Email Address" */}
-                 <span  class="fas fa-envelope" style={{ fontSize: '1.50em' }}></span></div>
-            </p> 
-
-
-            <p> 
-            <div className= "FormField">
-                 <label className= "FormField__Label" htmlFor="name"><b>Password &nbsp;&nbsp;&nbsp;&nbsp;</b></label>
-                 <input type="text" id="password" className="FormField__Input"  type="Password"  name="password" onChange = {this.handleChange.bind(this)}/> {/*placeholder="Enter your Password" */}
-                 <span   class="fas fa-key" style={{ fontSize: '1.50em' }}></span> <br/>
-                 
-            </div>
-            
-                 <input type="checkbox" onClick={this.myFunction.bind(this)}/>Show Password
-            </p> 
-
-          
-
-            <p> 
-            <div className= "FormField">
-                 <label className= "FormField__Label" htmlFor="name"><b>SSID &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b></label>
-                 <input type="text" id="SSID" className="FormField__Input"  name="SSID" onChange = {this.handleChange.bind(this)}/> {/*placeholder="Enter your Social Security ID" */}
-                 <span class="far fa-id-card" style={{ fontSize: '1.50em' }}></span> </div>
-            </p> 
-
-
-               <p>
-               <div className= "FormField">
-                 <label className= "FormField__Label" htmlFor="name"><b>Nationality &nbsp;&nbsp;</b></label> 
-                 <input type="text" id="Nationality" className="FormField__Input"  name="Nationality" onChange = {this.handleChange.bind(this)}/> {/*placeholder="Enter your Nationality" */}
-                 <span class="fas fa-flag" style={{ fontSize: '1.50em' }}></span> </div>
-               </p>
-
-
-               <p>
-               <div className= "FormField">
-                 <label className= "FormField__Label" htmlFor="name"><b>ID-Type &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b></label> 
-                 <input type="text" id="Nationality" className="FormField__Input" name="Type" onChange = {this.handleChange.bind(this)}/> <span  class="fas fa-passport" style={{ fontSize: '1.50em' }}></span> <br/> {/* placeholder="Enter your ID-Type" */}
-                  
-                 <label className= "FormField__Label" htmlFor="name"><i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Either Passport or National ID</i></label>
-               </div>
-               </p>
-            
-
-              {/* <p>
-              <div className= "FormField">
-               <label className= "FormField__Label" htmlFor="name">ID-type</label>
-               <ButtonToolbar>
-                 <Button variant="outline-primary" onChange = {this.handleChange.bind(this)}>Passport  </Button>
-                 <Button variant="outline-secondary" onChange = {this.handleChange.bind(this)}>National ID </Button>
-                 
-               </ButtonToolbar>
-               
-               </div>
-               
-              </p> */}
-               
-             <p> 
-             <div className= "FormField">
-                 <label className= "FormField__Label" htmlFor="name"><b>Address &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b></label> 
-                 <input type="text" id="Address" className="FormField__Input"  name="Address"  onChange = {this.handleChange.bind(this)}/> {/*placeholder="Enter your Address" */}
-                 <span class="fas fa-map-marker-alt" style={{ fontSize: '1.50em' }}></span>  </div>
-            </p> 
-
-
-               <p>
-               <div className= "FormField">
-                 <label className= "FormField__Label" htmlFor="name"><b>Birth-Date </b></label> 
-                 <input type="text" id="Nationality" className="FormField__Input" name="birthdate" onChange = {this.handleChange.bind(this)}/> <br/> {/* placeholder="Enter Birth-Date " */}
-                 <label className= "FormField__Label" htmlFor="name"><i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;In the format dd-mm-yyyy</i> </label>
-                 {/* <span  class="fas fa-calendar-week"> style={{ fontSize: '1.50em' }}></span> */}
-                 </div>  
-               </p>
-
-
-
-
-               {/* <div className= "FormField">
-                 <label className= "FormField__Label" htmlFor="name" onChange = {this.handleChange.bind(this)}>Birth-Date</label>
-               <DatePicker
-                 selected={this.state.startDate}
-                 
-               />  
-               </div> */}
-
-
-              <p> 
-              <div className= "FormField">
-                 <label className= "FormField__Label" htmlFor="name"><b>Number &nbsp;&nbsp;</b></label> 
-                  <input type="text" id="telephone_number" className="FormField__Input"  name="telephone_number"  onChange = {this.handleChange.bind(this)}/> {/* placeholder="Enter your phone Number " */}
-                  {/* <span   class="fas fa-phone-square"> style={{ fontSize: '1.50em' }}></span> */}
-            </div> </p> 
-
-
-             <p>
-             <div className= "FormField">
-                 <label className= "FormField__Label" htmlFor="name"><b>Gender &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b></label> 
-                 <input type="text" id="Nationality" className="FormField__Input" name="gender" onChange = {this.handleChange.bind(this)}/>  {/* placeholder="Male/Female"*/}
-                 <span  class="fas fa-venus-mars" style={{ fontSize: '1.50em' }}></span>
-                </div> 
-            </p>
-
-               {/* <div className= "FormField">
-                <label className= "FormField__Label" htmlFor="name">Gender</label>
-                <ButtonGroup>
-                   <Button active onChange = {this.handleChange.bind(this)} >Male</Button>
-                   <Button  onChange = {this.handleChange.bind(this)}>Female</Button>
-                </ButtonGroup> */}
-
-
-
-               {/* <Button variant="outline-primary" onChange = {this.handleChange.bind(this)}>Male</Button>
-               <Button variant="outline-secondary" onChange = {this.handleChange.bind(this)}>Female</Button> */}
-              {/* </div> */}
-  
-              
-              <Button variant="primary" onClick ={this.OnClick1.bind(this)}>Sign up</Button>
-  
-             </form>
-           </div>
-  
-        </div>
-      );
-    }
-  
-
-} 
-  
-
-export default SignUp;
-
-
-
+export default SignUp

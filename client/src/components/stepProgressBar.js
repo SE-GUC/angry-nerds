@@ -44,7 +44,7 @@ class StepProgressBar extends React.Component {
       <ProgressBar
 
         percent={x}
-        filledBackground="linear-gradient(to right, #fefb72, #f0bb31)"
+        filledBackground="linear-gradient(to right, #286090, #284a90)"
         width="70%"
       >
         <Step transition="scale">

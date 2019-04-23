@@ -1,60 +1,193 @@
 import React, { Component } from 'react';
-import axios from 'axios';
+import CaseCard from '../components/CaseCard'
+import LawyerToolbar from '../components/LawyerToolbar'
+import Spinner from 'react-bootstrap/Spinner'
+import CardDeck from 'react-bootstrap/CardDeck'
+import Card from "react-bootstrap/Card";
+import axios from 'axios'
+import Button from 'react-bootstrap/Button'
 
+
+    const bg = "light"
+    const text = "black"
 class Companies extends Component {
-    state = {
-     pubCases:[],
-     pendCases:[],
+
+  state = {
+    pubCases:[],
+    pendCases:[],
+    lang: "En" 
+   
+  }
+
+  componentDidMount() {
+    try{
+    axios.get('http://localhost:3000/viewMyPublishedCompanies').then(
+    res => this.setState({pubCases: res.data.data}))
+    axios.get('http://localhost:3000/viewMyPendingCompanies').then(
+    res => this.setState({pendCases: res.data.data}))
     
-    }
+    } 
+    catch(error){
+        console.log(error)
+    }  
+}
 
-    componentDidMount() {
-        try{
-        axios.get('http://localhost:3000/viewMyPublishedCompanies').then(
-        res => this.setState({pubCases: res.data.data}))
-        axios.get('http://localhost:3000/viewMyPendingCompanies').then(
-        res => this.setState({pendCases: res.data.data}))
+
+
+
+  
+      Pub(){
+          return (this.state.pubCases.map( (aCase) => 
+          <div className="p-1" >
+          <Card bg={bg} text={text} >
+            <Card.Header>
+            <div className="float-left">{aCase.english_name}</div>
+            </Card.Header>
+      
+            <Card.Body>
+              <div className="ml-auto p-2 bd-highlight">
+                <Card.Text className="float-left" style ={{textAlign:"left"}}>
+        Case ID: <samp>{aCase._id} </samp>
+        <br />
+        Case Type: {aCase.form_type}$
         
-        } 
-        catch(error){
-            console.log(error)
-        }  
-    }
- reMap(){  
-    return ( this.state.pendCases.map((aCase) => 
-    ( <div>
-    <a href=' '> {aCase.english_name}</a> 
+                 
+                  </Card.Text><Button 
+                 className="float-right"
+          style ={{backgroundColor:'#286090',border:'#286090'}} disabled>
+          <a href=' ViewMyCompany/aCase._id'> View Case </a> 
+        </Button>
+              </div>
+            </Card.Body>
+            </Card>
     
-        </div>
-
-    )))
-
-}
-    reMapPub(){
-
-    return ( this.state.pubCases.map((aCase) => 
-        ( <div>
-        <a href=' '> {aCase.english_name}</a> 
-        </div>
-        )))
-    }
-
-render() {
-    console.log("test")
-    return(
-        <div>
-    <h1>Published companies</h1>
-    {this.reMapPub()}
-        <h2>Pending companies</h2>
-        {this.reMap()}
-        </div>
-
-        )
+    </div>
+      
         
+       )) }
 
+       PubAr(){
+        return (this.state.pubCases.map( (aCase) => 
+        <div className="p-1" >
+        <Card bg={bg} text={text} >
+          <Card.Header>
+          <div className="float-left">{aCase.arabic_name}</div>
+          </Card.Header>
+    
+          <Card.Body>
+            <div className="ml-auto p-2 bd-highlight">
+              <Card.Text className="float-left" style ={{textAlign:"right"}}>
+      رقم القضية: <samp>{aCase._id} </samp>
+      <br />
+      {aCase.form_type} $نوع القضية: 
+      
+               
+                </Card.Text>
+                <Button 
+                 className="float-right"
+          style ={{backgroundColor:'#286090',border:'#286090'}} disabled>
+          <a href=' ViewMyCompany/aCase._id'> تابع القضية </a> 
+        </Button>
+            </div>
+          </Card.Body>
+          </Card>
+  
+  </div>
+    
+      
+     )) }
+     
+     Pend(){
+        return (this.state.pendCases.map( (aCase) => 
+        <div className="p-1" >
+        <Card bg={bg} text={text} >
+          <Card.Header>
+          <div className="float-left">{aCase.english_name}</div>
+          </Card.Header>
+    
+          <Card.Body>
+            <div className="ml-auto p-2 bd-highlight">
+              <Card.Text className="float-left" style ={{textAlign:"left"}}>
+      Case ID: <samp>{aCase._id} </samp>
+      <br />
+      Case Type: {aCase.form_type}$
+      
+               
+                </Card.Text>
+                <Button 
+                 className="float-right"
+          style ={{backgroundColor:'#286090',border:'#286090'}} disabled>
+          <a href=' ViewMyCompany/aCase._id'> View Case </a> 
+        </Button>
+            </div>
+          </Card.Body>
+          </Card>
+  
+  </div>
+    
+      
+     )) }
+     
+     PendAr(){
+        return (this.state.pendCases.map( (aCase) => 
+        <div className="p-1" >
+        <Card bg={bg} text={text} >
+          <Card.Header>
+          <div className="float-left">{aCase.arabic_name}</div>
+          </Card.Header>
+    
+          <Card.Body>
+            <div className="ml-auto p-2 bd-highlight">
+              <Card.Text className="float-left" style ={{textAlign:"left"}}>
+     رقم القضية: <samp>{aCase._id} </samp>
+      <br />
+      نوع القضية: {aCase.form_type}$
+      
+               
+                </Card.Text>
+                <Button 
+                 className="float-right"
+          style ={{backgroundColor:'#286090',border:'#286090'}} disabled>
+          <a href=' ViewMyCompany/aCase._id'> تابع القضية</a> 
+        </Button>
+            </div>
+          </Card.Body>
+          </Card>
+  
+  </div>
+    
+      
+     )) }
 
-            
-      }
+ 
+
+  
+
+  render() { 
+          if(this.state.lang === "En"){
+            return(
+      <div>
+           <h1>Published companies</h1>
+      {this.Pub()}
+         <h1>Pending companies</h1>
+         {this.Pend()}
+          
+</div>
+    )
+            }else{
+        return(
+            <div>
+                 <h1>قواضي نشرت</h1>
+            {this.PubAr()}
+               <h1>قواضي لم تنشر بعد</h1>
+               {this.PendAr()}
+                
+      </div>
+         ) }
+  
+  }
 }
+
+
 
 export default Companies;

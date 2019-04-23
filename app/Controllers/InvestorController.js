@@ -13,6 +13,7 @@ const pdfMakePrinter = require("pdfmake/src/printer");
 
 const pdfMake = require('pdfmake')
 
+const Laws = require('./../models/Laws')
 const Reviewer = require("./../models/Reviewer");
 const Lawyer = require("./../models/Lawyer");
 const config = require("../../config/mailer");
@@ -20,7 +21,7 @@ const tokenKey = config.tokenKey;
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const axios = require("axios");
-var passport = require("passport");
+const passport = require("passport");
 require("../../config/passport")(passport);
 
 let InvestorController = {
@@ -36,7 +37,6 @@ let InvestorController = {
 
         console.log(req.body);
         const invID = "5ca772654d70710fa843bd5f"; //get this from login token
-
         const CaseID = req.body.caseID;
         const myCase = await Case.findById(CaseID);
         const inv = await Investor.findOne({ _id: invID });
@@ -46,7 +46,7 @@ let InvestorController = {
         if (myCase.caseStatus !== "pending") {
             console.log(myCase);
             return res
-                .status(200)
+                .status(400)
                 .json({ message: "company is not ready for payment" });
         }
 
@@ -63,7 +63,7 @@ let InvestorController = {
                 async function (err, token) {
                     console.log("myError");
                     console.log(err);
-                    if (err) return res.json({ message: "card declined" });
+                    if (err) return res.status(400).json({ message: "card declined" });
                     else {
                         //use axios to get amount
                         const response = await axios.get(
@@ -72,7 +72,7 @@ let InvestorController = {
                         console.log("the response is :", response);
                         const chargeAmount = response.data.fees * 100;
                         console.log("my charge amount is:   " + chargeAmount);
-                        var charge = stripe.charges.create(
+                        const charge = stripe.charges.create(
                             {
                                 amount: chargeAmount,
                                 currency: "usd", // currency from database case
@@ -80,7 +80,7 @@ let InvestorController = {
                             },
                             async function (err) {
                                 if (err) {
-                                    return res.json({
+                                    return res.status(400).json({
                                         message: "your card is declined, try again!" + err
                                     });
                                 } else {
@@ -121,7 +121,7 @@ let InvestorController = {
                 }
             );
         } else
-            return res.json({
+            return res.status(400).json({
                 message: "you cannot pay for a company that is not yours"
             });
 
@@ -167,8 +167,6 @@ let InvestorController = {
         try {
             const id = "5c93ac9555b21722fc46eb9b"; //From Token
             const investor = await Investor.findById(id);
-
-
 
             if (!investor) {
                 return res
@@ -224,7 +222,7 @@ let InvestorController = {
                 return res
                     .status(404)
                     .send({ error: "The form you are trying to update does not exist" });
-            var updatedForm = await Case.findByIdAndUpdate(id, req.body);
+            const updatedForm = await Case.findByIdAndUpdate(id, req.body);
             res.json({ msg: "Form updated successfully" });
         } catch (error) {
             return res.status(404).send({ error: "Form cant be updated" });
@@ -337,7 +335,8 @@ let InvestorController = {
     */
     investorMyNotifications: async function (req, res) {
         try {
-            const id = '5cabaf8dd20243280c5c96f0'
+            // const id = '5ca772654d70710fa843bd5f'
+            const id = req.params.id
             let investor = await Investor.findById(id)
             if (!investor) {
                 return res.status(404).json({ error: 'Cannot find an investor account with this ID' })
@@ -369,7 +368,7 @@ let InvestorController = {
     viewMyPublishedCompanies: async function (req, res) {
         try {
             // const id = req.params.id
-            const ids = '5cabaf8dd20243280c5c96f0' // will take from login
+            const ids = '5cbdc3fb68600e2298ebdded' // will take from login
             let investor = await Investor.findById(ids)
             if (!investor) {
                 return res.status(404).json({ error: 'Cannot find an investor account with this ID' })
@@ -398,7 +397,7 @@ let InvestorController = {
     viewMyPendingCompanies: async function (req, res) {
         try {
             //  const id = req.params.id
-            const ids = '5cabaf8dd20243280c5c96f0' // will take from login
+            const ids = '5cbdc3fb68600e2298ebdded' // will take from login
             let investor = await Investor.findById(ids)
             if (!investor) {
                 return res.status(404).json({ error: 'Cannot find an investor account with this ID' })
@@ -860,10 +859,10 @@ generatePdf: async function(req, res) {
 //Displaying a List of all published companies
 InvestorViewingPublishedCompanies: async (req, res) => {
     try {
-        var Cas = await Case.find({ caseStatus: "published" }, projx);
+        const Cas = await Case.find({ caseStatus: "published" }, projx);
 
-        for (var i = 0; i < Cas.length; i++) {
-            var projx = {
+        for (const i = 0; i < Cas.length; i++) {
+            const projx = {
                 _id: 0,
                 reviewerID: 0,
                 lawyerID: 0,
@@ -884,11 +883,11 @@ InvestorViewingPublishedCompanies: async (req, res) => {
     //Viewing One specific Company
     InvestorViewingCompany: async (req, res) => {
         const id = req.params.id;
-        var Cas = await Case.findById(id);
+        const Cas = await Case.findById(id);
 
         try {
             if (Cas.caseStatus == "published") {
-                var proj1 = {
+                const proj1 = {
                     _id: 0,
                     reviewerID: 0,
                     lawyerID: 0,
@@ -910,24 +909,24 @@ InvestorViewingPublishedCompanies: async (req, res) => {
         //Viewing a specific User of any type
 
         InvestorViewing: async (req, res) => {
-            var proj = { _id: 0, password: 0 };
-            var projy = { _id: 0, password: 0, ratings: 0 };
+            const proj = { _id: 0, password: 0 };
+            const projy = { _id: 0, password: 0, ratings: 0 };
             try {
-                const id = req.params.id;
-                const Inv = await Investor.findById(id, proj);
-                const Revs = await Reviewer.findById(id, proj);
-                const Adm = await Admins.findById(id, proj);
-                const Lawy = await Lawyer.findById(id, projy);
-                if (Inv) res.json({ message: "investor", data: Inv });
-                else if (Revs) res.json({ message: "Rev", data: Revs });
-                else if (Lawy) res.json({ message: "lawyer", data: Lawy });
-                else if (Adm) res.json({ message: "Admin", data: Adm });
-                else {
-                    res.json({ message: "User does not exist" });
-                }
-            } catch (error) {
-                console.log(error);
+                const id = req.params.id
+                const Inv = await Investor.findById(id, proj)
+               
+                if(Inv)
+                res.json({ message:'investor' ,data: Inv})
+                    else {
+                        res.json({message: 'User does not exist'})
+            
+                    }
             }
+            catch (error) {
+            console.log(error)
+            }
+            
+            
         },
 
             uploadFile: (req, res, next) => {
@@ -965,7 +964,7 @@ InvestorViewingPublishedCompanies: async (req, res) => {
                         }
 
                         if (aCase.investorID == invID && aCase.lawyerID == id) {
-                            var newrate = [{ 'investorID': invID, 'CaseID': CasID, 'rating': Ratin, 'Comment': Comm }]
+                            const newrate = [{ 'investorID': invID, 'CaseID': CasID, 'rating': Ratin, 'Comment': Comm }]
                             console.log(newrate)
                             const updat = await Lawyer.findOneAndUpdate(id, { $push: { ratings: newrate } })
                             res.json({ msg: 'Rating placed', Data: updat })
@@ -1003,14 +1002,14 @@ InvestorEditProfile: async (req, res) => {
 
 
     forgotpassword: async (req, res) => {
-        var userEmail = req.body.email;
+        const userEmail = req.body.email;
         Investor.findOne({ email: userEmail }, function (err, user) {
             if (err) {
                 res.json({ success: false, message: err.message });
             } else if (!user) {
                 res.json({ success: false, message: "incorrect email" });
             } else {
-                var token = jwt.sign(
+                const token = jwt.sign(
                     {
                         _id: Investor._id,
                         firstname: user.firstname,
@@ -1053,10 +1052,9 @@ InvestorEditProfile: async (req, res) => {
             }
         });
     },
-
         resetpassword: function(req, res) {
-            var userToken = req.params.token;
-            var newPassword = req.body.password;
+            const userToken = req.params.token;
+            const newPassword = req.body.password;
             Investor.findOne({ token: userToken }, function (err, user) {
                 if (err) {
                     res.json({
@@ -1082,7 +1080,53 @@ InvestorEditProfile: async (req, res) => {
                     });
                 }
             });
+        },
+
+     //this function called in frontend to make the investor be able to know the fees once he/she chooses the regulated law 
+    CalcFeesImmediately: async function (req,res) {
+        console.log('entered function')
+        let fees = 0
+        const regLaw = req.params.lawNumber
+        const capital = req.params.capital
+        const law = await Laws.findOne({ LawNumber: regLaw })        
+        let fixedFees = 0
+        let percentageFees = 0
+        let message = ''
+        if (law){
+        for (let i = 0; i < law.fixedValues.length; i++) {
+            fixedFees = fixedFees + law.fixedValues[i].value
+            message = message + law.fixedValues[i].description + ' : ' + law.fixedValues[i].value + ' , '
         }
+        let temp
+        for (let i = 0; i < law.percentages.length; i++) {
+            if(law.percentages[i].max < law.percentages[i].value/100 * capital){
+                temp = law.percentages[i].max
+                percentageFees = percentageFees + law.percentages[i].max
+            }
+            else{
+                if(law.percentages[i].min > law.percentages[i].value/100 * capital){
+                    temp = law.percentages[i].min
+                    percentageFees = percentageFees + law.percentages[i].min
+                }
+                else{
+                    temp = law.percentages[i].value/100 * capital
+                    percentageFees = percentageFees + law.percentages[i].value/100 * capital
+                }
+            }
+            if (i===law.percentages.length-1){
+                 message = message + law.percentages[i].description + ' : ' + temp 
+            }
+            else{
+                message = message + law.percentages[i].description + ' : ' + temp + ' , '
+            }
+        }
+        const totalFees = fixedFees + percentageFees
+        return res.status(200).json({fees: totalFees, invoice:message}) 
+        }
+        else{
+            res.status(200).json({fees: '', invoice:''})
+        }
+    }
 };
 
 module.exports = InvestorController;
