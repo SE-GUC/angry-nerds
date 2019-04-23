@@ -11,6 +11,7 @@ import signin from "./pages/signin";
 import LawyerHome from "./pages/LawyerHome";
 import Performance from "./pages/Performance";
 import PerformanceHome from "./pages/PerformanceHome";
+import AdminAddLawyer_AR from './components/AdminAddLawyer_AR'
 import ChangePricing from "./pages/ChangePricing";
 import AdminViewLaws from "./pages/AdminViewLaws";
 import AdminEditLaws from "./pages/AdminEditLaws";
@@ -40,6 +41,16 @@ import electronicJournal from "./pages/electronicJournal";
 import PrivateRoute from "./privateRoute";
 import resetPass from "./pages/resetPaassword";
 import stocks from "./components/stocks";
+import AddFormType from './pages/AddFormType';
+import DeleteFormType from './pages/DeleteFormType'
+import UploadPic from "./components/UploadPic";
+import FetchImage from "./components/FetchImage";
+import viewCompany from './pages/viewCompany'
+import AdminAddAdmin_AR from './components/AdminAddAdmin_AR'
+import AdminAddReviewer_AR from './components/AdminAddReviewer_AR'
+
+
+
 //import Noti from './pages/Noti';
 import about from "./pages/About";
 import changePassword from "./pages/ChangePassword";
@@ -103,6 +114,16 @@ class App extends Component {
                 <Route exact path="/electronicjournal" component={electronicJournal} />
                 <Route exact path="/AddReviewer" component={AddReviewer} />
                 <Route exact path="/LawyerForm" component={LawyerForm} />
+                <Route exact path="/AddFormType" component={AddFormType} />
+                
+                <Route exact path="/viewCompany/:id" component={viewCompany}
+                />
+
+                {/* <Route exact path="/signUp" component={signup} /> */}
+                <Route exact path="/AdminAddLawyer_AR" component={AdminAddLawyer_AR} />
+
+                <Route exact path="/AdminAddReviewer_AR" component={AdminAddReviewer_AR}  />
+                <Route exact path="/AdminAddAdmin_AR" component={AdminAddAdmin_AR} />
                 <Route exact path="/verify/:tok" component={Verify} />
                 <Route exact path="/anotherMail/:tok" component={anotherMail} />
                 <Route exact path="/ForgetPassword" component={ForgetPassword} />

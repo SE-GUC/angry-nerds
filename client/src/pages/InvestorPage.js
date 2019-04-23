@@ -17,14 +17,14 @@ const image4 =require('../Images/fawry.png')
 
 
 const SideNavbarStyle = {
-    backgroundColor: '#286090',
-    height:1800,
-    width:190,
-    left:-120,
-    top:-22
-    
-   
-    
+  backgroundColor: '#286090',
+  height:900,
+  width:190,
+  left:0,
+  top:0
+  
+ 
+  
 };
 
 export class InvestorPage extends Component {

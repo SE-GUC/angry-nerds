@@ -29,7 +29,7 @@ export class AddFormType extends Component {
     change(event){
 
         this.setState({
-            model: JSON.parse(event)
+            model: event
         })
 
         console.log(this.state.model)
@@ -62,13 +62,13 @@ export class AddFormType extends Component {
             });
         }
         catch (e) {
-          console.log(e.response.data.message)
+          console.log(e)
           this.setState({
             alert:true,
-            alertMessage:e.response.data.message,
+            alertMessage:'syntax error',
             alertColor:'danger'
           });
-        }
+      }
     }
     onDismiss() {
       this.setState({
