@@ -46,6 +46,7 @@ import DeleteFormType from './pages/DeleteFormType'
 import UploadPic from "./components/UploadPic";
 import FetchImage from "./components/FetchImage";
 import viewCompany from './pages/viewCompany'
+import InvestorEditForm from './pages/InvestorEditForm'
 
 //import Noti from './pages/Noti';
 import about from "./pages/About";
@@ -119,6 +120,8 @@ class App extends Component {
                 
                 <Route exact path="/viewCompany/:id" component={viewCompany}
                 />
+
+                <Route exact path="/InvestorEditForm/:id" component={InvestorEditForm}/>
                 {/* <Route exact path="/signUp" component={signup} /> */}
                 <Route exact path="/AdminAddLawyer_AR" component={AdminAddLawyer_AR} />
 

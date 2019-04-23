@@ -18,7 +18,7 @@ import "@fortawesome/fontawesome-free/css/all.min.css";
 
 const store = createStore(reducer)
 
-const store = createStore(rootReducer, initialState)
+// const store = createStore(rootReducer, initialState)
 
 
 
