@@ -11,11 +11,10 @@ import signin from "./pages/signin";
 import LawyerHome from "./pages/LawyerHome";
 import Performance from "./pages/Performance";
 import PerformanceHome from "./pages/PerformanceHome";
-
+import AdminAddLawyer_AR from './components/AdminAddLawyer_AR'
 import ChangePricing from "./pages/ChangePricing";
 import AdminViewLaws from "./pages/AdminViewLaws";
 import AdminEditLaws from "./pages/AdminEditLaws";
-
 import LawyerOpenCase from "./pages/LawyerOpenCase";
 import AddLawyer from "./components/AddLawyer";
 import AdminAddLawyer from "./components/AdminAddLawyer";
@@ -46,7 +45,10 @@ import DeleteFormType from './pages/DeleteFormType'
 import UploadPic from "./components/UploadPic";
 import FetchImage from "./components/FetchImage";
 import viewCompany from './pages/viewCompany'
-import InvestorEditForm from './pages/InvestorEditForm'
+import AdminAddAdmin_AR from './components/AdminAddAdmin_AR'
+import AdminAddReviewer_AR from './components/AdminAddReviewer_AR'
+
+
 
 //import Noti from './pages/Noti';
 import about from "./pages/About";
@@ -117,6 +119,7 @@ class App extends Component {
                 <PrivateRoute exact path="/createCase" allowedUsers={['investor','lawyer']} component={CreateCase} />
                 <Route exact path="/InvestorForm" component={InvestorForm} />
                 <Route exact path="/LawyerForm" component={LawyerForm} />
+                <Route exact path="/AddFormType" component={AddFormType} />
                 
                 <Route exact path="/viewCompany/:id" component={viewCompany}
                 />
