@@ -79,10 +79,10 @@ const ddItem4={
 
 const SideNavbarStyle = {
     backgroundColor: '#286090',
-    height:1300,
+    height:900,
     width:190,
-    left:-120,
-    top:-22
+    left:0,
+    top:0
     
    
     
