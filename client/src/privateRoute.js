@@ -12,35 +12,39 @@ const PrivateRoute =  ({
   allowedUserFlag=false,
   allowedUsers : allowed ,
   redirect : pathname,
-  userHome = '/signin',
+  userHome = '',
   ...rest
 }) => {
   
-
   const storedToken = localStorage.getItem('jwtToken')
-
-
   if (!storedToken){
     isAuthenticated = false
+    console.log("HEREEEEEEEEEEEEEEEEEE1",localStorage.getItem('jwtToken'))
   }else{
     const str = storedToken.replace('Bearer ','')
     const tok = jwt.decode(str)
-    if ( (tok.exp-Date.now()) <= 0){
+    console.log(tok.exp,' + ',Date.now())
+    if ( ((tok.exp*1000)-Date.now()) <= 0){
+      console.log("HEREEEEEEEEEEEEEEEEEE2")
     isAuthenticated = false
     localStorage.removeItem('jwtToken')
     delete axios.defaults.headers.common['Authorization'] 
   }else{
-    isAuthenticated = true   
-    if (allowed.indexOf(tok.type)<=0){
+    isAuthenticated = true  
+    console.log(allowed,tok.type)
+    console.log(allowed.indexOf(tok.type)) 
+    if (allowed.indexOf(tok.type)<0){
       allowedUserFlag=false
+      console.log("HEREEEEEEEEEEEEEEEEEE3")
       switch(tok.type){
         case 'investor' : userHome = '/InvestorPage'; break ;
         case 'lawyer' : userHome = '/LawyerHome' ; break ;
         case 'reviewer' : userHome = '/ReviewerHome';break ;
         case 'admin' : userHome = '/AdminPage' ;break ;
         default : userHome = '/signin'
-      }    
+      }
     }else{
+      console.log("HEREEEEEEEEEEEEEEEEEE4")
       allowedUserFlag=true
     }
   }
@@ -62,12 +66,6 @@ const PrivateRoute =  ({
   )
 }
 
-PrivateRoute.defaultProps = { redirect: '/signin' }
 
-PrivateRoute.propTypes = {
-  isAuthenticated: PropTypes.bool.isRequired,
-  component: PropTypes.func.isRequired,
-  redirect: PropTypes.string,
-}
 
 export default PrivateRoute
