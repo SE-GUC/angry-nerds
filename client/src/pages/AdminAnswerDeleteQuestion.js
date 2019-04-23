@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios'
 import AnswerDeleteQuestion from '../components/AnswerDeleteQuestion'
-import {Input, Form, Label, Button} from 'reactstrap'
+import {Input, Form, Label} from 'reactstrap'
 
 
 
