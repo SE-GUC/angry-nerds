@@ -22,18 +22,13 @@ const passport = require("passport");
 require("../../config/passport")(passport);
 
 let InvestorController = {
-    //authenticate: passport.authenticate("jwt", { session: false }),
-
-    /* 
-      this is a function that takes a request body that contains credit card info
-      it creates a token of this info and then it creates a charge
-      when the payment is successfully complete the case status is changed to published
-      */
+   
+    authenticate: passport.authenticate("jwt", { session: false }),
 
     InvestorPayFees: async function (req, res) {
 
         console.log(req.body);
-        const invID = "5ca772654d70710fa843bd5f"; //get this from login token
+        const invID = req.user.id //get this from login token
         const CaseID = req.body.caseID;
         const myCase = await Case.findById(CaseID);
         const inv = await Investor.findOne({ _id: invID });
@@ -127,7 +122,7 @@ let InvestorController = {
 
     InvestorViewFees: async function (req, res) {
         try {
-            const id = req.params.id;
+            const id = req.user.id;
             const projection = { _id: 0, Fees: 1 };
             const Cases = await Case.findById(id, projection);
             if (!Cases) {
@@ -162,7 +157,7 @@ let InvestorController = {
 
     investorFillForm: async (req, res) => {
         try {
-            const id = "5c93ac9555b21722fc46eb9b"; //From Token
+            const id = req.user.id //From Token
             const investor = await Investor.findById(id);
 
             if (!investor) {
@@ -208,7 +203,7 @@ let InvestorController = {
     investorUpdateForm: async (req, res) => {
         try {
             const id = req.params.id;
-            const investorid = "5c9911dcb757601b7c691fa6";
+            const investorid = req.user.id;
             const investor = await Investor.findById(investorid);
             const form = await Case.findById(id);
             if (!investor)
@@ -264,7 +259,7 @@ let InvestorController = {
 
     investorViewProfile: async (req, res) => {
         try {
-            const investorId = '5cae8dce70fe6265f034aa00'
+            const investorId = req.user.id
             const investor = await Investor.findById(investorId)
             if (!investor)
                 return res.status(404).send({ error: 'Investor doesnt exist ' });
@@ -332,7 +327,6 @@ let InvestorController = {
     */
     investorMyNotifications: async function (req, res) {
         try {
-            // const id = '5ca772654d70710fa843bd5f'
             const id = req.params.id
             let investor = await Investor.findById(id)
             if (!investor) {
@@ -365,7 +359,7 @@ let InvestorController = {
     viewMyPublishedCompanies: async function (req, res) {
         try {
             // const id = req.params.id
-            const ids = '5cbdc3fb68600e2298ebdded' // will take from login
+            const ids = req.user.id // will take from login
             let investor = await Investor.findById(ids)
             if (!investor) {
                 return res.status(404).json({ error: 'Cannot find an investor account with this ID' })
@@ -394,7 +388,7 @@ let InvestorController = {
     viewMyPendingCompanies: async function (req, res) {
         try {
             //  const id = req.params.id
-            const ids = '5cbdc3fb68600e2298ebdded' // will take from login
+            const ids = req.user.id // will take from login
             let investor = await Investor.findById(ids)
             if (!investor) {
                 return res.status(404).json({ error: 'Cannot find an investor account with this ID' })
@@ -624,7 +618,7 @@ InvestorViewingPublishedCompanies: async (req, res) => {
 
 
 InvestorEditProfile: async (req, res) => {
-    const InvestorID = '5cae8dce70fe6265f034aa00' //login token
+    const InvestorID = req.user.id //login token
     const newInvestor = await Investor.findById(InvestorID)
     if (!newInvestor)
         return res.status(400).json({ error: 'Not an investor' })

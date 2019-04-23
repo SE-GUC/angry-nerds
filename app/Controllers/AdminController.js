@@ -70,7 +70,7 @@ let AdminController = {
         try {
             mongoose.set('useFindAndModify', false)
             const id = req.params.id
-            const AdminId = '5cae9507646b4841fcd6478f' //login token
+            const AdminId = req.user.id //login token
             const Investors = await Investor.findById(id)
             const Admin = await Admins.findById(AdminId)
 
@@ -92,7 +92,7 @@ let AdminController = {
         }
     },
     AdminRegisterReviewer: async (req, res) => {
-        const AdminId = '5cae9507646b4841fcd6478f' //login token
+        const AdminId = req.user.id //login token
         const Admin = await Admins.findById(AdminId)
         if (!Admin)
             return res.status(403).json({ error: 'Only Admins have access' })
@@ -114,7 +114,7 @@ let AdminController = {
         */
     AdminEditCompany: async function (req, res) {
 
-        const AdminID = '5c9bb0dc5185793518ea84fb' //get this from login toked later
+        const AdminID = req.user.id//get this from login toked later
         const id = req.params.id //this represents the id of the case being edited
 
         const admin = await Admins.findById(AdminID).catch((err) => {
@@ -145,7 +145,7 @@ let AdminController = {
     },
 
     AdminRegisterLawyer: async (req, res) => {
-        const AdminId = '5c9bb0dc5185793518ea84fb' //login token
+        const AdminId = req.user.id //login token
         const Admin = await Admins.findById(AdminId)
         if (!Admin)
             return res.status(403).json({ error: 'Only Admins have access' })
@@ -208,7 +208,7 @@ let AdminController = {
         main().catch(console.error);
     },
     AdminRegisterAdmin: async (req, res) => {
-        const AdminId = '5cae9507646b4841fcd6478f' //login token
+        const AdminId = req.user.id //login token
         const Admin = await Admins.findById(AdminId)
         if ((!Admin) || (Admin && Admin.Type !== 'Super'))
             return res.status(403).json({ error: 'Only super admins have access' })
@@ -231,7 +231,7 @@ let AdminController = {
         try {
             mongoose.set('useFindAndModify', false)
             const id = req.params.id
-            const AdminId = '5cae9507646b4841fcd6478f' //login token
+            const AdminId = req.user.id //login token
             const Admin = await Admins.findById(AdminId)
 
             if ((!Admin) || (Admin && Admin.Type !== 'Super'))
@@ -325,7 +325,7 @@ let AdminController = {
 
     adminViewLawyersLeaderBoard: async (req, res) => {
         try {
-            const adminid = '5c9bb0dc5185793518ea84fb'
+            const adminid = req.user.id
             const admin = await Admin.findById(adminid)
             if (!admin)
                 return res.status(404).send({ error: 'You are not allowed to view the Leaderboard' });
@@ -345,7 +345,7 @@ let AdminController = {
 
     adminViewReviewersLeaderBoard: async (req, res) => {
         try {
-            const adminid = '5c9bb0dc5185793518ea84fb'
+            const adminid = req.user.id
             const admin = await Admin.findById(adminid)
             if (!admin)
                 return res.status(404).send({ error: 'You are not allowed to view the Leaderboard' });
@@ -493,7 +493,7 @@ let AdminController = {
     AdminDeleteLawyer: async function (req, res) {
 
         try {
-            const Admin = await Admins.findById('5c9bb0dc5185793518ea84fb')
+            const Admin = await Admins.findById(req.user.id)
             const LawyerID = req.params.id
             if (Admin) {
                 mongoose.set('useFindAndModify', false)
@@ -562,7 +562,7 @@ let AdminController = {
     AdminDeleteReviewer: async function (req, res) {
 
         try {
-            const Admin = await Admins.findById('5c9bb0dc5185793518ea84fb')//get from login
+            const Admin = await Admins.findById(req.user.id)//get from login
             const ReviewerID = req.params.id
             if (Admin) {
 
@@ -789,7 +789,7 @@ AdminDeleteQuestion: async (req, res) => {
    try {
         mongoose.set('useFindAndModify', false)
         const id = req.params.id
-        const AdminId = '5c9bb0dc5185793518ea84fb' //login token
+        const AdminId = req.user.id //login token
         const Admin = await Admins.findById(AdminId)
         const Ques = await Question.findById(id)
          if (!Admin)
@@ -812,7 +812,7 @@ AdminDeleteCase: async (req, res) => {
         mongoose.set('useFindAndModify', false)
         const id = req.params.id
         const aCase = await Case.findById(id)
-        const AdminId = '5cae9507646b4841fcd6478f' //login token
+        const AdminId = req.user.id //login token
         const Admin = await Admins.findById(AdminId)
         if ((!Admin) || (Admin && Admin.Type !== 'Super'))
             return res.status(403).json({ error: 'Only super admins have access' })
@@ -836,7 +836,7 @@ AdminDeleteCase: async (req, res) => {
     AdminAssignLawyer: async function (req, res) {
 
         try {
-            var x = '5c9bb0dc5185793518ea84fb' //get from login token
+            var x = req.user.id //get from login token
             const admin = await Admin.findById(x)
             //console.log(admin)
             if (admin) {
@@ -873,7 +873,7 @@ AdminDeleteCase: async (req, res) => {
     AdminAssignReviewer: async function (req, res) {
 
         try {
-            var x = "5c9bb0dc5185793518ea84fb"
+            var x = req.user.id
             const admin = await Admin.findById(x)
             console.log(admin)
             if (admin) {
@@ -911,7 +911,6 @@ AdminDeleteCase: async (req, res) => {
         const user = await Investor.findOne({ email: email })
         console.log(user)
         if (user) {
-
             //compose an email
             const html = 'Hi there, <br/> Kindly find Attached the contract '
 
@@ -1033,7 +1032,7 @@ AdminDeleteCase: async (req, res) => {
 
     AdminAnswerQuestions: async function (req, res) {
 
-        const AdminID = '5c9bb0dc5185793518ea84fb' 
+        const AdminID = req.user.id
         const questionId = req.params.id 
 
         const admin = await Admins.findById(AdminID).catch((err) => {
