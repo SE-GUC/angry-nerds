@@ -210,7 +210,7 @@ let ReviewerController = {
 
   reviewerViewReviewersLeaderBoard: async (req, res) => {
     try {
-      const reviewerid = "5caedcb44452700f484617ac";
+      const reviewerid = "5caedcb44452700f484617ac";  //token
       const reviewer = await Reviewer.findById(reviewerid);
       if (!reviewer)
         return res

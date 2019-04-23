@@ -54,13 +54,15 @@ import setAuthToken from "./helpers/setAuthToken";
 import tryComponent from "./pages/tryComponent"
 import anotherMail from "./pages/anotherMail"
 import ForgetPassword from "./pages/forgetPassword"
-<<<<<<< HEAD
+
+import AdminAnswerDeleteQuestion from "./pages/AdminAnswerDeleteQuestion"
+
+
 import Faq from './pages/FAQ'
-=======
->>>>>>> react_dev
 import InvestorPage from "./pages/InvestorPage";
 import InvestorPageAR from "./pages/InvestorPageAR";
 import ControlledCarousel from './components/ControlledCarousel'
+
 library.add(faStroopwafel);
 
 if (localStorage.jwtToken){
@@ -172,7 +174,12 @@ class App extends Component {
                 />
                  <Route exact path="/me" component={NotFound} />
                 <Route exact path="/verify/:tok" component={Verify} />
-                  
+                <Route exact path="/anotherMail/:tok" component={anotherMail} />
+                <Route exact path="/ForgetPassword" component={ForgetPassword} />
+                <Route exact path="/AdminAnswerDeleteQuestion" component={AdminAnswerDeleteQuestion} />
+
+
+                
               </div>
             {/* </div> */}
             <Route exact path="*" component={NotFound} />

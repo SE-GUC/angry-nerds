@@ -254,8 +254,8 @@ let AdminController = {
 
     adminViewComment: async (req, res) => {
         try {
-            const formid = '5caea6d0656a5b5b52c79e9f'
-            const adminid = '5c9bb0dc5185793518ea84fb'
+            const formid = req.params.idf;
+            const adminid = '5c9bb0dc5185793518ea84fb' //tokennnnnnnnnnn
             const admin = await Admins.findById(adminid)
             const form = await Case.findById(formid)
             if (!form)
@@ -325,7 +325,7 @@ let AdminController = {
 
     adminViewLawyersLeaderBoard: async (req, res) => {
         try {
-            const adminid = '5c9bb0dc5185793518ea84fb'
+            const adminid = '5c9bb0dc5185793518ea84fb' //tokeeeeeeeeeennnnnn
             const admin = await Admin.findById(adminid)
             if (!admin)
                 return res.status(404).send({ error: 'You are not allowed to view the Leaderboard' });
@@ -345,7 +345,7 @@ let AdminController = {
 
     adminViewReviewersLeaderBoard: async (req, res) => {
         try {
-            const adminid = '5c9bb0dc5185793518ea84fb'
+            const adminid = '5c9bb0dc5185793518ea84fb' //tokennnnnnnnnnnnn
             const admin = await Admin.findById(adminid)
             if (!admin)
                 return res.status(404).send({ error: 'You are not allowed to view the Leaderboard' });
@@ -789,7 +789,7 @@ AdminDeleteQuestion: async (req, res) => {
    try {
         mongoose.set('useFindAndModify', false)
         const id = req.params.id
-        const AdminId = '5c9bb0dc5185793518ea84fb' //login token
+        const AdminId = '5c9bb0dc5185793518ea84fb' // tokennnnnnnnn
         const Admin = await Admins.findById(AdminId)
         const Ques = await Question.findById(id)
          if (!Admin)
@@ -1089,21 +1089,29 @@ AdminDeleteCase: async (req, res) => {
     },
 
     AdminAnswerQuestions: async function (req, res) {
+        try{
 
-        const AdminID = '5c9bb0dc5185793518ea84fb' 
+        const AdminID = '5c9bb0dc5185793518ea84fb' //tokennnnnnnnnnnnnnnnn
         const questionId = req.params.id 
 
         const admin = await Admins.findById(AdminID).catch((err) => {
             res.json({ message: 'you are not authorized' })
         })
 
-        const question = await Question.findById(id).catch((err) => {
+        const question = await Question.findById(questionId).catch((err) => {
             res.json({ message: 'This is not a valid question ID' })
         })
 
         if (question) {
             if (admin) {
                 const answered = await Question.findByIdAndUpdate(questionId, req.body)
+                console.log(answered)
+                console.log(answered.question)
+                console.log(answered.answer)
+                console.log(answered.email)                
+               // const html = 'Hi there, <br/> Thank you for your question:'+answered.question+' <br/><br/> The Answer for your question is:'+answered.answer+' </br></br> If you still have any questions please do not hesitate to ask us '
+                //await mailer.sendEmail(config.user, answered.email, 'Your Question is Answered', html)
+                
                 return res.json({
                     message: 'you have answered the required question successfully', data: answered
                 })
@@ -1117,6 +1125,11 @@ AdminDeleteCase: async (req, res) => {
                 message: 'the question you are trying to answer does not exist'
             })
         }
+    }
+    catch(error){
+        console.log(error)
+            res.status(400).json({message: error})
+    }
 
     },
 

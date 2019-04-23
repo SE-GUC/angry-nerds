@@ -211,7 +211,7 @@ let InvestorController = {
     investorUpdateForm: async (req, res) => {
         try {
             const id = req.params.id;
-            const investorid = "5c9911dcb757601b7c691fa6";
+            const investorid = "5c9911dcb757601b7c691fa6";  //tokennnnn
             const investor = await Investor.findById(investorid);
             const form = await Case.findById(id);
             if (!investor)
@@ -231,8 +231,8 @@ let InvestorController = {
 
     investorViewComment: async (req, res) => {
         try {
-            const formid = "5caea6d0656a5b5b52c79e9f";
-            const investorid = "5caea6cf656a5b5b52c79e9e";
+            const formid = req.params.idf;
+            const investorid = "5caea6cf656a5b5b52c79e9e"; //tokennnnnnnn
             const investor = await Investor.findById(investorid);
             const form = await Case.findById(formid);
             /*console.log(form)
@@ -267,7 +267,7 @@ let InvestorController = {
 
     investorViewProfile: async (req, res) => {
         try {
-            const investorId = '5cae8dce70fe6265f034aa00'
+            const investorId = '5cae8dce70fe6265f034aa00' //tokennnn
             const investor = await Investor.findById(investorId)
             if (!investor)
                 return res.status(404).send({ error: 'Investor doesnt exist ' });

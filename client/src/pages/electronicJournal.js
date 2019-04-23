@@ -1,16 +1,22 @@
-import React from 'react';
-import { Table , UncontrolledCollapse, Button, CardBody, Card  } from 'reactstrap';
-import Image from 'react-bootstrap/Image'
+import React, { Component } from 'react';
+
+import {Input, Form, Label} from 'reactstrap'
+
 import axios from 'axios'
-const inag= require('../Images/enterprise.png')
+import MiniJournal from '../components/miniJournal';
 
 
 
-class electronicJournal extends React.Component {
+class electronicJournal extends Component {
 
   state = {
-    companies: []
+      companies: [],
+      filteredCompanies: [],
+      searchTerm: "",
+      companyCount: 0,
+      clicked: ''
   }
+
   componentDidMount() {
     try{
     axios.get('http://localhost:3000/api/Cases').then(
@@ -25,46 +31,62 @@ class electronicJournal extends React.Component {
   }
 
 
+  theCompanies(companies,filteredCompanies){
+    if(this.state.searchTerm.length === 0){
+      return companies.map( (aComp) => 
+         ( <MiniJournal key={aComp._id} comp={aComp} clicked={this.state.clicked} compButton={this.compButton.bind(this)} /> ))
+    }
+    else{
+      console.log('filter')
+      return filteredCompanies.map( (aSerchComp) => 
+      ( <MiniJournal key={aSerchComp._id} comp={aSerchComp} clicked={this.state.clicked} compButton={this.compButton.bind(this)} />) )
+    }    
+  }
+
+  compButton(compID){
+    this.setState({clicked: compID})
+  }
+
+  filter = (e) => {
+      const original = this.state.companies
+      console.log(e.target.value)
+      this.setState({searchTerm: e.target.value})
+      if (e.target.value !== "") {
+        this.setState({filteredCompanies: original.filter(aComp => {
+          if(aComp.english_name){  
+            const lc = aComp.english_name.toLowerCase();
+            const filter = e.target.value.toLowerCase();
+            return lc.includes(filter);
+          }
+          else{
+            return aComp;
+          }  
+        })})
+      }
+    else{
+        this.setState({companies: original})
+    }
+} 
 
   render() {
+
+    
     return (
-       <h1>Companies</h1>,
-      this.state.companies.map((company)=>
-      
-      <div>
-      <Table bordered>
-      
-        
-        <tr>
-        <td><img src={inag} alt="company pic" style={{borderRadius: "8px",width: "150px"}} /> <br></br>
-        {company.english_name}
-        <br></br>{company.form_type} </td>
-          <td><Button color="primary" id="toggler" style={{ marginBottom: '1rem' }}>
-    View More Info
-  </Button>
-  <UncontrolledCollapse toggler="#toggler">
-    <Card>
-      <CardBody>
+     // <MiniJournal/>
+        <div>
+          <Form>
+          <Label>Search</Label>
 
-      Also Known as {company.arabic_name}.
-This Company is under {company.regulated_law}.
- It's in the governorate of {company.governorate}, in {company.city} at {company.address}.
-The main Center Phone: {company.main_center_phone}.
-The main Center Fax: {company.main_center_fax}.
-It has an Equity Capital of {company.equality_capital} and uses the {company.currency} Currency.
-The company is managed by {company.managers.name}.
-
-
-      </CardBody>
-    </Card>
-  </UncontrolledCollapse></td></tr></Table>
-    </div>
-
-      
-      )
-
-      
-    );
-  }
+<Input type="text" placeholder="Find Question..." onChange={this.filter.bind(this)}> Search... </Input>
+            {this.theCompanies(this.state.companies,this.state.filteredCompanies)}
+            </Form>
+        </div>  
+    )
+    }
+    
 }
+
+
+
+
 export default electronicJournal;
