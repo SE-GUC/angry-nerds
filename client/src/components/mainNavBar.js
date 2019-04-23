@@ -10,6 +10,7 @@ import DropdownButton from 'react-bootstrap/DropdownButton'
 import Dropdown from 'react-bootstrap/Dropdown'
 import DropdownType from 'react-bootstrap/Dropdown'
 import axios from "axios"
+import { Route, Redirect } from 'react-router-dom'
 const navbar = {backgroundColor: '#286090'};
 const ids = '5ca772654d70710fa843bd5f';
 
@@ -35,10 +36,13 @@ class mainNavBar extends Component  {
 
   increment = () => {
     this.props.dispatch({type :"INCREMENT"})
+  }
+  switchToEng = () => {
+    this.props.dispatch({type :"SWITCHtoENG"})
         }
     
-        decrement = () => {
-            this.props.dispatch({type :"DECREMENT"})
+        switchToAr = () => {
+            this.props.dispatch({type :"SWITCHtoAR"})
         }
   
  
@@ -60,8 +64,10 @@ class mainNavBar extends Component  {
 
 
     render(){
+    
     return (
         <React.Fragment>
+          {console.log(this.props.lang)}
           <div className=".App__Aside"></div>
   
   <div className="App__Form"></div>
@@ -91,6 +97,15 @@ class mainNavBar extends Component  {
            <button onClick={this.increment}>+</button>
       </div> */}
     {/* =================REDUX TEST========================= */}
+      <Nav.Link href = "/notificat">Notifications</Nav.Link>
+     
+    {/* =============REDUX TEST==============================  */}
+     <div>
+          <button onClick={this.switchToEng} > To ENG</button>
+          <span className="count">{this.props.lang}</span>
+           <button onClick={this.switchToAr}> To AR</button>
+      </div>
+      {/* =================REDUX TEST=========================  */}
     </Nav>
     <Form inline>
       <Button href="/signin"  variant='outline-light'>Sign in</Button>
@@ -103,30 +118,12 @@ class mainNavBar extends Component  {
 
         
   )
-  
     }
 }
 const mapStateToProps = (state) => ({
-  count : state.count 
+  lang : state.lang 
 })
-
-// const mapDispatchToProps = (dispatch) => {
-//   return {
-//     increment : () => dispatch
-//       //this.props.dispatch
-//       ({type :'INCREMENT'}),
-      
-//           decrement : () =>dispatch
-//               //this.props.
-//               ({type :'DECREMENT'})
-          
-//         }
-// }
-
-
-
 
 
 
 export default connect(mapStateToProps)(mainNavBar)
-  // ,mapDispatchToProps

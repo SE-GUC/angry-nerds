@@ -51,7 +51,7 @@ let LawyerController = {
    
   lawyerFillForm: async (req, res) => {
     try {
-      const id = "5c9f69180ec7b72d689dba6d"; //From Token
+      const id =req.user.id //From Token
       const lawyer = await Lawyer.findById(id);
 
       if (!lawyer)
@@ -87,7 +87,7 @@ let LawyerController = {
   lawyerUpdateForm: async (req, res) => {
     try {
       const id = req.params.id;
-      const lawyerid = "5c9f69180ec7b72d689dba6d";
+      const lawyerid =req.user.id
       const lawyer = await Lawyer.findById(lawyerid);
       const form = await Case.findById(id);
       if (!lawyer)
@@ -117,7 +117,7 @@ let LawyerController = {
 
   lawyerViewComment: async (req, res) => {
     try {
-      const caseID = '5caea6d0656a5b5b52c79e9f'
+      const caseID = req.params.idf;
       const lawyerID = "5c9f69180ec7b72d689dba6d"; //from Token
       //const caseID = req.params.caseID;
 
@@ -139,7 +139,7 @@ let LawyerController = {
 
   lawyerViewLawyersLeaderBoard: async (req, res) => {
     try {
-      const lawyerid = "5c9f69180ec7b72d689dba6d";
+      const lawyerid = "5c9f69180ec7b72d689dba6d"; //token
       const lawyer = await Lawyer.findById(lawyerid);
       if (!lawyer)
         return res
@@ -309,12 +309,14 @@ let LawyerController = {
   viewCasesLawyer: async function(req, res) {
     try {
 
-      let cases = await Case.find({
-        $or: [
-          { caseStatus: "lawyer-investor" },
-          { caseStatus: "lawyer-reviewer" },
-        ]
-      });
+      // let cases = await Case.find({
+      //   $or: [
+      //     { caseStatus: "lawyer-investor" },
+      //     { caseStatus: "lawyer-reviewer" },
+      //   ]
+      // }).lean();
+
+      let cases = await Case.find({ caseStatus: "lawyer-reviewer" })
 
       return res.status(200).json({ data: cases , msg: "Done" });
     } catch (error) {
@@ -354,7 +356,7 @@ let LawyerController = {
 
   lawyerViewReviewersLeaderBoard: async (req, res) => {
     try {
-      const lawyerid = "5c9f69180ec7b72d689dba6d";
+      const lawyerid = "5c9f69180ec7b72d689dba6d";  //token
       const lawyer = await Lawyer.findById(lawyerid);
       if (!lawyer)
         return res
@@ -379,7 +381,6 @@ let LawyerController = {
     
 //Displaying a List of all published companies
     LawyerViewingPublishedCompanies: async (req,res) => {
-
         try {
             var Cas = await Case.find({ caseStatus: 'published' }, projx)
     
@@ -419,36 +420,30 @@ let LawyerController = {
     },
 //Viewing a specific User of any type 
     LawyerViewing: async (req, res)=> {
-        var proj = { '_id': 0, 'password': 0 }
-        var projy = {'_id': 0, 'password': 0 , 'ratings': 0}
-    
-        try {
-            const id = req.params.id
-            const Inv = await Investor.findById(id, proj)
-            const Revs = await Reviewer.findById(id, proj)
-            const Adm = await Admins.findById(id,proj)
-            const Lawy = await Lawyer.findById(id, projy)
-            if(Inv)
-            res.json({ message:'investor' ,data: Inv})
-        else if(Revs)
-        res.json({message: 'Rev' ,data: Revs})
-        else if(Lawy)
-        res.json({message: 'lawyer',data: Lawy})
-        else if(Adm)
-        res.json({message: 'Admin',data: Adm})
-            else {
-            res.json({message: 'User does not exist'})
-    }
-        }
-        catch (error) {
-        console.log(error)
-        }
+      var proj = { '_id': 0, 'firstName': 1, 'MiddleName': 1, 'LastName': 1, 'Nationality': 1, 'Address': 1, 'birthdate': 1, 'telephone_number': 1, 'gender': 1 };
+
+      try {
+          const id = req.params.id
+          const Inv = await Investor.findById(id, proj)
+         
+          if(Inv)
+          res.json({ message:'investor' ,data: Inv})
+              else {
+                  res.json({message: 'User does not exist'})
+      
+              }
+      }
+      catch (error) {
+      console.log(error)
+      }
+      
+      
       },
 
 
   //opening and closing a case
   lawyerOpenCase: async (req, res) => {
-    const lawyerID = "5cabb3ae42c62531851d9cfc";
+    const lawyerID = req.user.id;
 
     try {
       const id = req.params.id;
@@ -477,7 +472,7 @@ let LawyerController = {
 
   lawyerCloseCase: async (req, res) => {
     try {
-      const lawyerID = "5cabb3ae42c62531851d9cfc";
+      const lawyerID = req.user.id
 
       const id = req.params.id;
       var c = await Case.findById(id);

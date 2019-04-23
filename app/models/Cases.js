@@ -88,7 +88,10 @@ const CaseSchema = new Schema({
     managers: {
         type: [
             {
-                name: {
+                firstName: {
+                    type: String,
+                },
+                lastName: {
                     type: String,
                 },
                 inv_type: {
@@ -97,19 +100,19 @@ const CaseSchema = new Schema({
                 gender: {
                     type: String,
                 },
-                nationallity: {
+                Nationality: {
                     type: String,
                 },
-                person_id_type: {
+                ID_type: {
                     type: String,
                 },
                 person_id_number: {
                     type: Number,
                 },
-                birth_date: {
+                birthdate: {
                     type: Date,
                 },
-                address: {
+                Address: {
                     type: String,
                 },
                 position: {

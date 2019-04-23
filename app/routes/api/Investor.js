@@ -128,8 +128,8 @@ router.put('/:id', async (req, res) => {
 
         const Invstr = await Investor.findById(id)
         if (!Invstr) return res.status(404).send({ error: 'investor does not exist' })
-        const isValidated = validator.updateValidation(req.body)
-        if (isValidated.error) return res.status(400).send({ error: isValidated.error.details[0].message })
+       // const isValidated = validator.updateValidation(req.body)
+       // if (isValidated.error) return res.status(400).send({ error: isValidated.error.details[0].message })
         const updatedInvstr = await Investor.findByIdAndUpdate(id, req.body)
         res.json({ msg: 'Investor updated successfully', data: updatedInvstr })
     }

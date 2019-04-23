@@ -14,7 +14,9 @@ import "@fortawesome/fontawesome-free/css/all.min.css";
 
 //import * as serviceWorker from './serviceWorker';
 
-const initialState = 0
+//const initialState = 0
+
+const store = createStore(reducer)
 
 const store = createStore(rootReducer, initialState)
 
